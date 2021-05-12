@@ -1,0 +1,11 @@
+input[type='text'], input[type='email'], input[type='password']{
+  @apply border-2 border-gray-300 border-solid w-full mb-2 rounded shadow-inner p-1;
+
+  &:focus{
+    @apply border-gray-400;
+  }
+}
+
+input{
+  @apply outline-none;
+}

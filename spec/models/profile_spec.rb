@@ -11,6 +11,7 @@
 #  password_digest :string           not null
 #  password_plain  :string
 #  pk_ciphertext   :text             not null
+#  sk_ciphertext   :text             not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #

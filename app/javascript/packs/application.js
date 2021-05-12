@@ -1,4 +1,5 @@
-import "../stylesheets/tailwind.css"
+import "../stylesheets/main.scss";
+require('typeface-roboto');
 
 import Rails from "@rails/ujs"
 import Turbolinks from "turbolinks"

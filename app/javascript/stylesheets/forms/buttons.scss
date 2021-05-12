@@ -1,0 +1,7 @@
+button, input[type='submit']{
+  @apply bg-indigo-500 text-white font-bold px-2 py-3 shadow-inner text-center cursor-pointer;
+
+  &:hover{
+    @apply bg-indigo-600;
+  }
+}

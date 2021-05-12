@@ -11,6 +11,7 @@
 #  password_digest :string           not null
 #  password_plain  :string
 #  pk_ciphertext   :text             not null
+#  sk_ciphertext   :text             not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
@@ -23,6 +24,11 @@ class Profile < ApplicationRecord
 
   encrypts :pk, type: :binary
   validates :pk_ciphertext, presence: true
+  before_validation :generate_private_key, on: :create
+
+  encrypts :sk, type: :binary
+  validates :pk_ciphertext, presence: true
+  before_validation :generate_signing_key, on: :create
 
   validates :name, presence: true, length: { maximum: 64 }
   sanitize_attributes :email, with: :squish
@@ -34,8 +40,6 @@ class Profile < ApplicationRecord
   sanitize_attributes :email, with: %i(downcase no_spaces)
 
   validates :installation_password, inclusion: { in: [ Rails.application.secrets.installation_password ] }, on: :create
-
-  before_validation :generate_private_key, on: :create
   before_validation :generate_password, on: :create
 
   def private_key
@@ -45,6 +49,10 @@ class Profile < ApplicationRecord
   private
     def generate_private_key
       self.pk ||= ProfilesService::CreateNewPrivateKey.new.call
+    end
+
+    def generate_signing_key
+      self.sk ||= ProfilesService::CreateNewSigningKey.new.call
     end
 
     def generate_password

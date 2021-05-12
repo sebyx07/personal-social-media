@@ -13,12 +13,12 @@ class Current
     end
 
     def __set_manually_profile(profile)
-      return remove_instance_variable(:@profile) if profile.nil?
+      return remove_instance_variable(:@profile) if profile.nil? && defined? @profile
       @profile = profile
     end
 
     def __set_manually_settings(settings)
-      return remove_instance_variable(:@settings) if settings.nil?
+      return remove_instance_variable(:@settings) if settings.nil? && defined? @settings
       @settings = settings
     end
 
