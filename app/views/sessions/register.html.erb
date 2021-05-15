@@ -19,6 +19,10 @@
       <%= f.email_field :email, required: true %>
     </div>
 
+    <div class="flex justify-center">
+      <%= hcaptcha_tags(theme: :light) %>
+    </div>
+
     <%= f.submit "Register", class: "w-full mt-4" %>
   <% end %>
 </div>
