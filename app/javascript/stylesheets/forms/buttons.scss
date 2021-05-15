@@ -4,4 +4,8 @@ button, input[type='submit']{
   &:hover{
     @apply bg-indigo-600;
   }
+
+  &:disabled{
+    @apply bg-gray-200 cursor-not-allowed text-gray-500;
+  }
 }

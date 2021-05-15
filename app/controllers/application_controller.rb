@@ -2,6 +2,8 @@
 
 class ApplicationController < ActionController::Base
   include SessionsHelper
+  include FormsHelper
+
   before_action :require_current_user
   after_action :clean_current
 end

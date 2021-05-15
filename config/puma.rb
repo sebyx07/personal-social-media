@@ -22,7 +22,7 @@ if is_deployed_remotely
     ActiveRecord::Base.establish_connection
   end
 else
-  workers(2)
+  workers(1)
   environment rails_env
 end
 

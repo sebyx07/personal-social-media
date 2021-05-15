@@ -23,6 +23,8 @@ gem "tzinfo-data", platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :development do
   gem "annotate", "~> 3.1", ">= 3.1.1"
+  gem "better_errors", "~> 2.9", ">= 2.9.1"
+  gem "binding_of_caller", "~> 1.0"
   gem "foreman", "~> 0.87.2"
   gem "guard", "~> 2.16", ">= 2.16.2"
   gem "guard-livereload", "~> 2.5", ">= 2.5.2"
@@ -32,6 +34,7 @@ end
 
 group :development, :test do
   gem "factory_bot_rails", "~> 6.2"
+  gem "pry-rails", "~> 0.3.9"
   gem "rspec-rails", "~> 5.0", ">= 5.0.1"
   gem "spring-commands-rspec", "~> 1.0", ">= 1.0.4"
 end
@@ -42,6 +45,6 @@ end
 
 gem "attributes_sanitizer", "~> 0.1.6"
 gem "email_validator", "~> 2.2", ">= 2.2.3"
+gem "hcaptcha", github: "Nexus-Mods/hcaptcha", ref: "a2135327e0f22ddba170d77dbba86827cd05c2cb"
 gem "lockbox", "~> 0.6.4"
 gem "rbnacl", "~> 7.1", ">= 7.1.1"
-gem "hcaptcha", github: "Nexus-Mods/hcaptcha", ref: "a2135327e0f22ddba170d77dbba86827cd05c2cb"

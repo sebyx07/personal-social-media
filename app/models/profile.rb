@@ -30,13 +30,13 @@ class Profile < ApplicationRecord
   validates :pk_ciphertext, presence: true
   before_validation :generate_signing_key, on: :create
 
-  validates :name, presence: true, length: { maximum: 64 }
+  validates :name, presence: true, length: { maximum: 50, minimum: 4 }
   sanitize_attributes :email, with: :squish
 
-  validates :nickname, presence: true, length: { maximum: 128 }
+  validates :nickname, presence: true, length: { maximum: 18, minimum: 4 }
   sanitize_attributes :email, with: %i(downcase no_spaces)
 
-  validates :email, presence: true, length: { maximum: 64 }, email: true
+  validates :email, presence: true, length: { maximum: 128 }, email: true
   sanitize_attributes :email, with: %i(downcase no_spaces)
 
   validates :installation_password, inclusion: { in: [ Rails.application.secrets.installation_password ] }, on: :create

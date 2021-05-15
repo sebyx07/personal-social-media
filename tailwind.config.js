@@ -2,8 +2,9 @@ module.exports = {
   mode: 'jit',
   purge: {
     content: [
-      './frontend/javascript/**/*.jsx',
-      './frontend/javascript/**/*.js',
+      './app/javascript/**/*.jsx',
+      './app/javascript/**/*.js',
+      './app/helpers/**/*.rb',
       './app/**/*.html.erb',
     ],
   },

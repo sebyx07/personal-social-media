@@ -48,4 +48,5 @@ Rails.application.configure do
 
   # custom
   config.middleware.insert_after ActionDispatch::Static, Rack::LiveReload
+  BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
 end

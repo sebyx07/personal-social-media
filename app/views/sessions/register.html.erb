@@ -1,28 +1,33 @@
 <div class="flex py-4">
-  <%= form_with url: sessions_register_path, class: "mx-auto w-full md:w-1/3", id: "register-form" do |f| %>
+  <%= form_with model: @profile, url: sessions_register_path, class: "mx-auto w-full md:w-1/3", id: "register-form" do |f| %>
     <div data-controller="forms--password-preview">
-      <%= f.label :installation_password %>
-      <span class="input-icon" data-action="click->forms--password-preview#toggle">👀</span>
+      <%= f.label :installation_password, "* Installation password" %>
+      <span class="input-icon cursor-pointer" data-action="click->forms--password-preview#toggle">👀</span>
       <%= f.password_field :installation_password, required: true, data: { "forms--password-preview-target": "input" }, class: "with-icon" %>
+      <%= render_form_errors_for @profile, :installation_password %>
     </div>
     <div>
-      <%= f.label :name %>
-      <%= f.text_field :name, required: true %>
+      <%= f.label :name, "* Name" %>
+      <%= f.text_field :name, required: true, minlength: 4, maxlength: 50 %>
     </div>
     <div>
-      <%= f.label :nickname %>
+      <%= f.label :nickname, "* Nickname" %>
       <span class="input-icon">@</span>
-      <%= f.text_field :nickname, required: true, class: "with-icon" %>
+      <%= f.text_field :nickname, required: true, class: "with-icon", minlength: 4, maxlength: 18 %>
     </div>
     <div>
-      <%= f.label :email %>
-      <%= f.email_field :email, required: true %>
+      <%= f.label :email, "* Email" %>
+      <%= f.email_field :email, required: true, maxlength: 128 %>
     </div>
 
     <div class="flex justify-center">
-      <%= hcaptcha_tags(theme: :light) %>
+      <%= safe_hcaptcha_tags(theme: :light) %>
     </div>
 
-    <%= f.submit "Register", class: "w-full mt-4" %>
+    <% unless @register_env_check.valid? %>
+      <%= render partial: "sessions/register/show_missing_env_vars" %>
+    <% end %>
+
+    <%= f.submit "Register", class: "w-full mt-4", disabled: !@register_env_check.valid? %>
   <% end %>
 </div>

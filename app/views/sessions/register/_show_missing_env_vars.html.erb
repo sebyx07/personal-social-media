@@ -1,0 +1,18 @@
+<div class="my-4 bg-red-200 border-red-400 border-solid border px-2 py-3 text-black">
+  <div class="mb-4 text-center font-bold">
+    Please finish setting up your server. Fill the following environment variables:
+  </div>
+
+  <ul class="pl-4 text-grey-800 text-sm">
+    <% @register_env_check.missing_env_vars.each do |env_var| %>
+      <li class="flex justify-between mb-4 items-center">
+        <span class="mr-6 bg-white p-1 shadow">
+          <%= env_var %>
+        </span>
+        <span class="text-right">
+          ℹ️ <%= @register_env_check.message_for_var(env_var)  %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+</div>
