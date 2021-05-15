@@ -1,8 +1,9 @@
 <div class="flex py-4">
-  <%= form_with url: sessions_register_path, class: "mx-auto w-full md:w-1/3 " do |f| %>
-    <div>
+  <%= form_with url: sessions_register_path, class: "mx-auto w-full md:w-1/3", id: "register-form" do |f| %>
+    <div data-controller="forms--password-preview">
       <%= f.label :installation_password %>
-      <%= f.password_field :installation_password, required: true %>
+      <span class="input-icon" data-action="click->forms--password-preview#toggle">👀</span>
+      <%= f.password_field :installation_password, required: true, data: { "forms--password-preview-target": "input" }, class: "with-icon" %>
     </div>
     <div>
       <%= f.label :name %>
@@ -10,7 +11,8 @@
     </div>
     <div>
       <%= f.label :nickname %>
-      <%= f.text_field :nickname, required: true %>
+      <span class="input-icon">@</span>
+      <%= f.text_field :nickname, required: true, class: "with-icon" %>
     </div>
     <div>
       <%= f.label :email %>

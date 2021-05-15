@@ -4,6 +4,10 @@ input[type='text'], input[type='email'], input[type='password']{
   &:focus{
     @apply border-gray-400;
   }
+
+  &.with-icon{
+    @apply pl-8;
+  }
 }
 
 input{

@@ -3,6 +3,7 @@ module.exports = {
   purge: {
     content: [
       './frontend/javascript/**/*.jsx',
+      './frontend/javascript/**/*.js',
       './app/**/*.html.erb',
     ],
   },
