@@ -17,11 +17,11 @@ ActiveRecord::Schema.define(version: 2021_05_16_030910) do
 
   create_table "peers", force: :cascade do |t|
     t.binary "public_key", null: false
-    t.binary "verify_key", null: false
+    t.binary "verify_key"
     t.string "domain_name", null: false
-    t.string "name", null: false
-    t.string "status", null: false
-    t.string "avatar_url", default: "stranger", null: false
+    t.string "name"
+    t.bigint "status_mask", default: 0, null: false
+    t.string "avatar_url"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

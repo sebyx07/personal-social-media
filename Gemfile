@@ -45,6 +45,7 @@ group :test do
 end
 
 gem "attributes_sanitizer", "~> 0.1.6"
+gem "bitwise_attribute", github: "rikas/bitwise_attribute", ref: "36371f6511a5907d1ec96385e0baca55d935cb99"
 gem "email_validator", "~> 2.2", ">= 2.2.3"
 gem "hcaptcha", github: "Nexus-Mods/hcaptcha", ref: "a2135327e0f22ddba170d77dbba86827cd05c2cb"
 gem "lockbox", "~> 0.6.4"

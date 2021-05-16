@@ -4,11 +4,6 @@ require "rails_helper"
 
 RSpec.describe "Encryption and decryption with ruby objects" do
   let(:peer) { build(:peer) }
-  let(:profile) { create(:profile) }
-
-  before do
-    profile
-  end
 
   describe "encrypts message and can read it back" do
     let(:encrypt) { EncryptionService::Encrypt.new(peer.public_key) }
