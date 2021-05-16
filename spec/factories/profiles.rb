@@ -17,9 +17,9 @@
 #
 FactoryBot.define do
   factory :profile do
-    email { "me@example.com" }
-    name { "MyName" }
-    nickname { "itsme" }
+    email { FFaker::Internet.email }
+    name { FFaker::Name.name }
+    nickname {  FFaker::Internet.user_name }
     installation_password { Rails.application.secrets.installation_password }
   end
 end

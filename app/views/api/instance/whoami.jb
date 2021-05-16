@@ -3,7 +3,9 @@
 encrypt_json do
   {
     profile: {
-      name: @profile.name
+      name: @profile.name,
+      email_hexdigest: Digest::MD5.hexdigest(@profile.email),
+
     }
   }
 end

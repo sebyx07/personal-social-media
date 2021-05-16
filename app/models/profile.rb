@@ -39,7 +39,10 @@ class Profile < ApplicationRecord
   validates :email, presence: true, length: { maximum: 128 }, email: true
   sanitize_attributes :email, with: %i(downcase no_spaces)
 
-  validates :installation_password, inclusion: { in: [ Rails.application.secrets.installation_password ] }, on: :create
+  validates :installation_password,
+            inclusion: { in: [ Rails.application.secrets.installation_password ] },
+            length: { is: 128 },
+            on: :create
   before_validation :generate_password, on: :create
 
   delegate :public_key, to: :private_key

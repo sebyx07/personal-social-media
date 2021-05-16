@@ -36,6 +36,10 @@ module ProfilesService
             message: "HCaptcha site key, you can get key from https://www.hcaptcha.com",
             value: Rails.application.secrets.hcaptcha[:site_key]
           },
+          WEB_URL: {
+            message: "The url where the app is running, ex: https://myapp.herokuapp.com",
+            value: Rails.application.secrets.web_url
+          }
         }
       end
   end

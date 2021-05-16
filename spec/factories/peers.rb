@@ -4,15 +4,16 @@
 #
 # Table name: peers
 #
-#  id          :bigint           not null, primary key
-#  avatar_url  :string
-#  domain_name :string           not null
-#  name        :string
-#  public_key  :binary           not null
-#  status_mask :bigint           default(0), not null
-#  verify_key  :binary
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id              :bigint           not null, primary key
+#  domain_name     :string           not null
+#  email_hexdigest :string
+#  name            :string
+#  nickname        :string
+#  public_key      :binary           not null
+#  status_mask     :bigint           default(0), not null
+#  verify_key      :binary
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 FactoryBot.define do
   factory :peer do
@@ -24,5 +25,6 @@ FactoryBot.define do
     end
     domain_name { FFaker::Internet.domain_name }
     name { FFaker::Name.name }
+    nickname { FFaker::Internet.user_name }
   end
 end
