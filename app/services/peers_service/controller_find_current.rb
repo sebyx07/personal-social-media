@@ -11,8 +11,10 @@ module PeersService
 
     def call!
       return nil if peer.unfriendly?
-      peer.domain_name = domain_name
-      peer.save!
+      peer.tap do |p|
+        p.domain_name = domain_name
+        p.save!
+      end
     rescue RbNaCl::CryptoError
       peer.mark_as_fake!
       nil

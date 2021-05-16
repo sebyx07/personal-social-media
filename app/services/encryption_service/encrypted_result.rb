@@ -17,7 +17,7 @@ module EncryptionService
       @nonce = nonce
     end
 
-    def to_json
+    def as_json
       {
         "cypher_text" => EncryptedContentTransform.to_json(cypher_text),
         "nonce" => EncryptedContentTransform.to_json(nonce)

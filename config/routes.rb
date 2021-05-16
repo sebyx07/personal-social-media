@@ -10,4 +10,10 @@ Rails.application.routes.draw do
     get "/register", action: :register
     post "/register", action: :register_post
   end
+
+  namespace :api do
+    namespace :instance do
+      post "/whoami", action: "whoami"
+    end
+  end
 end

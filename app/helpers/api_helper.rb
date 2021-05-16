@@ -2,15 +2,15 @@
 
 module ApiHelper
   def verify_psm_params_only
-    head 404 if unsafe_params[:nonce].blank? || unsafe_params[:cypher_text].blank? || unsafe_params[:public_key].blank? ||
-      unsafe_params[:domain_name].blank?
+    head 404 if params[:nonce].blank? || params[:cypher_text].blank? || params[:public_key].blank? ||
+      params[:domain_name].blank?
   end
 
-  def params
-    return @psm_params if defined? @psm_params
+  def decrypted_params
+    return @decrypted_params if defined? @decrypted_params
     encryption_result = EncryptionService::EncryptedResult.from_json(request.parameters)
-    json = EncryptionService::Decrypt.new(params[:public_key]).decrypt(encryption_result)
-    @psm_params = json.with_indifferent_access
+    json = __decrypt.decrypt(encryption_result)
+    @decrypted_params = json.with_indifferent_access
   rescue RbNaCl::CryptoError
     current_peer.mark_as_fake!
     raise Api::BaseController::InvalidParams, "invalid params"
@@ -22,6 +22,20 @@ module ApiHelper
 
   def current_peer
     return @current_peer if defined? @current_peer
-    @current_peer = PeersService::ControllerFindCurrent.new(unsafe_params[:public_key], unsafe_params[:domain_name]).call!
+    @current_peer = PeersService::ControllerFindCurrent.new(params[:public_key], params[:domain_name]).call!
   end
+
+  def encrypt_json(json = nil)
+    return __encrypt.encrypt(yield.to_json).as_json if block_given?
+    __encrypt.encrypt(json.to_json).as_json
+  end
+
+  private
+    def __encrypt
+      @__encrypt ||= EncryptionService::Encrypt.new(current_peer.public_key)
+    end
+
+    def __decrypt
+      @__decrypt ||= EncryptionService::Decrypt.new(current_peer.public_key)
+    end
 end

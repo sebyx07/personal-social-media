@@ -21,7 +21,7 @@ class Peer < ApplicationRecord
     stranger friend full_block
     friendship_requested_by_me frienship_requested_by_external
     friendship_requested_by_me_blocked frienship_requested_by_external_blocked
-    valid fake server_not_seen_recently
+    checked fake server_not_seen_recently
   ]
 
   def unfriendly?

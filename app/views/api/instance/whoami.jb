@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+encrypt_json do
+  {
+    profile: {
+      name: @profile.name
+    }
+  }
+end
