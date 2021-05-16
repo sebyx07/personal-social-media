@@ -6,8 +6,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.0.1"
 gem "bcrypt", "~> 3.1.7"
 gem "bootsnap", ">= 1.4.4", require: false
+gem "falcon", "~> 0.38.1"
 gem "pg", "~> 1.2", ">= 1.2.3"
-gem 'falcon', '~> 0.38.1'
 gem "rails", "~> 6.1.3", ">= 6.1.3.2"
 gem "sass-rails", ">= 6"
 gem "turbolinks", "~> 5.2", ">= 5.2.1"
@@ -34,6 +34,7 @@ end
 
 group :development, :test do
   gem "factory_bot_rails", "~> 6.2"
+  gem "ffaker", "~> 2.18"
   gem "pry-rails", "~> 0.3.9"
   gem "rspec-rails", "~> 5.0", ">= 5.0.1"
   gem "spring-commands-rspec", "~> 1.0", ">= 1.0.4"

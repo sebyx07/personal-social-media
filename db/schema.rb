@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_13_111459) do
+ActiveRecord::Schema.define(version: 2021_05_16_030910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "peers", force: :cascade do |t|
+    t.binary "public_key", null: false
+    t.binary "verify_key", null: false
+    t.string "domain_name", null: false
+    t.string "name", null: false
+    t.string "status", null: false
+    t.string "avatar_url", default: "stranger", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "profiles", force: :cascade do |t|
     t.text "pk_ciphertext", null: false

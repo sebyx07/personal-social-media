@@ -42,6 +42,7 @@ class Profile < ApplicationRecord
   validates :installation_password, inclusion: { in: [ Rails.application.secrets.installation_password ] }, on: :create
   before_validation :generate_password, on: :create
 
+  delegate :public_key, to: :private_key
   def private_key
     @private_key ||= RbNaCl::PrivateKey.new(pk)
   end
