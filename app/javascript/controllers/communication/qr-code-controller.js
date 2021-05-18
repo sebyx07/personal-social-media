@@ -13,7 +13,7 @@ export default class CommunicationQrCode extends Controller {
         dark: '#000000',
         light: '#0000',
       },
-      width: qrCodeEl.dataset.width || 480,
+      width: qrCodeEl.dataset.width || 600,
     });
   }
 }

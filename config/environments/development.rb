@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "active_support/core_ext/integer/time"
+require_relative "./non_production"
 
 Rails.application.configure do
   config.cache_classes = false

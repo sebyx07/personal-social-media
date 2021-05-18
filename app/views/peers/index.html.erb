@@ -1,0 +1,14 @@
+<h1>Peers</h1>
+<div>
+  <%= form_with url: peers_path, data: { controller: "peers--import", action: "submit->peers--import#submit" } do |f| %>
+    <%= f.file_field :image, class: "hidden", accept: "image/x-png,image/jpeg", data: {
+      peers__import_target: "fileInput",
+      action: "change->peers--import#fileSelected" } %>
+
+    <%= f.submit "Import Peer" %>
+  <% end %>
+
+  <div>
+    Use a image with a QR code to import
+  </div>
+</div>
