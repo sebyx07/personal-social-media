@@ -10,7 +10,7 @@ class ProfilePresenter
       name: @profile.name,
       nickname: @profile.name,
       email_hexdigest: @profile.email_hexdigest,
-      domain_name: SettingsService::WebUrl.new.host,
+      domain_name: @profile.domain_name,
       public_key: EncryptionService::EncryptedContentTransform.to_json(@profile.public_key.to_s)
     }
   end

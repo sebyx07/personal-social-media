@@ -58,6 +58,10 @@ class Profile < ApplicationRecord
     Digest::MD5.hexdigest(email)
   end
 
+  def domain_name
+    SettingsService::WebUrl.new.host
+  end
+
   private
     def generate_private_key
       self.pk ||= ProfilesService::CreateNewPrivateKey.new.call
