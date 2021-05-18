@@ -19,7 +19,7 @@ class Peer < ApplicationRecord
   include BitwiseAttribute
 
   attr_bitwise :status, values: %i[
-    stranger friend
+    imported stranger friend
     full_block_by_me full_block_by_external
     friendship_requested_by_me frienship_requested_by_external
     friendship_requested_by_me_blocked frienship_requested_by_external_blocked
