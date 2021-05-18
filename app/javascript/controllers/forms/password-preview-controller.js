@@ -1,11 +1,11 @@
-import { Controller } from "stimulus"
+import {Controller} from 'stimulus';
 
 export default class extends Controller {
-  static targets = [ "input" ]
+  static targets = ['input']
 
-  toggle(e){
-    if(this.inputTarget.type === "password") return this.inputTarget.type = "text";
+  toggle(e) {
+    if (this.inputTarget.type === 'password') return this.inputTarget.type = 'text';
 
-    this.inputTarget.type = "password"
+    this.inputTarget.type = 'password';
   }
 }

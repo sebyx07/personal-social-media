@@ -1,13 +1,13 @@
-import "../stylesheets/main.scss";
+import '../stylesheets/main.scss';
 require('typeface-roboto');
 
-import Rails from "@rails/ujs"
-import Turbolinks from "turbolinks"
-import * as ActiveStorage from "@rails/activestorage"
-import "channels"
+import 'channels';
+import * as ActiveStorage from '@rails/activestorage';
+import Rails from '@rails/ujs';
+import Turbolinks from 'turbolinks';
 
-Rails.start()
-Turbolinks.start()
-ActiveStorage.start()
+Rails.start();
+Turbolinks.start();
+ActiveStorage.start();
 
-import "controllers"
+import 'controllers';

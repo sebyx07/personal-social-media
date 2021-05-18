@@ -1,6 +1,9 @@
 {
   "name": "psm",
   "private": true,
+  "scripts": {
+    "lint": "yarn eslint --fix --ext .js --ext .jsx app/javascript"
+  },
   "dependencies": {
     "@babel/preset-react": "^7.13.13",
     "@rails/actioncable": "^6.0.0",
@@ -12,6 +15,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "chokidar": "^3.5.1",
     "css-loader": "^5.2.4",
+    "eslint": "^7.26.0",
     "mini-css-extract-plugin": "^1.6.0",
     "node-sass": "^5.0.0",
     "postcss": "^8.2.14",
@@ -37,5 +41,15 @@
   "version": "0.1.0",
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-autofix": "^1.0.4",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0",
+    "eslint-plugin-sort-keys-fix": "^1.1.1"
+  }
 }

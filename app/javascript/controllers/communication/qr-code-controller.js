@@ -1,4 +1,4 @@
-import { Controller } from "stimulus"
+import {Controller} from 'stimulus';
 import QRCode from 'qrcode';
 
 export default class CommunicationQrCode extends Controller {

@@ -33,6 +33,9 @@ group :development do
 end
 
 group :development, :test do
+  gem "brakeman", "~> 5.0", ">= 5.0.1"
+  gem "bundler-audit"
+  gem "erb_lint", require: false
   gem "factory_bot_rails", "~> 6.2"
   gem "ffaker", "~> 2.18"
   gem "pry-rails", "~> 0.3.9"
