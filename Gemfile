@@ -58,4 +58,5 @@ gem "hcaptcha", github: "Nexus-Mods/hcaptcha", ref: "a2135327e0f22ddba170d77dbba
 gem "jb", "~> 0.8.0"
 gem "lockbox", "~> 0.6.4"
 gem "rbnacl", "~> 7.1", ">= 7.1.1"
+gem "typhoeus", "~> 1.4"
 gem "validates_host", "~> 1.3"

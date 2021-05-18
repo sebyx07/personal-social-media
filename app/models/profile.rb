@@ -50,6 +50,7 @@ class Profile < ApplicationRecord
     @private_key ||= RbNaCl::PrivateKey.new(pk)
   end
 
+  delegate :verify_key, to: :signing_key
   def signing_key
     @signing_key ||= RbNaCl::SigningKey.new(sk)
   end

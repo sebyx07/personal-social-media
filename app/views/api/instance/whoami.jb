@@ -4,8 +4,10 @@ encrypt_json do
   {
     profile: {
       name: @profile.name,
+      nickname: @profile.nickname,
       email_hexdigest: Digest::MD5.hexdigest(@profile.email),
-
+      public_key: EncryptionService::EncryptedContentTransform.to_json(@profile.public_key.to_s),
+      verify_key: EncryptionService::EncryptedContentTransform.to_json(@profile.verify_key.to_s),
     }
   }
 end
