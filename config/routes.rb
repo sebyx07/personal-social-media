@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   root to: "home#index"
   get "/whoami", to: "profiles#whoami"
 
+  resources :peers, only: %i(index show create update destroy)
+
   namespace :sessions, path: "" do
     get "/login", action: :login
     post "/login", action: :login_post
