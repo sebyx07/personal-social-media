@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
     Current.__set_manually_profile(@profile)
     set_login_session
 
-    redirect_to root_path
+    redirect_to whoami_path
   rescue ActiveRecord::RecordInvalid
     register
     render :register

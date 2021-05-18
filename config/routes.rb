@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     Rails.application.routes.default_url_options[:host] = full_host if full_host.present?
   end
   root to: "home#index"
+  get "/whoami", to: "profiles#whoami"
 
   namespace :sessions, path: "" do
     get "/login", action: :login

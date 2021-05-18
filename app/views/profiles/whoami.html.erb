@@ -1,0 +1,25 @@
+<div class="text-center text-3xl font-bold">
+  Who Am I
+</div>
+
+<div class="mt-4">
+  <div class="flex justify-center">
+    <div class="mr-1">Name</div>
+    <div class="ml-1"><%= @profile.name %></div>
+  </div>
+  <div class="flex justify-center">
+    <div class="mr-1">Nickname</div>
+    <div class="ml-1"><%= @profile.nickname %></div>
+  </div>
+  <div class="flex justify-center">
+    <div class="mr-1">Domain Name</div>
+    <div class="ml-1"><%= SettingsService::WebUrl.new.host %></div>
+  </div>
+
+  <div class="mt-4">
+    <%= content_tag "img", "", src: PeersService::Gravatar.new(email: @profile.email).url(size: 240), class: "rounded-full mx-auto" %>
+  </div>
+  <div>
+    <%= content_tag "canvas", "", class: "mx-auto", data: { qr_payload: @qr_code, controller: "communication--qr-code" } %>
+  </div>
+</div>

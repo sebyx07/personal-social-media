@@ -50,6 +50,14 @@ class Profile < ApplicationRecord
     @private_key ||= RbNaCl::PrivateKey.new(pk)
   end
 
+  def signing_key
+    @signing_key ||= RbNaCl::SigningKey.new(sk)
+  end
+
+  def email_hexdigest
+    Digest::MD5.hexdigest(email)
+  end
+
   private
     def generate_private_key
       self.pk ||= ProfilesService::CreateNewPrivateKey.new.call

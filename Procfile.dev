@@ -1,4 +1,4 @@
-web: rm tmp/pids/* tmp/cache/* -rf; falcon serve -b http://0.0.0.0 -p 3000
+web: rm tmp/pids/* tmp/cache/* -rf; bundle exec rails s -b 0.0.0.0 -p 3000
 # background: bundle exec sidekiq
 webpacker: bundle exec bin/webpack-dev-server
 guard: bundle exec guard

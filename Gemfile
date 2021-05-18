@@ -6,7 +6,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.0.1"
 gem "bcrypt", "~> 3.1.7"
 gem "bootsnap", ">= 1.4.4", require: false
-gem "falcon", "~> 0.38.1"
 gem "pg", "~> 1.2", ">= 1.2.3"
 gem "rails", "~> 6.1.3", ">= 6.1.3.2"
 gem "sass-rails", ">= 6"
@@ -28,6 +27,7 @@ group :development do
   gem "foreman", "~> 0.87.2"
   gem "guard", "~> 2.16", ">= 2.16.2"
   gem "guard-livereload", "~> 2.5", ">= 2.5.2"
+  gem "puma", "~> 5.3", ">= 5.3.1"
   gem "rack-livereload", "~> 0.3.17"
   gem "rubocop-rails_config", "~> 1.5", ">= 1.5.3"
 end
@@ -42,6 +42,10 @@ end
 
 group :test do
   gem "database_cleaner-active_record", "~> 2.0", ">= 2.0.1"
+end
+
+group :test, :production do
+  gem "falcon", "~> 0.38.1"
 end
 
 gem "attributes_sanitizer", "~> 0.1.6"

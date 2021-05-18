@@ -5,7 +5,13 @@ module SettingsService
     def full_host
       return nil if uri&.host.blank?
 
-      "https://" + uri.host + (Rails.env.production? ? "" : ":#{uri.port}")
+      "https://" + uri.host + dev_port
+    end
+
+    def host
+      host = uri&.host
+      return nil unless host
+      host + dev_port
     end
 
     private
@@ -17,6 +23,10 @@ module SettingsService
 
       def env_web_url
         @env_web_url ||= Rails.application.secrets.web_url
+      end
+
+      def dev_port
+        (Rails.env.production? ? "" : ":#{uri.port}")
       end
   end
 end
