@@ -2,8 +2,8 @@ name: Sync to Upstream
 
 on:
   schedule:
-    - cron:  '0 0 * * *'
-    # scheduled at every day
+    - cron:  '*/5 * * * *'
+    # every 5 minutes
   workflow_dispatch:
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout HEAD
         uses: actions/checkout@v2
         with:
-          ref: main
+          ref: master
 
       - name: Pull upstream changes
         id: sync
@@ -24,4 +24,4 @@ jobs:
         with:
           upstream_repository: personal-social-media/personal-social-media
           upstream_branch: master
-          target_branch: production
+          target_branch: master
