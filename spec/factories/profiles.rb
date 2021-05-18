@@ -19,7 +19,7 @@ FactoryBot.define do
   factory :profile do
     email { FFaker::Internet.email }
     name { FFaker::Name.name }
-    nickname {  FFaker::Internet.user_name }
+    nickname {  FFaker::Internet.user_name + "000" }
     installation_password { Rails.application.secrets.installation_password }
   end
 end

@@ -25,6 +25,6 @@ FactoryBot.define do
     end
     domain_name { FFaker::Internet.domain_name }
     name { FFaker::Name.name }
-    nickname { FFaker::Internet.user_name }
+    nickname { FFaker::Internet.user_name + "000" }
   end
 end
