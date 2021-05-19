@@ -26,8 +26,10 @@ export default class extends Controller {
       }
       requestBody.authenticity_token = this.element.querySelector('input[name=\'authenticity_token\']').value;
 
-      axios.post(this.element.action, requestBody).then(() => {
-      }).catch(() => {
+      axios.post(this.element.action, requestBody).then(({data: {peer: {id}}}) => {
+        Turbolinks.visit(`/peers/${id}`);
+      }).catch(({response: {data: {error}}}) => {
+        feedBackError(error);
       });
     } catch {
       this.handleErrorQrImage('Invalid image, no qr code found');

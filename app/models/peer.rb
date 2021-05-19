@@ -43,7 +43,7 @@ class Peer < ApplicationRecord
   validates :is_me, uniqueness: true, if: -> { is_me? }
   validates :public_key, uniqueness: true, if: -> { !fake? }
 
-  if Rails.env.production?
+  if Rails.env.production? && !DeveloperService::IsEnabled.is_enabled?
     validates :domain_name, domain_name: true, presence: true
   else
     validates :domain_name, presence: true

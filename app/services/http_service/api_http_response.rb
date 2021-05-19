@@ -2,7 +2,7 @@
 
 module HttpService
   class ApiHttpResponse
-    attr_reader :status, :peer
+    attr_reader :status, :peer, :body_str, :request
     def initialize(status, body_str, peer, request)
       @status = status
       @body_str = body_str
@@ -24,7 +24,7 @@ module HttpService
 
       @is_valid = @body_str.present? && decrypted_result.present?
     rescue RbNaCl::CryptoError
-      # peer.mark_as_fake!
+      peer.mark_as_fake!
       @is_valid = false
     rescue JSON::ParseError
       mark_for_retry
@@ -41,6 +41,9 @@ module HttpService
 
     def raw_json
       @raw_json ||= JSON.parse!(@body_str)
+    end
+
+    def schedule_retry
     end
 
     private

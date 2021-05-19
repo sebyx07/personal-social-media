@@ -4,9 +4,14 @@ module RequestsApiSpecHelper
   def json
     return @json if defined? @json
 
-    encrypted_json = JSON.parse(response.body)
-    encrypted_result = EncryptionService::EncryptedResult.from_json(encrypted_json)
+    encrypted_result = EncryptionService::EncryptedResult.from_json(raw_json)
     @json = JSON.parse(__decrypt.decrypt(encrypted_result)).with_indifferent_access
+  end
+
+  def raw_json
+    return @raw_json if defined? @raw_json
+
+    @raw_json = JSON.parse(response.body).with_indifferent_access
   end
 
   def encrypt_params(params)

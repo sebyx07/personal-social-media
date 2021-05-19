@@ -1,0 +1,9 @@
+<div class="text-center text-3xl font-bold">
+  <%= @peer.name %>
+</div>
+
+<% if @peer.email_hexdigest.present? %>
+  <div class="mt-4">
+    <%= image_tag PeersService::Gravatar.new(email: @peer.email_hexdigest).url(size: 240), class: "rounded-full mx-auto" %>
+  </div>
+<% end %>

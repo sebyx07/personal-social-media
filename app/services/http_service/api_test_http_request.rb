@@ -22,10 +22,6 @@ module HttpService
       self
     end
 
-    def json
-      @json ||= JSON.parse()
-    end
-
     private
       def headers
         real_request.send(:headers)

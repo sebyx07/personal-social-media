@@ -10,9 +10,9 @@ module PeersService
     end
 
     def call!
-      @response = request.run.response
-      return self unless response.valid?
-      @json = response.json[:profile]
+      request.run
+      return self unless request.valid?
+      @json = request.json[:profile]
       return self unless compare
 
       add_peer_attributes

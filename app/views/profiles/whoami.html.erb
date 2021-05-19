@@ -19,7 +19,7 @@
     </div>
 
     <div class="mt-4">
-      <%= content_tag "img", "", src: PeersService::Gravatar.new(email: @profile.email).url(size: 240), class: "rounded-full mx-auto" %>
+      <%= image_tag PeersService::Gravatar.new(email: @profile.email).url(size: 240), class: "rounded-full mx-auto" %>
     </div>
     <div>
       <%= content_tag "canvas", "", class: "mx-auto", data: { qr_payload: @qr_code, controller: "communication--qr-code" } %>

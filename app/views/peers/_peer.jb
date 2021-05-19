@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+fields = %i(id domain_name email_hexdigest is_me last_seen_at name nickname server_last_seen_at)
+
+peer.as_json(only: fields).tap do |json|
+  json[:public_key] = EncryptionService::EncryptedContentTransform.to_json(peer.public_key)
+end

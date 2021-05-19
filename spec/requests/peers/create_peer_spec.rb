@@ -22,7 +22,11 @@ RSpec.describe "POST /peers" do
   it "creates a new peer" do
     subject
 
+    expect(response).to have_http_status(:ok)
+
     expect(Peer.count).to eq(2)
     expect(last_peer.name).to eq(parsed_message["name"])
+
+    expect(raw_json[:peer]).to be_present
   end
 end
