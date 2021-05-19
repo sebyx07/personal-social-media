@@ -2,7 +2,7 @@
 
 module PeersService
   class SyncFromWhoAmIRemote
-    attr_reader :peer, :request, :json, :will_retry
+    attr_reader :peer, :request, :json, :will_retry, :response
     def initialize(peer, will_retry:)
       @peer = peer
       @will_retry = will_retry
@@ -10,12 +10,13 @@ module PeersService
     end
 
     def call!
-      response = request.run.response
-      return unless response.valid?
+      @response = request.run.response
+      return self unless response.valid?
       @json = response.json[:profile]
-      return unless compare
+      return self unless compare
 
       add_peer_attributes
+      self
     end
 
     private

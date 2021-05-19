@@ -2,6 +2,7 @@
 
 module Api
   class BaseController < ActionController::Base
+    skip_before_action :verify_authenticity_token
     class InvalidParams < Exception; end
     include ApiHelper
 

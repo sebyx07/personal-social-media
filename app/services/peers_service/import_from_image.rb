@@ -9,8 +9,10 @@ module PeersService
     end
 
     def call!
-      peer.sync_from_whoami_remote!
-      peer.save!
+      peer.tap do |p|
+        p.sync_from_whoami_remote!
+        p.save!
+      end
     end
 
     def peer

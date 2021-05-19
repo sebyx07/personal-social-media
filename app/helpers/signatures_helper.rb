@@ -7,7 +7,7 @@ module SignaturesHelper
       return @signed_params = {}
     end
 
-    signed_result = EncryptionService::SignedResult.from_json(params.permit(:message, :signature, :verify_key))
+    signed_result = EncryptionService::SignedResult.from_json(params)
 
     unless EncryptionService::VerifySignature.new(verify_key).verify(signed_result)
       return @signed_params = {}

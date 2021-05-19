@@ -1,5 +1,6 @@
 
 import {Controller} from 'stimulus';
+import {axios} from '../../utils/axios';
 import {feedBackError} from '../../utils/feedback';
 import {scanImageForQrCode} from '../../utils/scan-image-for-qr-code';
 
@@ -19,12 +20,15 @@ export default class extends Controller {
 
     try {
       const input = await scanImageForQrCode(file);
-      console.log(input);
       const requestBody = JSON.parse(input);
       if (!requestBody.message || !requestBody.signature) {
         return this.handleErrorQrImage('Invalid qr code');
       }
       requestBody.authenticity_token = this.element.querySelector('input[name=\'authenticity_token\']').value;
+
+      axios.post(this.element.action, requestBody).then(() => {
+      }).catch(() => {
+      });
     } catch {
       this.handleErrorQrImage('Invalid image, no qr code found');
     }

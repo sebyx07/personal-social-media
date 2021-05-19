@@ -11,7 +11,13 @@ class PeersController < ApplicationController
   end
 
   def create
-    @peer = PeersService::ImportFromImage.new(create_permitted_params).call!
+    peer = PeersService::ImportFromImage.new(create_permitted_params).call!
+    peer.save!
+
+    head :ok
+
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.message }, status: 422
   end
 
   def update

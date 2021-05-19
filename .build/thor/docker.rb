@@ -18,7 +18,7 @@ class Docker < Thor
 
     opened_containers.reverse_each do |c|
       line = c.split(" ")
-      if line[1] == "personal-social-media_app"
+      if line[1] == "psm_app"
         backend = line.last
         break
       end
