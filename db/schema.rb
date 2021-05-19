@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_005416) do
+ActiveRecord::Schema.define(version: 2021_05_19_035711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,9 @@ ActiveRecord::Schema.define(version: 2021_05_19_005416) do
     t.string "email_hexdigest"
     t.string "nickname"
     t.boolean "is_me"
+    t.index ["public_key"], name: "index_peers_on_public_key"
+    t.index ["status_mask"], name: "index_peers_on_status_mask"
+    t.index ["verify_key"], name: "index_peers_on_verify_key"
   end
 
   create_table "profiles", force: :cascade do |t|

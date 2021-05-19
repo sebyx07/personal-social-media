@@ -16,6 +16,12 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+# Indexes
+#
+#  index_peers_on_public_key   (public_key)
+#  index_peers_on_status_mask  (status_mask)
+#  index_peers_on_verify_key   (verify_key)
+#
 require "rails_helper"
 
 RSpec.describe Peer, type: :model do

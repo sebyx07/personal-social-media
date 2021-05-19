@@ -16,7 +16,10 @@ module PeersService
     end
 
     def peer
-      @peer ||= Peer.new(params.merge(status: [:imported]))
+      return @peer if defined? @peer
+      @peer = Peer.find_or_initialize_by(verify_key: params[:verify_key]).tap do |p|
+        p.assign_attributes(params.merge(status: [:imported]))
+      end
     end
   end
 end

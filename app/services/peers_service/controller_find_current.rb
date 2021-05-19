@@ -13,6 +13,7 @@ module PeersService
       return nil if peer.unfriendly?
       peer.tap do |p|
         p.domain_name = domain_name
+        p.status = [:stranger] unless p.persisted?
         p.save!
       end
     rescue RbNaCl::CryptoError

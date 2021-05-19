@@ -16,6 +16,12 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
+# Indexes
+#
+#  index_peers_on_public_key   (public_key)
+#  index_peers_on_status_mask  (status_mask)
+#  index_peers_on_verify_key   (verify_key)
+#
 class Peer < ApplicationRecord
   include BitwiseAttribute
 
@@ -33,6 +39,7 @@ class Peer < ApplicationRecord
   validates :public_key, presence: true, length: { is: 32 }
   validates :verify_key, allow_blank: true, length: { is: 32 }
   validates :is_me, uniqueness: true, if: -> { is_me? }
+  validates :public_key, uniqueness: true, if: -> { !fake? }
 
   if Rails.env.production?
     validates :domain_name, domain_name: true, presence: true

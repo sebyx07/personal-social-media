@@ -39,10 +39,13 @@ module HttpService
       @safe_retry
     end
 
+    def raw_json
+      @raw_json ||= JSON.parse!(@body_str)
+    end
+
     private
       def encrypted_result
         return @encrypted_result if defined? @encrypted_result
-        raw_json = JSON.parse!(@body_str)
         @encrypted_result = EncryptionService::EncryptedResult.from_json(raw_json)
       end
 
