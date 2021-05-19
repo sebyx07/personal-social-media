@@ -22,4 +22,10 @@ Rails.application.routes.draw do
       post "/whoami", action: "whoami"
     end
   end
+
+  constraints LoggedInConstraint do
+    if DeveloperService::IsEnabled.is_enabled?
+      mount RailsAdmin::Engine => "/admin", as: "rails_admin"
+    end
+  end
 end

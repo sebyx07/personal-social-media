@@ -3,6 +3,8 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+is_dev = !ENV["DEVELOPER"].nil?
+
 ruby "3.0.1"
 gem "bcrypt", "~> 3.1.7"
 gem "bootsnap", ">= 1.4.4", require: false
@@ -58,7 +60,8 @@ gem "email_validator", "~> 2.2", ">= 2.2.3"
 gem "hcaptcha", github: "Nexus-Mods/hcaptcha", ref: "a2135327e0f22ddba170d77dbba86827cd05c2cb"
 gem "jb", "~> 0.8.0"
 gem "lockbox", "~> 0.6.4"
+gem "oj", "~> 3.11", ">= 3.11.5"
+gem "rails_admin", "~> 2.1", ">= 2.1.1", require: is_dev
 gem "rbnacl", "~> 7.1", ">= 7.1.1"
 gem "typhoeus", "~> 1.4"
 gem "validates_host", "~> 1.3"
-gem 'oj', '~> 3.11', '>= 3.11.5'

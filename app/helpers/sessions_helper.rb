@@ -13,23 +13,6 @@ module SessionsHelper
 
   def current_user
     return @current_user if defined? @current_user
-    return @current_user = Current.profile if in_spec_logged_in?
-
-    password_digest = session[:password_digest]
-    return @current_user = nil if password_digest.blank?
-    if Current.profile.password_digest != password_digest
-      session[:password_digest] = nil
-      return @current_user = nil
-    end
-    @current_user = Current.profile
+    @current_user = ProfilesService::ControllerCurrentUser.new(session).call
   end
-
-  def clean_current
-    Current.cleanup
-  end
-
-  private
-    def in_spec_logged_in?
-      Rails.env.test? && ENV["SPEC_LOGGED_IN"]
-    end
 end
