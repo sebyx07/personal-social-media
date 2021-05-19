@@ -7,6 +7,6 @@ class ProfilesController < ApplicationController
 
     @qr_code = ProfilesService::ShareableQrCode.new.call
 
-    @shared_image_file_name = "#{@profile.name.parameterize}@#{@profile.domain_name}"
+    @shared_image_file_name = "#{@profile.name.parameterize}@#{@profile.domain_name}.png"
   end
 end
