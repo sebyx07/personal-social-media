@@ -17,6 +17,10 @@ module EncryptionService
       @nonce = nonce
     end
 
+    def valid?
+      cypher_text.present? && nonce.present?
+    end
+
     def as_json(*_)
       {
         "cypher_text" => EncryptedContentTransform.to_json(cypher_text),

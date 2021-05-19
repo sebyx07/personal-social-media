@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     post "/register", action: :register_post
   end
 
-  namespace :api do
+  namespace :api, defaults: { format: :json } do
     namespace :instance do
       post "/whoami", action: "whoami"
     end

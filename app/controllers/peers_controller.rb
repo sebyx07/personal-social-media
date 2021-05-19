@@ -25,6 +25,10 @@ class PeersController < ApplicationController
   end
 
   def create_permitted_params
-    @create_permitted_params ||= signed_params.slice(:public_key, :domain_name, :verify_key)
+    return @create_permitted_params if @create_permitted_params.present?
+    @create_permitted_params = signed_params.slice(:domain_name, :verify_key).tap do |create_params|
+      create_params[:public_key] = EncryptionService::EncryptedContentTransform.to_str(signed_params[:public_key])
+      create_params[:verify_key] = verify_key
+    end
   end
 end

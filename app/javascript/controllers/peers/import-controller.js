@@ -19,13 +19,12 @@ export default class extends Controller {
 
     try {
       const input = await scanImageForQrCode(file);
+      console.log(input);
       const requestBody = JSON.parse(input);
       if (!requestBody.message || !requestBody.signature) {
         return this.handleErrorQrImage('Invalid qr code');
       }
       requestBody.authenticity_token = this.element.querySelector('input[name=\'authenticity_token\']').value;
-
-      console.log(requestBody);
     } catch {
       this.handleErrorQrImage('Invalid image, no qr code found');
     }

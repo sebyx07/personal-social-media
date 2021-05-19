@@ -29,6 +29,7 @@ class Profile < ApplicationRecord
   encrypts :sk, type: :binary
   validates :pk_ciphertext, presence: true
   before_validation :generate_signing_key, on: :create
+  after_create :generate_self_peer!
 
   validates :name, presence: true, length: { maximum: 50, minimum: 4 }
   sanitize_attributes :email, with: :squish
@@ -63,6 +64,10 @@ class Profile < ApplicationRecord
     SettingsService::WebUrl.new.host
   end
 
+  def peer
+    @peer ||= Peer.find_by(is_me: true)
+  end
+
   private
     def generate_private_key
       self.pk ||= ProfilesService::CreateNewPrivateKey.new.call
@@ -75,5 +80,9 @@ class Profile < ApplicationRecord
     def generate_password
       self.password_plain = SecureRandom.urlsafe_base64(24)
       self.password = password_plain
+    end
+
+    def generate_self_peer!
+      ProfilesService::CreateSelfPeer.new(self).call!
     end
 end

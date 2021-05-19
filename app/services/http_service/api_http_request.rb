@@ -3,9 +3,10 @@
 module HttpService
   class ApiHttpRequest
     attr_accessor :record
-    attr_reader :request, :peer
+    attr_reader :request, :peer, :url, :request_method, :body, :response
 
     def initialize(url, request_method, body, record, peer)
+      @url = url
       @body = body
       @record = record
       @request_method = request_method.to_sym
@@ -15,26 +16,22 @@ module HttpService
         url,
         method: @request_method,
         body: formatted_body,
-        headers: is_get_method? ? get_headers : post_headers
+        headers: headers
       )
     end
 
     def run
       request.run
+      @response = ApiHttpResponse.new(request.response.response_code, request.response.body, peer, self)
       self
     end
 
     private
-      def get_headers
+      def headers
         {
+          "content-type": "application/json",
           "accept": "application/json"
         }
-      end
-
-      def post_headers
-        get_headers.merge(
-          "content-type": "application/json"
-        )
       end
 
       def is_get_method?
@@ -43,12 +40,10 @@ module HttpService
       end
 
       def formatted_body
-        return nil if is_get_method?
-
         encrypted = __encrypt.encrypt(body.to_json)
         encrypted.as_json.merge!(
           domain_name: __encrypt.encrypt(profile.domain_name).as_json,
-          public_key: EncryptionService::EncryptedContentTransform.to_json(profile.public_key)
+          public_key: EncryptionService::EncryptedContentTransform.to_json(profile.public_key.to_s)
         ).to_json
       end
 

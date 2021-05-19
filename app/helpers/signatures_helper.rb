@@ -9,7 +9,7 @@ module SignaturesHelper
 
     signed_result = EncryptionService::SignedResult.from_json(params.permit!)
 
-    unless EncryptionService::VerifySignature.new(params[:verify_key]).verify(signed_result)
+    unless EncryptionService::VerifySignature.new(verify_key).verify(signed_result)
       return @signed_params = {}
     end
 
@@ -17,5 +17,9 @@ module SignaturesHelper
 
   rescue JSON::ParserError
     @signed_params = {}
+  end
+
+  def verify_key
+    @verify_key ||= EncryptionService::EncryptedContentTransform.to_str(params[:verify_key])
   end
 end

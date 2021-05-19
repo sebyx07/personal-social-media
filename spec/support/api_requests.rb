@@ -24,15 +24,16 @@ module RequestsApiSpecHelper
   def __encrypt
     @__encrypt ||= EncryptionService::Encrypt.new(peer.public_key)
   end
-end
 
-RSpec.shared_examples "api request" do
-  include RequestsApiSpecHelper
-  let(:peer) { create(:peer) }
-  let(:headers) do
+  def headers
     {
       "accept": "application/json",
       "content-type": "application/json",
     }
   end
+end
+
+RSpec.shared_examples "api request" do
+  include RequestsApiSpecHelper
+  let(:peer) { create(:peer) }
 end

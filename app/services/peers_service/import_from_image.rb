@@ -9,7 +9,12 @@ module PeersService
     end
 
     def call!
-      p params
+      peer.sync_from_whoami_remote!
+      peer.save!
+    end
+
+    def peer
+      @peer ||= Peer.new(params.merge(status: [:imported]))
     end
   end
 end

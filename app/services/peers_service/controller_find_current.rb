@@ -4,8 +4,8 @@ module PeersService
   class ControllerFindCurrent
     attr_reader :public_key, :encrypted_domain_name
 
-    def initialize(pubic_key_byte_array, encrypted_domain_name)
-      @public_key = EncryptionService::EncryptedContentTransform.to_str(pubic_key_byte_array)
+    def initialize(public_key_byte_array, encrypted_domain_name)
+      @public_key = EncryptionService::EncryptedContentTransform.to_str(public_key_byte_array)
       @encrypted_domain_name = encrypted_domain_name
     end
 

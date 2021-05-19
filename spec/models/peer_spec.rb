@@ -7,6 +7,7 @@
 #  id              :bigint           not null, primary key
 #  domain_name     :string           not null
 #  email_hexdigest :string
+#  is_me           :boolean
 #  name            :string
 #  nickname        :string
 #  public_key      :binary           not null

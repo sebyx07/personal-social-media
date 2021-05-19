@@ -7,6 +7,7 @@
 #  id              :bigint           not null, primary key
 #  domain_name     :string           not null
 #  email_hexdigest :string
+#  is_me           :boolean
 #  name            :string
 #  nickname        :string
 #  public_key      :binary           not null
@@ -28,17 +29,32 @@ class Peer < ApplicationRecord
 
   validates :name, allow_blank: true, length: { maximum: 50, minimum: 4 }
   validates :nickname, allow_blank: true, length: { maximum: 18, minimum: 4 }
-  validates :domain_name, domain_name: true, presence: true
   validates :email_hexdigest, allow_blank: true, length: { is: 32 }
   validates :public_key, presence: true, length: { is: 32 }
   validates :verify_key, allow_blank: true, length: { is: 32 }
+  validates :is_me, uniqueness: true, if: -> { is_me? }
+
+  if Rails.env.production?
+    validates :domain_name, domain_name: true, presence: true
+  else
+    validates :domain_name, presence: true
+  end
 
   def unfriendly?
     PeersService::RelationshipStatus::UNFRIENDLY.include?(status)
   end
 
+  def sync_from_whoami_remote!
+    will_retry = false
+    PeersService::SyncFromWhoAmIRemote.new(self, will_retry: will_retry).call!
+  end
+
+  def api_url(url)
+    PeersService::BuildApiUrl.new(self).call + url
+  end
+
   def mark_as_fake!
     status << :fake
-    save!
+    save! if persisted?
   end
 end

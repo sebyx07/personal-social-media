@@ -13,6 +13,8 @@ module SessionsHelper
 
   def current_user
     return @current_user if defined? @current_user
+    return @current_user = Current.profile if in_spec_logged_in?
+
     password_digest = session[:password_digest]
     return @current_user = nil if password_digest.blank?
     if Current.profile.password_digest != password_digest
@@ -25,4 +27,9 @@ module SessionsHelper
   def clean_current
     Current.cleanup
   end
+
+  private
+    def in_spec_logged_in?
+      Rails.env.test? && ENV["SPEC_LOGGED_IN"]
+    end
 end

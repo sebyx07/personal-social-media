@@ -13,3 +13,11 @@ RSpec.configure do |c|
     end
   end
 end
+
+RSpec.shared_examples "logged in" do
+  around do |ex|
+    ENV["SPEC_LOGGED_IN"] = "true"
+    ex.run
+    ENV["SPEC_LOGGED_IN"] = nil
+  end
+end
