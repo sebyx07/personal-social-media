@@ -61,3 +61,4 @@ gem "lockbox", "~> 0.6.4"
 gem "rbnacl", "~> 7.1", ">= 7.1.1"
 gem "typhoeus", "~> 1.4"
 gem "validates_host", "~> 1.3"
+gem 'oj', '~> 3.11', '>= 3.11.5'
