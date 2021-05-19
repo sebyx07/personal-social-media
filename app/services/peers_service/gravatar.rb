@@ -2,7 +2,7 @@
 
 module PeersService
   class Gravatar
-    class Error < Exception; end
+    class Error < StandardError; end
     attr_reader :email, :email_hexdigest, :size, :default
     def initialize(email: nil, email_hexdigest: nil)
       @email = email

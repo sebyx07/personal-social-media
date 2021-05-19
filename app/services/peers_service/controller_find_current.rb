@@ -14,6 +14,7 @@ module PeersService
       peer.tap do |p|
         p.domain_name = domain_name
         p.status = [:stranger] unless p.persisted?
+        update_server_last_seen_at
         p.save!
       end
     rescue RbNaCl::CryptoError
@@ -33,6 +34,13 @@ module PeersService
       def domain_name
         encrypted_result = EncryptionService::EncryptedResult.from_json(encrypted_domain_name)
         decrypt.decrypt(encrypted_result)
+      end
+
+      def update_server_last_seen_at
+        current = peer.server_last_seen_at
+        if current.blank? || current < 15.minutes.ago
+          peer.server_last_seen_at = Time.zone.now
+        end
       end
   end
 end

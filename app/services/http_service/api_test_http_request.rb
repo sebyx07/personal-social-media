@@ -9,7 +9,7 @@ module HttpService
 
     def initialize(url, request_method, body, record, peer)
       @peer = peer
-      @real_request = ApiHttpRequest.new(url, request_method, body, record, peer)
+      @real_request = ApiHttpTyphoeusRequest.new(url, request_method, body, record, peer)
       @ctx = TwoPeopleHelper.test_ctx
     end
 

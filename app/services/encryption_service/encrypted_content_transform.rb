@@ -2,7 +2,7 @@
 
 module EncryptionService
   class EncryptedContentTransform
-    class Error < Exception; end
+    class Error < StandardError; end
 
     class << self
       def to_json(raw_string)

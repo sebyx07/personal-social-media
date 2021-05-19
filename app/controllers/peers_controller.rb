@@ -26,15 +26,16 @@ class PeersController < ApplicationController
   def destroy
   end
 
-  def require_create_permitted_params
-    render json: { message: "invalid content" }, status: 422 if create_permitted_params.blank?
-  end
-
-  def create_permitted_params
-    return @create_permitted_params if @create_permitted_params.present?
-    @create_permitted_params = signed_params.slice(:domain_name, :verify_key).tap do |create_params|
-      create_params[:public_key] = EncryptionService::EncryptedContentTransform.to_str(signed_params[:public_key])
-      create_params[:verify_key] = verify_key
+  private
+    def require_create_permitted_params
+      render json: { message: "invalid content" }, status: 422 if create_permitted_params.blank?
     end
-  end
+
+    def create_permitted_params
+      return @create_permitted_params if @create_permitted_params.present?
+      @create_permitted_params = signed_params.slice(:domain_name, :verify_key).tap do |create_params|
+        create_params[:public_key] = EncryptionService::EncryptedContentTransform.to_str(signed_params[:public_key])
+        create_params[:verify_key] = verify_key
+      end
+    end
 end

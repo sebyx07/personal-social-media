@@ -12,7 +12,7 @@ module HttpService
     end
 
     def klass
-      Rails.env.test? ? HttpService::ApiTestHttpRequest : HttpService::ApiHttpRequest
+      Rails.env.test? ? HttpService::ApiTestHttpRequest : HttpService::ApiHttpTyphoeusRequest
     end
   end
 end

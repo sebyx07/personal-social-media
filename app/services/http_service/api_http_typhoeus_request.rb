@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module HttpService
-  class ApiHttpRequest
+  class ApiHttpTyphoeusRequest
     attr_accessor :record
     attr_reader :request, :peer, :url, :request_method, :body, :response
 
