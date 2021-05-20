@@ -10,7 +10,7 @@ module Api
       PeersService::SyncPeer.new(current_peer, sync_params).call!
 
       whoami
-      render "profiles/whoami"
+      render :whoami
     end
 
     def sync_params
