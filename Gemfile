@@ -58,10 +58,14 @@ gem "attributes_sanitizer", "~> 0.1.6"
 gem "bitwise_attribute", github: "rikas/bitwise_attribute", ref: "36371f6511a5907d1ec96385e0baca55d935cb99"
 gem "email_validator", "~> 2.2", ">= 2.2.3"
 gem "hcaptcha", github: "Nexus-Mods/hcaptcha", ref: "a2135327e0f22ddba170d77dbba86827cd05c2cb"
+gem "hiredis", "~> 0.6.3", require: %w(redis redis/connection/hiredis)
 gem "jb", "~> 0.8.0"
 gem "lockbox", "~> 0.6.4"
 gem "oj", "~> 3.11", ">= 3.11.5"
 gem "rails_admin", "~> 2.1", ">= 2.1.1", require: is_dev
 gem "rbnacl", "~> 7.1", ">= 7.1.1"
+gem "sidekiq", "~> 6.2", ">= 6.2.1", require: %w(sidekiq/web)
+gem "sidekiq-cron", "~> 1.2", require: %w(sidekiq/cron/web)
+gem "sidekiq-throttled", "~> 0.13.0", require: "sidekiq/throttled"
 gem "typhoeus", "~> 1.4"
 gem "validates_host", "~> 1.3"
