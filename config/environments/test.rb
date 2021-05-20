@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "active_support/core_ext/integer/time"
+require "sidekiq/testing"
 require_relative "./non_production"
 
 # The test environment is used exclusively to run your application's
@@ -39,4 +40,6 @@ Rails.application.configure do
   config.active_support.disallowed_deprecation_warnings = []
 
   config.i18n.raise_on_missing_translations = true
+
+  Sidekiq::Testing.inline!
 end

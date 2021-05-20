@@ -3,6 +3,7 @@
 Sidekiq::Throttled.setup!
 
 return if Rails.env.test?
+return if Rails.application.secrets.redis[:url].blank?
 Redis.exists_returns_integer = false
 
 Sidekiq.configure_server do |config|

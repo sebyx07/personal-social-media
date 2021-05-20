@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 return if Rails.env.test?
+return if Rails.application.secrets.redis[:url].blank?
 
 schedule_file = "config/schedule.yml"
 

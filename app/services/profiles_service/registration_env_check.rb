@@ -36,6 +36,10 @@ module ProfilesService
             message: "HCaptcha site key, you can get key from https://www.hcaptcha.com",
             value: Rails.application.secrets.hcaptcha[:site_key]
           },
+          REDIS_URL: {
+            message: "You must have redis configured",
+            value: Rails.application.secrets.redis[:url]
+          },
           WEB_URL: {
             message: "The url where the app is running, ex: https://myapp.herokuapp.com",
             value: Rails.application.secrets.web_url
