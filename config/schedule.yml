@@ -1,0 +1,3 @@
+PeerInfoWorkerPing:
+  cron: "0 0 * * *"
+  class: "PeersWorker::SyncRegularly"

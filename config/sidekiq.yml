@@ -1,0 +1,6 @@
+:concurrency: 1
+:queues:
+  - default
+  - http_retries
+production:
+  :concurrency: 5
