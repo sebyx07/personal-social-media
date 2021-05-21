@@ -17,12 +17,7 @@ class TwoPeopleHelper
       @real_profile = Current.profile
       @real_settings = Current.settings
 
-      @fake_profile ||= FactoryBot.build(:profile).tap do |profile|
-        profile.send(:generate_private_key)
-        profile.send(:generate_signing_key)
-      end
-
-      Current.__set_manually_profile(@fake_profile)
+      Current.__set_manually_profile(fake_profile)
 
       @fake_settings ||= FactoryBot.build(:setting)
       Current.__set_manually_settings(@fake_settings)
@@ -34,7 +29,18 @@ class TwoPeopleHelper
       return if @real_profile.blank?
       Current.__set_manually_profile(@real_profile)
       Current.__set_manually_settings(@real_settings)
-  end
+    end
+
+    def fake_profile
+      @fake_profile ||= FactoryBot.build(:profile).tap do |profile|
+        profile.send(:generate_private_key)
+        profile.send(:generate_signing_key)
+      end
+    end
+
+    def fake_peer
+      @fake_peer ||= fake_profile.send(:generate_self_peer)
+    end
   end
 end
 
@@ -47,5 +53,13 @@ RSpec.shared_examples "two people" do
 
   after do
     TwoPeopleHelper.take_over_end
+  end
+
+  def other_peer
+    TwoPeopleHelper.fake_peer
+  end
+
+  def other_profile
+    TwoPeopleHelper.fake_peer
   end
 end

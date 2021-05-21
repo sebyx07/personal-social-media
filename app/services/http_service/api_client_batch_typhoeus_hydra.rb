@@ -2,7 +2,6 @@
 
 module HttpService
   class ApiClientBatchTyphoeusHydra
-    class Error < StandardError; end
     attr_reader :status, :requests
     def initialize
       @status = :pending
@@ -14,16 +13,20 @@ module HttpService
     end
 
     def run
-      raise Error, "has already started" unless status == :pending
+      raise ApiClientBatch::Error, "has already started" unless status == :pending
       @status = :running
-      requests.in_groups_of(250, false).each do |request_group|
+      requests.in_groups_of(ApiClientBatch::AR_BATCH_SIZE, false).each do |request_group|
         hydra = Typhoeus::Hydra.new
 
         request_group.each do |request|
-          hydra.queue(request.request)
+          hydra.queue(request.request.request)
         end
 
         hydra.run
+
+        request_group.each do |request|
+          request.request.extract_response_after_request
+        end
       end
       @status = :done
     end

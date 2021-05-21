@@ -19,8 +19,9 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :instance do
-      post "/whoami", action: "whoami"
-      post "/sync", action: "sync"
+      post "/whoami", action: :whoami
+      post "/sync", action: :sync
+      post "/update_relationship", action: :update_relationship
     end
   end
 

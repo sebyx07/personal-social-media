@@ -82,7 +82,11 @@ class Profile < ApplicationRecord
       self.password = password_plain
     end
 
-    def generate_self_peer!
+    def generate_self_peer
       ProfilesService::CreateSelfPeer.new(self).call!
+    end
+
+    def generate_self_peer!
+      generate_self_peer.save!
     end
 end

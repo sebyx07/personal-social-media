@@ -22,8 +22,12 @@ module HttpService
 
     def run
       request.run
-      @response = ApiHttpResponse.new(request.response.response_code, request.response.body, peer, self)
+      extract_response_after_request
       self
+    end
+
+    def extract_response_after_request
+      @response = ApiHttpResponse.new(request.response.response_code, request.response.body, peer, self)
     end
 
     private

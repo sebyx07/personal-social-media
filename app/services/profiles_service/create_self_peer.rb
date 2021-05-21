@@ -8,7 +8,7 @@ module ProfilesService
     end
 
     def call!
-      Peer.create!(
+      Peer.new(
         is_me: true,
         domain_name: profile.domain_name,
         nickname: profile.nickname,

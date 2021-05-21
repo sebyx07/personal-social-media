@@ -17,7 +17,11 @@ module ApiHelper
   end
 
   def require_current_peer
-    head 403 if current_peer.blank?
+    render json: { error: "peer not found" }, status: 404 if current_peer.blank?
+  end
+
+  def require_friend
+    render json: { error: "friend not found" }, status: 404 unless current_peer&.friendly?
   end
 
   def current_peer

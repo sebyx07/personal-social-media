@@ -36,9 +36,16 @@ module RequestsApiSpecHelper
       "content-type": "application/json",
     }
   end
+
+  def stub_peer
+    allow_any_instance_of(Api::BaseController).to receive(:current_peer).and_return(peer)
+  end
+
+  def peer
+    @peer ||= create(:peer)
+  end
 end
 
 RSpec.shared_examples "api request" do
   include RequestsApiSpecHelper
-  let(:peer) { create(:peer) }
 end

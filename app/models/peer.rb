@@ -28,10 +28,10 @@ class Peer < ApplicationRecord
   include BitwiseAttribute
 
   attr_bitwise :status, values: %i[
-    imported stranger friend
+    imported stranger friend friendship_declined
     full_block_by_me full_block_by_external
-    friendship_requested_by_me frienship_requested_by_external
-    friendship_requested_by_me_blocked frienship_requested_by_external_blocked
+    friendship_requested_by_me friendship_requested_by_external
+    friendship_requested_by_me_blocked friendship_requested_by_external_blocked
     checked fake server_not_seen_recently
   ]
 
@@ -51,6 +51,10 @@ class Peer < ApplicationRecord
 
   def unfriendly?
     PeersService::RelationshipStatus::UNFRIENDLY.include?(status)
+  end
+
+  def friendly?
+    !unfriendly?
   end
 
   def sync_from_whoami_remote!

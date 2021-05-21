@@ -3,5 +3,11 @@
 module PeersService
   class RelationshipStatus
     UNFRIENDLY = %i(full_block_by_me full_block_by_external fake)
+
+    class << self
+      def scope_for_sync(query)
+        query.with_any_status(:friend, :friendship_requested_by_external).without_status(UNFRIENDLY)
+      end
+    end
   end
 end
