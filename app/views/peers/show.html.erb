@@ -7,3 +7,7 @@
     <%= image_tag PeersService::Gravatar.new(email_hexdigest: @peer.email_hexdigest).url(size: 240), class: "rounded-full mx-auto" %>
   </div>
 <% end %>
+
+<div class="flex justify-center mt-4">
+  <%= render(Peers::RelationshipButtonComponent.new(peer: @peer)) %>
+</div>

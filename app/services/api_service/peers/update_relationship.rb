@@ -16,14 +16,18 @@ module ApiService
 
         if relationship == "friendship_requested_by_external"
           handle_friend_request
+        elsif relationship == "friendship_requested_by_external_blocked"
+          handle_decline
+        elsif relationship == "cancel_friendship"
+          handle_cancel_friendship
+        elsif relationship == "unblock"
+          handle_being_unblocked
+        elsif relationship == "full_block_by_external"
+          handle_block
         elsif relationship == "unfriend"
           handle_unfriend
         elsif relationship == "friend"
           handle_friend_accepted
-        elsif relationship == "friendship_requested_by_external_blocked"
-          handle_being_blocked
-        elsif relationship == "unblock"
-          handle_being_blocked
         else
           raise Error, "invalid relationship"
         end
@@ -45,7 +49,7 @@ module ApiService
           @result = :unfriend
         end
 
-        def handle_being_blocked
+        def handle_decline
           @result = :friendship_requested_by_external_blocked
           add_status(result)
           remove_from_status(:friendship_requested_by_me, :friendship_requested_by_external)
@@ -54,14 +58,26 @@ module ApiService
 
         def handle_being_unblocked
           @result = :unblock
-          remove_from_status(:friendship_requested_by_external_blocked)
+          remove_from_status(:full_block_by_external)
+          save_peer!
+        end
+
+        def handle_cancel_friendship
+          @result = :cancel_friendship
+          remove_from_status(:friendship_requested_by_external)
           save_peer!
         end
 
         def handle_friend_accepted
           @result = :friend
           add_status(result)
-          remove_from_status(:friendship_requested_by_external, :friendship_requested_by_me, :friendship_declined)
+          remove_from_status(:friendship_requested_by_me, :friendship_requested_by_external_blocked)
+          save_peer!
+        end
+
+        def handle_block
+          @result = :full_block_by_external
+          add_status(result)
           save_peer!
         end
 

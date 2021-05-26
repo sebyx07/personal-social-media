@@ -2,6 +2,8 @@
 
 class Current
   class << self
+    delegate :peer, to: :profile
+
     def profile
       return @profile if defined? @profile
       @profile = Profile.first

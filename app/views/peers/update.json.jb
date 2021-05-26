@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  peer: render(partial: "peers/peer", locals: { peer: @peer })
+}

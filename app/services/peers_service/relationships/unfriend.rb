@@ -2,7 +2,7 @@
 
 module PeersService
   module Relationships
-    class RequestFriendship
+    class Unfriend
       attr_reader :peer, :request
 
       def initialize(request)
@@ -17,16 +17,14 @@ module PeersService
 
       private
         def update_peer!
-          peer.status -= %i(stranger imported)
-          peer.status << :friendship_requested_by_me
-          peer.save!
+          peer.destroy
         end
 
         def make_request!
           request.run
 
           if !request.valid? && request.safe_retry?
-            raise RequestError, "Cannot request friendship"
+            raise RequestError, "Cannot unfriend"
           end
         end
     end

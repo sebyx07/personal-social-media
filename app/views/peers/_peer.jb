@@ -4,4 +4,8 @@ fields = %i(id domain_name email_hexdigest is_me last_seen_at name nickname serv
 
 peer.as_json(only: fields).tap do |json|
   json[:public_key] = EncryptionService::EncryptedContentTransform.to_json(peer.public_key)
+  json[:friend] = peer.friend?
+  json[:fake] = peer.fake?
+  json[:full_block_by_me] = peer.full_block_by_me?
+  json[:server_not_seen_recently] = peer.server_not_seen_recently?
 end

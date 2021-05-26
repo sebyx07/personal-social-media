@@ -2,6 +2,7 @@
 
 module HttpService
   class ApiClient
+    MAX_RETRIES = 5
     attr_reader :request, :url, :method
     delegate :response, :record, :body, :url, :peer, to: :request
     delegate :status, :body_str, :valid?, :json, :safe_retry?, :raw_json, :schedule_retry, to: :response
@@ -15,8 +16,17 @@ module HttpService
       self
     end
 
-    def klass
-      Rails.env.test? ? HttpService::ApiTestHttpRequest : HttpService::ApiHttpTyphoeusRequest
+    def run_with_retry_in_background(max_retries = MAX_RETRIES)
+      RetryRequest.create!(
+        payload: body, url: url, peer_ids: [peer.id],
+        request_method: method, max_retries: max_retries,
+        request_type: :single
+      )
     end
+
+    private
+      def klass
+        Rails.env.test? ? HttpService::ApiTestHttpRequest : HttpService::ApiHttpTyphoeusRequest
+      end
   end
 end

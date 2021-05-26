@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_19_050221) do
+ActiveRecord::Schema.define(version: 2021_05_26_015542) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,19 @@ ActiveRecord::Schema.define(version: 2021_05_19_050221) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "sk_ciphertext", null: false
+  end
+
+  create_table "retry_requests", force: :cascade do |t|
+    t.text "payload", default: "{}", null: false
+    t.text "peer_ids", default: "[]", null: false
+    t.string "url", null: false
+    t.string "request_method", null: false
+    t.integer "retries", default: 0, null: false
+    t.integer "max_retries", default: 0, null: false
+    t.string "request_type", null: false
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "settings", force: :cascade do |t|

@@ -87,6 +87,6 @@ class Profile < ApplicationRecord
     end
 
     def generate_self_peer!
-      generate_self_peer.save!
+      generate_self_peer.tap(&:save!)
     end
 end

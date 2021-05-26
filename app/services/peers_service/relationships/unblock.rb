@@ -2,7 +2,7 @@
 
 module PeersService
   module Relationships
-    class RequestFriendship
+    class Unblock
       attr_reader :peer, :request
 
       def initialize(request)
@@ -17,8 +17,7 @@ module PeersService
 
       private
         def update_peer!
-          peer.status -= %i(stranger imported)
-          peer.status << :friendship_requested_by_me
+          peer.status -= %i(full_block_by_me)
           peer.save!
         end
 
@@ -26,7 +25,7 @@ module PeersService
           request.run
 
           if !request.valid? && request.safe_retry?
-            raise RequestError, "Cannot request friendship"
+            raise RequestError, "Cannot accept friendship"
           end
         end
     end

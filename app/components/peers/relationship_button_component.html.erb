@@ -1,0 +1,3 @@
+<% available_actions.each do |action| %>
+  <%= button_to action.text, peer_path(peer, peer: { relationship: action.action }), method: :put, class: action.class_name, data: { disable_with: action.disable_with } %>
+<% end %>

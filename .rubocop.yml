@@ -13,3 +13,6 @@ Bundler/OrderedGems:
 
 Lint/Debugger:
   Enabled: true
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: nested

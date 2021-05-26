@@ -2,7 +2,7 @@
 
 module PeersService
   module Relationships
-    class RequestFriendship
+    class CancelFriendship
       attr_reader :peer, :request
 
       def initialize(request)
@@ -11,23 +11,18 @@ module PeersService
       end
 
       def call!
-        make_request!
         update_peer!
+        make_request!
       end
 
       private
         def update_peer!
-          peer.status -= %i(stranger imported)
-          peer.status << :friendship_requested_by_me
+          peer.status -= %i(friendship_requested_by_me)
           peer.save!
         end
 
         def make_request!
-          request.run
-
-          if !request.valid? && request.safe_retry?
-            raise RequestError, "Cannot request friendship"
-          end
+          request.run_with_retry_in_background
         end
     end
   end

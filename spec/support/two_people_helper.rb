@@ -39,7 +39,7 @@ class TwoPeopleHelper
     end
 
     def fake_peer
-      @fake_peer ||= fake_profile.send(:generate_self_peer)
+      @fake_peer ||= fake_profile.send(:generate_self_peer!)
     end
   end
 end
@@ -55,11 +55,22 @@ RSpec.shared_examples "two people" do
     TwoPeopleHelper.take_over_end
   end
 
+  def current_peer
+    return @current_peer if defined? @current_peer
+
+    @current_peer = TwoPeopleHelper.real_profile.send(:generate_self_peer!)
+  end
+
+  def profile
+    @profile ||= TwoPeopleHelper.real_profile
+  end
+
   def other_peer
-    TwoPeopleHelper.fake_peer
+    return @other_peer if defined? @other_peer
+    @other_peer = other_profile.send(:generate_self_peer!)
   end
 
   def other_profile
-    TwoPeopleHelper.fake_peer
+    TwoPeopleHelper.fake_profile
   end
 end

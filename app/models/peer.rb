@@ -28,11 +28,11 @@ class Peer < ApplicationRecord
   include BitwiseAttribute
 
   attr_bitwise :status, values: %i[
-    imported stranger friend friendship_declined
+    imported stranger friend
     full_block_by_me full_block_by_external
     friendship_requested_by_me friendship_requested_by_external
     friendship_requested_by_me_blocked friendship_requested_by_external_blocked
-    checked fake server_not_seen_recently
+    fake
   ]
 
   validates :name, allow_blank: true, length: { maximum: 50, minimum: 4 }
@@ -40,8 +40,8 @@ class Peer < ApplicationRecord
   validates :email_hexdigest, allow_blank: true, length: { is: 32 }
   validates :public_key, presence: true, length: { is: 32 }
   validates :verify_key, allow_blank: true, length: { is: 32 }
-  validates :is_me, uniqueness: true, if: -> { is_me? }
-  validates :public_key, uniqueness: true, if: -> { !fake? }
+  validates :is_me, uniqueness: true, if: -> { is_me? } unless Rails.env.test?
+  validates :public_key, uniqueness: true, if: -> { !fake? } unless Rails.env.test?
 
   if Rails.env.production? && !DeveloperService::IsEnabled.is_enabled?
     validates :domain_name, domain_name: true, presence: true
@@ -64,6 +64,10 @@ class Peer < ApplicationRecord
 
   def api_url(url)
     PeersService::BuildApiUrl.new(self).call + url
+  end
+
+  def server_not_seen_recently?
+    server_last_seen_at.blank? || server_last_seen_at < 3.days.ago
   end
 
   def mark_as_fake!
