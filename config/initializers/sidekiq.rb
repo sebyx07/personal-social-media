@@ -15,9 +15,12 @@ Sidekiq.configure_client do |config|
 end
 
 if Rails.env.production?
+  return unless DeveloperService::IsEnabled.is_enabled?
+  return unless Rails.application.secrets.bugsnag
+
   Sidekiq.default_worker_options = { "backtrace" => 20 }
 
-  # Sidekiq.configure_server do |config|
-  #   config.error_handlers << Proc.new { |ex| Bugsnag.notify(ex) } if DeveloperService::IsEnabled.is_enabled?
-  # end
+  Sidekiq.configure_server do |config|
+    config.error_handlers << Proc.new { |ex| Bugsnag.notify(ex) }
+  end
 end

@@ -125,6 +125,8 @@ GEM
     bootsnap (1.7.5)
       msgpack (~> 1.0)
     brakeman (5.0.1)
+    bugsnag (6.20.0)
+      concurrent-ruby (~> 1.0)
     build-environment (1.13.0)
     builder (3.2.4)
     bundler-audit (0.8.0)
@@ -474,6 +476,7 @@ DEPENDENCIES
   bitwise_attribute!
   bootsnap (>= 1.4.4)
   brakeman (~> 5.0, >= 5.0.1)
+  bugsnag (~> 6.20)
   bundler-audit
   capybara (~> 3.35, >= 3.35.3)
   database_cleaner-active_record (~> 2.0, >= 2.0.1)
