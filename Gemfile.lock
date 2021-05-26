@@ -1,5 +1,12 @@
 GIT
-  remote: https://github.com/Nexus-Mods/hcaptcha.git
+  remote: https://github.com/personal-social-media/bitwise_attribute.git
+  revision: 36371f6511a5907d1ec96385e0baca55d935cb99
+  ref: 36371f6511a5907d1ec96385e0baca55d935cb99
+  specs:
+    bitwise_attribute (0.3.3)
+
+GIT
+  remote: https://github.com/personal-social-media/hcaptcha.git
   revision: a2135327e0f22ddba170d77dbba86827cd05c2cb
   ref: a2135327e0f22ddba170d77dbba86827cd05c2cb
   specs:
@@ -7,11 +14,12 @@ GIT
       json
 
 GIT
-  remote: https://github.com/rikas/bitwise_attribute.git
-  revision: 36371f6511a5907d1ec96385e0baca55d935cb99
-  ref: 36371f6511a5907d1ec96385e0baca55d935cb99
+  remote: https://github.com/personal-social-media/rmega.git
+  revision: bc1ffc624cfb30197fea1b042ff1115961ad89f5
+  ref: bc1ffc624cfb30197fea1b042ff1115961ad89f5
   specs:
-    bitwise_attribute (0.3.3)
+    rmega (0.2.7)
+      pbkdf2-ruby
 
 GEM
   remote: https://rubygems.org/
@@ -145,6 +153,8 @@ GEM
     connection_pool (2.2.5)
     console (1.12.0)
       fiber-local
+    crack (0.4.5)
+      rexml
     crass (1.0.6)
     database_cleaner-active_record (2.0.1)
       activerecord (>= 5.a)
@@ -152,6 +162,10 @@ GEM
     database_cleaner-core (2.0.1)
     debug_inspector (1.1.0)
     diff-lcs (1.4.4)
+    dotenv (2.7.6)
+    dotenv-rails (2.7.6)
+      dotenv (= 2.7.6)
+      railties (>= 3.2)
     em-websocket (0.5.2)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -216,6 +230,7 @@ GEM
     haml (5.2.1)
       temple (>= 0.8.0)
       tilt
+    hashdiff (1.0.1)
     hiredis (0.6.3)
     html_tokenizer (0.0.7)
     http_parser.rb (0.6.0)
@@ -271,6 +286,7 @@ GEM
     parallel (1.20.1)
     parser (3.0.1.1)
       ast (~> 2.4.1)
+    pbkdf2-ruby (0.2.1)
     pg (1.2.3)
     process-metrics (0.2.1)
       console (~> 1.8)
@@ -436,6 +452,8 @@ GEM
       sprockets (>= 3.0.0)
     str_enum (0.2.0)
       activesupport (>= 5)
+    strong_migrations (0.7.6)
+      activerecord (>= 5)
     temple (0.8.2)
     thor (1.1.0)
     tilt (2.0.10)
@@ -450,8 +468,13 @@ GEM
     unicode-display_width (2.0.0)
     validates_host (1.3.0)
       activemodel (>= 3.0.0)
+    vcr (6.0.0)
     view_component (2.32.0)
       activesupport (>= 5.0.0, < 7.0)
+    webmock (3.13.0)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     webpacker (6.0.0.pre.2)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
@@ -480,6 +503,7 @@ DEPENDENCIES
   bundler-audit
   capybara (~> 3.35, >= 3.35.3)
   database_cleaner-active_record (~> 2.0, >= 2.0.1)
+  dotenv-rails (~> 2.7, >= 2.7.6)
   email_validator (~> 2.2, >= 2.2.3)
   erb_lint
   factory_bot_rails (~> 6.2)
@@ -501,6 +525,7 @@ DEPENDENCIES
   rails (~> 6.1.3, >= 6.1.3.2)
   rails_admin (~> 2.1, >= 2.1.1)
   rbnacl (~> 7.1, >= 7.1.1)
+  rmega!
   rspec-rails (~> 5.0, >= 5.0.1)
   rubocop-rails_config (~> 1.5, >= 1.5.3)
   sass-rails (>= 6)
@@ -510,11 +535,14 @@ DEPENDENCIES
   spring
   spring-commands-rspec (~> 1.0, >= 1.0.4)
   str_enum (~> 0.2.0)
+  strong_migrations (~> 0.7.6)
   turbolinks (~> 5.2, >= 5.2.1)
   typhoeus (~> 1.4)
   tzinfo-data
   validates_host (~> 1.3)
+  vcr (~> 6.0)
   view_component
+  webmock
   webpacker (~> 6.0.0.beta.7)
 
 RUBY VERSION

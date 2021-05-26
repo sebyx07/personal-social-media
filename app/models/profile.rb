@@ -30,6 +30,7 @@ class Profile < ApplicationRecord
   validates :pk_ciphertext, presence: true
   before_validation :generate_signing_key, on: :create
   after_create :generate_self_peer!
+  after_commit :generate_settings, on: :create
 
   validates :name, presence: true, length: { maximum: 50, minimum: 4 }
   sanitize_attributes :email, with: :squish
@@ -66,6 +67,11 @@ class Profile < ApplicationRecord
 
   def peer
     @peer ||= Peer.find_by(is_me: true)
+  end
+
+  def generate_settings
+    return if Current.settings.present?
+    Setting.create!
   end
 
   private

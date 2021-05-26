@@ -1,0 +1,163 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://eu.api.mega.co.nz/cs?id=546742504
+    body:
+      encoding: UTF-8
+      string: '[{"a":"us0","user":"fake_email"}]'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type, MEGA-Chrome-Antileak
+      Access-Control-Expose-Headers:
+      - Original-Content-Length
+      Access-Control-Max-Age:
+      - '86400'
+      Original-Content-Length:
+      - '59'
+      Content-Length:
+      - '59'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '[{"s":"pvZ4e_xdtaRlebBYb2e0feWI-xMH6ahp7Tv0niABWAc","v":2}]'
+  recorded_at: Wed, 26 May 2021 14:20:02 GMT
+- request:
+    method: post
+    uri: https://eu.api.mega.co.nz/cs?id=546742505
+    body:
+      encoding: UTF-8
+      string: '[{"a":"us","user":"fake_email","uh":"SflB2ZFETNrtdXyA8PzmHQ","sek":"-XG1le3VkErBX3QtZcO9Kg"}]'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type, MEGA-Chrome-Antileak
+      Access-Control-Expose-Headers:
+      - Original-Content-Length
+      Access-Control-Max-Age:
+      - '86400'
+      Original-Content-Length:
+      - '1329'
+      Content-Length:
+      - '1059'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"csid":"CAAD-74D-hDf0NdOo5cNhp3IqPTOVM-TZgiq1SrRMvbCh80E4V1Aiwl0vgm_DGNw_5uJX4Xfu-Dz4vWESNrynGmC_PbGkLVvU1Jdm2MkennF5MWpG1146M23WnN-DETl1ikv6LAccq1K8o-jDUgK0nhw6mOVEeRjnLMqE9gPfl3Wk2TJiGmETHBrY26-YmenopZOux7iq2jmyTm-rE72E-KJ7cNMKt9y88j39mNasf0y1rd8FXRHYhyBuywwAin8Uzx083RyH3sG5eHqr0XzGK9tRKhbgZpx9xgS60YaRJePvKyGoyzlQv7Ww-EvdP9O81AHlxR7ABe-r9m3NZeB_tA_","privk":"4uTzI05w0iCgQcmHtzMT7SuzpwPd2JZHKT03m5isfKkKchqRyzTabq-r_sO06xRgv_Q5OCZH0hTfbf3IEOjWijgLOrQ_ADqVQrGDjCerq2FiJmCdmyp3ZYHZQ1g2zS3PaLxMcL9S_GiGHVP6GmzSFKyxtf4mrLvuS5QmQREJayGKL5BRYEK5lB0giZPeC9jKKKDwEDANskfZ66IR1aJJrGXF5c8vQzpaGJXvC_-fNd1jPAGWQXZ4SyhRacx5qo5cO9F_E3qhmGqiqkz6ZbkkOxfLCumTh26X0kX_YlmtYeeCa6qqLvV0ApmFqCXc8HucaoiGBZd7CYjxlmWbqtQ69GoCoI1aVU4WE_tZEqKSAmsGawd_DlaBF2_GGZPlXFdYSgRh--dSkSo7v_VVgERynIs3wx0FaJ00ZA-MRWGc8XhE0wUYR7KCTLHSd3v8yInR-AkUAoyhiTfTZtSIhRmxhy1Oyy0PYfy5oYHEsJfL__eWPJPdwJ3Gy5szrQwFJir67u51pcTyJt1d-5senAN7vgpQR2shcFXYX-7womJBnVbmZFNOOC64tHP0pka7X5kGz5S1LaR7Rhat9ByVKOZdFdDGof39V-RZVDRbAPiHCZ94eQqjZHsjPb57d8FlrvyCjl6651WAHZaFq6PdkQ3FN5qLwIkk1CZdSKFFPQnxybSt40BO0OC5g_F9ctPPnRbodRtxeK1yfHJtT8IqniXuBBguhVDG0ofmTAhcEQ7jB6vC4VoahLp-z4l7IXc7zvvrIwylL_kgph1fHEg6vBTpMotnCM_GlRcXEkGEGM0wL7AEyb-sUM5egGDqmGQ_O2Noo82eFSyGeG97Gt8oGiRp6aQydWMOP4e6gM3rRJAO0eo","k":"lrHhRKprM5Qk5S9sWNS_Vg","u":"XCGh6TEHJIU","ach":1,"sek":"-XG1le3VkErBX3QtZcO9Kg"}]'
+  recorded_at: Wed, 26 May 2021 14:20:05 GMT
+- request:
+    method: post
+    uri: https://eu.api.mega.co.nz/cs?id=546742506&sid=uCwV5-ItMav0F-TTkkDmllhDR2g2VEVISklVENSoy8QXnRljyR-xLcI-EA
+    body:
+      encoding: UTF-8
+      string: '[{"a":"f","c":1}]'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type, MEGA-Chrome-Antileak
+      Access-Control-Expose-Headers:
+      - Original-Content-Length
+      Access-Control-Max-Age:
+      - '86400'
+      Original-Content-Length:
+      - '998'
+      Content-Length:
+      - '998'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '[{"ok0":[],"f":[{"h":"qM4XwIzL","p":"","u":"XCGh6TEHJIU","t":2,"a":"","ts":1622033650},{"h":"3cx1gAJT","p":"","u":"XCGh6TEHJIU","t":3,"a":"","ts":1622033650},{"h":"fUpVhYBA","p":"","u":"XCGh6TEHJIU","t":4,"a":"","ts":1622033650},{"h":"rYo1GYhD","p":"qM4XwIzL","u":"XCGh6TEHJIU","t":0,"a":"L9BPZUVOc3l-RubKodCKKROE9Yl0AdaK0rEFhegeMGC6vUWKSCLhWlBV_kRCl6yd-RMglau5KlpB-VzNL008JMru7oMdACceQzGGww-jBfI","k":"XCGh6TEHJIU:BmjKcYTNX4mFnVKQgJ6j4KHL6m9TPWWA-AEQ8GhXPZY","s":1496628,"fa":"744:8*8LcUnw6huFI/882:0*HN65lJvKLvA/826:1*QmbOWv5vTqY","ts":1622033653},{"h":"HZZhiSBL","p":"fUpVhYBA","u":"XCGh6TEHJIU","t":1,"a":"LVo_tT0q3iJG-tIC5_orwG6FzOEZ8HLT73pytCtal3e8mpFN3klcV2yOULz3R4Zy","k":"XCGh6TEHJIU:0VQR4LQD2Si6aOMLDH1fWQ","ts":1622038619}],"ok":[],"s":[],"ps":[],"opc":[],"ipc":[],"ph":[],"uph":[],"pup":[],"mcf":{"c":[],"cf":[],"pc":[],"pcf":[]},"mcna":[],"mcpna":[],"u":[{"u":"XCGh6TEHJIU","c":2,"m":"fake_email","m2":["fake_email"]}],"tct":0,"sn":"7cmuCjhIwic","noc":1}]'
+  recorded_at: Wed, 26 May 2021 14:20:06 GMT
+- request:
+    method: post
+    uri: https://eu.api.mega.co.nz/cs?id=546742507&sid=uCwV5-ItMav0F-TTkkDmllhDR2g2VEVISklVENSoy8QXnRljyR-xLcI-EA
+    body:
+      encoding: UTF-8
+      string: '[{"a":"p","t":"qM4XwIzL","n":[{"h":"xxxxxxxx","t":1,"a":"M3oWiD9syMatMqu6OI4BHLtXg5KTI8fbogMWoaOa5m0","k":"-NyHJCOgTcBJ1p50n4gUoA"}]}]'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type, MEGA-Chrome-Antileak
+      Access-Control-Expose-Headers:
+      - Original-Content-Length
+      Access-Control-Max-Age:
+      - '86400'
+      Original-Content-Length:
+      - '172'
+      Content-Length:
+      - '172'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '[{"f":[{"h":"bJwRjIAb","t":1,"a":"M3oWiD9syMatMqu6OI4BHLtXg5KTI8fbogMWoaOa5m0","k":"XCGh6TEHJIU:-NyHJCOgTcBJ1p50n4gUoA","p":"qM4XwIzL","ts":1622038807,"u":"XCGh6TEHJIU"}]}]'
+  recorded_at: Wed, 26 May 2021 14:20:07 GMT
+recorded_with: VCR 6.0.0

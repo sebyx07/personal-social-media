@@ -12,7 +12,7 @@ RUN npm install -g yarn
 
 RUN npm install -g phantomjs-prebuilt-that-works --unsafe-perm
 
-RUN apt-get install -y libsodium-dev
+RUN apt-get install -y libsodium-dev p7zip-full
 
 RUN mkdir -p /app
 WORKDIR /app

@@ -10,10 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_26_015542) do
+ActiveRecord::Schema.define(version: 2021_05_26_211737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "external_accounts", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "service", null: false
+    t.text "secret_key_ciphertext"
+    t.text "public_key_ciphertext"
+    t.text "username_ciphertext"
+    t.text "password_ciphertext"
+    t.text "email_ciphertext"
+    t.text "secret_ciphertext"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "status", default: "initializing", null: false
+    t.string "usage", null: false
+  end
 
   create_table "peers", force: :cascade do |t|
     t.binary "public_key", null: false
@@ -45,6 +60,73 @@ ActiveRecord::Schema.define(version: 2021_05_26_015542) do
     t.text "sk_ciphertext", null: false
   end
 
+  create_table "psm_cdn_files", force: :cascade do |t|
+    t.text "url", null: false
+    t.string "status", default: "pending", null: false
+    t.bigint "size_bytes", default: 0, null: false
+    t.bigint "psm_file_variant_id", null: false
+    t.bigint "external_account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "upload_percentage", default: 0, null: false
+    t.string "external_file_name", null: false
+    t.index ["external_account_id"], name: "index_psm_cdn_files_on_external_account_id"
+    t.index ["psm_file_variant_id", "external_account_id"], name: "idx_psm_cdn_files_variant_to_external_account", unique: true
+    t.index ["psm_file_variant_id"], name: "index_psm_cdn_files_on_psm_file_variant_id"
+  end
+
+  create_table "psm_file_permanents", force: :cascade do |t|
+    t.integer "size_bytes", default: 0, null: false
+    t.bigint "psm_file_variant_id", null: false
+    t.bigint "external_account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["external_account_id"], name: "index_psm_file_permanents_on_external_account_id"
+    t.index ["psm_file_variant_id", "external_account_id"], name: "idx_psm_file_permanent_variant_to_external_account", unique: true
+    t.index ["psm_file_variant_id"], name: "index_psm_file_permanents_on_psm_file_variant_id"
+  end
+
+  create_table "psm_file_variants", force: :cascade do |t|
+    t.bigint "psm_file_id", null: false
+    t.string "variant_name", null: false
+    t.text "variant_metadata", default: "{}", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "permanent_storage_status", default: "pending", null: false
+    t.string "cdn_storage_status", default: "pending", null: false
+    t.index ["psm_file_id", "variant_name"], name: "index_psm_file_variants_on_psm_file_id_and_variant_name", unique: true
+    t.index ["psm_file_id"], name: "index_psm_file_variants_on_psm_file_id"
+  end
+
+  create_table "psm_files", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "content_type", null: false
+    t.jsonb "metadata", null: false
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "permanent_storage_status", default: "pending", null: false
+    t.string "cdn_storage_status", default: "pending", null: false
+    t.index ["metadata"], name: "index_psm_files_on_metadata", using: :gin
+    t.index ["subject_type", "subject_id"], name: "index_psm_files_on_subject"
+  end
+
+  create_table "psm_permanent_files", force: :cascade do |t|
+    t.bigint "size_bytes", default: 0, null: false
+    t.string "status", default: "pending", null: false
+    t.bigint "psm_file_variant_id", null: false
+    t.bigint "external_account_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.text "archive_password_ciphertext", null: false
+    t.integer "upload_percentage", default: 0, null: false
+    t.string "external_file_name", null: false
+    t.index ["external_account_id"], name: "index_psm_permanent_files_on_external_account_id"
+    t.index ["psm_file_variant_id", "external_account_id"], name: "idx_psm_permanent_files_variant_to_external_account", unique: true
+    t.index ["psm_file_variant_id"], name: "index_psm_permanent_files_on_psm_file_variant_id"
+  end
+
   create_table "retry_requests", force: :cascade do |t|
     t.text "payload", default: "{}", null: false
     t.text "peer_ids", default: "[]", null: false
@@ -63,4 +145,11 @@ ActiveRecord::Schema.define(version: 2021_05_26_015542) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "psm_cdn_files", "external_accounts"
+  add_foreign_key "psm_cdn_files", "psm_file_variants"
+  add_foreign_key "psm_file_permanents", "external_accounts"
+  add_foreign_key "psm_file_permanents", "psm_file_variants"
+  add_foreign_key "psm_file_variants", "psm_files"
+  add_foreign_key "psm_permanent_files", "external_accounts"
+  add_foreign_key "psm_permanent_files", "psm_file_variants"
 end

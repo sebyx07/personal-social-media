@@ -39,3 +39,4 @@ yarn-debug.log*
 .build/.db
 .idea/
 .rakeTasks
+.env
