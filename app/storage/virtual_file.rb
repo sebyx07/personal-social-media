@@ -15,4 +15,7 @@ class VirtualFile
 
     @save_virtual_file = SaveVirtualFile.new(self, subject).call
   end
+
+  def download
+  end
 end
