@@ -14,7 +14,11 @@
     <%= render "page/responsive_navbar" %>
 
     <div class="flex flex-col justify-between min-h-screen">
-      <%= yield %>
+      <div>
+        <%= render(Page::WarningsComponent.new(action_name: action_name)) %>
+
+        <%= yield %>
+      </div>
 
       <%= render "page/responsive_footer" %>
     </div>

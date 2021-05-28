@@ -3,5 +3,13 @@
     display: none !important;
   }
 
+  .only-on-print{
+    display: block;
+  }
 }
+
+.only-on-print{
+  display: none;
+}
+
 @page { size: auto;  margin: 0; }

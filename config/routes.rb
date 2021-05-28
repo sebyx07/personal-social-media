@@ -5,7 +5,13 @@ Rails.application.routes.draw do
     Rails.application.routes.default_url_options[:host] = full_host if full_host.present?
   end
   root to: "home#index"
+
   get "/whoami", to: "profiles#whoami"
+
+  resource :profile, only: %i(edit update) do
+    get "/setup-recovery", action: :setup_recovery
+    post "/setup-recovery", action: :setup_recovery_post
+  end
 
   resources :peers, only: %i(index show create update destroy)
   resources :posts, only: %i(new create show update destroy edit)

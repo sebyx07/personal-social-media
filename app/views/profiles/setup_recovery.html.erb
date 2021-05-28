@@ -1,0 +1,91 @@
+<div>
+  <h1 class="text-gray-500 text-2xl text-center">Setup account recovery page</h1>
+
+  <div class="md:w-1/3 w-full mx-auto">
+    <%= form_with(url: setup_recovery_profile_path, scope: :profile, data: { controller: "profile--recovery-steps", action: "submit->profile--recovery-steps#finish" }) do |f| %>
+      <div class="text-lg bg-green-500 w-24 text-center text-white mx-auto my-3" data-profile--recovery-steps-target="stepCounter">Step 1</div>
+
+      <div data-profile--recovery-steps-target="step1">
+        <div>
+          Please read carefully the information below
+        </div>
+
+        <div data-controller="communication--element-to-picture" data-file-name="psm-login.png">
+          <div class="bg-white" data-communication--element-to-picture-target="imageContent">
+            <div class="text-center text-4xl text-red-500 hidden" data-profile--recovery-steps-target="warnings">
+              <div class="text-black my-4 font-bold">
+                PSM LOGIN password
+              </div>
+              <div>
+                WARNING, DO NOT SHARE!
+              </div>
+              <div>
+                WARNING, DO NOT SHARE!
+              </div>
+              <div>
+                WARNING, DO NOT SHARE!
+              </div>
+            </div>
+
+            <div
+              data-action="click->profile--recovery-steps#toggleWarnings click->profile--recovery-steps#enableContinue click->communication--element-to-picture#download">
+              <%= content_tag "canvas", "", class: "mx-auto", data: { qr_payload: @password, controller: "communication--qr-code" } %>
+            </div>
+
+            <div class="text-center text-4xl text-red-500 hidden" data-profile--recovery-steps-target="warnings">
+              <div>
+                WARNING, DO NOT SHARE!
+              </div>
+              <div>
+                WARNING, DO NOT SHARE!
+              </div>
+              <div>
+                WARNING, DO NOT SHARE!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div>
+            This QR code is the password required to be able to login,
+            <span class="underline">you must not share with anyone, please store it in a safe place</span>
+          </div>
+          <div>
+            Click on it, to download then press continue
+          </div>
+        </div>
+
+        <div>
+          <button class="w-full" disabled
+                  data-profile--recovery-steps-target="continue"
+                  data-action="click->profile--recovery-steps#continue">
+            Continue
+          </button>
+        </div>
+      </div>
+
+      <div data-profile--recovery-steps-target="step2" class="hidden">
+        <div class="mb-10">
+          Now we must confirm that you successfully saved the password picture
+        </div>
+
+        <input type="file"
+               data-profile--recovery-steps-target="confirmFileInputPassword"
+               data-action="change->profile--recovery-steps#validateValue"
+               data-check-validation="password"
+               class="hidden"
+               accept="image/x-png,image/jpeg"
+               data-correct-value="<%= @password %>">
+
+        <button class="w-full" data-action="click->profile--recovery-steps#openInput" data-input-value-el="confirmFileInputPassword" data-check-validation="password">
+          Click to upload the password picture to confirm
+        </button>
+
+        <div class="mt-20">
+          <%= f.submit "Finish", class: "w-full", disabled: true %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

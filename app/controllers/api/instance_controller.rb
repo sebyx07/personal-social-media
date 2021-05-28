@@ -3,7 +3,7 @@
 module Api
   class InstanceController < BaseController
     def whoami
-      @profile = Current.profile
+      @profile = Current.fresh_profile
     end
 
     def sync

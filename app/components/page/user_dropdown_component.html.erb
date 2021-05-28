@@ -22,5 +22,23 @@
         <i class="fas fa-sign-out-alt"></i> Logout
       <% end %>
     </div>
+
+    <% if DeveloperService::IsEnabled.is_enabled? %>
+      <div class="p-1">
+        Developer mode activated
+      </div>
+
+      <div class="mt-1 hover:bg-gray-100 p-1">
+        <%= link_to rails_admin_path, class: "text-gray-500 hover:text-gray-600", target: :_blank do %>
+          Rails Admin
+        <% end %>
+      </div>
+
+      <div class="mt-1 hover:bg-gray-100 p-1 rounded-b">
+        <%= link_to sidekiq_web_path, class: "text-gray-500 hover:text-gray-600", target: :_blank do %>
+          Sidekiq
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 </div>

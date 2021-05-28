@@ -4,16 +4,17 @@
 #
 # Table name: profiles
 #
-#  id              :bigint           not null, primary key
-#  email           :string           not null
-#  name            :string           not null
-#  nickname        :string           not null
-#  password_digest :string           not null
-#  password_plain  :string
-#  pk_ciphertext   :text             not null
-#  sk_ciphertext   :text             not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                         :bigint           not null, primary key
+#  backup_password_ciphertext :string           not null
+#  email                      :string           not null
+#  name                       :string           not null
+#  nickname                   :string           not null
+#  password_digest            :string           not null
+#  password_plain             :string
+#  pk_ciphertext              :text             not null
+#  sk_ciphertext              :text             not null
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
 #
 FactoryBot.define do
   factory :profile do

@@ -4,16 +4,17 @@
 #
 # Table name: profiles
 #
-#  id              :bigint           not null, primary key
-#  email           :string           not null
-#  name            :string           not null
-#  nickname        :string           not null
-#  password_digest :string           not null
-#  password_plain  :string
-#  pk_ciphertext   :text             not null
-#  sk_ciphertext   :text             not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
+#  id                         :bigint           not null, primary key
+#  backup_password_ciphertext :string           not null
+#  email                      :string           not null
+#  name                       :string           not null
+#  nickname                   :string           not null
+#  password_digest            :string           not null
+#  password_plain             :string
+#  pk_ciphertext              :text             not null
+#  sk_ciphertext              :text             not null
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
 #
 class Profile < ApplicationRecord
   attribute :installation_password, :string
@@ -29,6 +30,11 @@ class Profile < ApplicationRecord
   encrypts :sk, type: :binary
   validates :pk_ciphertext, presence: true
   before_validation :generate_signing_key, on: :create
+
+  encrypts :backup_password
+  validates :backup_password, presence: true
+  before_validation :generate_backup_password, on: :create
+
   after_create :generate_self_peer!
   after_commit :generate_settings, on: :create
 
@@ -74,6 +80,12 @@ class Profile < ApplicationRecord
     Setting.create!
   end
 
+  def generate_password!
+    generate_password
+    save!
+    self.reload
+  end
+
   private
     def generate_private_key
       self.pk ||= ProfilesService::CreateNewPrivateKey.new.call
@@ -84,8 +96,14 @@ class Profile < ApplicationRecord
     end
 
     def generate_password
-      self.password_plain = SecureRandom.urlsafe_base64(24)
-      self.password = password_plain
+      SecureRandom.urlsafe_base64(24).tap do |new_password|
+        self.password_plain = new_password
+        self.password = new_password
+      end
+    end
+
+    def generate_backup_password
+      self.backup_password = SecureRandom.hex(32)
     end
 
     def generate_self_peer

@@ -9,3 +9,9 @@ button:not(.default), input[type='submit']{
     @apply bg-gray-200 cursor-not-allowed text-gray-500;
   }
 }
+
+button, input[type='submit']{
+  &:focus{
+    @apply outline-none;
+  }
+}

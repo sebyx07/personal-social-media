@@ -1,0 +1,11 @@
+<% if show_anything? %>
+  <div class="mx-auto w-full md:w-1/3 rounded text-gray-600 bg-yellow-200">
+    <% warnings.each do |warning| %>
+      <div class="text-center my-1">
+        <%= link_to warning.display_url, class: warning.text_klass do %>
+          <i class="fas fa-exclamation-triangle"></i> <span class="underline"><%= warning.message %></span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

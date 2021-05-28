@@ -35,7 +35,7 @@ module SyncService
 
       def sync_body
         return @sync_body if defined? @sync_body
-        p = Current.profile
+        p = Current.fresh_profile
         @sync_body = {
           profile: {
             name: p.name,

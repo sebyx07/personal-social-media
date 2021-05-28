@@ -6,7 +6,12 @@ class Current
 
     def profile
       return @profile if defined? @profile
-      @profile = Profile.first
+      @profile = __first_profile
+    end
+
+    def fresh_profile
+      return profile if Rails.env.test?
+      __first_profile
     end
 
     def settings
@@ -20,6 +25,10 @@ class Current
 
     def __set_manually_settings(settings)
       @settings = settings
+    end
+
+    def __first_profile
+      Profile.first
     end
   end
 end
