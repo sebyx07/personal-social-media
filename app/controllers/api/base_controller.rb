@@ -2,7 +2,10 @@
 
 module Api
   class BaseController < ActionController::Base
-    attr_accessor :hook_into_current_peer if Rails.env.test?
+    if Rails.env.test?
+      attr_accessor :hook_into_current_peer
+      helper_method :hook_into_current_peer
+    end
 
     skip_before_action :verify_authenticity_token
     class InvalidParams < StandardError; end

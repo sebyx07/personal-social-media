@@ -3,15 +3,15 @@
 module RetryRequestsService
   class ExecuteRetryRequest
     attr_reader :retry_request, :request, :current_requests
-    delegate :peers, :url, :request_method, :payload, to: :retry_request
+    delegate :limited_peers, :url, :request_method, :payload, to: :retry_request
 
     def initialize(retry_request)
       @retry_request = retry_request
     end
 
     def call!
-      return if peers.blank?
-      return handle_single(peers.first) if peers.size == 1
+      return if limited_peers.blank?
+      return handle_single(limited_peers.first) if limited_peers.size == 1
       handle_multiple
     end
 
@@ -23,7 +23,7 @@ module RetryRequestsService
       end
 
       def handle_multiple
-        retry_request.batched_peer_ids.each do |peers|
+        retry_request.batched_peers.each do |peers|
           @current_requests = peers.map do |peer|
             build_request(peer)
           end

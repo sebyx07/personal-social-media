@@ -35,6 +35,8 @@ class Peer < ApplicationRecord
     fake
   ]
 
+  has_many :remote_posts, dependent: :destroy
+
   validates :name, allow_blank: true, length: { maximum: 50, minimum: 4 }
   validates :nickname, allow_blank: true, length: { maximum: 18, minimum: 4 }
   validates :email_hexdigest, allow_blank: true, length: { is: 32 }
@@ -50,11 +52,16 @@ class Peer < ApplicationRecord
   end
 
   def unfriendly?
-    PeersService::RelationshipStatus::UNFRIENDLY.include?(status)
+    (PeersService::RelationshipStatus::UNFRIENDLY & status).present?
+  end
+
+  def neutral?
+    !unfriendly?
   end
 
   def friendly?
-    !unfriendly?
+    return false if unfriendly?
+    (PeersService::RelationshipStatus::FRIENDLY & status).present?
   end
 
   def sync_from_whoami_remote!

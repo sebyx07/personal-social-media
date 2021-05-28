@@ -12,6 +12,7 @@ module RetryRequestsWorker
       retry_request.update!(status: :running)
 
       result = retry_request.execute
+      return if result.blank?
       return handle_success if result.valid?
       return handle_too_many_retries if retry_request.max_retries?
 

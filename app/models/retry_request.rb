@@ -35,11 +35,7 @@ class RetryRequest < ApplicationRecord
     RetryRequestsService::ExecuteRetryRequest.new(self).call!
   end
 
-  def peers
-    @peers ||= Peer.where(id: peer_ids)
-  end
-
-  def batched_peer_ids(batch_size: HttpService::ApiClientBatch::AR_BATCH_SIZE)
+  def batched_peers(batch_size: HttpService::ApiClientBatch::AR_BATCH_SIZE)
     peer_ids.in_groups_of(batch_size, false).each do |peer_ids|
       yield Peer.where(id: peer_ids)
     end
@@ -48,4 +44,25 @@ class RetryRequest < ApplicationRecord
   def max_retries?
     retries == max_retries
   end
+
+  def limited_peers
+    return @limited_peers if defined? @limited_peers
+    return @limited_peers = [] if peer_ids.blank?
+    if peer_ids.size == 1 && peer_ids[0] == "all"
+      @limited_peers = PeersService::RelationshipStatus.scope_for_sync(Peer).first(2)
+    elsif peer_ids.size == 1
+      @limited_peers = Peer.where(id: peer_ids)
+    else
+      @limited_peers = Peer.where(id: peer_ids).first(2)
+    end
+  end
+
+  private
+    def real_peer_ids
+      if peer_ids.size == 0 && peer_ids[0] == "all"
+        PeersService::RelationshipStatus.scope_for_sync(Peer).pluck(:id)
+      end
+
+      peer_ids
+    end
 end

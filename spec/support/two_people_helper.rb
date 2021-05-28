@@ -14,8 +14,8 @@ class TwoPeopleHelper
     def take_over!
       return if @take_over_already
       @take_over_already = true
-      @real_profile = Current.profile
-      @real_settings = Current.settings
+      real_profile
+      real_settings
 
       Current.__set_manually_profile(fake_profile)
 
@@ -38,8 +38,12 @@ class TwoPeopleHelper
       end
     end
 
-    def fake_peer
-      @fake_peer ||= fake_profile.send(:generate_self_peer!)
+    def real_profile
+      @real_profile ||= Current.profile
+    end
+
+    def real_settings
+      @real_settings ||= Current.settings
     end
   end
 end
@@ -67,7 +71,9 @@ RSpec.shared_examples "two people" do
 
   def other_peer
     return @other_peer if defined? @other_peer
-    @other_peer = other_profile.send(:generate_self_peer!)
+    @other_peer = other_profile.send(:generate_self_peer!).tap do |o_peer|
+      o_peer.update!(is_me: false)
+    end
   end
 
   def other_profile

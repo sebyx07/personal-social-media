@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "/whoami", to: "profiles#whoami"
 
   resources :peers, only: %i(index show create update destroy)
+  resources :posts, only: %i(new create show update destroy edit)
 
   namespace :sessions, path: "" do
     get "/login", action: :login
@@ -22,6 +23,16 @@ Rails.application.routes.draw do
       post "/whoami", action: :whoami
       post "/sync", action: :sync
       post "/update_relationship", action: :update_relationship
+    end
+
+    namespace :posts do
+      post "/", action: :index
+      post "/:id", action: :show
+    end
+
+    namespace :remote_posts do
+      post "/", action: :create
+      delete "/:id", action: :destroy
     end
   end
 

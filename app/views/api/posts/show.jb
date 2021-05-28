@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+encrypt_json do
+  {
+    post: PostPresenter.new(@post).render
+  }
+end

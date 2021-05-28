@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+encrypt_json do
+  {
+    posts: @posts.map { |p| PostPresenter.new(p).render }
+  }
+end

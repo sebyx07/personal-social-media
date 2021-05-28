@@ -16,7 +16,7 @@ module HttpService
       self
     end
 
-    def run_with_retry_in_background(max_retries = MAX_RETRIES)
+    def run_with_retry_in_background(max_retries: MAX_RETRIES)
       RetryRequest.create!(
         payload: body, url: url, peer_ids: [peer.id],
         request_method: method, max_retries: max_retries,

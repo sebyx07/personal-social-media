@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_26_211737) do
+ActiveRecord::Schema.define(version: 2021_05_27_153036) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,13 @@ ActiveRecord::Schema.define(version: 2021_05_26_211737) do
     t.index ["public_key"], name: "index_peers_on_public_key"
     t.index ["status_mask"], name: "index_peers_on_status_mask"
     t.index ["verify_key"], name: "index_peers_on_verify_key"
+  end
+
+  create_table "posts", force: :cascade do |t|
+    t.text "content"
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -127,6 +134,15 @@ ActiveRecord::Schema.define(version: 2021_05_26_211737) do
     t.index ["psm_file_variant_id"], name: "index_psm_permanent_files_on_psm_file_variant_id"
   end
 
+  create_table "remote_posts", force: :cascade do |t|
+    t.bigint "remote_post_id", null: false
+    t.bigint "peer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["peer_id"], name: "index_remote_posts_on_peer_id"
+    t.index ["remote_post_id", "peer_id"], name: "index_remote_posts_on_remote_post_id_and_peer_id", unique: true
+  end
+
   create_table "retry_requests", force: :cascade do |t|
     t.text "payload", default: "{}", null: false
     t.text "peer_ids", default: "[]", null: false
@@ -152,4 +168,5 @@ ActiveRecord::Schema.define(version: 2021_05_26_211737) do
   add_foreign_key "psm_file_variants", "psm_files"
   add_foreign_key "psm_permanent_files", "external_accounts"
   add_foreign_key "psm_permanent_files", "psm_file_variants"
+  add_foreign_key "remote_posts", "peers"
 end
