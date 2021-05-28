@@ -14,7 +14,7 @@ RSpec.describe ExternalAccount do
       create(:external_account, :mega_upload)
     end
 
-    it "bootstraps the account", vcr: { record: :once, match_requests_on: [] } do
+    it "bootstraps the account", vcr: { record: :once, match_requests_on: [] }, skip: ENV["MEGA_UPLOAD_EMAIL"].blank? do
       subject.start_bootstrap
     end
   end

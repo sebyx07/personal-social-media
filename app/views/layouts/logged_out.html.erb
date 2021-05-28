@@ -11,6 +11,10 @@
   </head>
 
   <body>
-    <%= yield %>
+    <div class="flex flex-col justify-between min-h-screen">
+      <%= yield %>
+
+      <%= render "page/responsive_footer" %>
+    </div>
   </body>
 </html>

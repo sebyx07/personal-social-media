@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
   skip_before_action :require_current_user, except: :logout
   before_action :check_if_already_registered, only: %i(register register_post)
   before_action :check_if_already_logged_in, only: %i(login login_post)
+  before_action :verify_hcaptcha_filter, only: %i(register_post login_post)
 
   def register
     @profile ||= Profile.new
@@ -13,7 +14,7 @@ class SessionsController < ApplicationController
   end
 
   def register_post
-    permitted_params = params.require(:profile).permit(:installation_password, :name, :nickname, :email, "h-captcha-response")
+    permitted_params = params.require(:profile).permit(:installation_password, :name, :nickname, :email)
 
     @profile = Profile.new(permitted_params)
     @profile.save!

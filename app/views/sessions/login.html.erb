@@ -1,0 +1,15 @@
+<div class="flex py-4">
+  <%= form_with url: sessions_login_path, class: "mx-auto w-full md:w-1/3", id: "login-form", scope: :login do |f| %>
+    <div data-controller="forms--password-preview">
+      <%= f.label :password %>
+      <span class="input-icon cursor-pointer" data-action="click->forms--password-preview#toggle">👀</span>
+      <%= f.password_field :password, required: true, minlength: 32, maxlength: 32, data: { "forms--password-preview-target": "input" }, class: "with-icon" %>
+    </div>
+
+    <div class="flex justify-center">
+      <%= safe_hcaptcha_tags(theme: :light) %>
+    </div>
+
+    <%= f.submit "Login", class: "w-full mt-4" %>
+  <% end %>
+</div>
