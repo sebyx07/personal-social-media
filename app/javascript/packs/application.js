@@ -1,5 +1,6 @@
 import '../stylesheets/main.scss';
 require('typeface-roboto');
+import '@fortawesome/fontawesome-free/css/all.css';
 
 import 'channels';
 import * as ActiveStorage from '@rails/activestorage';

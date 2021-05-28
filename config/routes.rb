@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
     get "/register", action: :register
     post "/register", action: :register_post
+
+    delete "/logout", action: :logout
   end
 
   namespace :api, defaults: { format: :json } do

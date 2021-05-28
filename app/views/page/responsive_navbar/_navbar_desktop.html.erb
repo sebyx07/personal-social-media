@@ -1,0 +1,13 @@
+<div class="bg-indigo-700 w-full h-14 flex items-center justify-between fixed">
+  <div class="ml-4">
+    <%= link_to "Personal Social Media", root_path, class: "text-white text-2xl hover:text-gray-200" %>
+  </div>
+
+  <div class="flex justify-end mr-4">
+    <div class="relative">
+      <%= render Page::UserDropdownComponent.new(current_user: current_user, width: "w-64") %>
+    </div>
+  </div>
+</div>
+<div class="h-16">
+</div>

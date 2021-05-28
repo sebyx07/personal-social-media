@@ -40,7 +40,7 @@ class SessionsController < ApplicationController
 
   def logout
     session[:password_digest] = nil
-    redirect_to :login
+    redirect_to sessions_login_path
   end
 
   private

@@ -1,0 +1,26 @@
+<div data-controller="page--dropdown">
+  <button class="default outline-none" data-action="click->page--dropdown#toggleOpen">
+    <i class="far fa-user fa-2x text-white hover:text-gray-200"></i>
+  </button>
+
+  <%= content_tag :div, data: { "page--dropdown-target": :dropdown },
+                  class: "hidden absolute bg-white right-0 rounded-b border border-solid border-gray-200 #{width} text-right" do %>
+    <div class="mb-1 hover:bg-gray-100 p-1">
+      <%= link_to whoami_path, class: "text-gray-500 hover:text-gray-600" do %>
+        <i class="fas fa-id-card"></i> Share profile
+      <% end %>
+    </div>
+
+    <div class="my-1 hover:bg-gray-100 p-1">
+      <%= link_to peer_path(Current.peer), class: "text-gray-500 hover:text-gray-600" do %>
+        <i class="far fa-user"></i> My page
+      <% end %>
+    </div>
+
+    <div class="mt-1 hover:bg-gray-100 p-1 rounded-b">
+      <%= link_to sessions_logout_path, class: "text-gray-500 hover:text-gray-600", method: :delete do %>
+        <i class="fas fa-sign-out-alt"></i> Logout
+      <% end %>
+    </div>
+  <% end %>
+</div>

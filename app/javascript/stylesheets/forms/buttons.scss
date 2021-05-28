@@ -1,4 +1,4 @@
-button, input[type='submit']{
+button:not(.default), input[type='submit']{
   @apply bg-indigo-500 text-white font-bold px-2 py-3 shadow-inner text-center cursor-pointer rounded;
 
   &:hover{

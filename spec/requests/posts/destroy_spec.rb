@@ -24,7 +24,7 @@ RSpec.describe "DELETE /posts/:id" do
     delete "/posts/#{my_post.id}"
   end
 
-  it "creates a new post" do
+  it "destroys a post" do
     expect_any_instance_of(Post).to receive(:propagate_to_peers).and_return(true)
     remote_post
 
