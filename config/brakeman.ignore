@@ -1,0 +1,46 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "303660536980317e0fa2dabcb98ed3ffa7b9b87e8744181f97dd1f759d31dceb",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/services/archive_service/protected_archive.rb",
+      "line": 38,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"7z e #{archive.path} -o'#{new_file_dir_name}' -p#{password} > /dev/null\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ArchiveService::ProtectedArchive",
+        "method": "extract_archive"
+      },
+      "user_input": "archive.path",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "81ab3ab4396df2247f3fa69f70623a633b85bc4612983dabd65e40dff837d82f",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/services/archive_service/protected_archive.rb",
+      "line": 28,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "system(\"7za a #{new_archive_path} #{file.path} -tzip -mem=AES256 -mx9 -p#{password} > /dev/null\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ArchiveService::ProtectedArchive",
+        "method": "generate_archive"
+      },
+      "user_input": "new_archive_path",
+      "confidence": "Medium",
+      "note": ""
+    }
+  ],
+  "updated": "2021-05-28 02:26:29 +0000",
+  "brakeman_version": "5.0.1"
+}
