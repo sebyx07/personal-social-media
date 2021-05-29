@@ -125,4 +125,5 @@ jobs:
           CI: TRUE
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
+          bundle exec rake assets:precompile
           bundle exec rspec
