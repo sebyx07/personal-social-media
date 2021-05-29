@@ -27,6 +27,12 @@ class SessionsController < ApplicationController
     render :register
   end
 
+  def login
+    return unless Rails.env.development?
+
+    @dev_password = Current.profile.password_plain
+  end
+
   def login_post
     password = params.require(:login).permit(:password)[:password]
 

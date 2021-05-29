@@ -1,15 +1,27 @@
 <div class="flex py-4">
-  <%= form_with url: sessions_login_path, class: "mx-auto w-full md:w-1/3", id: "login-form", scope: :login do |f| %>
-    <div data-controller="forms--password-preview">
-      <%= f.label :password %>
-      <span class="input-icon cursor-pointer" data-action="click->forms--password-preview#toggle">👀</span>
-      <%= f.password_field :password, required: true, minlength: 32, maxlength: 32, data: { "forms--password-preview-target": "input" }, class: "with-icon" %>
+  <div data-controller="profile--login" class="mx-auto w-full md:w-1/3">
+    <div class="text-2xl text-center my-8">
+      Welcome back
     </div>
 
-    <div class="flex justify-center">
-      <%= safe_hcaptcha_tags(theme: :light) %>
-    </div>
+    <input type="file"
+           data-profile--login-target="inputFile"
+           data-action="change->profile--login#fileSelected"
+           class="hidden"
+           accept="image/x-png,image/jpeg">
 
-    <%= f.submit "Login", class: "w-full mt-4" %>
-  <% end %>
+    <%= form_with url: sessions_login_path, id: "login-form", scope: :login, data: { action: "submit->profile--login#submit", "profile--login-target": "form" } do |f| %>
+      <div data-controller="forms--password-preview" class="hidden">
+        <%= f.label :password %>
+        <span class="input-icon cursor-pointer" data-action="click->forms--password-preview#toggle">👀</span>
+        <%= f.password_field :password, value: @dev_password, data: { "profile--login-target": "inputPassword" }, class: "with-icon" %>
+      </div>
+
+      <div class="flex justify-center">
+        <%= safe_hcaptcha_tags(theme: :light) %>
+      </div>
+
+      <%= f.submit "Login with QR code", class: "w-full mt-4", data: { "profile--login-target": :submit }, disabled: Rails.env.production? %>
+    <% end %>
+  </div>
 </div>
