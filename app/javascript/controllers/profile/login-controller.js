@@ -23,7 +23,7 @@ export default class extends Controller {
     e.stopPropagation();
     this.inputFileTarget.click();
   }
-  
+
   async fileSelected(e) {
     const {target} = e;
     const file = target.files[0];
