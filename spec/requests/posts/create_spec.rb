@@ -19,6 +19,7 @@ RSpec.describe "POST /posts" do
   end
 
   before do
+    expect(::Post).to receive(:allow_propagate_to_remote?).and_return(true)
     other_peer.status = %i(friend)
     other_peer.save!
     setup_external_me

@@ -15,17 +15,19 @@ RSpec.describe "DELETE /posts/:id" do
   end
 
   before do
+    expect_any_instance_of(Post).to receive(:create_self_remote_post).and_return(true)
+
     other_peer.status = %i(friend)
     other_peer.save!
     setup_external_me
   end
 
   subject do
+    expect(Post).to receive(:allow_propagate_to_remote?).and_return(true)
     delete "/posts/#{my_post.id}"
   end
 
   it "destroys a post" do
-    expect_any_instance_of(Post).to receive(:propagate_to_peers).and_return(true)
     remote_post
 
     expect do
