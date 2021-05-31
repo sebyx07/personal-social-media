@@ -115,6 +115,16 @@ jobs:
           DEV_PG_PASSWORD: 1234
         run: |
           bundle exec rails db:setup
+      - name: Precompile assets
+        env:
+          RAILS_ENV: test
+          DEV_PG_HOST: localhost
+          DEV_PG_USER: myapp
+          DEV_PG_PASSWORD: 1234
+          CI: TRUE
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          bundle exec rake assets:precompile
 
       - name: Run tests
         env:
@@ -125,5 +135,4 @@ jobs:
           CI: TRUE
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
-          bundle exec rake assets:precompile
           bundle exec rspec
