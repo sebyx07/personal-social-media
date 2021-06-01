@@ -19,7 +19,7 @@ module PaginationService
 
     def apply_pagination_cursor
       return query if pagination_params.blank?
-      @query = query.where("id < ?", params[:pagination][:from])
+      @query = query.where("id < ?", params[:pagination][:from]).order(id: :desc)
     end
 
     def apply_pagination

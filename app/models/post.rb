@@ -41,6 +41,6 @@ class Post < ApplicationRecord
     end
 
     def create_self_remote_post
-      RemotePost.create(peer: Current.peer, remote_post_id: id)
+      RemotePost.safe_create!(peer: Current.peer, remote_post_id: id)
     end
 end

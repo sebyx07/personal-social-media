@@ -22,5 +22,13 @@
 class RemotePost < ApplicationRecord
   belongs_to :peer
 
-  validates :remote_post_id, uniqueness: { scope: :peer_id }
+  validates :remote_post_id, presence: true, uniqueness: { scope: :peer_id }
+
+  class << self
+    def safe_create!(*options)
+      return create!(options) unless Rails.env.test?
+
+      create(*options)
+    end
+  end
 end
