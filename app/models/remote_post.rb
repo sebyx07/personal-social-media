@@ -28,7 +28,8 @@ class RemotePost < ApplicationRecord
     def safe_create!(*options)
       return create!(options) unless Rails.env.test?
 
-      create(*options)
+      record = new(*options)
+      record.save if record.valid?
     end
   end
 end
