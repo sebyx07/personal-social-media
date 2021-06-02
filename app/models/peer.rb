@@ -71,7 +71,7 @@ class Peer < ApplicationRecord
   end
 
   def api_url(url)
-    PeersService::BuildApiUrl.new(self).call + url
+    PeersService::BuildApiUrl.new(self).call(url)
   end
 
   def server_not_seen_recently?

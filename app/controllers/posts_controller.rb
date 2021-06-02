@@ -26,7 +26,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.create!(create_post_params)
+    @post = Post.create!(create_post_params.merge(status: :ready)) # TODO REMOTE STATUS READY
     flash_success("Post created")
 
     redirect_to_post_unless_ready
