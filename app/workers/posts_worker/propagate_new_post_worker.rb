@@ -17,7 +17,8 @@ module PostsWorker
       return @template_request if defined? @template_request
       body = {
         post: {
-          id: post.id
+          id: post.id,
+          post_type: post.post_type
         }
       }
 

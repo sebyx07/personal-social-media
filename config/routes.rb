@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
 
   resources :peers, only: %i(index show create update destroy)
-  resources :posts, only: %i(new create show update destroy edit)
+  resources :posts, only: %i(index new create show update destroy edit)
 
   namespace :sessions, path: "" do
     get "/login", action: :login

@@ -5,10 +5,11 @@ module VirtualPostsService
     class Error < StandardError; end
     DEFAULT_LIMIT = 15
 
-    attr_reader :pagination_params, :peer_id
-    def initialize(pagination_params, peer_id: nil)
+    attr_reader :pagination_params, :peer_id, :post_type
+    def initialize(pagination_params, post_type: :standard, peer_id: nil)
       @pagination_params = pagination_params
       @peer_id = peer_id
+      @post_type = post_type
     end
 
     def results
@@ -35,16 +36,16 @@ module VirtualPostsService
       end
 
       def handle_mix
-        requests = RemoteFinder.new(pagination_params: pagination_params).requests
+        requests = RemoteFinder.new(pagination_params: pagination_params, post_type: post_type).requests
         handle_remote_requests(requests)
       end
 
       def handle_for_peer_id
         if peer_id == Current.peer.id
-          posts = LocalFinder.new(pagination_params: pagination_params).posts
+          posts = LocalFinder.new(pagination_params: pagination_params, post_type: post_type).posts
           handle_local_posts(posts)
         else
-          requests = RemoteFinder.new(pagination_params: pagination_params, peer_id: peer_id).requests
+          requests = RemoteFinder.new(pagination_params: pagination_params, post_type: post_type, peer_id: peer_id).requests
           handle_remote_requests(requests)
         end
       end

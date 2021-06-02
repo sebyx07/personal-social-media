@@ -5,6 +5,7 @@
 # Table name: remote_posts
 #
 #  id             :bigint           not null, primary key
+#  post_type      :string           default("standard"), not null
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  peer_id        :bigint           not null
@@ -23,13 +24,6 @@ class RemotePost < ApplicationRecord
   belongs_to :peer
 
   validates :remote_post_id, presence: true, uniqueness: { scope: :peer_id }
-
-  class << self
-    def safe_create!(*options)
-      return create!(options) unless Rails.env.test?
-
-      record = new(*options)
-      record.save if record.valid?
-    end
-  end
+  validates :post_type, presence: true
+  str_enum :post_type, %i(standard)
 end

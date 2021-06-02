@@ -6,17 +6,16 @@ RSpec.describe PeersWorker::SyncRegularly, type: :request do
   include_context "two people"
 
   before do
-    other_peer.status << :friend
-    other_peer.save!
+    setup_my_peer(statuses: :friend)
+    setup_other_peer(statuses: :friend)
   end
 
   subject do
     described_class.perform_async
   end
 
-  xit "syncs the peer" do
+  it "syncs the peer" do
     subject
-    expect(Peer.count).to eq(2)
 
     Peer.all.each do |p|
       expect(p.server_last_seen_at).to be_present

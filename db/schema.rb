@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_28_135534) do
+ActiveRecord::Schema.define(version: 2021_06_02_023828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 2021_05_28_135534) do
     t.string "status", default: "pending", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "post_type", default: "standard", null: false
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -140,6 +141,7 @@ ActiveRecord::Schema.define(version: 2021_05_28_135534) do
     t.bigint "peer_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "post_type", default: "standard", null: false
     t.index ["peer_id"], name: "index_remote_posts_on_peer_id"
     t.index ["remote_post_id", "peer_id"], name: "index_remote_posts_on_remote_post_id_and_peer_id", unique: true
   end

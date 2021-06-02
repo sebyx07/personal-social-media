@@ -7,7 +7,7 @@ RSpec.describe "POST /api/remote_posts" do
   let(:profile) { Current.profile }
   let(:params) do
     {
-      post: { id: 4 }
+      post: { id: 4, post_type: :standard }
     }
   end
 

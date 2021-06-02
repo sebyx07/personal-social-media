@@ -7,7 +7,10 @@ module Api
 
     def create
       return @post = current_post if current_post.present?
-      @post = RemotePost.find_or_create_by!(create_params)
+      @post = RemotePost.find_or_create_by!(create_params.slice(:remote_post_id, :peer)).tap do |r_post|
+        r_post.post_type = create_params[:post_type]
+        r_post.save!
+      end
 
       render json: encrypt_json({ ok: true })
     end
@@ -31,9 +34,10 @@ module Api
       end
 
       def create_params
-        {
+        @create_params ||= {
           remote_post_id: decrypted_params[:post][:id],
-          peer: current_peer
+          peer: current_peer,
+          post_type: decrypted_params[:post][:post_type]
         }
       end
   end

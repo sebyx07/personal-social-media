@@ -7,6 +7,17 @@ class PostsController < ApplicationController
     @post = Post.new
   end
 
+  def index
+    index_params = params.permit(:post_type, :peer_id, pagination: :from)
+    @virtual_posts = VirtualPost.where(
+      pagination_params: index_params,
+      post_type: index_params[:post_type],
+      peer_id: index_params[:peer_id]
+    )
+
+    render :async_posts, layout: false
+  end
+
   def create
     @post = Post.create!(create_post_params)
     flash_success("Post created")

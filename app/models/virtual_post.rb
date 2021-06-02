@@ -1,16 +1,24 @@
 # frozen_string_literal: true
 
 class VirtualPost
-  attr_reader :post, :request, :peer
+  PERMITTED_DELEGATED_METHODS = %i(created_at)
+
+  attr_reader :post, :request
   def initialize(post: nil, request: nil, peer:)
-    @post = post
-    @request = request
-    @peer = peer
+    if post.present?
+      @post = post
+      @presenter = VirtualPost::PresenterForPost.new(post, peer)
+    elsif request.present?
+      @request = request
+      @presenter = VirtualPost::PresenterForRequest.new(request, peer)
+    end
   end
 
+  delegate(*PERMITTED_DELEGATED_METHODS, to: :@presenter)
+
   class << self
-    def where(pagination_params: nil, peer_id: nil)
-      VirtualPostsService::WhereFinder.new(pagination_params, peer_id: peer_id).results
+    def where(pagination_params: nil, post_type:, peer_id: nil)
+      VirtualPostsService::WhereFinder.new(pagination_params, post_type: post_type, peer_id: peer_id).results
     end
   end
 end

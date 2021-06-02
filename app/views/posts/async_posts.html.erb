@@ -1,0 +1,7 @@
+<%= @virtual_posts.size %>
+
+<% @virtual_posts.each do |v_post| %>
+  <div>
+    <%= v_post.created_at %>
+  </div>
+<% end %>

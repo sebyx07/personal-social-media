@@ -5,7 +5,7 @@ module PaginationService
     attr_reader :scope, :query, :pagination_params, :limit
     def initialize(scope:, params:, limit:)
       @scope = scope
-      @pagination_params = params.permit(pagination: :from)
+      @pagination_params = permitted_params(params)
       @limit = limit
     end
 
@@ -24,6 +24,14 @@ module PaginationService
 
     def apply_pagination
       @query = query.limit(limit)
+    end
+
+    def permitted_params(params)
+      return params.with_indifferent_access if params.is_a?(Hash)
+
+      return params.permit(pagination: :from) if params.is_a?(ActionController::Parameters)
+
+      params
     end
   end
 end

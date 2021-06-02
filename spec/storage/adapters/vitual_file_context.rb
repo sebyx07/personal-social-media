@@ -21,7 +21,7 @@ RSpec.shared_examples "virtual file management" do
       VirtualFile.new(original_physical_file: file).save!(record)
     end
 
-    xit "uploads file", vcr: { record: :once, match_requests_on: [] } do
+    it "uploads file", vcr: { record: :once, match_requests_on: [] } do
       subject
     end
   end
