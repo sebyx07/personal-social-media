@@ -16,7 +16,7 @@ module RetryRequestsWorker
       return handle_success if result.valid?
       return handle_too_many_retries if retry_request.max_retries?
 
-      handle_retry
+      handle_retry(result)
     end
 
     private
@@ -30,7 +30,7 @@ module RetryRequestsWorker
         retry_request.save!
       end
 
-      def handle_retry
+      def handle_retry(result)
         retry_request.increment(:retries)
         retry_request.peer_ids = result.failed_peer_ids
         retry_request.save!

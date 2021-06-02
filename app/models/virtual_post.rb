@@ -10,7 +10,7 @@ class VirtualPost
 
   class << self
     def where(pagination_params: nil, peer_id: nil)
-      VirtualPostsService::WhereFinder.new(pagination_params, peer_id).results
+      VirtualPostsService::WhereFinder.new(pagination_params, peer_id: peer_id).results
     end
   end
 end

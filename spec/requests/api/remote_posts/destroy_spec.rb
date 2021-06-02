@@ -19,7 +19,7 @@ RSpec.describe "DELETE /api/remote_posts/:id" do
 
     expect do
       subject
-    end.to change { RemotePost.count }.to(0)
+    end.to change { RemotePost.count }.by(-1)
 
     expect(response).to have_http_status(:ok)
     expect(json[:ok]).to be_present

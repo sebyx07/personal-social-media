@@ -9,31 +9,25 @@ RSpec.describe "PUT /peers/:id" do
   let(:headers) { { "accept": "application/json" } }
   let(:params) { { peer: { relationship: :full_block_by_me } } }
   let(:url) { "/peers/#{other_peer.id}" }
-  let(:current_peer) { Peer.first }
-  let(:external_peer) { Peer.last }
-  let(:setup_external_me) do
-    expect_any_instance_of(Api::BaseController).to receive(:hook_into_current_peer).and_return ->(peer) do
-      peer.update!(status: %i(friend))
-    end
-  end
 
   context "full_block_by_me" do
     before do
-      other_peer.status = %i(friend)
-      other_peer.save!
-      setup_external_me
+      setup_my_peer(statuses: :friend)
+      setup_other_peer(statuses: :friend)
     end
 
     subject do
       put url, params: params, headers: headers
+      other_peer.reload
+      my_peer.reload
     end
 
-    it "blocks the friendship" do
+    it "blocks the friendship, from other_peer peers perspective" do
       subject
       expect(response).to have_http_status(:ok)
 
-      expect(current_peer.status).to match_array(%i(friend full_block_by_me))
-      expect(external_peer.status).to match_array(%i(friend full_block_by_external))
+      expect(reverse_my_peer.status).to include(:full_block_by_me)
+      expect(reverse_other_peer.status).to include(:full_block_by_external)
     end
   end
 end

@@ -8,19 +8,13 @@ RSpec.describe "DELETE /peers/:id" do
 
   let(:url) { "/peers/#{other_peer.id}" }
   let(:headers) { { "accept": "application/json" } }
-  let(:current_peer) { Peer.first }
-  let(:external_peer) { Peer.last }
-  let(:setup_external_me) do
-    expect_any_instance_of(Api::BaseController).to receive(:hook_into_current_peer).and_return ->(peer) do
-      peer.update!(status: %i(friend))
-    end
-  end
 
   context "unfriend" do
     before do
-      other_peer.status = %i(friend)
-      other_peer.save!
-      setup_external_me
+      expect_any_instance_of(ApiService::Peers::UpdateRelationship).to receive(:destroy_peer).and_return true
+      expect_any_instance_of(PeersService::Relationships::Unfriend).to receive(:update_peer!).and_return true
+      setup_my_peer(statuses: :friend)
+      setup_other_peer(statuses: :friend)
     end
 
     subject do
@@ -29,10 +23,8 @@ RSpec.describe "DELETE /peers/:id" do
 
     it "destroys the friendship" do
       subject
-      expect(response).to have_http_status(:ok)
 
-      expect(current_peer).to be_blank
-      expect(external_peer).to be_blank
+      expect(response).to have_http_status(:ok)
     end
   end
 end

@@ -7,10 +7,9 @@ RSpec.describe "POST /peers" do
   include_context "two people"
 
   let(:url) { "/peers" }
-  let(:last_peer) { Peer.last }
   let(:parsed_message) { JSON.parse!(qr_code_body["message"]) }
   let(:qr_code_body) do
-    TwoPeopleHelper.take_over_wrap! do
+    take_over_wrap! do
       ProfilesService::ShareableQrCode.new.call
     end.as_json
   end
@@ -20,13 +19,13 @@ RSpec.describe "POST /peers" do
   end
 
   it "creates a new peer" do
-    subject
+    expect do
+      subject
+    end.to change { Peer.count }
 
     expect(response).to have_http_status(:ok)
-
-    expect(Peer.count).to eq(2)
-    expect(last_peer.name).to eq(parsed_message["name"])
-
     expect(raw_json[:peer]).to be_present
+
+    expect(other_peer.name).to eq(parsed_message["name"])
   end
 end

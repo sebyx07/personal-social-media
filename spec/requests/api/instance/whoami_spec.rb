@@ -12,7 +12,7 @@ RSpec.describe "POST /api/instance/whoami" do
   it "returns whoami of server and saves peer" do
     expect do
       subject
-    end.to change { Peer.count }.to(1)
+    end.to change { Peer.count }.by(1)
 
     expect(response).to have_http_status(:ok)
     expect(json[:profile][:name]).to be_present

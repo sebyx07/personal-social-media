@@ -1,34 +1,24 @@
 # frozen_string_literal: true
 
 class Current
+  class_attribute :fetch_profile_proc, :fetch_settings_proc if Rails.env.test?
   class << self
     delegate :peer, to: :profile
 
     def profile
-      return @profile if defined? @profile
-      @profile = __first_profile
-    end
+      if Rails.env.test? && fetch_profile_proc.present?
+        return fetch_profile_proc.call
+      end
 
-    def fresh_profile
-      return profile if Rails.env.test?
-      __first_profile
+      RequestStore.store[:current_profile] ||= Profile.first
     end
 
     def settings
-      return @settings if defined? @settings
-      @settings = Setting.first
-    end
+      if Rails.env.test? && fetch_settings_proc.present?
+        return fetch_settings_proc.call
+      end
 
-    def __set_manually_profile(profile)
-      @profile = profile
-    end
-
-    def __set_manually_settings(settings)
-      @settings = settings
-    end
-
-    def __first_profile
-      Profile.first
+      RequestStore.store[:current_settings] ||= Setting.first
     end
   end
 end

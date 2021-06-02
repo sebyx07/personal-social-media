@@ -31,12 +31,6 @@ module ApiHelper
   def current_peer
     return @current_peer if defined? @current_peer
     @current_peer = PeersService::ControllerFindCurrent.new(params[:public_key], params[:domain_name]).call!
-
-    return @current_peer unless Rails.env.test?
-
-    @current_peer.tap do |peer|
-      hook_into_current_peer&.call(peer)
-    end
   end
 
   def encrypt_json(json = nil)

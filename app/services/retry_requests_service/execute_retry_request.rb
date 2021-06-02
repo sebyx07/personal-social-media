@@ -23,7 +23,7 @@ module RetryRequestsService
       end
 
       def handle_multiple
-        retry_request.batched_peers.each do |peers|
+        retry_request.batched_peers do |peers|
           @current_requests = peers.map do |peer|
             build_request(peer)
           end
@@ -76,7 +76,7 @@ module RetryRequestsService
       end
 
       def assign_peer_ids
-        multiple_result.failed_peer_ids = failed_peer_ids
+        multiple_result.failed_peer_ids = @failed_peer_ids
       end
   end
 end

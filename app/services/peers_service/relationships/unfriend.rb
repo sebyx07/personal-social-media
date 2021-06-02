@@ -24,7 +24,7 @@ module PeersService
           request.run
 
           if !request.valid? && request.safe_retry?
-            raise RequestError, "Cannot unfriend"
+            raise UpdatePeerRelationship::RequestError, "Cannot unfriend"
           end
         end
     end

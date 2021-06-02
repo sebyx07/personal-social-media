@@ -2,10 +2,10 @@
 
 module VirtualPostsService
   class RemoteFinder
-    attr_reader :pagination_params, :post_ids
-    def initialize(pagination_params: nil, post_ids: nil)
+    attr_reader :pagination_params, :peer_id
+    def initialize(pagination_params: nil, peer_id: nil)
       @pagination_params = pagination_params
-      @post_ids = post_ids
+      @peer_id = peer_id
     end
 
     def requests
@@ -28,8 +28,8 @@ module VirtualPostsService
         return @query if defined? @query
 
         @query = RemotePost.includes(:peer).order(id: :desc)
-        if post_ids.present?
-          @query = query.where(post_ids: post_ids)
+        if peer_id.present?
+          @query = @query.where(peer_id: peer_id)
         end
 
         @query

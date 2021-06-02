@@ -25,7 +25,7 @@ module PeersService
           request.run
 
           if !request.valid? && request.safe_retry?
-            raise RequestError, "Cannot accept friendship"
+            raise UpdatePeerRelationship::RequestError, "Cannot accept friendship"
           end
         end
     end

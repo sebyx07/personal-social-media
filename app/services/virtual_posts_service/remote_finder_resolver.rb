@@ -15,11 +15,11 @@ module VirtualPostsService
     end
 
     def resolve_all
-      remote_posts.map do |remote_post|
-        next remote_post.api_client_request if remote_post.is_remote_peer?
+      remote_posts.map do |remote_post_requests|
+        next remote_post_requests.api_client_request if remote_post_requests.is_remote_peer?
 
-        remote_post.local_post = real_local_posts.find do |post|
-          post.id == remote_post.remote_post_id
+        remote_post_requests.local_post = real_local_posts.find do |post|
+          post.id == remote_post_requests.remote_post.remote_post_id
         end
       end
     end

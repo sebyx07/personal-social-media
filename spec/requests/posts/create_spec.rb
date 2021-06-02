@@ -9,20 +9,12 @@ RSpec.describe "POST /posts" do
 
   let(:params) { { post: { content: example_post.content, status: :ready } } }
 
-  let(:current_peer) { Peer.first }
-  let(:external_peer) { Peer.last }
-
-  let(:setup_external_me) do
-    expect_any_instance_of(Api::BaseController).to receive(:hook_into_current_peer).and_return ->(peer) do
-      peer.update!(status: %i(friend))
-    end
-  end
-
   before do
-    expect(::Post).to receive(:allow_propagate_to_remote?).and_return(true)
-    other_peer.status = %i(friend)
-    other_peer.save!
-    setup_external_me
+    expect_any_instance_of(Post).to receive(:create_self_remote_post).and_return(true)
+    expect(Post).to receive(:allow_propagate_to_remote?).and_return(true)
+
+    setup_my_peer(statuses: :friend)
+    setup_other_peer(statuses: :friend)
   end
 
   subject do
@@ -32,8 +24,7 @@ RSpec.describe "POST /posts" do
   it "creates a new post" do
     expect do
       subject
-    end.to change { Post.count }.to(1)
-      .and change { RemotePost.count }.to(1)
+    end.to change { Post.count }.by(1)
 
     expect(response).to have_http_status(:redirect)
   end

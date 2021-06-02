@@ -2,8 +2,11 @@
 
 module Api
   class InstanceController < BaseController
+    skip_before_action :require_current_peer, only: :update_relationship
+    before_action :require_current_peer_even_blocked_by_me, only: :update_relationship
+
     def whoami
-      @profile = Current.fresh_profile
+      @profile = Current.profile
     end
 
     def sync
@@ -24,6 +27,16 @@ module Api
 
     def sync_params
       decrypted_params[:profile]&.slice(:name, :nickname, :domain_name, :email_hexdigest)
+    end
+
+    def require_current_peer_even_blocked_by_me
+      render json: { error: "you are unfriendly" }, status: 422 unless current_peer_even_blocked_by_me
+    end
+
+    def current_peer_even_blocked_by_me
+      return @current_peer_even_blocked_by_me if defined? @current_peer_even_blocked_by_me
+      @current_peer_even_blocked_by_me = PeersService::ControllerFindCurrent.new(params[:public_key], params[:domain_name]).any_peer_call!
+      @current_peer = @current_peer_even_blocked_by_me
     end
   end
 end

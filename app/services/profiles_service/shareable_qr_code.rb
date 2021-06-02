@@ -4,7 +4,7 @@ module ProfilesService
   class ShareableQrCode
     attr_reader :profile
     def initialize
-      @profile = Current.fresh_profile
+      @profile = Current.profile
     end
 
     def call

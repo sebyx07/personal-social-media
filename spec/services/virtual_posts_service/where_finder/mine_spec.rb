@@ -9,13 +9,13 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
 
   context "mine posts" do
     before do
-      current_peer
+      my_peer
 
       posts
     end
 
     subject do
-      described_class.new(pagination_params, current_peer.id).results
+      described_class.new(pagination_params, peer_id: my_peer.id).results
     end
 
     it "returns two posts" do

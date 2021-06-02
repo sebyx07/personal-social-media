@@ -7,7 +7,7 @@ module Api
 
     def create
       return @post = current_post if current_post.present?
-      @post = RemotePost.create!(create_params)
+      @post = RemotePost.find_or_create_by!(create_params)
 
       render json: encrypt_json({ ok: true })
     end

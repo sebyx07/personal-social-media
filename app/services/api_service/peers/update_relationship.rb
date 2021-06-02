@@ -45,8 +45,12 @@ module ApiService
         end
 
         def handle_unfriend
-          peer.destroy
+          destroy_peer
           @result = :unfriend
+        end
+
+        def destroy_peer
+          peer.destroy
         end
 
         def handle_decline

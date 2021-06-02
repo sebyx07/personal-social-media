@@ -5,7 +5,7 @@ module HttpService
     MAX_RETRIES = 5
     attr_reader :request, :url, :method
     delegate :response, :record, :body, :url, :peer, to: :request
-    delegate :status, :body_str, :valid?, :json, :safe_retry?, :raw_json, :schedule_retry, to: :response
+    delegate :status, :body_str, :json, :safe_retry?, :raw_json, :schedule_retry, to: :response
 
     def initialize(url:, method:, body: {}, record: nil, peer:)
       @request = klass.new(url, method, body, record, peer)
@@ -22,6 +22,20 @@ module HttpService
         request_method: method, max_retries: max_retries,
         request_type: :single
       )
+    end
+
+    def valid?
+      return @valid if defined? @valid
+      @valid = response.valid?
+      return @valid if Rails.env.production?
+      @valid.tap do |v|
+        handle_test_invalid_request unless v
+      end
+    end
+
+    def handle_test_invalid_request
+      # binding.pry # uncomment this to debug
+      raise "invalid request - #{status} - #{body_str}"
     end
 
     private

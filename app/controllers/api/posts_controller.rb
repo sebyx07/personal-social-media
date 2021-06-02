@@ -3,7 +3,7 @@
 module Api
   class PostsController < BaseController
     before_action :require_friend
-    before_action :current_post, only: %i(show)
+    before_action :require_current_post, only: %i(show)
 
     def index
       pagination = PaginationService::Paginate.new(scope: default_scope, params: params, limit: 15)

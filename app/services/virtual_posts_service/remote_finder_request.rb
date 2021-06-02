@@ -22,7 +22,7 @@ module VirtualPostsService
     def api_client_request
       return @api_client_request if defined? @api_client_request
       @api_client_request = HttpService::ApiClient.new(
-        url: remote_post.peer.api_url("/posts/#{remote_post.id}"),
+        url: remote_post.peer.api_url("/posts/#{remote_post.remote_post_id}"),
         method: :post,
         record: self,
         peer: remote_post.peer

@@ -11,6 +11,10 @@ module PeersService
 
     def call!
       return nil if peer.unfriendly?
+      any_peer_call!
+    end
+
+    def any_peer_call!
       peer.tap do |p|
         p.domain_name = domain_name
         p.status = [:stranger] unless p.persisted?
