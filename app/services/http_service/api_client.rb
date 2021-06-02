@@ -2,6 +2,7 @@
 
 module HttpService
   class ApiClient
+    class InvalidResponse < StandardError; end
     MAX_RETRIES = 5
     attr_reader :request, :url, :method
     delegate :response, :record, :body, :url, :peer, to: :request
@@ -27,7 +28,7 @@ module HttpService
     def valid?
       return @valid if defined? @valid
       @valid = response.valid?
-      return @valid if Rails.env.production?
+      return @valid if Rails.env.production? && !DeveloperService::IsEnabled.is_enabled?
       @valid.tap do |v|
         handle_test_invalid_request unless v
       end
@@ -35,7 +36,8 @@ module HttpService
 
     def handle_test_invalid_request
       # binding.pry # uncomment this to debug
-      raise "invalid request - #{status} - #{body_str}"
+      return if Rails.env.production? && Rails.application.secrets.bugsnag.blank?
+      raise InvalidResponse, { url: url, status: status, body_str: body_str }.to_json
     end
 
     private

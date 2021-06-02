@@ -36,7 +36,7 @@ module RetryRequestsService
       end
 
       def build_request(peer)
-        HttpService::ApiClient.new(url: url, method: request_method, peer: peer, body: payload)
+        HttpService::ApiClient.new(url: peer.api_url(url), method: request_method, peer: peer, body: payload)
       end
 
       def run_requests

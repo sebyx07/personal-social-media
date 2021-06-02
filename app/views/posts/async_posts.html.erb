@@ -1,7 +1,9 @@
-<%= @virtual_posts.size %>
-
-<% @virtual_posts.each do |v_post| %>
-  <div>
-    <%= v_post.created_at %>
+<% if @virtual_posts.size > 0 %>
+  <%= react_component("standard-post-list", { posts: @virtual_posts.map(&:render_camelized), paginationItemsRequired: VirtualPostsService::WhereFinder::DEFAULT_LIMIT }) %>
+<% else %>
+  <div class="h-screen bg-gray-300 w-full w-1/3 mx-auto p-3">
+    <div class="text-gray-600">
+      Sorry no posts found
+    </div>
   </div>
 <% end %>

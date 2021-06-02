@@ -26,7 +26,7 @@ module HttpService
     rescue RbNaCl::CryptoError
       peer.mark_as_fake!
       @is_valid = false
-    rescue JSON::ParseError
+    rescue JSON::ParserError
       mark_for_retry
       @is_valid = false
     end
