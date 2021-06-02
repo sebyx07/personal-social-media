@@ -68,6 +68,7 @@ gem "lockbox", "~> 0.6.4"
 gem "oj", "~> 3.11", ">= 3.11.5"
 gem "rails_admin", "~> 2.1", ">= 2.1.1", require: is_dev
 gem "rbnacl", "~> 7.1", ">= 7.1.1"
+gem "react-rails", "~> 2.6", ">= 2.6.1"
 gem "render_async", "~> 2.1", ">= 2.1.10"
 gem "request_store", "~> 1.5"
 gem "request_store_rails-sidekiq", "~> 0.1.0"

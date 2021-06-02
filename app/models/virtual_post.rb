@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class VirtualPost
-  PERMITTED_DELEGATED_METHODS = %i(created_at)
+  PERMITTED_DELEGATED_METHODS = %i(id created_at updated_at content)
 
-  attr_reader :post, :request
+  attr_reader :post, :request, :peer
   def initialize(post: nil, request: nil, peer:)
+    @peer = peer
     if post.present?
       @post = post
       @presenter = VirtualPost::PresenterForPost.new(post, peer)

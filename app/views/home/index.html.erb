@@ -1,3 +1,7 @@
 <%= render_async posts_path(post_type: :standard) do %>
-  Loading posts
+  <div class="h-screen bg-gray-300 w-full w-1/3 mx-auto p-3">
+    <div class="text-gray-600">
+      Loading posts
+    </div>
+  </div>
 <% end %>

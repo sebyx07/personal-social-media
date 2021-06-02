@@ -13,9 +13,16 @@ class PostsController < ApplicationController
       pagination_params: index_params,
       post_type: index_params[:post_type],
       peer_id: index_params[:peer_id]
-    )
+    ).map do |vp|
+      VirtualPostPresenter.new(vp)
+    end
 
-    render :async_posts, layout: false
+    @virtual_posts_query = RemotePost.where(post_type: index_params[:post_type])
+
+    respond_to do |f|
+      f.js { render :async_posts, layout: false }
+      f.json { @virtual_posts.map(&:render) }
+    end
   end
 
   def create
