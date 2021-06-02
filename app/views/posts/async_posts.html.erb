@@ -1,5 +1,5 @@
 <% if @virtual_posts.size > 0 %>
-  <%= react_component("standard-post-list", { posts: @virtual_posts.map(&:render_camelized), paginationItemsRequired: VirtualPostsService::WhereFinder::DEFAULT_LIMIT }) %>
+  <%= react_component("standard-post-list", { posts: @virtual_posts.map(&:render_camelized) }) %>
 <% else %>
   <div class="h-screen bg-gray-300 w-full w-1/3 mx-auto p-3">
     <div class="text-gray-600">
