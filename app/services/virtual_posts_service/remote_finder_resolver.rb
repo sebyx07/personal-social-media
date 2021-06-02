@@ -27,11 +27,9 @@ module VirtualPostsService
           next res << remote_post_requests.combined_request.api_client_request
         end
 
-        remote_post_requests.local_post = real_local_posts.find do |post|
+        res << real_local_posts.find do |post|
           post.id == remote_post_requests.remote_post.remote_post_id
         end
-
-        res << remote_post_requests.local_post
       end
 
       res

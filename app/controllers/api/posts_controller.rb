@@ -6,7 +6,7 @@ module Api
     before_action :require_current_post, only: %i(show)
 
     def index
-      scope = default_scope
+      scope = default_scope.order(id: :desc)
       if decrypted_params[:ids].present?
         scope = scope.where(id: decrypted_params[:ids])
       end
