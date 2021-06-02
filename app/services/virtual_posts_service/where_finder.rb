@@ -31,8 +31,8 @@ module VirtualPostsService
           next unless result.valid?
 
           peer = result.record.remote_post.peer
-          next VirtualPost.new(request: result, peer: peer)
-        end
+          next VirtualPost.load_multiple(request: result, peer: peer)
+        end.flatten
       end
 
       def handle_mix

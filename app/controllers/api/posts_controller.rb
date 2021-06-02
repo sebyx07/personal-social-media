@@ -6,7 +6,12 @@ module Api
     before_action :require_current_post, only: %i(show)
 
     def index
-      pagination = PaginationService::Paginate.new(scope: default_scope, params: params, limit: 15)
+      scope = default_scope
+      if decrypted_params[:ids].present?
+        scope = scope.where(id: decrypted_params[:ids])
+      end
+
+      pagination = PaginationService::Paginate.new(scope: scope, params: params, limit: 15)
 
       @posts = pagination.records
     end
