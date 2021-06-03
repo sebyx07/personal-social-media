@@ -36,8 +36,8 @@ module HttpService
 
     def handle_test_invalid_request
       # binding.pry # uncomment this to debug
-      return if Rails.env.production? && Rails.application.secrets.bugsnag.blank?
-      raise InvalidResponse, { url: url, status: status, body_str: body_str }.to_json
+      error_msg = { url: url, status: status, body_str: body_str }.to_json
+      DeveloperService::HandleError.handle_error(InvalidResponse.new(error_msg))
     end
 
     private

@@ -57,6 +57,10 @@ group :test, :production do
   gem "falcon", "~> 0.38.1"
 end
 
+group :production do
+  gem "skylight", "~> 5.1", ">= 5.1.1", require: is_dev
+end
+
 gem "attributes_sanitizer", "~> 0.1.6"
 gem "bitwise_attribute", github: "personal-social-media/bitwise_attribute", ref: "36371f6511a5907d1ec96385e0baca55d935cb99"
 gem "bugsnag", "~> 6.20", require: is_dev

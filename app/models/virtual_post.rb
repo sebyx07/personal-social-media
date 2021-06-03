@@ -18,6 +18,7 @@ class VirtualPost
   def initialize(post: nil, request: nil, peer:, remote_post:)
     @remote_post = remote_post
     @peer = peer
+
     if post.present?
       @post = post
       @presenter = VirtualPost::PresenterForPost.new(post, peer)
