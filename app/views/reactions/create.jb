@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  reaction: ReactionPresenter.new(@cache_reaction).render_cache_reaction
+}

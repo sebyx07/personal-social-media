@@ -4,6 +4,15 @@ Rails.application.routes.draw do
   SettingsService::WebUrl.new.full_host.tap do |full_host|
     Rails.application.routes.default_url_options[:host] = full_host if full_host.present?
   end
+
+  def reactable
+    resources :reactions, only: %i(index create) do
+      collection do
+        delete "/", action: :destroy
+      end
+    end
+  end
+
   root to: "home#index"
 
   get "/whoami", to: "profiles#whoami"
@@ -15,7 +24,7 @@ Rails.application.routes.draw do
 
   resources :peers, only: %i(index show create update destroy)
   resources :posts, only: %i(index new create show update destroy edit) do
-    resources :reactions, only: %i(index create destroy)
+    reactable
   end
 
   namespace :sessions, path: "" do

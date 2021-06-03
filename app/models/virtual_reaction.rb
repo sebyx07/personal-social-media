@@ -12,13 +12,12 @@ class VirtualReaction
       end
     end
 
-    private
-      def react_for_resource(subject_type, subject_id, character)
-        VirtualReactionsService::CreateForSubject.new(subject_type, subject_id, character).call
-      end
+    def react_for_resource(subject_type, subject_id, character)
+      VirtualReactionsService::CreateForSubject.new(subject_type, subject_id, character).call
+    end
 
-      def remove_react_for_resource(subject_type, subject_id, character)
-        VirtualReactionsService::DeleteForSubject.new(subject_type, subject_id, character).call
-      end
+    def remove_react_for_resource(subject_type, subject_id, character)
+      VirtualReactionsService::DeleteForSubject.new(subject_type, subject_id, character).call
+    end
   end
 end
