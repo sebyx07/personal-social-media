@@ -8,5 +8,6 @@ class VirtualPost
     end
 
     delegate(*VirtualPost::PERMITTED_DELEGATED_METHODS, to: :@post)
+    delegate :reaction_counters, to: :@post
   end
 end

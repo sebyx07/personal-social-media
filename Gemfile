@@ -83,7 +83,6 @@ gem "sidekiq-throttled", "~> 0.13.0", require: "sidekiq/throttled"
 gem "str_enum", "~> 0.2.0"
 gem "strong_migrations", "~> 0.7.6"
 gem "typhoeus", "~> 1.4"
+gem "unicode-emoji"
 gem "validates_host", "~> 1.3"
 gem "view_component", require: "view_component/engine"
-gem "unicode-emoji"
-

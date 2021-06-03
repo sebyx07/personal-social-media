@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reaction_counters
@@ -21,4 +23,5 @@ class ReactionCounter < ApplicationRecord
   validates :character, presence: true, uniqueness: { scope: [:subject_type, :subject_id] }, format: {
     with: Unicode::Emoji::REGEX_WELL_FORMED
   }
+  has_many :reactions, dependent: :delete_all
 end

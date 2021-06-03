@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reactions
@@ -19,7 +21,8 @@
 #  fk_rails_...  (reaction_counter_id => reaction_counters.id)
 #
 class Reaction < ApplicationRecord
-  belongs_to :reaction_counter
+  delegate :character, :subject_id, :subject_type, to: :reaction_counter
+  belongs_to :reaction_counter, counter_cache: true
   belongs_to :peer
 
   validates :reaction_counter_id, uniqueness: { scope: :peer_id }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reaction_counters
@@ -15,7 +17,7 @@
 #  index_reaction_counters_on_character  (character)
 #  index_reaction_counters_on_subject    (subject_type,subject_id)
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe ReactionCounter, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"

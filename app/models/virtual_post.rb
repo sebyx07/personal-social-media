@@ -29,6 +29,7 @@ class VirtualPost
   end
 
   delegate(*PERMITTED_DELEGATED_METHODS, to: :@presenter)
+  delegate :reaction_counters, to: :@presenter
   delegate :id, to: :@remote_post
 
   class << self

@@ -25,6 +25,8 @@ class Post < ApplicationRecord
   else
     has_one :remote_post, -> { where(peer: Current.peer) }, foreign_key: :remote_post_id, dependent: :destroy
   end
+  has_many :reaction_counters, as: :subject, dependent: :destroy
+  has_many :cache_reactions, dependent: :delete_all, as: :subject
 
   class << self
     def allow_propagate_to_remote?

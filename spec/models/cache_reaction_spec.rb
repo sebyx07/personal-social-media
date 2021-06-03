@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: cache_reactions
@@ -7,13 +9,18 @@
 #  subject_type :string           not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  peer_id      :bigint           not null
 #  subject_id   :bigint           not null
 #
 # Indexes
 #
-#  index_cache_reactions_on_subject  (subject_type,subject_id)
+#  idx_sub_type_sub_id_peer_id  (subject_type,subject_id,peer_id) UNIQUE
 #
-require 'rails_helper'
+# Foreign Keys
+#
+#  fk_rails_...  (peer_id => peers.id)
+#
+require "rails_helper"
 
 RSpec.describe CacheReaction, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"

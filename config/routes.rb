@@ -42,6 +42,11 @@ Rails.application.routes.draw do
       post "/", action: :create
       delete "/:id", action: :destroy
     end
+
+    namespace :reactions do
+      post "/", action: :create
+      delete "/:id", action: :destroy
+    end
   end
 
   constraints LoggedInConstraint do

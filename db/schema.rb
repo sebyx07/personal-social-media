@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_03_023405) do
+ActiveRecord::Schema.define(version: 2021_06_03_041029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,7 +21,8 @@ ActiveRecord::Schema.define(version: 2021_06_03_023405) do
     t.bigint "subject_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["subject_type", "subject_id"], name: "index_cache_reactions_on_subject"
+    t.bigint "peer_id", null: false
+    t.index ["subject_type", "subject_id", "peer_id"], name: "idx_sub_type_sub_id_peer_id", unique: true
   end
 
   create_table "external_accounts", force: :cascade do |t|
@@ -193,6 +194,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_023405) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "cache_reactions", "peers"
   add_foreign_key "psm_cdn_files", "external_accounts"
   add_foreign_key "psm_cdn_files", "psm_file_variants"
   add_foreign_key "psm_file_permanents", "external_accounts"

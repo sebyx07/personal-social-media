@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reactions
@@ -20,7 +22,9 @@
 #
 FactoryBot.define do
   factory :reaction do
-    reaction_counter { nil }
-    peer { nil }
+    before(:create) do |r|
+      r.peer ||= create(:peer)
+      r.reaction_counter ||= create(:reaction_counter)
+    end
   end
 end

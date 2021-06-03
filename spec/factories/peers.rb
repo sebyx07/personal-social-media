@@ -35,5 +35,8 @@ FactoryBot.define do
     domain_name { FFaker::Internet.domain_name }
     name { FFaker::Name.name }
     nickname { (FFaker::Internet.user_name + "000").first(18) }
+    email_hexdigest do
+      Digest::MD5.hexdigest(FFaker::Internet.email)
+    end
   end
 end

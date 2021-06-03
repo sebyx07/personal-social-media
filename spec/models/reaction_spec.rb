@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reactions
@@ -18,7 +20,7 @@
 #  fk_rails_...  (peer_id => peers.id)
 #  fk_rails_...  (reaction_counter_id => reaction_counters.id)
 #
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe Reaction, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"

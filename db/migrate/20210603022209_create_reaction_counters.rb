@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateReactionCounters < ActiveRecord::Migration[6.1]
   def change
     create_table :reaction_counters do |t|

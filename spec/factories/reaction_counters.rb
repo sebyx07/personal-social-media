@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: reaction_counters
@@ -17,8 +19,10 @@
 #
 FactoryBot.define do
   factory :reaction_counter do
-    subject { nil }
-    character { "MyString" }
-    reactions_count { "" }
+    character { "🤘" }
+    reactions_count { 1 }
+    before(:create) do |r|
+      r.subject ||= create(:post)
+    end
   end
 end

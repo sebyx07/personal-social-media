@@ -13,7 +13,10 @@ class VirtualPostPresenter
       created_at: @virtual_post.created_at,
       updated_at: @virtual_post.updated_at,
       content: @virtual_post.content,
-      peer: PeerPresenter.new(@virtual_post.peer).render_low_data
+      peer: PeerPresenter.new(@virtual_post.peer).render_low_data,
+      reaction_counters: @virtual_post.reaction_counters.map do |reaction_counter|
+        ReactionCounterPresenter.new(reaction_counter).render
+      end
     }
   end
 
