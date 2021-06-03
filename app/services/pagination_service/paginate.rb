@@ -35,3 +35,5 @@ module PaginationService
     end
   end
 end
+
+ActionController::StrongParameters

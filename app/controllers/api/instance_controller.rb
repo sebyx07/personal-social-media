@@ -26,7 +26,7 @@ module Api
     end
 
     def sync_params
-      decrypted_params[:profile]&.slice(:name, :nickname, :domain_name, :email_hexdigest)
+      decrypted_params.require(:profile).permit(:name, :nickname, :domain_name, :email_hexdigest)
     end
 
     def require_current_peer_even_blocked_by_me

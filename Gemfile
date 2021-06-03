@@ -85,3 +85,5 @@ gem "strong_migrations", "~> 0.7.6"
 gem "typhoeus", "~> 1.4"
 gem "validates_host", "~> 1.3"
 gem "view_component", require: "view_component/engine"
+gem "unicode-emoji"
+

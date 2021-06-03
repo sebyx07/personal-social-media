@@ -1,0 +1,3 @@
+class VirtualReaction
+
+end

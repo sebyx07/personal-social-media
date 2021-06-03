@@ -10,7 +10,7 @@ module ApiHelper
     return @decrypted_params if defined? @decrypted_params
     encryption_result = EncryptionService::EncryptedResult.from_json(request.parameters)
     decrypted_string = __decrypt.decrypt(encryption_result)
-    @decrypted_params = JSON.parse!(decrypted_string).with_indifferent_access
+    @decrypted_params = ActionController::Parameters.new(JSON.parse!(decrypted_string))
   rescue RbNaCl::CryptoError
     current_peer.mark_as_fake!
     raise Api::BaseController::InvalidParams, "invalid params"

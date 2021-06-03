@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_02_054902) do
+ActiveRecord::Schema.define(version: 2021_06_03_023405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cache_reactions", force: :cascade do |t|
+    t.string "character", null: false
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subject_type", "subject_id"], name: "index_cache_reactions_on_subject"
+  end
 
   create_table "external_accounts", force: :cascade do |t|
     t.string "name", null: false
@@ -136,6 +145,26 @@ ActiveRecord::Schema.define(version: 2021_06_02_054902) do
     t.index ["psm_file_variant_id"], name: "index_psm_permanent_files_on_psm_file_variant_id"
   end
 
+  create_table "reaction_counters", force: :cascade do |t|
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.string "character", null: false
+    t.bigint "reactions_count", default: 1, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["character"], name: "index_reaction_counters_on_character"
+    t.index ["subject_type", "subject_id"], name: "index_reaction_counters_on_subject"
+  end
+
+  create_table "reactions", force: :cascade do |t|
+    t.bigint "reaction_counter_id", null: false
+    t.bigint "peer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["peer_id"], name: "index_reactions_on_peer_id"
+    t.index ["reaction_counter_id"], name: "index_reactions_on_reaction_counter_id"
+  end
+
   create_table "remote_posts", force: :cascade do |t|
     t.bigint "remote_post_id", null: false
     t.bigint "peer_id", null: false
@@ -171,5 +200,7 @@ ActiveRecord::Schema.define(version: 2021_06_02_054902) do
   add_foreign_key "psm_file_variants", "psm_files"
   add_foreign_key "psm_permanent_files", "external_accounts"
   add_foreign_key "psm_permanent_files", "psm_file_variants"
+  add_foreign_key "reactions", "peers"
+  add_foreign_key "reactions", "reaction_counters"
   add_foreign_key "remote_posts", "peers"
 end

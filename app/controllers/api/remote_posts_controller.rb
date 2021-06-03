@@ -34,10 +34,13 @@ module Api
       end
 
       def create_params
-        @create_params ||= {
-          remote_post_id: decrypted_params[:post][:id],
+        return @create_params if defined? @create_params
+        permitted_params = decrypted_params.require(:post).permit(:id, :post_type)
+
+        @create_params = {
+          remote_post_id: permitted_params[:id],
           peer: current_peer,
-          post_type: decrypted_params[:post][:post_type]
+          post_type: permitted_params[:post_type]
         }
       end
   end
