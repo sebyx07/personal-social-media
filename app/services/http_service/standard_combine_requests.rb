@@ -19,6 +19,7 @@ module HttpService
           group.each do |req|
             req.combined_request = first_request
           end
+          first_request.record = group.map(&:record)
         end
       end.flatten
     end

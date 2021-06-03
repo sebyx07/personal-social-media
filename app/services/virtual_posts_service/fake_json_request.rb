@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 module VirtualPostsService
-  class FakeRequest
-    def initialize(post_json)
+  class FakeJsonRequest
+    attr_reader :peer
+
+    def initialize(post_json, peer)
       @post_json = post_json
+      @peer = peer
     end
 
     def json

@@ -5,7 +5,7 @@ module HttpService
     class InvalidResponse < StandardError; end
     MAX_RETRIES = 5
     attr_reader :request, :url, :method
-    delegate :response, :record, :body, :url, :peer, to: :request
+    delegate :response, :record, :record=, :body, :url, :peer, to: :request
     delegate :status, :body_str, :json, :safe_retry?, :raw_json, :schedule_retry, to: :response
 
     def initialize(url:, method:, body: {}, record: nil, peer:)

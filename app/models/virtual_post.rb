@@ -8,18 +8,15 @@ class VirtualPost
 
   class << self
     def load_multiple(peer:, request:)
-      return new(request: request, peer: peer) if request.json[:post].present?
+      return new(request: request, peer: peer, remote_post: request.record) if request.json[:post].present?
       raise LoadMultipleError, "No posts" if request.json[:posts].blank?
 
-      request.json[:posts].map do |post_json|
-        fake_request = VirtualPostsService::FakeRequest.new(post_json)
-
-        new(request: fake_request, peer: peer)
-      end
+      VirtualPostsService::LoadMultipleVirtualPostsFromResponse.new(peer, request).call
     end
   end
 
-  def initialize(post: nil, request: nil, peer:)
+  def initialize(post: nil, request: nil, peer:, remote_post:)
+    @remote_post = remote_post
     @peer = peer
     if post.present?
       @post = post
@@ -31,6 +28,7 @@ class VirtualPost
   end
 
   delegate(*PERMITTED_DELEGATED_METHODS, to: :@presenter)
+  delegate :id, to: :@remote_post
 
   class << self
     def where(pagination_params: nil, post_type:, peer_id: nil)

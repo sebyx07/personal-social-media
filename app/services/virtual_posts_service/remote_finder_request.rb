@@ -5,6 +5,7 @@ module VirtualPostsService
     attr_reader :remote_post, :body
     attr_accessor :local_post, :url, :combined_request
     delegate :peer, to: :remote_post
+    delegate :record, :record=, to: :api_client_request
 
     def initialize(remote_post)
       @remote_post = remote_post
@@ -36,7 +37,7 @@ module VirtualPostsService
         url: url,
         method: :post,
         body: body,
-        record: self,
+        record: remote_post,
         peer: peer
       )
     end

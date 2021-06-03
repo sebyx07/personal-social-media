@@ -3,7 +3,7 @@
 module Api
   class RemotePostsController < BaseController
     before_action :require_friend
-    before_action :current_post, only: %i(destroy)
+    before_action :require_current_post, only: %i(destroy)
 
     def create
       return @post = current_post if current_post.present?

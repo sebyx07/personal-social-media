@@ -18,7 +18,7 @@ module VirtualPostsService
       def default_scope
         return @query if defined? @query
 
-        @query = Post.where(post_type: post_type).order(id: :desc)
+        @query = Post.includes(:remote_post).where(post_type: post_type).order(id: :desc)
         if post_ids.present?
           @query = query.where(post_ids: post_ids)
         end

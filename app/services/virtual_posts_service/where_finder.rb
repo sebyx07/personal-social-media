@@ -19,18 +19,15 @@ module VirtualPostsService
 
     private
       def handle_local_posts(posts)
-        p = Current.peer
-        posts.map { |post| VirtualPost.new(post: post, peer: p) }
+        posts.map { |post| VirtualPost.new(post: post, peer: Current.peer, remote_post: post.remote_post) }
       end
 
       def handle_remote_requests(requests)
-        p = Current.peer
-
         requests.filter_map do |result|
-          next VirtualPost.new(post: result, peer: p) if result.is_a?(Post)
+          next VirtualPost.new(post: result, peer: Current.peer, remote_post: result.remote_post) if result.is_a?(Post)
           next unless result.valid?
 
-          peer = result.record.remote_post.peer
+          peer = result.peer
           next VirtualPost.load_multiple(request: result, peer: peer)
         end.flatten
       end

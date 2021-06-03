@@ -20,15 +20,16 @@ class Post < ApplicationRecord
   before_update :update_remote_post, if: -> { post_type_changed? }
   after_create :create_self_remote_post
   validates :post_type, presence: true
+  if Rails.env.test?
+    has_one :remote_post, -> { where(peer: Current.peer) }, foreign_key: :remote_post_id
+  else
+    has_one :remote_post, -> { where(peer: Current.peer) }, foreign_key: :remote_post_id, dependent: :destroy
+  end
 
   class << self
     def allow_propagate_to_remote?
       Rails.env.production?
     end
-  end
-
-  def remote_post
-    @remote_post ||= RemotePost.find_by!(peer: Current.peer, remote_post_id: id)
   end
 
   private
