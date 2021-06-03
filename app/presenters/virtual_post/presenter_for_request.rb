@@ -19,7 +19,7 @@ class VirtualPost
     def reaction_counters
       return @reaction_counters if defined? @reaction_counters
 
-      @reaction_counters = post[:reaction_counters].map do |json|
+      @reaction_counters = @post[:reaction_counters].map do |json|
         ReactionCounter.new(json)
       end
     end
