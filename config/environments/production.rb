@@ -38,4 +38,14 @@ Rails.application.configure do
   config.assets.configure do |env|
     env.export_concurrent = false
   end if ENV["DEVELOPER"].present?
+
+  config.after_initialize do
+    Bullet.bugsnag       = true if ENV["BUGSNAG"]
+    Bullet.enable        = true
+    Bullet.alert         = true
+    Bullet.bullet_logger = true
+    Bullet.console       = true
+    Bullet.rails_logger  = true
+    Bullet.add_footer    = true
+  end if ENV["DEVELOPER"].present?
 end

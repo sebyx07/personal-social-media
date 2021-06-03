@@ -22,7 +22,7 @@ module Api
 
     private
       def default_scope
-        Post.ready
+        Post.includes(:reaction_counters).ready
       end
 
       def current_post
