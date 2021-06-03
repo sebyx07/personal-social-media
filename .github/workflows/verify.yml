@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:12
+        image: postgres:13
         env:
           POSTGRES_USER: myapp
           POSTGRES_DB: myapp_test
@@ -112,6 +112,7 @@ jobs:
           RAILS_ENV: test
           DEV_PG_HOST: localhost
           DEV_PG_USER: myapp
+          DEVELOPER: true
           DEV_PG_PASSWORD: 1234
         run: |
           bundle exec rails db:setup
@@ -121,6 +122,7 @@ jobs:
           DEV_PG_HOST: localhost
           DEV_PG_USER: myapp
           DEV_PG_PASSWORD: 1234
+          DEVELOPER: true
           CI: TRUE
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |
@@ -132,6 +134,7 @@ jobs:
           DEV_PG_HOST: localhost
           DEV_PG_USER: myapp
           DEV_PG_PASSWORD: 1234
+          DEVELOPER: true
           CI: TRUE
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: |

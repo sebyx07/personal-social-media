@@ -40,7 +40,7 @@ Rails.application.configure do
   end if ENV["DEVELOPER"].present?
 
   config.after_initialize do
-    Bullet.bugsnag       = true if ENV["BUGSNAG"]
+    Bullet.bugsnag       = true if ENV["BUGSNAG"].present?
     Bullet.enable        = true
     Bullet.alert         = true
     Bullet.bullet_logger = true
