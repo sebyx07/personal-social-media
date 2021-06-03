@@ -15,8 +15,9 @@ module VirtualReactionsService
         @cache_reaction = CacheReaction.find_or_initialize_by(subject: local_record, character: character, peer: Current.peer)
         next if cache_reaction.persisted?
 
+        reaction = ReactionsService::CreateReaction.new(create_params, Current.peer).call!
+        cache_reaction.remote_reaction_id = reaction.id
         cache_reaction.save!
-        ReactionsService::CreateReaction.new(create_params, Current.peer).call!
       end
 
       cache_reaction

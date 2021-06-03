@@ -45,6 +45,8 @@ class Peer < ApplicationRecord
   validates :is_me, uniqueness: true, if: -> { is_me? } unless Rails.env.test?
   validates :public_key, uniqueness: true, if: -> { !fake? } unless Rails.env.test?
   has_many :remote_posts, dependent: :delete_all
+  has_many :cache_reactions, dependent: :delete_all
+  has_many :reactions, dependent: :delete_all
 
   if Rails.env.production? && !DeveloperService::IsEnabled.is_enabled?
     validates :domain_name, domain_name: true, presence: true

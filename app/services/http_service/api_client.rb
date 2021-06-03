@@ -9,6 +9,7 @@ module HttpService
     delegate :status, :body_str, :json, :safe_retry?, :raw_json, :schedule_retry, to: :response
 
     def initialize(url:, method:, body: {}, record: nil, peer:)
+      @method = method
       @request = klass.new(url, method, body, record, peer)
     end
 

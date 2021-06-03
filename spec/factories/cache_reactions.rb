@@ -4,13 +4,14 @@
 #
 # Table name: cache_reactions
 #
-#  id           :bigint           not null, primary key
-#  character    :string           not null
-#  subject_type :string           not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  peer_id      :bigint           not null
-#  subject_id   :bigint           not null
+#  id                 :bigint           not null, primary key
+#  character          :string           not null
+#  subject_type       :string           not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  peer_id            :bigint           not null
+#  remote_reaction_id :bigint           not null
+#  subject_id         :bigint           not null
 #
 # Indexes
 #

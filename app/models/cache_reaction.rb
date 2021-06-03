@@ -4,13 +4,14 @@
 #
 # Table name: cache_reactions
 #
-#  id           :bigint           not null, primary key
-#  character    :string           not null
-#  subject_type :string           not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  peer_id      :bigint           not null
-#  subject_id   :bigint           not null
+#  id                 :bigint           not null, primary key
+#  character          :string           not null
+#  subject_type       :string           not null
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  peer_id            :bigint           not null
+#  remote_reaction_id :bigint           not null
+#  subject_id         :bigint           not null
 #
 # Indexes
 #
@@ -25,4 +26,10 @@ class CacheReaction < ApplicationRecord
   belongs_to :peer
 
   validates :subject_id, presence: true, uniqueness: { scope: %i(peer_id subject_type) }
+  validates :remote_reaction_id, presence: true
+
+  def reaction
+    return nil unless peer.id == Current.peer.id
+    @reaction ||= Reaction.find_by(id: remote_reaction_id)
+  end
 end

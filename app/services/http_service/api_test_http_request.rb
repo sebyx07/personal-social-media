@@ -18,7 +18,7 @@ module HttpService
       before_take_over_body = formatted_body
       TestService::SessionTest.instance.take_over_wrap! do
         ctx.send(request_method, url, params: before_take_over_body, headers: headers)
-        @response = ApiHttpResponse.new(ctx.response.status, ctx.response.body, peer, self)
+        @response = HttpService::ApiHttpResponse.new(ctx.response.status, ctx.response.body, peer, self)
       end
       self
     end

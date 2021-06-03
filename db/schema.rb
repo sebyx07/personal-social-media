@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_03_041029) do
+ActiveRecord::Schema.define(version: 2021_06_03_153128) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_041029) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "peer_id", null: false
+    t.bigint "remote_reaction_id", null: false
     t.index ["subject_type", "subject_id", "peer_id"], name: "idx_sub_type_sub_id_peer_id", unique: true
   end
 

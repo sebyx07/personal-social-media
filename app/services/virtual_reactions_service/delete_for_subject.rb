@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module VirtualReactionsService
-  class CreateForSubject
+  class DeleteForSubject
     class Error < StandardError; end
     attr_reader :subject_id, :subject_type, :character
     def initialize(subject_type, subject_id, character)
@@ -14,10 +14,10 @@ module VirtualReactionsService
       validate_subject_type
 
       if local_cache_record.peer_id == Current.peer.id
-        return react_locally
+        return delete_locally
       end
 
-      react_externally
+      delete_externally
     end
 
     private
@@ -32,12 +32,12 @@ module VirtualReactionsService
         end
       end
 
-      def react_locally
-        ReactLocally.new(local_cache_record, character).call!
+      def delete_locally
+        UnReactLocally.new(local_cache_record, character).call!
       end
 
-      def react_externally
-        ReactExternally.new(local_cache_record, character).call!
+      def delete_externally
+        UnReactExternally.new(local_cache_record, character).call!
       end
   end
 end

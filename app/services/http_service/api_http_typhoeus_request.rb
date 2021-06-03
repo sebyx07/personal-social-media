@@ -27,7 +27,7 @@ module HttpService
     end
 
     def extract_response_after_request
-      @response = ApiHttpResponse.new(request.response.response_code, request.response.body, peer, self)
+      @response = HttpService::ApiHttpResponse.new(request.response.response_code, request.response.body, peer, self)
     end
 
     private
