@@ -28,7 +28,7 @@ module VirtualPostsService
       def default_scope
         return @query if defined? @query
 
-        @query = RemotePost.where(post_type: post_type).includes(:peer).order(id: :desc)
+        @query = RemotePost.where(post_type: post_type).includes(:peer, :cache_reactions).order(id: :desc)
         if peer_id.present?
           @query = @query.where(peer_id: peer_id)
         end

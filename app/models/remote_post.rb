@@ -26,7 +26,13 @@ class RemotePost < ApplicationRecord
   validates :remote_post_id, presence: true, uniqueness: { scope: :peer_id }
   validates :post_type, presence: true
   str_enum :post_type, %i(standard)
-  has_many :cache_reactions, ->(post) { where(peer_id: post.peer_id) }, dependent: :delete_all, as: :subject
+  has_many :cache_reactions, -> do
+    joins(<<-SQL
+LEFT JOIN remote_posts
+ON cache_reactions.peer_id = remote_posts.peer_id AND cache_reactions.subject_type = 'RemotePost' AND cache_reactions.subject_id = remote_posts.remote_post_id
+    SQL
+    )
+  end, dependent: :delete_all, as: :subject
 
   def local_post
     return nil if peer_id != Current.peer.id

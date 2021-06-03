@@ -2,7 +2,10 @@
 
 class VirtualPost
   class PresenterForRequest
+    delegate :cache_reactions, to: :remote_post
+
     def initialize(request, peer)
+      @request = request
       @post = request.json[:post]
       @peer = peer
     end
@@ -18,6 +21,16 @@ class VirtualPost
 
       @reaction_counters = post[:reaction_counters].map do |json|
         ReactionCounter.new(json)
+      end
+    end
+
+    def remote_post
+      return @remote_post if defined? @remote_post
+      return @remote_post = @request.record if @request.is_a?(RemotePost)
+
+      post_id = id
+      @remote_post = @request.record.detect do |remote_post|
+        remote_post.remote_post_id == post_id
       end
     end
   end

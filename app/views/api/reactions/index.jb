@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  reactions: @reactions.map { |r| ReactionPresenter.new(r).render }
+}

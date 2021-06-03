@@ -6,6 +6,11 @@ module Api
     before_action :require_current_reaction, only: %i(destroy)
 
     def index
+      scope = Reaction.where(subject_id: index_params[:subject_id], subject_type: index_params[:subject_type])
+
+      pagination = PaginationService::Paginate.new(scope: scope, params: params, limit: 15)
+
+      @reactions = pagination.records
     end
 
     def create
@@ -35,6 +40,10 @@ module Api
 
       def scoped_reactions
         Reaction.where(peer: current_peer)
+      end
+
+      def index_params
+        @index_params ||= decrypted_params.require(:reactions).permit(:subject_id, :subject_type)
       end
   end
 end

@@ -12,6 +12,10 @@ class VirtualReaction
       end
     end
 
+    # def where(pagination_params: nil, subject_type:)
+    #   VirtualPostsService::WhereFinder.new(pagination_params, post_type: post_type, peer_id: peer_id).results
+    # end
+
     def react_for_resource(subject_type, subject_id, character)
       VirtualReactionsService::CreateForSubject.new(subject_type, subject_id, character).call
     end
