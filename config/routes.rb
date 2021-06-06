@@ -55,7 +55,7 @@ Rails.application.routes.draw do
     end
 
     namespace :reactions do
-      post "/", action: :create
+      post "/", action: :index
       delete "/:id", action: :destroy
     end
   end

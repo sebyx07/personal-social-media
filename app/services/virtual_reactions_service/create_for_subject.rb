@@ -13,7 +13,7 @@ module VirtualReactionsService
     def call
       validate_subject_type
 
-      if local_cache_record.peer_id == Current.peer.id
+      if is_local_record?
         return react_locally
       end
 
@@ -21,8 +21,20 @@ module VirtualReactionsService
     end
 
     private
+      def react_locally
+        ReactLocally.new(local_cache_record, character).call!
+      end
+
+      def react_externally
+        ReactExternally.new(local_cache_record, character).call!
+      end
+
       def validate_subject_type
         raise Error, "invalid subject type" unless %w(RemotePost).include?(subject_type)
+      end
+
+      def is_local_record?
+        local_cache_record.peer_id == Current.peer.id
       end
 
       def local_cache_record
@@ -30,14 +42,6 @@ module VirtualReactionsService
         @local_cache_record = subject_type.constantize.find_by!(id: subject_id).tap do |record|
           raise Error, "local cache record not found #{subject_type} #{subject_id}" if record.blank?
         end
-      end
-
-      def react_locally
-        ReactLocally.new(local_cache_record, character).call!
-      end
-
-      def react_externally
-        ReactExternally.new(local_cache_record, character).call!
       end
   end
 end

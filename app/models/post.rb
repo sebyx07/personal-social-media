@@ -26,6 +26,7 @@ class Post < ApplicationRecord
     has_one :remote_post, -> { where(peer: Current.peer) }, foreign_key: :remote_post_id, dependent: :destroy
   end
   has_many :reaction_counters, as: :subject, dependent: :destroy
+  has_many :reactions, through: :reaction_counters
   has_many :cache_reactions, -> { where(peer: Current.peer) }, dependent: :delete_all, as: :subject
 
   class << self

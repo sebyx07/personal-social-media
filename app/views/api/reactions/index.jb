@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
-{
-  reactions: @reactions.map { |r| ReactionPresenter.new(r).render }
-}
+encrypt_json do
+  {
+    reactions: @reactions.map { |r| ReactionPresenter.new(r).render }
+  }
+end

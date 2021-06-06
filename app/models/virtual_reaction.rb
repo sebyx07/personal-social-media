@@ -1,6 +1,18 @@
 # frozen_string_literal: true
 
 class VirtualReaction
+  PERMITTED_DELEGATED_METHODS = %i(subject_id subject_type character)
+  def initialize(reaction: nil, json: nil)
+    if reaction
+      @presenter = VirtualReaction::PresenterForReaction.new(reaction)
+    elsif json
+      @presenter = VirtualReaction::PresenterForJson.new(json)
+    end
+  end
+
+  delegate(*PERMITTED_DELEGATED_METHODS, to: :@presenter)
+  delegate :id, :peer, to: :@presenter
+
   class << self
     def react_for_remote_post(remote_post_id, character, remove_reaction: false)
       subject_type = "RemotePost"
@@ -12,9 +24,9 @@ class VirtualReaction
       end
     end
 
-    # def where(pagination_params: nil, subject_type:)
-    #   VirtualPostsService::WhereFinder.new(pagination_params, post_type: post_type, peer_id: peer_id).results
-    # end
+    def where(pagination_params: {}, subject_type:, subject_id:)
+      VirtualReactionsService::WhereFinder.new(pagination_params, subject_type, subject_id).results
+    end
 
     def react_for_resource(subject_type, subject_id, character)
       VirtualReactionsService::CreateForSubject.new(subject_type, subject_id, character).call
