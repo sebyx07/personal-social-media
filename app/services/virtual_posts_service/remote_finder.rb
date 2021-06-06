@@ -10,13 +10,25 @@ module VirtualPostsService
     end
 
     def requests
-      resolver = VirtualPostsService::RemoteFinderResolver.new(remote_posts)
-      resolver.run!
+      return from_local_remote_posts if peer_id.blank?
 
-      resolver.resolve_all
+      from_peer
     end
 
     private
+      def from_local_remote_posts
+        resolver = VirtualPostsService::RemoteFinderResolver.new(remote_posts)
+        resolver.run!
+
+        resolver.resolve_all
+      end
+
+      def from_peer
+        [
+          FromPeer.new(pagination_params, post_type, peer_id).result
+        ]
+      end
+
       def remote_posts
         return @remote_posts if defined? @remote_posts
         @remote_posts = PaginationService::Paginate.new(scope: default_scope, params: pagination_params, limit: WhereFinder::DEFAULT_LIMIT).records
@@ -28,12 +40,7 @@ module VirtualPostsService
       def default_scope
         return @query if defined? @query
 
-        @query = RemotePost.where(post_type: post_type).includes(:peer, :cache_reactions).order(id: :desc)
-        if peer_id.present?
-          @query = @query.where(peer_id: peer_id)
-        end
-
-        @query
+        @query = RemotePost.where(post_type: post_type).includes(:peer, :cache_reactions).order(created_at: :desc)
       end
   end
 end

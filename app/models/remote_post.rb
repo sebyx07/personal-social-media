@@ -13,6 +13,7 @@
 #
 # Indexes
 #
+#  index_remote_posts_on_created_at                  (created_at)
 #  index_remote_posts_on_peer_id                     (peer_id)
 #  index_remote_posts_on_remote_post_id_and_peer_id  (remote_post_id,peer_id) UNIQUE
 #

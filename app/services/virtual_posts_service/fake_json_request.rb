@@ -14,5 +14,9 @@ module VirtualPostsService
         post: @post_json
       }
     end
+
+    def valid?
+      true
+    end
   end
 end

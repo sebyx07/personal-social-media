@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_03_153128) do
+ActiveRecord::Schema.define(version: 2021_06_06_030835) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,7 @@ ActiveRecord::Schema.define(version: 2021_06_03_153128) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "post_type", default: "standard", null: false
+    t.index ["created_at"], name: "index_remote_posts_on_created_at"
     t.index ["peer_id"], name: "index_remote_posts_on_peer_id"
     t.index ["remote_post_id", "peer_id"], name: "index_remote_posts_on_remote_post_id_and_peer_id", unique: true
   end
