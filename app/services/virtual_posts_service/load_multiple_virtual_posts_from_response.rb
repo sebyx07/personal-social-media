@@ -11,8 +11,9 @@ module VirtualPostsService
     def call
       request.json[:posts].map do |post_json|
         fake_request = VirtualPostsService::FakeJsonRequest.new(post_json, peer)
-
-        VirtualPost.new(request: fake_request, peer: peer, remote_post: get_remote_post(post_json))
+        remote_post = get_remote_post(post_json)
+        fake_request.record = remote_post
+        VirtualPost.new(request: fake_request, peer: peer, remote_post: remote_post)
       end
     end
 

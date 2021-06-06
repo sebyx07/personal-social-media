@@ -3,6 +3,7 @@
 module VirtualPostsService
   class FakeJsonRequest
     attr_reader :peer
+    attr_accessor :record
 
     def initialize(post_json, peer)
       @post_json = post_json

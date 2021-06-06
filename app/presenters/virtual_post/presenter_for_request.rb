@@ -2,6 +2,7 @@
 
 class VirtualPost
   class PresenterForRequest
+    class Error < StandardError; end
     delegate :cache_reactions, to: :remote_post
 
     def initialize(request, peer)
@@ -27,6 +28,8 @@ class VirtualPost
     def remote_post
       return @remote_post if defined? @remote_post
       return @remote_post = @request.record if @request.is_a?(RemotePost)
+
+      raise Error, "invalid @request.record, #{@request.record}" if @request.record.blank?
 
       post_id = id
       @remote_post = @request.record.detect do |remote_post|
