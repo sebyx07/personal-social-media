@@ -3,6 +3,8 @@
 module VirtualPostsService
   class WhereFinder
     class Error < StandardError; end
+    PRELOAD_ASSOCIATIONS_LOCALLY = %i(remote_post cache_reactions reaction_counters)
+    PRELOAD_ASSOCIATIONS_EXTERNALLY = %i(peer cache_reactions)
     DEFAULT_LIMIT = 15
 
     attr_reader :pagination_params, :peer_id, :post_type
@@ -38,7 +40,7 @@ module VirtualPostsService
       end
 
       def handle_for_peer_id
-        if peer_id == Current.peer.id
+        if peer_id.to_i == Current.peer.id
           posts = LocalFinder.new(pagination_params: pagination_params, post_type: post_type).posts
           handle_local_posts(posts)
         else
