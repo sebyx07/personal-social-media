@@ -1,19 +1,23 @@
-import StandardPost from './posts/standard-post';
-import StandardPostPagination from './posts/standard-post-pagination';
+import {addPostsToStore, standardPostsStore} from './standard-posts/standard-posts-store';
+import {useEffect} from 'react';
+import {useState} from '@hookstate/core';
+import StandardPost from './standard-posts/standard-post';
 
-export default function StandardPostList({posts, paginationItemsRequired}) {
+export default function StandardPostList({posts}) {
+  const standardPostsStoreState = useState(standardPostsStore);
+
+  useEffect(() => {
+    addPostsToStore(posts);
+  }, [posts]);
+
   return (
     <div className="w-full md:w-1/3 mx-auto">
       <div>
         {
-          posts.map((p) => {
-            return <StandardPost post={p} key={p.id}/>;
+          standardPostsStoreState.posts.map((p) => {
+            return <StandardPost post={p} key={p.id.get()}/>;
           })
         }
-      </div>
-
-      <div>
-        <StandardPostPagination paginationItemsRequired={paginationItemsRequired} posts={posts}/>
       </div>
     </div>
   );
