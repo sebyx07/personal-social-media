@@ -25,7 +25,7 @@ module VirtualReactionsService
               subject_id: subject_id,
               subject_type: subject_type
             }
-          }
+          }.merge(pagination_params.slice(:pagination))
         end
 
         def api_client_request

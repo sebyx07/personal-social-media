@@ -27,12 +27,13 @@ class VirtualPost
 
     def remote_post
       return @remote_post if defined? @remote_post
-      return @remote_post = @request.record if @request.is_a?(RemotePost)
+      record_result = @request.record
+      return @remote_post = record_result if record_result.is_a?(RemotePost)
 
-      raise Error, "invalid @request.record, #{@request.record}" if @request.record.blank?
+      raise Error, "invalid @request.record, #{record_result}" if record_result.blank?
 
       post_id = id
-      @remote_post = @request.record.detect do |remote_post|
+      @remote_post = record_result.detect do |remote_post|
         remote_post.remote_post_id == post_id
       end
     end

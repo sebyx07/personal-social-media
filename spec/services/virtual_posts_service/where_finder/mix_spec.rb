@@ -25,6 +25,8 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
       expect(subject.size).to eq(4)
       subject.each do |v_post|
         expect(v_post).to be_a(VirtualPost)
+
+        expect(VirtualPostPresenter.new(v_post).render).to be_present
       end
     end
   end
