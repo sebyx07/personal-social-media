@@ -49,7 +49,7 @@ module VirtualPostsService
           rpost.remote_post.remote_post_id
         end
 
-        @real_local_posts = Post.includes(:remote_post).where(id: ids)
+        @real_local_posts = Post.includes(WhereFinder::PRELOAD_ASSOCIATIONS_LOCALLY).where(id: ids)
       end
 
       def optimized_remote_finder_requests

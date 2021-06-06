@@ -32,6 +32,7 @@ group :development do
   gem "lefthook", "~> 0.7.6"
   gem "puma", "~> 5.3"
   gem "rack-livereload", "~> 0.3.17"
+  gem "rack-mini-profiler", "~> 2.3", ">= 2.3.2"
   gem "rubocop-rails_config", "~> 1.5", ">= 1.5.3"
 end
 

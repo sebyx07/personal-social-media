@@ -40,7 +40,7 @@ module VirtualPostsService
       def default_scope
         return @query if defined? @query
 
-        @query = RemotePost.where(post_type: post_type).includes(:peer, :cache_reactions).order(created_at: :desc)
+        @query = RemotePost.where(post_type: post_type).includes(WhereFinder::PRELOAD_ASSOCIATIONS_EXTERNALLY).order(created_at: :desc)
       end
   end
 end

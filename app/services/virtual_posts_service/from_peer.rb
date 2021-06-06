@@ -44,13 +44,19 @@ module VirtualPostsService
       def save_as_remote_posts!
         api_client_request.json[:posts].map do |post_json|
           handle_remote_post(post_json)
+        end.tap do |remote_posts|
+          ActiveRecord::Associations::Preloader.new.preload(remote_posts, preloaded_associations)
         end
+      end
+
+      def preloaded_associations
+        WhereFinder::PRELOAD_ASSOCIATIONS_EXTERNALLY - %i(peer)
       end
 
       def handle_remote_post(post_json)
         post = RemotePost.find_or_initialize_by(peer: peer, remote_post_id: post_json[:id])
         return post if post.persisted?
-        r_post_json = DateTime.parse(json[:created_at])
+        r_post_json = DateTime.parse(post_json[:created_at])
         created_at = r_post_json.future? ? r_post_json : 1.day.ago
         post.created_at = created_at
 
