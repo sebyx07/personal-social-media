@@ -6,6 +6,5 @@ rails_env = ENV.fetch("RAILS_ENV", "development")
 
 threads(puma_min_threads, puma_max_threads)
 
-workers(1)
 port ENV.fetch("PORT", 3000)
 environment rails_env

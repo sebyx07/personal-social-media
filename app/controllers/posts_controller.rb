@@ -8,18 +8,19 @@ class PostsController < ApplicationController
   end
 
   def index
-    index_params = params.permit(:post_type, :peer_id, pagination: :from)
+    @permitted_index_params = params.permit(:post_type, :peer_id, pagination: :from)
+
     @virtual_posts = VirtualPost.where(
-      pagination_params: index_params,
-      post_type: index_params[:post_type],
-      peer_id: index_params[:peer_id]
+      pagination_params: @permitted_index_params,
+      post_type: @permitted_index_params[:post_type],
+      peer_id: @permitted_index_params[:peer_id]
     ).map! do |vp|
       VirtualPostPresenter.new(vp)
     end.sort_by!(&:id).reverse!
 
     respond_to do |f|
       f.js { render :async_posts, layout: false }
-      f.json { @virtual_posts.map(&:render) }
+      f.json { render json: { posts: @virtual_posts.map(&:render) } }
     end
   end
 
