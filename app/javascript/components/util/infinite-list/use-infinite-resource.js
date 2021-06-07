@@ -8,6 +8,7 @@ import transformObjectKeys from 'transform-object-keys';
 export default function useInfiniteResource(initialState = {}, api = {}) {
   const state = useState({
     afterLoading: [],
+    endOfList: false,
     errorLoading: false,
     initialLoading: true,
     loadedFromIndexesList: [],
@@ -16,6 +17,7 @@ export default function useInfiniteResource(initialState = {}, api = {}) {
   });
 
   useEffect(() => {
+    state.merge({endOfList: false});
     loadInitialResources(state, api);
   }, [JSON.stringify(initialState), JSON.stringify(api)]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -42,6 +44,8 @@ async function loadInitialResources(state, api) {
 }
 
 async function loadMoreResources(state, lastResource, api, startIndex) {
+  state.merge({afterLoading: true});
+
   const {loadedFromIndexesList} = state;
   if (Object.values(loadedFromIndexesList.value).indexOf(startIndex) !== -1) return;
   loadedFromIndexesList.merge([startIndex]);
@@ -51,11 +55,17 @@ async function loadMoreResources(state, lastResource, api, startIndex) {
     const {data} = await loadResources(state, buildUrl(api.baseUrl, query));
 
     const resources = data[api.resourcesRoot];
-
-    state.resources.merge(resources);
+    state.batch((s) => {
+      s.resources.merge(resources);
+      s.merge({afterLoading: false});
+      if (resources.length === 0) {
+        s.merge({endOfList: true});
+      }
+    });
   } catch (e) {
     const errorIndex = Object.values(loadedFromIndexesList.value).indexOf(startIndex);
     loadedFromIndexesList.merge({
+      afterLoading: false,
       [errorIndex]: none,
     });
     console.error(e);

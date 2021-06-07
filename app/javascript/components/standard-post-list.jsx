@@ -11,6 +11,7 @@ export default function StandardPostList({peerId, showFromFeedOnly}) {
       render={StandardPost}
       infiniteResource={infiniteResource}
       renderInitialLoading={<div>Loading posts...</div>}
+      loading={<div>Loading more posts...</div>}
       noResources={<div>No posts found</div>}
     />
   );

@@ -41,7 +41,7 @@ module VirtualPostsService
       def default_scope
         return @query if defined? @query
 
-        @query = RemotePost.where(post_type: post_type).includes(WhereFinder::PRELOAD_ASSOCIATIONS_EXTERNALLY)
+        @query = RemotePost.where(post_type: post_type).includes(WhereFinder::PRELOAD_ASSOCIATIONS_EXTERNALLY).order(id: :desc)
 
         if show_from_feed_only
           @query = @query.where(show_in_feed: true)

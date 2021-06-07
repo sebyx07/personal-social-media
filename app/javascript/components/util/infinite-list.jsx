@@ -2,7 +2,7 @@ import InfiniteListWindow from './infinite-list/infinite-list-window';
 
 export default function InfiniteList({
   infiniteResource, render, positionerOptions = {}, isWindow = true, totalItems = 999999,
-  renderInitialLoading, noResources, className,
+  renderInitialLoading, noResources, className, loading,
 }) {
   const {loadMore, state} = infiniteResource;
 
@@ -16,7 +16,13 @@ export default function InfiniteList({
     }
 
     return (
-      <InfiniteListWindow className={className} storeItems={state.resources} loadMore={loadMore.current} render={render} positionerOptions={positionerOptions} totalItems={totalItems}/>
+      <>
+        <InfiniteListWindow className={className} storeItems={state.resources} loadMore={loadMore.current} render={render} positionerOptions={positionerOptions} totalItems={totalItems}/>
+
+        {
+          state.afterLoading.get() && !state.endOfList.get() && loading
+        }
+      </>
     );
   }
 }
