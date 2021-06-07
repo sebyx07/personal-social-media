@@ -14,7 +14,7 @@ class PostsController < ApplicationController
       pagination_params: @permitted_index_params,
       post_type: @permitted_index_params[:post_type],
       peer_id: @permitted_index_params[:peer_id],
-      show_from_feed_only: show_from_feed_only
+      show_from_feed_only: @permitted_index_params[:show_from_feed_only]
     ).map! do |vp|
       VirtualPostPresenter.new(vp)
     end.sort_by!(&:id).reverse!
