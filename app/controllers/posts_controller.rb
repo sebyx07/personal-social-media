@@ -17,7 +17,7 @@ class PostsController < ApplicationController
       show_from_feed_only: @permitted_index_params[:show_from_feed_only]
     ).map! do |vp|
       VirtualPostPresenter.new(vp)
-    end.sort_by!(&:id).reverse!
+    end
 
     render json: { posts: @virtual_posts.map(&:render) }
   end

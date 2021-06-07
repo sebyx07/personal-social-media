@@ -34,7 +34,10 @@ class VirtualPost
 
   class << self
     def where(pagination_params: nil, post_type:, peer_id: nil, show_from_feed_only: false)
-      VirtualPostsService::WhereFinder.new(pagination_params, post_type: post_type, peer_id: peer_id, show_from_feed_only: show_from_feed_only).results
+      VirtualPostsService::WhereFinder.new(
+        pagination_params, post_type: post_type,
+        peer_id: peer_id, show_from_feed_only: show_from_feed_only
+      ).results.sort_by(&:id).reverse
     end
   end
 end

@@ -10,7 +10,7 @@ class Current
         return fetch_profile_proc.call
       end
 
-      RequestStore.store[:current_profile] ||= Profile.first
+      RequestStore[:current_profile] ||= Profile.first
     end
 
     def settings
@@ -18,7 +18,7 @@ class Current
         return fetch_settings_proc.call
       end
 
-      RequestStore.store[:current_settings] ||= Setting.first
+      RequestStore[:current_settings] ||= Setting.first
     end
   end
 end

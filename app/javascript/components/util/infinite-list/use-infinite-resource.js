@@ -1,5 +1,5 @@
 import {axios} from '../../../utils/axios';
-import {isEmpty} from 'lodash';
+import {isEmpty, isNumber} from 'lodash';
 import {none, useState} from '@hookstate/core';
 import {useEffect, useRef} from 'react';
 import qs from 'qs';
@@ -11,6 +11,7 @@ export default function useInfiniteResource(initialState = {}, api = {}) {
     endOfList: false,
     errorLoading: false,
     initialLoading: true,
+    lastPreviousCallResponsesSize: null,
     loadedFromIndexesList: [],
     resources: [],
     ...initialState,
@@ -22,9 +23,10 @@ export default function useInfiniteResource(initialState = {}, api = {}) {
   }, [JSON.stringify(initialState), JSON.stringify(api)]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const loadMore = useRef((startIndex) => {
+    if (state.endOfList.get()) return;
     const lastResource = state.resources[startIndex - 1];
 
-    loadMoreResources(state, lastResource, api, startIndex);
+    loadMoreResources(state, lastResource, api);
   });
 
   return {loadMore, state};
@@ -36,6 +38,7 @@ async function loadInitialResources(state, api) {
     const resources = data[api.resourcesRoot];
     state.merge({
       initialLoading: false,
+      lastPreviousCallResponsesSize: resources.length,
       resources,
     });
   } catch {
@@ -43,30 +46,40 @@ async function loadInitialResources(state, api) {
   }
 }
 
-async function loadMoreResources(state, lastResource, api, startIndex) {
+async function loadMoreResources(state, lastResource, api) {
+  const lastResourceId = lastResource.id.get();
+  if (!isNumber(lastResourceId)) return;
+
   state.merge({afterLoading: true});
 
   const {loadedFromIndexesList} = state;
-  if (Object.values(loadedFromIndexesList.value).indexOf(startIndex) !== -1) return;
-  loadedFromIndexesList.merge([startIndex]);
+  if (Object.values(loadedFromIndexesList.value).indexOf(lastResourceId) !== -1) return;
+  loadedFromIndexesList.merge([lastResourceId]);
 
   try {
-    const query = {...api.query, pagination: {from: lastResource.id.get()}};
+    const query = {...api.query, pagination: {from: lastResourceId}};
     const {data} = await loadResources(state, buildUrl(api.baseUrl, query));
 
     const resources = data[api.resourcesRoot];
+    if (resources.map((r) => r.id).indexOf(lastResourceId)) {
+      return state.merge({endOfList: true});
+    }
+
     state.batch((s) => {
       s.resources.merge(resources);
       s.merge({afterLoading: false});
       if (resources.length === 0) {
         s.merge({endOfList: true});
       }
+
+      if (resources.length < state.lastPreviousCallResponsesSize.get()) {
+        s.merge({endOfList: true});
+      }
     });
   } catch (e) {
-    const errorIndex = Object.values(loadedFromIndexesList.value).indexOf(startIndex);
     loadedFromIndexesList.merge({
       afterLoading: false,
-      [errorIndex]: none,
+      [lastResourceId]: none,
     });
     console.error(e);
   }
