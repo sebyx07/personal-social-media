@@ -18,10 +18,7 @@ class PostsController < ApplicationController
       VirtualPostPresenter.new(vp)
     end.sort_by!(&:id).reverse!
 
-    respond_to do |f|
-      f.js { render :async_posts, layout: false }
-      f.json { render json: { posts: @virtual_posts.map(&:render) } }
-    end
+    render json: { posts: @virtual_posts.map(&:render) }
   end
 
   def create

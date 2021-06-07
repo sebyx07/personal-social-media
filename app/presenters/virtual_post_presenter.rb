@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class VirtualPostPresenter
-  delegate :id, to: :@virtual_post
+  delegate :id, :created_at, to: :@virtual_post
 
   def initialize(virtual_post)
     @virtual_post = virtual_post
@@ -9,8 +9,8 @@ class VirtualPostPresenter
 
   def render
     {
-      id: @virtual_post.id,
-      created_at: @virtual_post.created_at,
+      id: id,
+      created_at: created_at,
       updated_at: @virtual_post.updated_at,
       content: @virtual_post.content,
       peer: PeerPresenter.new(@virtual_post.peer).render_low_data,
@@ -21,9 +21,5 @@ class VirtualPostPresenter
         ReactionPresenter.new(cache_reaction).render_cache_reaction
       end
     }
-  end
-
-  def render_camelized
-    render.deep_transform_keys! { |key| key.to_s.camelize(:lower) }
   end
 end

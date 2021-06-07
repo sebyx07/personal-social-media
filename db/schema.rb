@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_06_030835) do
+ActiveRecord::Schema.define(version: 2021_06_07_023122) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2021_06_06_030835) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "post_type", default: "standard", null: false
+    t.boolean "show_in_feed", default: false, null: false
   end
 
   create_table "profiles", force: :cascade do |t|

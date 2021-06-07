@@ -4,12 +4,13 @@
 #
 # Table name: posts
 #
-#  id         :bigint           not null, primary key
-#  content    :text
-#  post_type  :string           default("standard"), not null
-#  status     :string           default("pending"), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id           :bigint           not null, primary key
+#  content      :text
+#  post_type    :string           default("standard"), not null
+#  show_in_feed :boolean          default(FALSE), not null
+#  status       :string           default("pending"), not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 require "rails_helper"
 

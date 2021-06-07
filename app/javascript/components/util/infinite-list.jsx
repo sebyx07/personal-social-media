@@ -1,11 +1,22 @@
 import InfiniteListWindow from './infinite-list/infinite-list-window';
 
-export default function InfiniteList({storeItems, loadMore, render, positionerOptions = {}, isWindow = true, totalItems = 999999}) {
+export default function InfiniteList({
+  infiniteResource, render, positionerOptions = {}, isWindow = true, totalItems = 999999,
+  renderInitialLoading, noResources, className,
+}) {
+  const {loadMore, state} = infiniteResource;
+
+  if (!state.initialLoading.get() && state.resources.length === 0) return noResources;
+
   if (isWindow) {
-    positionerOptions = {columnCount: 1, columnGutter: 0, estimateHeight: 140, ...positionerOptions};
+    positionerOptions = {};
+
+    if (state.initialLoading.get()) {
+      return renderInitialLoading;
+    }
 
     return (
-      <InfiniteListWindow storeItems={storeItems} loadMore={loadMore} render={render} positionerOptions={positionerOptions} totalItems={totalItems}/>
+      <InfiniteListWindow className={className} storeItems={state.resources} loadMore={loadMore.current} render={render} positionerOptions={positionerOptions} totalItems={totalItems}/>
     );
   }
 }
