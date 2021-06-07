@@ -64,6 +64,7 @@ Rails.application.routes.draw do
     if DeveloperService::IsEnabled.is_enabled?
       mount RailsAdmin::Engine => "/admin", as: "rails_admin"
       mount Sidekiq::Web => "/sidekiq"
+      mount PgHero::Engine, at: "/pghero"
     end
   end
 end

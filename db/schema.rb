@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_07_023427) do
+ActiveRecord::Schema.define(version: 2021_06_07_050125) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
 
   create_table "cache_reactions", force: :cascade do |t|
@@ -59,6 +60,26 @@ ActiveRecord::Schema.define(version: 2021_06_07_023427) do
     t.index ["verify_key"], name: "index_peers_on_verify_key"
   end
 
+  create_table "pghero_query_stats", force: :cascade do |t|
+    t.text "database"
+    t.text "user"
+    t.text "query"
+    t.bigint "query_hash"
+    t.float "total_time"
+    t.bigint "calls"
+    t.datetime "captured_at"
+    t.index ["database", "captured_at"], name: "index_pghero_query_stats_on_database_and_captured_at"
+  end
+
+  create_table "pghero_space_stats", force: :cascade do |t|
+    t.text "database"
+    t.text "schema"
+    t.text "relation"
+    t.bigint "size"
+    t.datetime "captured_at"
+    t.index ["database", "captured_at"], name: "index_pghero_space_stats_on_database_and_captured_at"
+  end
+
   create_table "posts", force: :cascade do |t|
     t.text "content"
     t.string "status", default: "pending", null: false
@@ -92,7 +113,6 @@ ActiveRecord::Schema.define(version: 2021_06_07_023427) do
     t.string "external_file_name", null: false
     t.index ["external_account_id"], name: "index_psm_cdn_files_on_external_account_id"
     t.index ["psm_file_variant_id", "external_account_id"], name: "idx_psm_cdn_files_variant_to_external_account", unique: true
-    t.index ["psm_file_variant_id"], name: "index_psm_cdn_files_on_psm_file_variant_id"
   end
 
   create_table "psm_file_permanents", force: :cascade do |t|
@@ -103,7 +123,6 @@ ActiveRecord::Schema.define(version: 2021_06_07_023427) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["external_account_id"], name: "index_psm_file_permanents_on_external_account_id"
     t.index ["psm_file_variant_id", "external_account_id"], name: "idx_psm_file_permanent_variant_to_external_account", unique: true
-    t.index ["psm_file_variant_id"], name: "index_psm_file_permanents_on_psm_file_variant_id"
   end
 
   create_table "psm_file_variants", force: :cascade do |t|
@@ -115,7 +134,6 @@ ActiveRecord::Schema.define(version: 2021_06_07_023427) do
     t.string "permanent_storage_status", default: "pending", null: false
     t.string "cdn_storage_status", default: "pending", null: false
     t.index ["psm_file_id", "variant_name"], name: "index_psm_file_variants_on_psm_file_id_and_variant_name", unique: true
-    t.index ["psm_file_id"], name: "index_psm_file_variants_on_psm_file_id"
   end
 
   create_table "psm_files", force: :cascade do |t|
@@ -144,7 +162,6 @@ ActiveRecord::Schema.define(version: 2021_06_07_023427) do
     t.string "external_file_name", null: false
     t.index ["external_account_id"], name: "index_psm_permanent_files_on_external_account_id"
     t.index ["psm_file_variant_id", "external_account_id"], name: "idx_psm_permanent_files_variant_to_external_account", unique: true
-    t.index ["psm_file_variant_id"], name: "index_psm_permanent_files_on_psm_file_variant_id"
   end
 
   create_table "reaction_counters", force: :cascade do |t|

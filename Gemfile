@@ -3,7 +3,12 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-is_dev = !ENV["DEVELOPER"].nil?
+is_dev = false
+if ENV["RAILS_ENV"] != "production"
+  is_dev = true
+elsif ENV["DEVELOPER"]
+  is_dev = true
+end
 
 ruby "3.0.1"
 gem "bcrypt", "~> 3.1.7"
@@ -73,6 +78,8 @@ gem "hiredis", "~> 0.6.3", require: %w(redis redis/connection/hiredis)
 gem "jb", "~> 0.8.0"
 gem "lockbox", "~> 0.6.4"
 gem "oj", "~> 3.11", ">= 3.11.5"
+gem "pghero", "~> 2.8", ">= 2.8.1", require: is_dev
+gem "pg_query", "~> 2.0", ">= 2.0.3", require: is_dev
 gem "rails_admin", "~> 2.1", ">= 2.1.1", require: is_dev
 gem "rbnacl", "~> 7.1", ">= 7.1.1"
 gem "react-rails", "~> 2.6", ">= 2.6.1"

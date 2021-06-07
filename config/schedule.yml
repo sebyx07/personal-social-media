@@ -1,3 +1,7 @@
 PeerInfoWorkerPing:
   cron: "0 0 * * *"
   class: "PeersWorker::SyncRegularly"
+
+EveryHour:
+  cron: "0 * * * *"
+  class: "EveryHourWorker"

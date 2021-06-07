@@ -19,7 +19,6 @@
 #
 #  idx_psm_permanent_files_variant_to_external_account  (psm_file_variant_id,external_account_id) UNIQUE
 #  index_psm_permanent_files_on_external_account_id     (external_account_id)
-#  index_psm_permanent_files_on_psm_file_variant_id     (psm_file_variant_id)
 #
 # Foreign Keys
 #
