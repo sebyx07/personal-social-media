@@ -36,6 +36,7 @@ async function loadInitialResources(state, api) {
   try {
     const {data} = await loadResources(state, buildUrl(api.baseUrl, api.query));
     const resources = data[api.resourcesRoot];
+    // debugger;
     state.merge({
       initialLoading: false,
       lastPreviousCallResponsesSize: resources.length,

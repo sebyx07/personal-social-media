@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_07_050125) do
+ActiveRecord::Schema.define(version: 2021_06_07_060921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(version: 2021_06_07_050125) do
     t.string "subject_type", null: false
     t.bigint "subject_id", null: false
     t.string "character", null: false
-    t.bigint "reactions_count", default: 1, null: false
+    t.bigint "reactions_count", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["character"], name: "index_reaction_counters_on_character"

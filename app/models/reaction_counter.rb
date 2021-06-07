@@ -6,7 +6,7 @@
 #
 #  id              :bigint           not null, primary key
 #  character       :string           not null
-#  reactions_count :bigint           default(1), not null
+#  reactions_count :bigint           default(0), not null
 #  subject_type    :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
