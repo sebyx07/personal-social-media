@@ -8,12 +8,13 @@ class PostsController < ApplicationController
   end
 
   def index
-    @permitted_index_params = params.permit(:post_type, :peer_id, pagination: :from)
+    @permitted_index_params = params.permit(:post_type, :peer_id, :show_from_feed_only, pagination: :from)
 
     @virtual_posts = VirtualPost.where(
       pagination_params: @permitted_index_params,
       post_type: @permitted_index_params[:post_type],
-      peer_id: @permitted_index_params[:peer_id]
+      peer_id: @permitted_index_params[:peer_id],
+      show_from_feed_only: show_from_feed_only
     ).map! do |vp|
       VirtualPostPresenter.new(vp)
     end.sort_by!(&:id).reverse!

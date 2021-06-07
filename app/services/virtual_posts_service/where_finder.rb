@@ -7,11 +7,12 @@ module VirtualPostsService
     PRELOAD_ASSOCIATIONS_EXTERNALLY = %i(peer cache_reactions)
     DEFAULT_LIMIT = 15
 
-    attr_reader :pagination_params, :peer_id, :post_type
-    def initialize(pagination_params, post_type: :standard, peer_id: nil)
+    attr_reader :pagination_params, :peer_id, :post_type, :show_from_feed_only
+    def initialize(pagination_params, post_type: :standard, peer_id: nil, show_from_feed_only: false)
       @pagination_params = pagination_params
       @peer_id = peer_id
       @post_type = post_type
+      @show_from_feed_only = show_from_feed_only
     end
 
     def results
@@ -35,7 +36,10 @@ module VirtualPostsService
       end
 
       def handle_mix
-        requests = RemoteFinder.new(pagination_params: pagination_params, post_type: post_type).requests
+        requests = RemoteFinder.new(
+          pagination_params: pagination_params,
+          post_type: post_type, show_from_feed_only: show_from_feed_only
+        ).requests
         handle_remote_requests(requests)
       end
 
@@ -44,7 +48,10 @@ module VirtualPostsService
           posts = LocalFinder.new(pagination_params: pagination_params, post_type: post_type).posts
           handle_local_posts(posts)
         else
-          requests = RemoteFinder.new(pagination_params: pagination_params, post_type: post_type, peer_id: peer_id).requests
+          requests = RemoteFinder.new(
+            pagination_params: pagination_params, post_type: post_type,
+            peer_id: peer_id, show_from_feed_only: show_from_feed_only
+          ).requests
           handle_remote_requests(requests)
         end
       end

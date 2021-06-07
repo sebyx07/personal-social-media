@@ -4,13 +4,12 @@
 #
 # Table name: posts
 #
-#  id           :bigint           not null, primary key
-#  content      :text
-#  post_type    :string           default("standard"), not null
-#  show_in_feed :boolean          default(FALSE), not null
-#  status       :string           default("pending"), not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id         :bigint           not null, primary key
+#  content    :text
+#  post_type  :string           default("standard"), not null
+#  status     :string           default("pending"), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 class Post < ApplicationRecord
   validates :content, allow_nil: true, length: { maximum: 2000 }
@@ -54,7 +53,7 @@ class Post < ApplicationRecord
     end
 
     def create_self_remote_post
-      RemotePost.create!(peer: Current.peer, remote_post_id: id, post_type: post_type)
+      RemotePost.create!(peer: Current.peer, remote_post_id: id, post_type: post_type, show_in_feed: true)
     end
 
     def update_remote_post

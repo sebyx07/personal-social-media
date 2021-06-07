@@ -33,8 +33,8 @@ class VirtualPost
   delegate :id, to: :@remote_post
 
   class << self
-    def where(pagination_params: nil, post_type:, peer_id: nil)
-      VirtualPostsService::WhereFinder.new(pagination_params, post_type: post_type, peer_id: peer_id).results
+    def where(pagination_params: nil, post_type:, peer_id: nil, show_from_feed_only: false)
+      VirtualPostsService::WhereFinder.new(pagination_params, post_type: post_type, peer_id: peer_id, show_from_feed_only: show_from_feed_only).results
     end
   end
 end

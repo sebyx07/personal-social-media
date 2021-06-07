@@ -9,6 +9,7 @@ module Api
       return @post = current_post if current_post.present?
       @post = RemotePost.find_or_create_by!(create_params.slice(:remote_post_id, :peer)).tap do |r_post|
         r_post.post_type = create_params[:post_type]
+        r_post.show_in_feed = RemotePostsService::LimitShowInFeed.new(r_post).call unless r_post.persisted?
         r_post.save!
       end
 

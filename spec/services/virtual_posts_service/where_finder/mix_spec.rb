@@ -14,11 +14,11 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
       setup_my_peer(statuses: :friend)
       setup_other_peer(statuses: :friend)
 
-      RemotePost.where(remote_post_id: other_posts.map(&:id)).update_all(peer_id: other_peer.id)
+      RemotePost.where(remote_post_id: other_posts.map(&:id)).update_all(peer_id: other_peer.id, show_in_feed: true)
     end
 
     subject do
-      described_class.new(pagination_params).results
+      described_class.new(pagination_params, post_type: :standard, show_from_feed_only: true).results
     end
 
     it "returns 4 post" do

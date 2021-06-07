@@ -2,11 +2,12 @@
 
 module VirtualPostsService
   class RemoteFinder
-    attr_reader :pagination_params, :peer_id, :post_type
-    def initialize(pagination_params: nil, post_type:, peer_id: nil)
+    attr_reader :pagination_params, :peer_id, :post_type, :show_from_feed_only
+    def initialize(pagination_params: nil, post_type:, peer_id: nil, show_from_feed_only:)
       @pagination_params = pagination_params
       @post_type = post_type
       @peer_id = peer_id
+      @show_from_feed_only = show_from_feed_only
     end
 
     def requests
@@ -41,6 +42,10 @@ module VirtualPostsService
         return @query if defined? @query
 
         @query = RemotePost.where(post_type: post_type).includes(WhereFinder::PRELOAD_ASSOCIATIONS_EXTERNALLY)
+
+        if show_from_feed_only
+          @query = @query.where(show_in_feed: true)
+        end
       end
   end
 end
