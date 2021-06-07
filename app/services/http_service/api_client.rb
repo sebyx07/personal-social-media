@@ -4,11 +4,12 @@ module HttpService
   class ApiClient
     class InvalidResponse < StandardError; end
     MAX_RETRIES = 5
-    attr_reader :request, :url, :method
+    attr_reader :request, :url, :method, :raw_body
     delegate :response, :record, :record=, :body, :url, :peer, to: :request
     delegate :status, :body_str, :json, :safe_retry?, :raw_json, :schedule_retry, to: :response
 
     def initialize(url:, method:, body: {}, record: nil, peer:)
+      @raw_body = body
       @method = method
       @request = klass.new(url, method, body, record, peer)
     end
@@ -37,7 +38,7 @@ module HttpService
 
     def handle_test_invalid_request
       # binding.pry # uncomment this to debug
-      error_msg = { url: url, status: status, body_str: body_str }.to_json
+      error_msg = { url: url, status: status, body_str: body_str, raw_body: raw_body }.to_json
       DeveloperService::HandleError.handle_error(InvalidResponse.new(error_msg))
     end
 

@@ -61,7 +61,7 @@ async function loadMoreResources(state, lastResource, api) {
     const {data} = await loadResources(state, buildUrl(api.baseUrl, query));
 
     const resources = data[api.resourcesRoot];
-    if (resources.map((r) => r.id).indexOf(lastResourceId)) {
+    if (resources.map((r) => r.id).indexOf(lastResourceId) !== -1) {
       return state.merge({endOfList: true});
     }
 

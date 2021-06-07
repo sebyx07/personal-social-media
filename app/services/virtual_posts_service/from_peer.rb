@@ -30,7 +30,13 @@ module VirtualPostsService
       end
 
       def body
-        pagination_params.slice(:pagination, :post_type)
+        return @body if @body.present?
+        @body = { post_type: post_type }
+        if pagination_params[:pagination].present?
+          @body[:pagination] = { from: remote_post_id }
+        end
+
+        @body
       end
 
       def url
@@ -42,7 +48,7 @@ module VirtualPostsService
       end
 
       def save_as_remote_posts!
-        api_client_request.json[:posts].map do |post_json|
+        api_client_request.json[:posts].reverse.map do |post_json|
           handle_remote_post(post_json)
         end.tap do |remote_posts|
           ActiveRecord::Associations::Preloader.new.preload(remote_posts, preloaded_associations)
@@ -61,6 +67,10 @@ module VirtualPostsService
         post.created_at = created_at
 
         post.tap(&:save!)
+      end
+
+      def remote_post_id
+        @remote_post_id ||= RemotePost.find_by!(id: pagination_params[:pagination][:from]).remote_post_id
       end
   end
 end
