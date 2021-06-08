@@ -15,7 +15,7 @@
 #
 # Indexes
 #
-#  idx_sub_type_sub_id_peer_id  (subject_type,subject_id,peer_id) UNIQUE
+#  idx_sub_type_sub_id_peer_id  (character,subject_type,subject_id,peer_id)
 #
 # Foreign Keys
 #

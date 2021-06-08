@@ -15,3 +15,11 @@ button, input[type='submit']{
     @apply outline-none;
   }
 }
+
+.emoji-picker button{
+  @apply bg-transparent text-gray-400;
+
+  &:hover{
+    @apply bg-transparent;
+  }
+}

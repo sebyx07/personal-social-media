@@ -1,7 +1,7 @@
 import {timeAgoInWords} from '../../lib/dates/time-ago';
 import DefaultPeerAvatar from '../peers/avatars/default-avatar';
 import PostReactions from '../reactions/post-reactions';
-import ToggleReaction from '../reactions/toggle-reaction';
+import ReactToSubject from '../reactions/react-to-subject';
 
 export default function StandardPost({data: post}) {
   const {id, content, peer, createdAt} = post;
@@ -24,7 +24,7 @@ export default function StandardPost({data: post}) {
       </div>
       <div className="flex">
         <div>
-          <ToggleReaction url={`/posts/${id.get()}/reactions`} />
+          <ReactToSubject url={`/posts/${id.get()}/reactions`} />
         </div>
       </div>
     </div>

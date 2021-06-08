@@ -15,7 +15,7 @@
 #
 # Indexes
 #
-#  idx_sub_type_sub_id_peer_id  (subject_type,subject_id,peer_id) UNIQUE
+#  idx_sub_type_sub_id_peer_id  (character,subject_type,subject_id,peer_id)
 #
 # Foreign Keys
 #
@@ -25,7 +25,7 @@ class CacheReaction < ApplicationRecord
   belongs_to :subject, polymorphic: true
   belongs_to :peer
 
-  validates :subject_id, presence: true, uniqueness: { scope: %i(peer_id subject_type) }
+  validates :subject_id, presence: true, uniqueness: { scope: %i(peer_id subject_type character) }
   validates :remote_reaction_id, presence: true
 
   def reaction

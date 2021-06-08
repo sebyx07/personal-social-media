@@ -7,12 +7,14 @@ export default function StandardPostList({peerId, showFromFeedOnly}) {
   const infiniteResource = useInfiniteResource(query, {baseUrl: '/posts', query, resourcesRoot: 'posts'});
 
   return (
-    <InfiniteList
-      render={StandardPost}
-      infiniteResource={infiniteResource}
-      renderInitialLoading={<div>Loading posts...</div>}
-      loading={<div>Loading more posts...</div>}
-      noResources={<div>No posts found</div>}
-    />
+    <>
+      <InfiniteList
+        render={StandardPost}
+        infiniteResource={infiniteResource}
+        renderInitialLoading={<div>Loading posts...</div>}
+        loading={<div>Loading more posts...</div>}
+        noResources={<div>No posts found</div>}
+      />
+    </>
   );
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_07_060921) do
+ActiveRecord::Schema.define(version: 2021_06_08_002806) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2021_06_07_060921) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "peer_id", null: false
     t.bigint "remote_reaction_id", null: false
-    t.index ["subject_type", "subject_id", "peer_id"], name: "idx_sub_type_sub_id_peer_id", unique: true
+    t.index ["character", "subject_type", "subject_id", "peer_id"], name: "idx_sub_type_sub_id_peer_id"
   end
 
   create_table "external_accounts", force: :cascade do |t|
