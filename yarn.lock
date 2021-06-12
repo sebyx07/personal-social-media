@@ -1757,6 +1757,11 @@ babel-loader@^8.2.2:
     make-dir "^3.1.0"
     schema-utils "^2.6.5"
 
+babel-plugin-add-module-exports@^1.0.2:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/babel-plugin-add-module-exports/-/babel-plugin-add-module-exports-1.0.4.tgz#6caa4ddbe1f578c6a5264d4d3e6c8a2720a7ca2b"
+  integrity sha512-g+8yxHUZ60RcyaUpfNzy56OtWW+x9cyEe9j+CranqLiqbju2yf/Cy6ZtYK40EZxtrdHllzlVZgLmcOUCTlJ7Jg==
+
 babel-plugin-dynamic-import-node@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.3.3.tgz#84fda19c976ec5c6defef57f9427b3def66e17a3"
@@ -3882,6 +3887,13 @@ inherits@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
+
+inkmbt@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/inkmbt/-/inkmbt-1.0.3.tgz#e37ea1d3b5e6da2f984b4afddf9c2917b4c1b53f"
+  integrity sha512-HiUK9inNl+elynKkN5t/jNR50qgArCepFq5vdNwW+jqoU/dIdEW0T++vueM84QTjsOWr/0kIeYZUoddwpftK8Q==
+  dependencies:
+    babel-plugin-add-module-exports "^1.0.2"
 
 inline-style-prefixer@^6.0.0:
   version "6.0.0"

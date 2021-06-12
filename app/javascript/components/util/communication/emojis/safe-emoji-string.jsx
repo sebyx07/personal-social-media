@@ -17,13 +17,15 @@ export default function SafeEmojiString({string, size, textStyle: defaultTextSty
       {
         html.map((input, i) => {
           if (isObject(input)) {
+            const emojiData = getEmojiDataFromNative(input.emoji, 'apple', data);
             return (
               <span key={i} dangerouslySetInnerHTML={{
                 __html: Emoji({ // eslint-disable-line new-cap
-                  emoji: getEmojiDataFromNative(input.emoji, 'apple', data),
+                  emoji: emojiData,
                   html: true,
                   set: 'apple',
                   size,
+                  skin: emojiData.skin || 1,
                 }),
               }}/>
             );
@@ -38,7 +40,7 @@ export default function SafeEmojiString({string, size, textStyle: defaultTextSty
   );
 }
 
-SafeEmojiString.proptypes = {
+SafeEmojiString.propTypes = {
   size: PropTypes.number.isRequired,
   string: PropTypes.string.isRequired,
   textStyle: PropTypes.object,
