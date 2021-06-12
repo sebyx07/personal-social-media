@@ -1,55 +1,35 @@
-import {isPresent} from '../../components/util/is-present';
-import {none} from '@hookstate/core';
-
 export function standardReactionsCbForModelInc(model, cacheReaction) {
   const {character} = cacheReaction;
 
-  const existingCounter = model.reactionCounters.find((counter) => {
-    return counter.character.get() === character;
-  });
+  const existingCounter = getReactionCounterForModel(model, character);
   if (existingCounter) {
     return existingCounter.merge((c) => {
       return {
+        hasReacted: true,
         reactionsCount: c.reactionsCount + 1,
       };
     });
   }
 
-  return model.batch((m) => {
-    m.reactionCounters.merge([
-      {character, reactionsCount: 1},
-    ]);
-
-    m.cacheReactions.merge([cacheReaction]);
-  });
+  return model.reactionCounters.merge([
+    {character, hasReacted: true, reactionsCount: 1},
+  ]);
 }
 
 export function standardReactionsCbForModelDec(model, emoji) {
-  const existingCounter = model.reactionCounters.find((counter) => {
-    return counter.character.get() === emoji;
-  });
+  const existingCounter = getReactionCounterForModel(model, emoji);
   if (existingCounter) {
     return existingCounter.merge((c) => {
       return {
+        hasReacted: false,
         reactionsCount: c.reactionsCount - 1,
       };
     });
   }
-
-  const cacheReaction = model.cacheReactions.find((reaction) => {
-    return reaction.character.get() === emoji;
-  });
-
-  if (!cacheReaction) return;
-
-  const idx = model.cacheReactions.indexOf(cacheReaction);
-  model.cacheReactions[idx].set(none);
 }
 
-export function standardReactionsCbForModelCheckIfReacted(model, emoji) {
-  const counter = model.cacheReactions.find((counter) => {
+export function getReactionCounterForModel(model, emoji) {
+  return model.reactionCounters.find((counter) => {
     return counter.character.get() === emoji;
   });
-
-  return isPresent(counter);
 }

@@ -15,10 +15,7 @@ class VirtualPostPresenter
       content: @virtual_post.content,
       peer: PeerPresenter.new(@virtual_post.peer).render_low_data,
       reaction_counters: @virtual_post.reaction_counters.map do |reaction_counter|
-        ReactionCounterPresenter.new(reaction_counter).render
-      end,
-      cache_reactions: @virtual_post.cache_reactions.map do |cache_reaction|
-        ReactionPresenter.new(cache_reaction).render_cache_reaction
+        ReactionCounterPresenter.new(reaction_counter).render_with_has_reacted(@virtual_post.cache_reactions)
       end
     }
   end

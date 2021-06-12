@@ -2,7 +2,7 @@ import {formatNumberSocialMedia} from '../../../utils/numbers/format-number-soci
 import PropTypes from 'prop-types';
 import SafeEmojiString from '../../util/communication/emojis/safe-emoji-string';
 
-export default function ReactionCounter({reactionCounter}) {
+export default function ReactionCounter({reactionCounter, localReactionsStore}) {
   const {character, reactionsCount} = reactionCounter;
 
   let string = character.get();
@@ -12,13 +12,16 @@ export default function ReactionCounter({reactionCounter}) {
     string += ` ${formatNumberSocialMedia(reactionsCountNumber)}`;
   }
 
+  const {counterEmojiSize: emojiSize, counterTextStyle: textStyle} = localReactionsStore;
+
   return (
     <div>
-      <SafeEmojiString string={string} size={27} textStyle={{fontSize: '1rem', marginLeft: '2px'}}/>
+      <SafeEmojiString string={string} size={emojiSize} textStyle={textStyle}/>
     </div>
   );
 }
 
 ReactionCounter.propTypes = {
+  localReactionsStore: PropTypes.object.isRequired,
   reactionCounter: PropTypes.object.isRequired,
 };

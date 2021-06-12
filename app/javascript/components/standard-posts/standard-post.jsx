@@ -1,5 +1,4 @@
 import {
-  standardReactionsCbForModelCheckIfReacted,
   standardReactionsCbForModelDec,
   standardReactionsCbForModelInc,
 } from '../../utils/reactions/standard-reactions-cb-for-model';
@@ -19,10 +18,6 @@ export default function StandardPost({data: post}) {
     return standardReactionsCbForModelDec(post, emoji);
   }
 
-  function hasReactedCheck(emoji) {
-    return standardReactionsCbForModelCheckIfReacted(post, emoji);
-  }
-
   return (
     <div className="bg-gray-200 my-2 p-2 rounded">
       <div>
@@ -37,7 +32,7 @@ export default function StandardPost({data: post}) {
         {content.get()}
       </div>
       <div className="my-4">
-        <PostReactions post={post} cbInc={incrementReaction} cbDec={decrementReaction} hasReactedCheck={hasReactedCheck}/>
+        <PostReactions post={post} cbInc={incrementReaction} cbDec={decrementReaction}/>
       </div>
       <div className="flex">
         <div>
@@ -45,7 +40,7 @@ export default function StandardPost({data: post}) {
             baseUrl={`/posts/${id.get()}`}
             className="hover:bg-gray-100"
             cbInc={incrementReaction}
-            hasReactedCheck={hasReactedCheck}
+            model={post}
           />
         </div>
       </div>

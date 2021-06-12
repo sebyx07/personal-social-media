@@ -8,14 +8,15 @@ import mergeStyles from '../../../lib/styles/merge-styles';
 
 export default function ReactionCounterActionWrapper({reactionCounter, localReactionsStore, children}) {
   const character = reactionCounter.character.get();
+  const hasReacted = reactionCounter.hasReacted.get();
   const {
-    hasReactedCheck,
     cbDec,
     cbInc,
     baseUrl,
     modelId,
+    reactionsClassName,
+    reactionsWrapperEachClassName,
   } = localReactionsStore;
-  const hasReacted = hasReactedCheck(character);
   const url = baseUrl + `/${modelId}`;
   const hasReactedClassName = hasReacted ? 'bg-gray-400 rounded' : '';
 
@@ -37,14 +38,16 @@ export default function ReactionCounterActionWrapper({reactionCounter, localReac
     }
   }
 
-  function toggleReaction() {
+  function toggleReaction(e) {
+    e.stopPropagation();
+    e.preventDefault();
     if (hasReacted) return decrement();
     return increment();
   }
 
   return (
-    <div className="p-1 w-1/6">
-      <button className={mergeStyles(hasReactedClassName, 'p-1 flex justify-center items-center')} onClick={toggleReaction}>
+    <div className={reactionsWrapperEachClassName}>
+      <button className={mergeStyles(hasReactedClassName, reactionsClassName, 'p-1 flex justify-center items-center')} onClick={toggleReaction}>
         {children}
       </button>
     </div>

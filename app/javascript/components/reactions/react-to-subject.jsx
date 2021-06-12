@@ -1,4 +1,5 @@
 import {feedBackError} from '../../utils/feedback';
+import {getReactionCounterForModel} from '../../utils/reactions/standard-reactions-cb-for-model';
 import {standardReactionForModelCreate} from '../../utils/reactions/standard-reaction-for-model';
 import {useClickAway} from 'react-use';
 import {useRef} from 'react';
@@ -8,7 +9,7 @@ import PropTypes from 'prop-types';
 import SafeEmojiString from '../util/communication/emojis/safe-emoji-string';
 import mergeStyles from '../../lib/styles/merge-styles';
 
-export default function ReactToSubject({baseUrl, className, cbInc, hasReactedCheck}) {
+export default function ReactToSubject({baseUrl, className, cbInc, model}) {
   const ref = useRef(null);
 
   const state = useState({
@@ -23,7 +24,10 @@ export default function ReactToSubject({baseUrl, className, cbInc, hasReactedChe
 
   async function reactToSubject(emoji) {
     state.merge({buttonDisabled: true, keyboardOpened: false});
-    if (hasReactedCheck(emoji)) return;
+    const reactionCounter = getReactionCounterForModel(model, emoji);
+    if (reactionCounter?.hasReacted) {
+      return feedBackError(`You already reacted with ${emoji}`);
+    }
 
     try {
       const {data: {reaction}} = await standardReactionForModelCreate(baseUrl, emoji);
@@ -56,5 +60,5 @@ ReactToSubject.propTypes = {
   baseUrl: PropTypes.string.isRequired,
   cbInc: PropTypes.func,
   className: PropTypes.string,
-  hasReactedCheck: PropTypes.func.isRequired,
+  model: PropTypes.object.isRequired,
 };
