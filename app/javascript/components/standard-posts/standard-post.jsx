@@ -7,7 +7,7 @@ export default function StandardPost({data: post}) {
   const {id, content, peer, createdAt} = post;
 
   return (
-    <div className="bg-gray-200 hover:bg-gray-300 my-2 p-2 rounded">
+    <div className="bg-gray-200 my-2 p-2 rounded">
       <div>
         <DefaultPeerAvatar peer={peer}>
           {id.get()}
@@ -19,12 +19,12 @@ export default function StandardPost({data: post}) {
       <div>
         {content.get()}
       </div>
-      <div>
+      <div className="my-4">
         <PostReactions post={post}/>
       </div>
       <div className="flex">
         <div>
-          <ReactToSubject url={`/posts/${id.get()}/reactions`} />
+          <ReactToSubject url={`/posts/${id.get()}/reactions`} className="hover:bg-gray-100"/>
         </div>
       </div>
     </div>

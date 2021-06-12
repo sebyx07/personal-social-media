@@ -1,14 +1,11 @@
+import SafeEmojiString from '../../util/communication/emojis/safe-emoji-string';
+
 export default function ReactionCounter({reactionCounter}) {
   const {character, reactionsCount} = reactionCounter;
 
   return (
     <div>
-      <span>
-        {character.get()}
-      </span>
-      <span>
-        {reactionsCount.get()}
-      </span>
+      <SafeEmojiString string={`${character.get()} ${reactionsCount.get()}`} size={27} textStyle={{marginLeft: '-1px'}}/>
     </div>
   );
 }

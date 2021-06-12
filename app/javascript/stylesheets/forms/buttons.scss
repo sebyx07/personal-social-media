@@ -1,4 +1,4 @@
-button:not(.default), input[type='submit']{
+button.themed, input[type='submit']{
   @apply bg-indigo-500 text-white font-bold px-2 py-3 shadow-inner text-center cursor-pointer rounded;
 
   &:hover{
@@ -13,13 +13,5 @@ button:not(.default), input[type='submit']{
 button, input[type='submit']{
   &:focus{
     @apply outline-none;
-  }
-}
-
-.emoji-picker button{
-  @apply bg-transparent text-gray-400;
-
-  &:hover{
-    @apply bg-transparent;
   }
 }

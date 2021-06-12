@@ -17,7 +17,7 @@ gem "pg", "~> 1.2", ">= 1.2.3"
 gem "rails", "~> 6.1.3", ">= 6.1.3.2"
 gem "sass-rails", ">= 6"
 gem "turbolinks", "~> 5.2", ">= 5.2.1"
-gem "webpacker", "~> 6.0.0.beta.7"
+gem "webpacker", git: "https://github.com/rails/webpacker.git"
 
 group :development do
   gem "listen", "~> 3.5", ">= 3.5.1"
@@ -32,11 +32,8 @@ group :development do
   gem "better_errors", "~> 2.9", ">= 2.9.1"
   gem "binding_of_caller", "~> 1.0"
   gem "foreman", "~> 0.87.2"
-  gem "guard", "~> 2.16", ">= 2.16.2"
-  gem "guard-livereload", "~> 2.5", ">= 2.5.2"
   gem "lefthook", "~> 0.7.6"
   gem "puma", "~> 5.3"
-  gem "rack-livereload", "~> 0.3.17"
   gem "rack-mini-profiler", "~> 2.3", ">= 2.3.2"
   gem "rubocop-rails_config", "~> 1.5", ">= 1.5.3"
 end

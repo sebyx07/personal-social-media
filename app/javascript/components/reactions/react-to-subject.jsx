@@ -3,8 +3,10 @@ import {useClickAway} from 'react-use';
 import {useRef} from 'react';
 import {useState} from '@hookstate/core';
 import EmojiKb from '../util/communication/emojis/emoji-kb';
+import SafeEmojiString from '../util/communication/emojis/safe-emoji-string';
+import mergeStyles from '../../lib/styles/merge-styles';
 
-export default function ReactToSubject({url}) {
+export default function ReactToSubject({url, className}) {
   const ref = useRef(null);
 
   const state = useState({
@@ -31,9 +33,10 @@ export default function ReactToSubject({url}) {
   }
 
   return (
-    <div className="relative">
-      <button onClick={openKb} className="default">
-        😊
+    <div className="relative" ref={ref}>
+      <button onClick={openKb}
+        className={mergeStyles('rounded text-white rounded border border-solid border-indigo-600 w-10 h-10 flex items-center justify-center', className)}>
+        <SafeEmojiString string="👍" size={24}/>
       </button>
 
       <EmojiKb isOpened={state.keyboardOpened.get()} append={reactToSubject} className="absolute z-10"/>
