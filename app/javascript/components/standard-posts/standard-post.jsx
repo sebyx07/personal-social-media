@@ -4,7 +4,7 @@ import {
 } from '../../utils/reactions/standard-reactions-cb-for-model';
 import {timeAgoInWords} from '../../lib/dates/time-ago';
 import DefaultPeerAvatar from '../peers/avatars/default-avatar';
-import PostReactions from '../reactions/post-reactions';
+import StandardPostReactions from './standard-post-reactions';
 import ReactToSubject from '../reactions/react-to-subject';
 
 export default function StandardPost({data: post}) {
@@ -32,7 +32,7 @@ export default function StandardPost({data: post}) {
         {content.get()}
       </div>
       <div className="my-4">
-        <PostReactions post={post} cbInc={incrementReaction} cbDec={decrementReaction}/>
+        <StandardPostReactions post={post} cbInc={incrementReaction} cbDec={decrementReaction}/>
       </div>
       <div className="flex">
         <div>

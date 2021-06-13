@@ -7,6 +7,6 @@ class VirtualReaction
     end
 
     delegate(*VirtualReaction::PERMITTED_DELEGATED_METHODS, to: :@reaction)
-    delegate :id, :peer, to: :@post
+    delegate :id, :peer, to: :@reaction
   end
 end

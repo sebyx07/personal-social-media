@@ -2,10 +2,18 @@
 
 module PeersService
   class FakePeerRemote
-    ATTRIBUTES = %i(id name nickname avatar public_key verify_key)
+    ATTRIBUTES = %i(id name nickname avatar public_key verify_key avatar domain_name)
 
     def initialize(attributes)
       @attributes = attributes
+    end
+
+    def is_me
+      false
+    end
+
+    def status
+      []
     end
 
     ATTRIBUTES.each do |attr|

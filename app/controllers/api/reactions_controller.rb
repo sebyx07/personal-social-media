@@ -51,7 +51,7 @@ module Api
         Reaction.includes(:reaction_counter, :peer).where(
           "reaction_counter.subject_id": index_params[:subject_id],
           "reaction_counter.subject_type": index_params[:subject_type]
-        )
+        ).order("reactions.id": :desc)
       end
   end
 end

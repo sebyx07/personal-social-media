@@ -12,10 +12,16 @@ class PeerPresenter
       is_me: @peer.is_me,
       nickname: @peer.nickname,
       status: @peer.status,
-      avatar: PeersService::Gravatar.new(email_hexdigest: @peer.email_hexdigest).url(size: 120),
+      avatar: avatar,
       public_key: EncryptionService::EncryptedContentTransform.to_json(@peer.public_key.to_s),
       verify_key: EncryptionService::EncryptedContentTransform.to_json(@peer.verify_key.to_s),
       domain_name: @peer.domain_name
     }
   end
+
+  private
+    def avatar
+      return @peer.avatar if @peer.respond_to?(:avatar)
+      PeersService::Gravatar.new(email_hexdigest: @peer.email_hexdigest).url(size: 120)
+    end
 end

@@ -11,6 +11,7 @@ class ReactionPresenter
       subject_id: @reaction.subject_id,
       subject_type: @reaction.subject_type,
       character: @reaction.character,
+      created_at: @reaction.created_at,
       peer: PeerPresenter.new(@reaction.peer).render_low_data
     }
   end
@@ -21,6 +22,7 @@ class ReactionPresenter
       subject_id: @reaction.subject_id,
       subject_type: @reaction.subject_type,
       character: @reaction.character,
+      created_at: @reaction.created_at,
       peer: PeerPresenter.new(@reaction.peer).render_low_data
     }
   end

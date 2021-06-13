@@ -32,6 +32,8 @@ RSpec.describe VirtualReaction, type: :request do
 
             subject.each do |v_reaction|
               expect(v_reaction).to be_a(VirtualReaction)
+
+              expect(VirtualReactionPresenter.new(v_reaction).render).to be_present
             end
           end
         end

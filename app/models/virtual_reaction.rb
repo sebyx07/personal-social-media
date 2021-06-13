@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class VirtualReaction
-  PERMITTED_DELEGATED_METHODS = %i(subject_id subject_type character)
+  PERMITTED_DELEGATED_METHODS = %i(subject_id subject_type character created_at)
   def initialize(reaction: nil, json: nil)
     if reaction
       @presenter = VirtualReaction::PresenterForReaction.new(reaction)
