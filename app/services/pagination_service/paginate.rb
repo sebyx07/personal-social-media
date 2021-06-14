@@ -19,7 +19,7 @@ module PaginationService
 
     def apply_pagination_cursor
       return query if pagination_params.blank?
-      @query = query.where("id < ?", pagination_params[:pagination][:from]).order(id: :desc)
+      @query = query.where("#{column_id_sorted} < ?", pagination_params[:pagination][:from]).order(id: :desc)
     end
 
     def apply_pagination
@@ -32,6 +32,14 @@ module PaginationService
       return params.permit(pagination: :from) if params.is_a?(ActionController::Parameters)
 
       params
+    end
+
+    def column_id_sorted
+      "#{relation_klass.table_name}.id"
+    end
+
+    def relation_klass
+      @relation_klass ||= query.to_s.split("::").first.gsub(/[^0-9A-Za-z]/, "").constantize
     end
   end
 end

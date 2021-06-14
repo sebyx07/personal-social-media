@@ -2,7 +2,7 @@
 
 class VirtualPost
   class LoadMultipleError < StandardError; end
-  PERMITTED_DELEGATED_METHODS = %i(id created_at updated_at content)
+  PERMITTED_DELEGATED_METHODS = %i(created_at updated_at content)
 
   attr_reader :post, :request, :peer
 

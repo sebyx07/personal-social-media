@@ -1,20 +1,20 @@
 import {take} from 'lodash';
 import {useState} from '@hookstate/core';
+import HistoryOfReactions from '../reactions/history-of-reactions';
 import PropTypes from 'prop-types';
 import ReactionCounters from '../reactions/reaction-counters';
-import HistoryOfReactions from "../reactions/history-of-reactions";
 
 export default function StandardPostReactions({post, cbInc, cbDec}) {
   const state = useState({
     isExpanded: false,
-    showHistory: false
+    showHistory: false,
   });
   const {reactionCounters} = post;
   const canBeExpanded = reactionCounters.length > 6;
-  
+
   function toggleExpanded() {
-    if(!canBeExpanded) return;
-    
+    if (!canBeExpanded) return;
+
     return state.merge((s) => {
       return {
         isExpanded: !s.isExpanded,
@@ -28,7 +28,7 @@ export default function StandardPostReactions({post, cbInc, cbDec}) {
   const counterEmojiSize = isExpanded ? 25 : 30;
   const counterTextStyle = isExpanded ? {fontSize: '1rem', marginLeft: '2px'} : {fontSize: '1.2rem', marginLeft: '2px'};
   const modelId = post.id.get();
-  
+
   const localReactionsStore = {
     baseUrl: '/posts',
     cbDec,
@@ -48,24 +48,28 @@ export default function StandardPostReactions({post, cbInc, cbDec}) {
     <>
       <div className="p-1 rounded border border-solid border-gray-400">
         <ReactionCounters localReactionsStore={localReactionsStore}/>
-    
+
         <div className="flex justify-between items-end">
-          <button className="text-xs">
+          <button className="text-xs" onClick={() => state.merge({showHistory: true})}>
             Show history of reactions
           </button>
-      
+
           {
             canBeExpanded && <div>
               <button className="text-xs mt-2" onClick={toggleExpanded}>
                 {
-                  isExpanded ? "Click to retract" : "Click to show all"
+                  isExpanded ? 'Click to retract' : 'Click to show all'
                 }
               </button>
             </div>
           }
         </div>
       </div>
-      <HistoryOfReactions isOpened={state.showHistory.get()} modelId={modelId} modelType="Post"/>
+      <HistoryOfReactions
+        isOpened={state.showHistory.get()}
+        modelId={modelId} modelType="Post"
+        close={() => state.merge({showHistory: false})}
+      />
     </>
   );
 }

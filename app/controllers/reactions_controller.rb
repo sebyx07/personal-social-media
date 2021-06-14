@@ -5,12 +5,12 @@ class ReactionsController < ApplicationController
   attr_reader :subject_id
 
   def index
-    @permitted_index_params = params.permit(:subject_type, :subject_id, pagination: :from)
+    @permitted_index_params = params.permit(pagination: :from)
 
     @virtual_posts = VirtualReaction.where(
       pagination_params: @permitted_index_params,
-      subject_type: @permitted_index_params[:subject_type],
-      subject_id: @permitted_index_params[:subject_id],
+      subject_type: subject_type,
+      subject_id: subject_id,
     ).map! do |vp|
       VirtualReactionPresenter.new(vp)
     end

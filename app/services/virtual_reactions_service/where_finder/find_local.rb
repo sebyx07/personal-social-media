@@ -13,7 +13,7 @@ module VirtualReactionsService
 
       def results
         return @results if defined? @results
-        scope = local_record.reactions.order(id: :desc)
+        scope = local_record.reactions.unscoped.includes(:peer, :reaction_counter).order(id: :desc)
         pagination = PaginationService::Paginate.new(scope: scope, params: pagination_params, limit: WhereFinder::DEFAULT_LIMIT)
         @results = pagination.records
       end

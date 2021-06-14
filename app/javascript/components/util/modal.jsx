@@ -1,4 +1,5 @@
-import {useEffect} from 'react';
+import {useClickAway} from 'react-use';
+import {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 
 export default function Modal({isOpen, close, children}) {
@@ -6,6 +7,12 @@ export default function Modal({isOpen, close, children}) {
     if (isOpen) return document.body.classList.add('overflow-y-hidden');
     document.body.classList.remove('overflow-y-hidden');
   }, [isOpen]);
+  const ref = useRef(null);
+
+  useClickAway(ref, () => {
+    if (!isOpen) return;
+    close();
+  });
 
   if (!isOpen) return null;
 
@@ -13,7 +20,7 @@ export default function Modal({isOpen, close, children}) {
     <>
       <div className="fixed bg-black inset-0 z-30 opacity-50"/>
       <div className="fixed inset-0 flex justify-center z-50 py-12">
-        <div className="bg-gray-300 p-6 shadow-lg rounded w-full md:w-1/3 overflow-y-auto">
+        <div className="bg-gray-300 p-6 shadow-lg rounded w-full md:w-1/3 overflow-y-auto" ref={ref}>
           {children}
         </div>
       </div>

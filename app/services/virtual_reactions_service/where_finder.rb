@@ -47,11 +47,11 @@ module VirtualReactionsService
       end
 
       def validate_subject_type
-        if subject_type == "Post"
+        if subject_type == "RemotePost"
           @subject_type_klass = RemotePost
         end
 
-        raise Error, "invalid subject type" if @subject_type_klass.blank?
+        raise Error, "invalid subject type: #{subject_type}" if @subject_type_klass.blank?
       end
   end
 end

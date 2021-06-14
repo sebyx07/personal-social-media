@@ -15,7 +15,7 @@ RSpec.describe VirtualReaction, type: :request do
           let(:reactions) { create_list(:reaction, 2, reaction_counter: reaction_counter) }
 
           subject do
-            described_class.where(pagination_params: {}, subject_type: "Post", subject_id: remote_post.id)
+            described_class.where(pagination_params: {}, subject_type: "RemotePost", subject_id: remote_post.id)
           end
 
           before do
