@@ -3,6 +3,7 @@
 class CommentsController < ApplicationController
   before_action :require_subject_resource, only: :create
   before_action :require_subject_type, only: :create
+  before_action :require_current_cache_comment, only: :update
   attr_reader :subject, :permitted_params
 
   def create
@@ -12,6 +13,15 @@ class CommentsController < ApplicationController
       subject.subject_type, subject.subject_id, content,
       permitted_params[:parent_comment_id], permitted_params[:comment_type]
     )
+  end
+
+  def update
+    @permitted_params = params.require(:comment).permit(:comment_type,
+      *VirtualCommentsService::CommentContent::PERMITTED_CONTENT_ATTRIBUTES
+    )
+    content = VirtualCommentsService::CommentContent.new(permitted_params: permitted_params)
+
+    @cache_comment = VirtualComment.update_comment(current_cache_comment, content, permitted_params[:comment_type])
   end
 
   private
@@ -28,6 +38,14 @@ class CommentsController < ApplicationController
       return if %w(RemotePost).include?(subject.subject_type)
 
       render json: { error: "Invalid subject_type" }, status: 422
+    end
+
+    def current_cache_comment
+      @current_cache_comment ||= CacheComment.find_by(id: params[:id])
+    end
+
+    def require_current_cache_comment
+      render json: { error: "cache comment not found" }, status: 404 if current_cache_comment.blank?
     end
   #
   # def index

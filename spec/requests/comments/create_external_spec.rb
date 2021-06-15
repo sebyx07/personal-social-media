@@ -9,7 +9,16 @@ RSpec.describe "POST /comments" do
   let(:sample_post) { create(:post) }
   let(:remote_post) { sample_post.remote_post }
 
-  let(:params) { { comment: { content: sample_comment.content, subject_type: "RemotePost", subject_id: remote_post.id } } }
+  let(:params) do
+    {
+      comment: {
+        content: sample_comment.content,
+        subject_type: "RemotePost",
+        subject_id: remote_post.id,
+        comment_type: :standard
+      }
+    }
+  end
 
   subject do
     remote_post.update!(peer: other_peer)

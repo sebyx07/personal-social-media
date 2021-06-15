@@ -26,8 +26,6 @@
 #
 FactoryBot.define do
   factory :cache_comment do
-    remote_id { "" }
-    comment_type { "MyString" }
-    content { "" }
+    comment_type { :standard }
   end
 end
