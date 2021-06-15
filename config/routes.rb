@@ -13,10 +13,6 @@ Rails.application.routes.draw do
     end
   end
 
-  def commentable
-    resources :comments, only: %i(index create)
-  end
-
   root to: "home#index"
 
   get "/whoami", to: "profiles#whoami"
@@ -28,6 +24,10 @@ Rails.application.routes.draw do
 
   resources :peers, only: %i(index show create update destroy)
   resources :posts, only: %i(index new create show update destroy edit) do
+    reactable
+  end
+
+  resources :comments, only: %i(index create destroy update) do
     reactable
   end
 
@@ -68,8 +68,6 @@ Rails.application.routes.draw do
       patch "/:id", action: :update
       delete "/:id", action: :destroy
     end
-
-    resources :comments, only: %i(update destroy)
   end
 
   constraints LoggedInConstraint do

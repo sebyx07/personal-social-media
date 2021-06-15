@@ -37,6 +37,7 @@ class Comment < ApplicationRecord
   validate :check_parent_matches, on: :create, if: -> { parent_comment_id.present? }
 
   str_enum :comment_type, %i(standard)
+  validates :comment_type, presence: true
 
   private
     def check_parent_matches

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_15_134542) do
+ActiveRecord::Schema.define(version: 2021_06_15_144008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -20,11 +20,12 @@ ActiveRecord::Schema.define(version: 2021_06_15_134542) do
     t.string "subject_type", null: false
     t.bigint "subject_id", null: false
     t.bigint "peer_id", null: false
-    t.bigint "remote_id", null: false
+    t.bigint "remote_comment_id", null: false
     t.string "comment_type", null: false
     t.jsonb "content", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "remote_parent_comment_id"
     t.index ["peer_id"], name: "index_cache_comments_on_peer_id"
     t.index ["subject_type", "subject_id"], name: "index_cache_comments_on_subject"
   end

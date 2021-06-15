@@ -4,15 +4,16 @@
 #
 # Table name: cache_comments
 #
-#  id           :bigint           not null, primary key
-#  comment_type :string           not null
-#  content      :jsonb            not null
-#  subject_type :string           not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  peer_id      :bigint           not null
-#  remote_id    :bigint           not null
-#  subject_id   :bigint           not null
+#  id                       :bigint           not null, primary key
+#  comment_type             :string           not null
+#  content                  :jsonb            not null
+#  subject_type             :string           not null
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#  peer_id                  :bigint           not null
+#  remote_comment_id        :bigint           not null
+#  remote_parent_comment_id :bigint
+#  subject_id               :bigint           not null
 #
 # Indexes
 #
@@ -25,4 +26,7 @@
 #
 class CacheComment < ApplicationRecord
   belongs_to :peer
+
+  str_enum :comment_type, Comment.comment_types
+  validates :comment_type, presence: true
 end

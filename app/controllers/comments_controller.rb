@@ -1,8 +1,34 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
-  # before_action :require_subject_type
-  # attr_reader :subject_id
+  before_action :require_subject_resource, only: :create
+  before_action :require_subject_type, only: :create
+  attr_reader :subject, :permitted_params
+
+  def create
+    content = VirtualCommentsService::CommentContent.new(permitted_params: permitted_params[:content])
+
+    @cache_comment = VirtualComment.create_comment(
+      subject.subject_type, subject.subject_id, content,
+      permitted_params[:parent_comment_id], permitted_params[:comment_type]
+    )
+  end
+
+  private
+    def require_subject_resource
+      @permitted_params = params.require(:comment).permit(
+        :subject_id, :subject_type, :parent_comment_id, :comment_type,
+        *VirtualCommentsService::CommentContent::PERMITTED_CONTENT_ATTRIBUTES
+      )
+      @subject = VirtualSubject.new(@permitted_params)
+      render json: { error: "Invalid subject" }, status: 422 unless subject.valid?
+    end
+
+    def require_subject_type
+      return if %w(RemotePost).include?(subject.subject_type)
+
+      render json: { error: "Invalid subject_type" }, status: 422
+    end
   #
   # def index
   #   @permitted_index_params = params.permit(pagination: :from)
@@ -18,9 +44,7 @@ class CommentsController < ApplicationController
   #   render json: { comments: @virtual_posts.map(&:render) }
   # end
   #
-  # def create
-  #   @cache_comment = VirtualComment.react_for_resource(subject_type, subject_id, permitted_params[:character])
-  # end
+
   #
   # def destroy
   #   VirtualComment.remove_react_for_resource(subject_type, subject_id, permitted_params[:character])

@@ -3,13 +3,14 @@
 module VirtualCommentsService
   class CreateComment
     class Error < StandardError; end
-    attr_reader :subject_type, :subject_id, :content, :parent_comment_id
+    attr_reader :subject_type, :subject_id, :content, :parent_comment_id, :comment_type
 
-    def initialize(subject_type, subject_id, content, parent_comment_id)
+    def initialize(subject_type, subject_id, content, parent_comment_id, comment_type)
       @subject_type = subject_type
       @subject_id = subject_id
       @content = content
       @parent_comment_id = parent_comment_id
+      @comment_type = comment_type
     end
 
     def call!
@@ -29,10 +30,11 @@ module VirtualCommentsService
       end
 
       def handle_locally
-        CreateLocalComment.new(remote_record, local_record, content, parent_comment_id).call!
+        CreateLocalComment.new(remote_record, local_record, content, parent_comment_id, comment_type).call!
       end
 
       def handle_remotely
+        CreateCommentExternally.new(remote_record, content, parent_comment_id, comment_type).call!
       end
 
       def is_local_record?
