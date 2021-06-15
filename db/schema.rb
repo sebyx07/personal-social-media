@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_14_202747) do
+ActiveRecord::Schema.define(version: 2021_06_15_124330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 2021_06_14_202747) do
     t.jsonb "content", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "sub_comments_count", default: 0, null: false
     t.index ["comment_counter_id"], name: "index_comments_on_comment_counter_id"
     t.index ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
     t.index ["peer_id"], name: "index_comments_on_peer_id"

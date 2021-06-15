@@ -20,5 +20,5 @@ class CommentCounter < ApplicationRecord
   validates :subject_type, presence: true, uniqueness: { scope: :subject_id }
   validates :subject_id, presence: true
 
-  validates :subject_type, inclusion: { in: %w(Post Comment) }
+  validates :subject_type, inclusion: { in: Comment::PERMITTED_SUBJECT_CLASSES }
 end

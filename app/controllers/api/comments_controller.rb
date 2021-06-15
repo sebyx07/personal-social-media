@@ -3,7 +3,7 @@
 module Api
   class CommentsController < BaseController
     before_action :require_friend
-    before_action :require_current_comment, only: %i(destroy)
+    before_action :require_current_comment, only: %i(destroy update)
 
     def index
       return create if decrypted_params[:comment].present?
@@ -14,7 +14,15 @@ module Api
     end
 
     def create
-      @comment = CommentsService::CreateComment.new(comment_params, current_peer).call!
+      @comment = CommentsService::CreateComment.new(comment_params_create, current_peer).call!
+
+      render :create
+    rescue ActiveRecord::RecordInvalid, CommentsService::CreateComment::Error => e
+      render json: { error: e.message }, status: 422
+    end
+
+    def update
+      @comment = CommentsService::UpdateComment.new(comment_params_update, current_comment).call!
 
       render :create
     rescue ActiveRecord::RecordInvalid => e
@@ -27,8 +35,17 @@ module Api
     end
 
     private
-      def comment_params
-        @comment_params ||= decrypted_params.require(:comment).permit!
+      def comment_params_create
+        @comment_params ||= decrypted_params.require(:comment).permit(
+          :comment_type, :parent_comment_id, :subject_id, :subject_type,
+          *VirtualCommentsService::CommentContent::PERMITTED_CONTENT_ATTRIBUTES
+        )
+      end
+
+      def comment_params_update
+        @comment_params_update ||= decrypted_params.require(:comment).permit(
+          *VirtualCommentsService::CommentContent::PERMITTED_CONTENT_ATTRIBUTES
+        )
       end
 
       def current_comment
@@ -40,7 +57,7 @@ module Api
       end
 
       def scoped_comments
-        comment.where(peer: current_peer)
+        current_peer.comments
       end
 
       def index_params

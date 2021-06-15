@@ -47,7 +47,7 @@ class Peer < ApplicationRecord
   has_many :remote_posts, dependent: :delete_all
   has_many :cache_reactions, dependent: :delete_all
   has_many :reactions, dependent: :delete_all
-  has_many :comments, dependent: :delete_all
+  has_many :comments, dependent: :destroy
   has_many :cache_comments, dependent: :delete_all
 
   if Rails.env.production? && !DeveloperService::IsEnabled.is_enabled?

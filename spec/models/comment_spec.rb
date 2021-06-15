@@ -7,6 +7,7 @@
 #  id                 :bigint           not null, primary key
 #  comment_type       :string           default("standard"), not null
 #  content            :jsonb            not null
+#  sub_comments_count :bigint           default(0), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  comment_counter_id :bigint           not null

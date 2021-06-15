@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+encrypt_json do
+  {
+    comment: CommentPresenter.new(@comment).render
+  }
+end

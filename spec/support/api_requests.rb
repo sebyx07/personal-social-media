@@ -14,6 +14,11 @@ module RequestsApiSpecHelper
     @raw_json = JSON.parse(response.body).with_indifferent_access
   end
 
+  def reset_response_json!
+    remove_instance_variable(:@json)
+    remove_instance_variable(:@raw_json)
+  end
+
   def encrypt_params(params)
     encrypted = __encrypt.encrypt(params.to_json)
     encrypted.as_json.merge!(

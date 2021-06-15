@@ -2,17 +2,17 @@
 
 module VirtualCommentsService
   class CommentContent
-    attr_reader :params
-    def initialize(params)
-      @params = params.require(:comment).permit(:comment_type, content: [:message])
-    end
+    PERMITTED_CONTENT_ATTRIBUTES = [content: [:message]]
 
-    def comment_type
-      params[:comment_type]
+    attr_reader :permitted_params
+    def initialize(params: nil, permitted_params: nil)
+      @permitted_params = permitted_params || params.require(:comment).permit(*PERMITTED_CONTENT_ATTRIBUTES)
     end
 
     def saveable_content
-      params[:content]
+      {
+        content: permitted_params[:content],
+      }
     end
   end
 end
