@@ -10,11 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_08_002806) do
+ActiveRecord::Schema.define(version: 2021_06_14_202747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
+
+  create_table "cache_comments", force: :cascade do |t|
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.bigint "peer_id", null: false
+    t.bigint "remote_id", null: false
+    t.string "comment_type", null: false
+    t.jsonb "content", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["peer_id"], name: "index_cache_comments_on_peer_id"
+    t.index ["subject_type", "subject_id"], name: "index_cache_comments_on_subject"
+  end
 
   create_table "cache_reactions", force: :cascade do |t|
     t.string "character", null: false
@@ -25,6 +38,28 @@ ActiveRecord::Schema.define(version: 2021_06_08_002806) do
     t.bigint "peer_id", null: false
     t.bigint "remote_reaction_id", null: false
     t.index ["character", "subject_type", "subject_id", "peer_id"], name: "idx_sub_type_sub_id_peer_id"
+  end
+
+  create_table "comment_counters", force: :cascade do |t|
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.bigint "comments_count", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subject_type", "subject_id"], name: "index_comment_counters_on_subject"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.bigint "comment_counter_id", null: false
+    t.bigint "parent_comment_id"
+    t.bigint "peer_id", null: false
+    t.string "comment_type", default: "standard", null: false
+    t.jsonb "content", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["comment_counter_id"], name: "index_comments_on_comment_counter_id"
+    t.index ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
+    t.index ["peer_id"], name: "index_comments_on_peer_id"
   end
 
   create_table "external_accounts", force: :cascade do |t|
@@ -213,7 +248,11 @@ ActiveRecord::Schema.define(version: 2021_06_08_002806) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "cache_comments", "peers"
   add_foreign_key "cache_reactions", "peers"
+  add_foreign_key "comments", "comment_counters"
+  add_foreign_key "comments", "comments", column: "parent_comment_id"
+  add_foreign_key "comments", "peers"
   add_foreign_key "psm_cdn_files", "external_accounts"
   add_foreign_key "psm_cdn_files", "psm_file_variants"
   add_foreign_key "psm_file_permanents", "external_accounts"

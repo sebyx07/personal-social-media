@@ -29,6 +29,9 @@ class Post < ApplicationRecord
   has_many :reactions, through: :reaction_counters
   has_many :cache_reactions, -> { where(peer: Current.peer) }, dependent: :delete_all, as: :subject
 
+  has_one :comment_counter, as: :subject, dependent: :destroy
+  has_many :cache_comments, dependent: :delete_all, as: :subject
+
   class << self
     def allow_propagate_to_remote?
       Rails.env.production?

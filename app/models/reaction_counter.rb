@@ -23,6 +23,7 @@ class ReactionCounter < ApplicationRecord
   validates :character, presence: true, uniqueness: { scope: [:subject_type, :subject_id] }, format: {
     with: Unicode::Emoji::REGEX_WELL_FORMED
   }, on: :create
+  validates :subject_type, presence: true, inclusion: { in: %w(Post Comment) }
 
   has_many :reactions, dependent: :delete_all
 end
