@@ -8,6 +8,7 @@
 #  content    :text
 #  post_type  :string           default("standard"), not null
 #  status     :string           default("pending"), not null
+#  views      :bigint           default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

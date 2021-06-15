@@ -4,6 +4,7 @@ module Api
   class PostsController < BaseController
     before_action :require_friend
     before_action :require_current_post, only: %i(show)
+    after_action :increment_views, only: %i(show index)
 
     def index
       scope = default_scope.order(id: :desc)
@@ -31,6 +32,14 @@ module Api
 
       def require_current_post
         render json: { error: "post not found" }, status: 404 if current_post.blank?
+      end
+
+      def increment_views
+        if @post.present?
+          PostsService::IncrementViews.new(post: @post).call!
+        elsif @posts.present?
+          PostsService::IncrementViews.new(posts: @posts).call!
+        end
       end
   end
 end

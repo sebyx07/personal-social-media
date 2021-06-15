@@ -65,7 +65,7 @@ module Api
       end
 
       def index_scope
-        comment.includes(:comment_counter, :peer).where(
+        Comment.includes(:comment_counter, :peer).where(
           "comment_counter.subject_id": index_params[:subject_id],
           "comment_counter.subject_type": index_params[:subject_type]
         ).order("comments.id": :desc)
