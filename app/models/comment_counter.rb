@@ -19,6 +19,8 @@ class CommentCounter < ApplicationRecord
   belongs_to :subject, polymorphic: true
   validates :subject_type, presence: true, uniqueness: { scope: :subject_id }
   validates :subject_id, presence: true
+  has_many :comments, dependent: :destroy
+  has_many :latest_comments, -> { where(is_latest: true) }, class_name: "Comment"
 
   validates :subject_type, inclusion: { in: Comment::PERMITTED_SUBJECT_CLASSES }
 end

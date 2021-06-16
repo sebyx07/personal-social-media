@@ -32,4 +32,14 @@ class CommentPresenter
       peer: PeerPresenter.new(@comment.peer).render_low_data
     }
   end
+
+  def render_with_is_mine(cache_comments)
+    hash = {
+      is_mine: cache_comments.detect do |cache_comment|
+        cache_comment.remote_comment_id = @comment.id
+      end.present?
+    }
+
+    render.merge(hash)
+  end
 end

@@ -7,6 +7,7 @@
 #  id                 :bigint           not null, primary key
 #  comment_type       :string           default("standard"), not null
 #  content            :jsonb            not null
+#  is_latest          :boolean          not null
 #  sub_comments_count :bigint           default(0), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -33,6 +34,7 @@ class Comment < ApplicationRecord
   belongs_to :peer
   belongs_to :parent_comment, class_name: "Comment", optional: true, counter_cache: :sub_comments_count
   has_many :sub_comments, class_name: "Comment", foreign_key: :parent_comment_id, dependent: :nullify
+  before_create :handle_update_latest
 
   validate :check_parent_matches, on: :create, if: -> { parent_comment_id.present? }
 
@@ -43,5 +45,9 @@ class Comment < ApplicationRecord
     def check_parent_matches
       errors.add(:subject_type, "parent subject_type does not match") if parent_comment.subject_type != subject_type.to_s
       errors.add(:subject_id, "parent subject_id does not match") if parent_comment.subject_id != subject_id
+    end
+
+    def handle_update_latest
+      CommentsService::HandleUpdateLatest.new(self).call!
     end
 end

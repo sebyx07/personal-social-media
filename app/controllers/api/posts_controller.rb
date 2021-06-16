@@ -23,7 +23,7 @@ module Api
 
     private
       def default_scope
-        Post.includes(:reaction_counters, :comment_counter).ready
+        Post.includes(:reaction_counters, :comment_counter, latest_comments: :peer).ready
       end
 
       def current_post
