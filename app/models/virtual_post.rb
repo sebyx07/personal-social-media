@@ -2,7 +2,7 @@
 
 class VirtualPost
   class LoadMultipleError < StandardError; end
-  PERMITTED_DELEGATED_METHODS = %i(created_at updated_at content views)
+  PERMITTED_DELEGATED_METHODS = %i(created_at updated_at content views comments_count)
 
   attr_reader :post, :request, :peer
 

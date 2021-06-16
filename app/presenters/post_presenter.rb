@@ -13,6 +13,7 @@ class PostPresenter
       created_at: @post.created_at,
       updated_at: @post.updated_at,
       views: @post.views,
+      comments_count: @post.comments_count,
       reaction_counters: @post.reaction_counters.map do |reaction_counter|
         ReactionCounterPresenter.new(reaction_counter).render
       end

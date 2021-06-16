@@ -23,7 +23,7 @@ module Api
 
     private
       def default_scope
-        Post.includes(:reaction_counters).ready
+        Post.includes(:reaction_counters, :comment_counter).ready
       end
 
       def current_post

@@ -19,8 +19,9 @@ RSpec.describe "DELETE /api/comments/:id" do
 
     expect do
       subject
+      expect(response).to have_http_status(:ok)
     end.to change { Comment.count }.by(-1)
 
-    expect(response).to have_http_status(:ok)
+    expect(json[:ok]).to be_truthy
   end
 end

@@ -28,9 +28,10 @@ RSpec.describe "PATCH /api/comments/:id" do
 
     expect do
       subject
+      expect(response).to have_http_status(:ok)
       comment.reload
     end.to change { comment.content }.to(sample_comment.content)
 
-    expect(response).to have_http_status(:ok)
+    expect(json[:comment]).to be_present
   end
 end

@@ -3,6 +3,7 @@
 module VirtualCommentsService
   class UpdateLocalComment
     attr_reader :cache_comment, :content, :comment_type
+    delegate :local_comment, to: :cache_comment
 
     def initialize(cache_comment, content, comment_type)
       @cache_comment = cache_comment
@@ -23,10 +24,6 @@ module VirtualCommentsService
     private
       def needs_update?
         cache_comment.content != content.saveable_content || cache_comment.comment_type != comment_type
-      end
-
-      def local_comment
-        @local_comment ||= Comment.find_by(id: cache_comment.remote_comment_id)
       end
 
       def update_attributes

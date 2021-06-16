@@ -3,7 +3,7 @@
 class CommentsController < ApplicationController
   before_action :require_subject_resource, only: :create
   before_action :require_subject_type, only: :create
-  before_action :require_current_cache_comment, only: :update
+  before_action :require_current_cache_comment, only: %i(update destroy)
   attr_reader :subject, :permitted_params
 
   def create
@@ -22,6 +22,11 @@ class CommentsController < ApplicationController
     content = VirtualCommentsService::CommentContent.new(permitted_params: permitted_params)
 
     @cache_comment = VirtualComment.update_comment(current_cache_comment, content, permitted_params[:comment_type])
+  end
+
+  def destroy
+    VirtualComment.remove_comment(current_cache_comment)
+    render json: { ok: true }
   end
 
   private

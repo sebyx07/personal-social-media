@@ -29,4 +29,8 @@ class CacheComment < ApplicationRecord
 
   str_enum :comment_type, Comment.comment_types
   validates :comment_type, presence: true
+
+  def local_comment
+    @local_comment ||= Comment.find_by(id: remote_comment_id)
+  end
 end

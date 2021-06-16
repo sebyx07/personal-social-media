@@ -12,5 +12,9 @@ class VirtualComment
     def update_comment(cache_comment, content, comment_type)
       VirtualCommentsService::UpdateComment.new(cache_comment, content, comment_type).call!
     end
+
+    def remove_comment(cache_comment)
+      VirtualCommentsService::RemoveComment.new(cache_comment).call!
+    end
   end
 end

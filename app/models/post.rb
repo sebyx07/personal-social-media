@@ -31,6 +31,7 @@ class Post < ApplicationRecord
   has_many :cache_reactions, -> { where(peer: Current.peer) }, dependent: :delete_all, as: :subject
 
   has_one :comment_counter, as: :subject, dependent: :destroy
+  delegate :comments_count, to: :comment_counter, allow_nil: true
   has_many :cache_comments, dependent: :delete_all, as: :subject
 
   class << self

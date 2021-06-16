@@ -27,9 +27,9 @@ RSpec.describe "POST /api/reactions" do
   it "creates reaction" do
     expect do
       subject
+      expect(response).to have_http_status(:ok)
     end.to change { Reaction.count }.by(1)
 
-    expect(response).to have_http_status(:ok)
     expect(json[:reaction]).to be_present
   end
 end

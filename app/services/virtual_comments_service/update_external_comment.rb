@@ -2,6 +2,7 @@
 
 module VirtualCommentsService
   class UpdateExternalComment
+    class Error < StandardError; end
     delegate :peer, to: :cache_comment
     attr_reader :cache_comment, :content, :comment_type
 
@@ -16,7 +17,7 @@ module VirtualCommentsService
 
       return handle_valid_request if request.valid?
 
-      raise Error, "unable to comment"
+      raise Error, "unable to update comment"
     end
 
     private

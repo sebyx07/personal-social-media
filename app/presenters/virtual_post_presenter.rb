@@ -15,6 +15,7 @@ class VirtualPostPresenter
       content: @virtual_post.content,
       peer: PeerPresenter.new(@virtual_post.peer).render_low_data,
       views: @virtual_post.views,
+      comments_count: @virtual_post.comments_count,
       reaction_counters: @virtual_post.reaction_counters.map do |reaction_counter|
         ReactionCounterPresenter.new(reaction_counter).render_with_has_reacted(@virtual_post.cache_reactions)
       end

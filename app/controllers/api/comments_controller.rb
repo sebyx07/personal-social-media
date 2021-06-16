@@ -18,7 +18,7 @@ module Api
 
       render :create
     rescue ActiveRecord::RecordInvalid, CommentsService::CreateComment::Error => e
-      render json: { error: e.message }, status: 422
+      render json: encrypt_json({ error: e.message }), status: 422
     end
 
     def update
@@ -26,7 +26,7 @@ module Api
 
       render :create
     rescue ActiveRecord::RecordInvalid => e
-      render json: { error: e.message }, status: 422
+      render json: encrypt_json({ error: e.message }), status: 422
     end
 
     def destroy

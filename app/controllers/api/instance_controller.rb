@@ -22,7 +22,7 @@ module Api
 
       render json: encrypt_json({ relationship: service.result })
     rescue ApiService::Peers::UpdateRelationship::Error => e
-      render json: { error: e.message }, status: 422
+      render json: encrypt_json({ error: e.message }), status: 422
     end
 
     def sync_params

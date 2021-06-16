@@ -24,7 +24,7 @@ class ReactionsController < ApplicationController
 
   def destroy
     VirtualReaction.remove_react_for_resource(subject_type, subject_id, permitted_params[:character])
-    head :ok
+    render json: { ok: true }
   end
 
   def require_subject_type
