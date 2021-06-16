@@ -8,6 +8,10 @@ class PeersController < ApplicationController
   def index
   end
 
+  def search
+    @peers = PeersService::SearchPeers.new(search_params).call
+  end
+
   def show
     @peer = current_peer
   end
@@ -64,6 +68,10 @@ class PeersController < ApplicationController
 
     def current_peer
       @current_peer ||= PeersService::RelationshipStatus.scope_including_blocked_by_me(Peer).find_by(id: params[:id])
+    end
+
+    def search_params
+      params.require(:q).permit(public_key: [])
     end
 
     def require_peer

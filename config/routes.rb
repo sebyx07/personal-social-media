@@ -22,7 +22,11 @@ Rails.application.routes.draw do
     post "/setup-recovery", action: :setup_recovery_post
   end
 
-  resources :peers, only: %i(index show create update destroy)
+  resources :peers, only: %i(index show create update destroy) do
+    collection do
+      post "/search", action: :search
+    end
+  end
   resources :posts, only: %i(index new create show update destroy edit) do
     reactable
   end

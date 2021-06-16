@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  peers: render(partial: "peers/peer", collection: @peers, as: :peer)
+}
