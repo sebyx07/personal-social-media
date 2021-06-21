@@ -24,3 +24,9 @@ if Rails.env.production?
     config.error_handlers << Proc.new { |ex| Bugsnag.notify(ex) }
   end
 end
+
+Sidekiq.configure_server do |config|
+  config.server_middleware do |chain|
+    chain.add RailsServerMonitor::SidekiqMiddleware
+  end
+end

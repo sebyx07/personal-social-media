@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_16_143250) do
+ActiveRecord::Schema.define(version: 2021_06_21_194922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -203,6 +203,38 @@ ActiveRecord::Schema.define(version: 2021_06_16_143250) do
     t.index ["psm_file_variant_id", "external_account_id"], name: "idx_psm_permanent_files_variant_to_external_account", unique: true
   end
 
+  create_table "rails_server_monitor_server_groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "rails_server_monitor_servers", default: 0, null: false
+    t.index ["name"], name: "index_rails_server_monitor_server_groups_on_name", unique: true
+  end
+
+  create_table "rails_server_monitor_server_snapshots", force: :cascade do |t|
+    t.float "cpu_usage_percentage"
+    t.float "ram_usage_percentage"
+    t.float "hdd_usage_percentage"
+    t.text "ram_stats"
+    t.text "hdd_stats"
+    t.text "network_stats"
+    t.bigint "rails_server_monitor_server_id", null: false
+    t.datetime "created_at"
+    t.index ["created_at"], name: "index_rails_server_monitor_server_snapshots_on_created_at"
+    t.index ["rails_server_monitor_server_id"], name: "rails_server_monitor_snapshots_on_server"
+  end
+
+  create_table "rails_server_monitor_servers", force: :cascade do |t|
+    t.string "hostname"
+    t.datetime "last_seen_at"
+    t.string "custom_name"
+    t.text "custom_description"
+    t.text "system_information"
+    t.bigint "rails_server_monitor_server_group_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["hostname"], name: "index_rails_server_monitor_servers_on_hostname"
+    t.index ["rails_server_monitor_server_group_id"], name: "rails_server_monitor_server_on_group"
+  end
+
   create_table "reaction_counters", force: :cascade do |t|
     t.string "subject_type", null: false
     t.bigint "subject_id", null: false
@@ -264,6 +296,8 @@ ActiveRecord::Schema.define(version: 2021_06_16_143250) do
   add_foreign_key "psm_file_variants", "psm_files"
   add_foreign_key "psm_permanent_files", "external_accounts"
   add_foreign_key "psm_permanent_files", "psm_file_variants"
+  add_foreign_key "rails_server_monitor_server_snapshots", "rails_server_monitor_servers"
+  add_foreign_key "rails_server_monitor_servers", "rails_server_monitor_server_groups"
   add_foreign_key "reactions", "peers"
   add_foreign_key "reactions", "reaction_counters"
   add_foreign_key "remote_posts", "peers"

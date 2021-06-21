@@ -75,6 +75,8 @@ Rails.application.routes.draw do
   end
 
   constraints LoggedInConstraint do
+    mount RailsServerMonitor::Engine => "/system-information"
+
     if DeveloperService::IsEnabled.is_enabled?
       mount RailsAdmin::Engine => "/admin", as: "rails_admin"
       mount Sidekiq::Web => "/sidekiq"
