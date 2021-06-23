@@ -1,0 +1,8 @@
+.message-box{
+  @apply text-lg;
+
+  span.emoji-mart-emoji > span{
+    height: 1.35rem !important;
+    width: 1.35rem !important;
+  }
+}

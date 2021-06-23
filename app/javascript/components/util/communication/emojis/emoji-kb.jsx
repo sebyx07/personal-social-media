@@ -12,7 +12,7 @@ export default function EmojiKb({isOpened, append, className}) {
 
   return (
     <div className={mergeStyles('emoji-picker', className)}>
-      <Picker set="apple" onSelect={selectEmoji} />
+      <Picker set="apple" onSelect={selectEmoji}/>
     </div>
   );
 }
