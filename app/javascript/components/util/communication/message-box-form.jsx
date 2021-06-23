@@ -3,7 +3,7 @@ import EditorState from 'draft-js/lib/EditorState';
 import MessageBox from './message-box';
 import PropTypes from 'prop-types';
 
-export default function MessageBoxForm({clearOnSubmit= true, submit, messageBoxClassName}) {
+export default function MessageBoxForm({clearOnSubmit= true, submit, messageBoxClassName, placeholder}) {
   const [state, setState] = useState({
     disabled: false,
     editorState: EditorState.createEmpty(),
@@ -17,7 +17,7 @@ export default function MessageBoxForm({clearOnSubmit= true, submit, messageBoxC
   }
 
   return (
-    <MessageBox editorState={state.editorState} onChange={onChange}/>
+    <MessageBox editorState={state.editorState} onChange={onChange} placeholder={placeholder}/>
   );
 }
 

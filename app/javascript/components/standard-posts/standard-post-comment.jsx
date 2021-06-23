@@ -9,6 +9,7 @@ export default function StandardPostComment({post}) {
       submit={saveComment}
       messageBoxClassName="bg-gray-100 rounded border border-solid focus:border-gray-400 border-gray-200"
       clearOnSubmit={true}
+      placeholder="Your comment"
     />
   );
 }
