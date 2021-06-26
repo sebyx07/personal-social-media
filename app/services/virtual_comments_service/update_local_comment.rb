@@ -13,7 +13,6 @@ module VirtualCommentsService
 
     def call!
       return cache_comment unless needs_update?
-
       CacheComment.transaction do
         local_comment.update!(update_attributes)
         cache_comment.update!(update_attributes)

@@ -10,7 +10,7 @@ module VirtualCommentsService
     end
 
     def saveable_content
-      permitted_params[:content]
+      @saveable_content ||= permitted_params[:content].to_h
     end
   end
 end

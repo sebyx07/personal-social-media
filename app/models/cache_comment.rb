@@ -30,6 +30,9 @@ class CacheComment < ApplicationRecord
   str_enum :comment_type, Comment.comment_types
   validates :comment_type, presence: true
 
+  store :content, accessors: %i(message)
+  validates :message, presence: true, length: { maximum: 1000 }, if: -> { standard? }
+
   def local_comment
     @local_comment ||= Comment.find_by(id: remote_comment_id)
   end

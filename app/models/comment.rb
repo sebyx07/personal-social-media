@@ -38,6 +38,9 @@ class Comment < ApplicationRecord
 
   validate :check_parent_matches, on: :create, if: -> { parent_comment_id.present? }
 
+  store :content, accessors: %i(message)
+  validates :message, presence: true, length: { maximum: 1000 }, if: -> { standard? }
+
   str_enum :comment_type, %i(standard)
   validates :comment_type, presence: true
 
