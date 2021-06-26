@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
   attr_reader :subject, :permitted_params
 
   def create
-    content = VirtualCommentsService::CommentContent.new(permitted_params: permitted_params[:content])
+    content = VirtualCommentsService::CommentContent.new(permitted_params: permitted_params)
 
     @cache_comment = VirtualComment.create_comment(
       subject.subject_type, subject.subject_id, content,

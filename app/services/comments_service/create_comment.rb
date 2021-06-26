@@ -19,7 +19,7 @@ module CommentsService
         comment_type: comment_params[:comment_type],
         parent_comment_id: comment_params[:parent_comment_id]
       }
-      attributes.merge!(content.saveable_content)
+      attributes[:content] = content.saveable_content
 
       Comment.create!(attributes)
     end

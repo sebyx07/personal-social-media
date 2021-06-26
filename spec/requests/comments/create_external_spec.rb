@@ -39,5 +39,6 @@ RSpec.describe "POST /comments" do
       .and change { CommentCounter.count }.by(1)
 
     expect(json[:comment]).to be_present
+    expect(json.dig(:comment, :content, :message)).to be_present
   end
 end

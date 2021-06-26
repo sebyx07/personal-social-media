@@ -13,7 +13,7 @@ module CommentsService
 
     def call!
       comment.tap do |c|
-        c.update!(content.saveable_content)
+        c.update!(content: content.saveable_content)
       end
     end
   end

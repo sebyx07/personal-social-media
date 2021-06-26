@@ -10,9 +10,7 @@ module VirtualCommentsService
     end
 
     def saveable_content
-      {
-        content: permitted_params[:content],
-      }
+      permitted_params[:content]
     end
   end
 end

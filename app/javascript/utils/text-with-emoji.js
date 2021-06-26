@@ -1,4 +1,4 @@
-import createEmojiMartPlugin from 'draft-js-emoji-mart-plugin';
+import createEmojiMartPlugin from 'psm-draft-js-emoji-mart-plugin';
 
 const emojiRegex = require('emoji-regex/RGI_Emoji.js');
 import replace from 'string-replace-to-array';

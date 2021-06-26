@@ -28,7 +28,7 @@ module VirtualCommentsService
 
       def update_attributes
         {
-          content: content.saveable_content[:content],
+          content: content.saveable_content,
           comment_type: comment_type
         }
       end

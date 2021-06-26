@@ -40,5 +40,6 @@ RSpec.describe "PATCH /comments/:id" do
     end.to change { comment.content }.to eq(sample_comment.content)
 
     expect(json[:comment]).to be_present
+    expect(json.dig(:comment, :content, :message)).to be_present
   end
 end

@@ -1,22 +1,19 @@
 import './messagae-box.scss';
 import 'emoji-mart/css/emoji-mart.css';
 import {emojiPlugin} from '../../../utils/text-with-emoji';
-import {useCallback, useRef, useState} from 'react';
 import {useClickAway} from 'react-use';
-import Editor from 'draft-js-plugins-editor';
+import {useRef, useState} from 'react';
+import Editor from '@draft-js-plugins/editor';
 import SafeEmojiString from './emojis/safe-emoji-string';
+import mergeStyles from '../../../lib/styles/merge-styles';
 
 const {Picker} = emojiPlugin;
 
-export default function MessageBox({editorState, onChange, placeholder}) {
+export default function MessageBox({editorState, onChange, placeholder, messageBoxClassName}) {
   const ref = useRef(null);
   const [state, setState] = useState({
     pickerOpened: false,
   });
-
-  const editorRef = useCallback((node) => {
-    node.focus();
-  }, []);
 
   useClickAway(ref, () => {
     if (!state.pickerOpened) return;
@@ -36,10 +33,9 @@ export default function MessageBox({editorState, onChange, placeholder}) {
   }
 
   return (
-    <div className="flex">
-      <div className="border border-solid border-gray-400 p-2 flex-1 message-box">
+    <div className={mergeStyles('border border-solid border-gray-400 p-2 flex message-box', messageBoxClassName)}>
+      <div className="flex-1 w-1/3">
         <Editor
-          ref={editorRef}
           editorState={editorState}
           onChange={onChange}
           plugins={[emojiPlugin]}
@@ -47,12 +43,12 @@ export default function MessageBox({editorState, onChange, placeholder}) {
         />
       </div>
       <div className="ml-2 relative">
-        <button className="themed" onClick={openPicker}>
+        <button onClick={openPicker}>
           <SafeEmojiString string="😀" size={24}/>
         </button>
 
         {
-          state.pickerOpened && <div className="absolute top-0 right-0" ref={ref}>
+          state.pickerOpened && <div className="absolute top-0 left-0" ref={ref}>
             <Picker
               perLine={7}
               showPreview={false}

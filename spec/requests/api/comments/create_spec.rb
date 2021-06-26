@@ -31,6 +31,7 @@ RSpec.describe "POST /api/comments" do
        .and change { CommentCounter.count }.by(1)
 
     expect(json[:comment]).to be_present
+    expect(json.dig(:comment, :content, :message)).to be_present
     created_comment_id = json.dig(:comment, :id)
     reset_response_json!
 
@@ -49,5 +50,6 @@ RSpec.describe "POST /api/comments" do
        .and change { parent_comment.sub_comments_count }.by(1)
 
     expect(json[:comment][:parent_comment_id]).to be_present
+    expect(json.dig(:comment, :content, :message)).to be_present
   end
 end
