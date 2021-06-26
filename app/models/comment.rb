@@ -36,6 +36,10 @@ class Comment < ApplicationRecord
   has_many :sub_comments, class_name: "Comment", foreign_key: :parent_comment_id, dependent: :nullify
   before_create :handle_update_latest
 
+  has_many :reaction_counters, -> { order(reactions_count: :desc) }, as: :subject, dependent: :destroy
+  has_many :reactions, through: :reaction_counters
+  has_many :cache_reactions, -> { where(peer: Current.peer) }, dependent: :delete_all, as: :subject
+
   validate :check_parent_matches, on: :create, if: -> { parent_comment_id.present? }
 
   store :content, accessors: %i(message)

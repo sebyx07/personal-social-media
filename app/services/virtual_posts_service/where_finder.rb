@@ -3,7 +3,8 @@
 module VirtualPostsService
   class WhereFinder
     class Error < StandardError; end
-    PRELOAD_ASSOCIATIONS_LOCALLY = [:remote_post, :reaction_counters, :cache_reactions, :comment_counter, cache_comments: :peer, latest_comments: :peer]
+    PRELOAD_ASSOCIATIONS_LOCALLY = [:remote_post, :reaction_counters, :cache_reactions, :comment_counter, cache_comments: :peer,
+                                    latest_comments: [:peer, :reaction_counters]]
     PRELOAD_ASSOCIATIONS_EXTERNALLY = [:peer, :cache_reactions, cache_comments: :peer]
     DEFAULT_LIMIT = 15
 

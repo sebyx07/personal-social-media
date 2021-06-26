@@ -1,10 +1,23 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
-  before_action :require_subject_resource, only: :create
-  before_action :require_subject_type, only: :create
+  before_action :require_subject_resource, only: %i(create)
+  before_action :require_subject_type, only: %i(create)
+  before_action :require_subject_index, only: :index
   before_action :require_current_cache_comment, only: %i(update destroy)
   attr_reader :subject, :permitted_params
+
+  def index
+    @permitted_index_params = params.permit(pagination: :from)
+
+    @virtual_posts = VirtualComment.where(
+      pagination_params: @permitted_index_params, subject: subject, parent_comment_id: permitted_params[:parent_comment_id]
+      ).map! do |vp|
+      VirtualCommentPresenter.new(vp)
+    end
+
+    render json: { comments: @virtual_posts.map(&:render) }
+  end
 
   def create
     content = VirtualCommentsService::CommentContent.new(permitted_params: permitted_params)
@@ -52,43 +65,17 @@ class CommentsController < ApplicationController
     def require_current_cache_comment
       render json: { error: "cache comment not found" }, status: 404 if current_cache_comment.blank?
     end
-  #
-  # def index
-  #   @permitted_index_params = params.permit(pagination: :from)
-  #
-  #   @virtual_posts = VirtualComment.where(
-  #     pagination_params: @permitted_index_params,
-  #     subject_type: subject_type,
-  #     subject_id: subject_id,
-  #     ).map! do |vp|
-  #     VirtualCommentPresenter.new(vp)
-  #   end
-  #
-  #   render json: { comments: @virtual_posts.map(&:render) }
-  # end
-  #
 
-  #
-  # def destroy
-  #   VirtualComment.remove_react_for_resource(subject_type, subject_id, permitted_params[:character])
-  #   head :ok
-  # end
-  #
-  # def require_subject_type
-  #   render json: { error: "Unknown subject" }, status: 422 if subject_type.blank?
-  # end
-  #
-  # def subject_type
-  #   return @subject_type if defined? @subject_type
-  #   if params[:post_id].present?
-  #     @subject_id = params[:post_id]
-  #     @subject_type = "RemotePost"
-  #   end
-  #
-  #   @subject_type
-  # end
-  #
-  # def permitted_params
-  #   @permitted_params ||= params.require(:comment).permit(:character)
-  # end
+    def require_subject_index
+      @permitted_params = params.permit(:subject_id, :subject_type, :parent_comment_id, pagination: :from)
+      virtual_subject = VirtualSubject.new(permitted_params)
+
+      unless %w(RemotePost).include?(virtual_subject.subject_type)
+        return render json: { error: "Invalid subject_type" }, status: 422
+      end
+
+      @subject = virtual_subject.resolve!
+
+      render json: { error: "subject not found" }, status: 404 if subject.blank?
+    end
 end

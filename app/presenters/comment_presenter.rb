@@ -15,7 +15,10 @@ class CommentPresenter
       content: @comment.content,
       created_at: @comment.created_at,
       updated_at: @comment.updated_at,
-      peer: PeerPresenter.new(@comment.peer).render_low_data
+      peer: PeerPresenter.new(@comment.peer).render_low_data,
+      reaction_counters: @comment.reaction_counters.map do |reaction_counter|
+        ReactionCounterPresenter.new(reaction_counter).render
+      end
     }
   end
 

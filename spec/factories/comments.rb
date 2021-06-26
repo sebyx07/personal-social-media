@@ -30,6 +30,7 @@
 FactoryBot.define do
   factory :comment do
     comment_counter
+    peer
 
     trait :standard do
       comment_type { :standard }

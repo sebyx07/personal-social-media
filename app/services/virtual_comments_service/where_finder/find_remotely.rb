@@ -1,29 +1,31 @@
 # frozen_string_literal: true
 
-module VirtualReactionsService
+module VirtualCommentsService
   class WhereFinder
     class FindRemotely
       class Error < StandardError; end
-      attr_reader :cache_record, :pagination_params
-      delegate :peer, to: :cache_record
+      attr_reader :subject, :pagination_params, :parent_comment_id
+      delegate :peer, to: :subject
 
-      def initialize(pagination_params, cache_record)
+      def initialize(pagination_params, subject, parent_comment_id)
         @pagination_params = pagination_params
-        @cache_record = cache_record
+        @subject = subject
+        @parent_comment_id = parent_comment_id
       end
 
       def results
         api_client_request.run
         return [] unless api_client_request.valid?
-        api_client_request.json[:reactions]
+        api_client_request.json[:comments]
       end
 
       private
         def body
           {
-            reactions: {
+            comments: {
               subject_id: subject_id,
-              subject_type: subject_type
+              subject_type: subject_type,
+              parent_comment_id: parent_comment_id
             }
           }.merge(pagination_params.slice(:pagination))
         end
@@ -34,23 +36,23 @@ module VirtualReactionsService
             url: url,
             method: :post,
             body: body,
-            record: cache_record,
+            record: subject,
             peer: peer
           )
         end
 
         def url
-          peer.api_url("/reactions")
+          peer.api_url("/comments")
         end
 
         def subject_id
-          if cache_record.is_a?(RemotePost)
-            cache_record.remote_post_id
+          if subject.is_a?(RemotePost)
+            subject.remote_post_id
           end
         end
 
         def subject_type
-          if cache_record.is_a?(RemotePost)
+          if subject.is_a?(RemotePost)
             "Post"
           end
         end

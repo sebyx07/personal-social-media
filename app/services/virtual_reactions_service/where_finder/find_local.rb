@@ -3,7 +3,7 @@
 module VirtualReactionsService
   class WhereFinder
     class FindLocal
-      class Error < Exception; end
+      class Error < StandardError; end
       attr_reader :cache_record, :pagination_params
 
       def initialize(pagination_params, cache_record)

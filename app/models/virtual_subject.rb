@@ -14,6 +14,10 @@ class VirtualSubject
     params[:subject_type]
   end
 
+  def resolve!
+    subject_type.constantize.find_by(id: subject_id)
+  end
+
   def valid?
     return false if subject_id.blank? || subject_type.blank?
     true
