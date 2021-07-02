@@ -33,7 +33,7 @@ class Post < ApplicationRecord
   has_one :comment_counter, as: :subject, dependent: :destroy
   delegate :comments_count, to: :comment_counter, allow_nil: true
   has_many :comments, through: :comment_counter, source: :comments
-  has_many :latest_comments, through: :comment_counter, source: :comments
+  has_many :latest_comments, -> { where(is_latest: true) }, through: :comment_counter, source: :comments
 
   has_many :cache_comments, dependent: :delete_all, as: :subject
 

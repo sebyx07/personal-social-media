@@ -25,8 +25,8 @@ module VirtualCommentsService
           peer: Current.peer,
           comment_type: comment_type,
           content: content.saveable_content,
-          subject_type: remote_record.class.name,
-          subject_id: remote_record.id,
+          subject_type: local_record.class.name,
+          subject_id: local_record.id,
           remote_comment_id: comment.id,
           remote_parent_comment_id: parent_comment_id
         )

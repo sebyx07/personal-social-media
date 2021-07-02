@@ -29,7 +29,7 @@
 #
 class Comment < ApplicationRecord
   PERMITTED_SUBJECT_CLASSES = %w(Post)
-  belongs_to :comment_counter
+  belongs_to :comment_counter, counter_cache: true
   delegate :subject_type, :subject_id, :subject, to: :comment_counter
   belongs_to :peer
   belongs_to :parent_comment, class_name: "Comment", optional: true, counter_cache: :sub_comments_count
