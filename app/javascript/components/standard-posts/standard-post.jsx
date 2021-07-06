@@ -4,6 +4,7 @@ import {
 } from '../../utils/reactions/standard-reactions-cb-for-model';
 import {timeAgoInWords} from '../../lib/dates/time-ago';
 import {useState} from '@hookstate/core';
+import CommentsList from '../comments/comments-list';
 import DefaultPeerAvatar from '../peers/avatars/default-avatar';
 import ReactToSubject from '../reactions/react-to-subject';
 import StandardPostComment from './standard-post-comment';
@@ -70,6 +71,10 @@ export default function StandardPost({data: post}) {
           <StandardPostComment post={post}/>
         </div>
       }
+
+      <div>
+        <CommentsList latestComments={post.latestComments}/>
+      </div>
     </div>
   );
 }

@@ -61,11 +61,11 @@ module Api
       end
 
       def index_params
-        @index_params ||= decrypted_params.require(:comments).permit(:subject_id, :subject_type)
+        @index_params ||= decrypted_params.require(:comments).permit(:subject_id, :subject_type, :parent_comment_id)
       end
 
       def index_scope
-        Comment.includes(:comment_counter, :peer, :reaction_counters).where(
+        Comment.where(parent_comment_id: index_params[:parent_comment_id]).includes(:comment_counter, :peer, :reaction_counters).where(
           "comment_counter.subject_id": index_params[:subject_id],
           "comment_counter.subject_type": index_params[:subject_type]
         ).order("comments.id": :desc)

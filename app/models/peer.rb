@@ -86,4 +86,12 @@ class Peer < ApplicationRecord
     status << :fake
     save! if persisted?
   end
+
+  def ==(peer)
+    PeersService::EqualPeer.new(self, peer).call
+  end
+
+  def public_key_serialized
+    @public_key_serialized ||= EncryptionService::EncryptedContentTransform.to_json(public_key.to_s)
+  end
 end

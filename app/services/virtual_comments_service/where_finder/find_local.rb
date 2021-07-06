@@ -20,11 +20,9 @@ module VirtualCommentsService
 
       private
         def scope
-          query = local_record.comments.unscoped.includes(:reaction_counters, :peer)
-          if parent_comment_id.present?
-            query = query.where(parent_comment_id: parent_comment_id)
-          end
-          query
+          local_record.comments.unscoped
+                      .includes(:reaction_counters, :peer)
+                      .where(parent_comment_id: parent_comment_id)
         end
 
         def local_record

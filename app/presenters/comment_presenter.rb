@@ -15,6 +15,7 @@ class CommentPresenter
       content: @comment.content,
       created_at: @comment.created_at,
       updated_at: @comment.updated_at,
+      sub_comments_count: @comment.sub_comments_count,
       peer: PeerPresenter.new(@comment.peer).render_low_data,
       reaction_counters: @comment.reaction_counters.map do |reaction_counter|
         ReactionCounterPresenter.new(reaction_counter).render
@@ -36,13 +37,9 @@ class CommentPresenter
     }
   end
 
-  def render_with_is_mine(cache_comments)
-    hash = {
-      is_mine: cache_comments.detect do |cache_comment|
-        cache_comment.remote_comment_id = @comment.id
-      end.present?
-    }
-
-    render.merge(hash)
+  def render_with_is_mine
+    render.merge({
+      is_mine: Current.peer == @comment.peer
+    })
   end
 end
