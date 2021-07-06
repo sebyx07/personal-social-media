@@ -16,7 +16,7 @@ class CommentPresenter
       created_at: @comment.created_at,
       updated_at: @comment.updated_at,
       sub_comments_count: @comment.sub_comments_count,
-      peer: PeerPresenter.new(@comment.peer).render_low_data,
+      peer: PeerPresenter.new(peer).render_low_data,
       reaction_counters: @comment.reaction_counters.map do |reaction_counter|
         ReactionCounterPresenter.new(reaction_counter).render
       end
@@ -37,9 +37,21 @@ class CommentPresenter
     }
   end
 
-  def render_with_is_mine
+  def render_locally(cache)
+    @cache = cache
     render.merge({
       is_mine: Current.peer == @comment.peer
     })
+  end
+
+  def peer
+    return @peer if defined? @peer
+    return @peer = @comment.peer unless @cache
+
+    local_peer = @cache.sub_peers.detect do |peer|
+      peer == @comment.peer
+    end
+
+    @peer = PeersService::RemoteFakePeerValidator.new(local_peer, @comment.peer)
   end
 end

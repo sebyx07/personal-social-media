@@ -7,15 +7,15 @@ class VirtualPost
   attr_reader :post, :request, :peer
 
   class << self
-    def load_multiple(peer:, request:)
+    def load_multiple(peer:, request:, remote_requests_cache:)
       return new(request: request, peer: peer, remote_post: request.record) if request.json[:post].present?
       raise LoadMultipleError, "No posts" if request.json[:posts].blank?
 
-      VirtualPostsService::LoadMultipleVirtualPostsFromResponse.new(peer, request).call
+      VirtualPostsService::LoadMultipleVirtualPostsFromResponse.new(peer, request, remote_requests_cache).call
     end
   end
 
-  def initialize(post: nil, request: nil, peer:, remote_post:)
+  def initialize(post: nil, request: nil, peer:, remote_post:, remote_requests_cache: nil)
     @remote_post = remote_post
     @peer = peer
 
@@ -24,12 +24,14 @@ class VirtualPost
       @presenter = VirtualPost::PresenterForPost.new(post, peer)
     elsif request.present?
       @request = request
-      @presenter = VirtualPost::PresenterForRequest.new(request, peer)
+      @presenter = VirtualPost::PresenterForRequest.new(request, peer, remote_requests_cache)
     end
   end
 
   delegate(*PERMITTED_DELEGATED_METHODS, to: :@presenter)
-  delegate :reaction_counters, :cache_reactions, :latest_comments, :is_valid_signature?, to: :@presenter
+  delegate :reaction_counters, :cache_reactions, :latest_comments,
+           :is_valid_signature?, :remote_requests_cache,
+           to: :@presenter
   delegate :id, to: :@remote_post
 
   class << self

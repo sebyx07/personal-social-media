@@ -4,10 +4,10 @@ require "rails_helper"
 
 RSpec.describe VirtualPostsService::WhereFinder, type: :request do
   include_context "two people"
-  let(:posts) { create_list(:post, 2) }
+  let(:posts) { create_list(:post, 2, :with_reactions, :with_comments) }
   let(:other_posts) do
     take_over_wrap! do
-      create_list(:post, 2)
+      create_list(:post, 2, :with_reactions, :with_comments)
     end
   end
   let(:pagination_params) { ActionController::Parameters.new({}) }
@@ -19,6 +19,10 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
       setup_other_peer(statuses: :friend)
 
       RemotePost.where(remote_post_id: other_posts.map(&:id)).update_all(peer_id: other_peer.id, show_in_feed: true)
+
+      Peer.where.not(id: Current.peer.id).find_each do |peer|
+        peer.update!(status: %i(friend))
+      end
     end
 
     subject do
@@ -32,6 +36,11 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
         VirtualPostPresenter.new(v_post).render.tap do |json|
           expect(json).to be_present
           expect(json[:is_valid]).to be_truthy
+
+          json[:latest_comments].each do |comment|
+            peer = comment[:peer]
+            expect(peer[:status]).to match_array(:friend)
+          end
         end
       end
     end

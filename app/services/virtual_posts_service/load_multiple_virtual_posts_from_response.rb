@@ -2,10 +2,11 @@
 
 module VirtualPostsService
   class LoadMultipleVirtualPostsFromResponse
-    attr_reader :peer, :request
-    def initialize(peer, request)
+    attr_reader :peer, :request, :remote_requests_cache
+    def initialize(peer, request, remote_requests_cache)
       @peer = peer
       @request = request
+      @remote_requests_cache = remote_requests_cache
     end
 
     def call
@@ -13,7 +14,7 @@ module VirtualPostsService
         fake_request = VirtualPostsService::FakeJsonRequest.new(post_json, peer)
         remote_post = get_remote_post(post_json)
         fake_request.record = remote_post
-        VirtualPost.new(request: fake_request, peer: peer, remote_post: remote_post)
+        VirtualPost.new(request: fake_request, peer: peer, remote_post: remote_post, remote_requests_cache: remote_requests_cache)
       end
     end
 

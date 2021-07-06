@@ -17,7 +17,7 @@ module PeersService
       if peer.is_a?(Peer)
         return peer.public_key_serialized
       elsif peer.is_a?(PeersService::FakePeerRemote)
-        peer.public_key
+        return peer.public_key
       end
 
       raise Error, "Invalid peer type: #{peer.inspect}"

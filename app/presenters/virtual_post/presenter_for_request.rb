@@ -4,11 +4,13 @@ class VirtualPost
   class PresenterForRequest
     class Error < StandardError; end
     delegate :cache_reactions, :cache_comments, to: :remote_post
+    attr_reader :remote_requests_cache
 
-    def initialize(request, peer)
+    def initialize(request, peer, remote_requests_cache)
       @request = request
       @post = request.json[:post]
       @peer = peer
+      @remote_requests_cache = remote_requests_cache
     end
 
     VirtualPost::PERMITTED_DELEGATED_METHODS.each do |method_name|
