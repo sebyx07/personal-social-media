@@ -14,6 +14,7 @@ class PostPresenter
       updated_at: @post.updated_at,
       views: @post.views,
       comments_count: @post.comments_count,
+      signature: signature,
       latest_comments: @post.latest_comments.map do |comment|
         CommentPresenter.new(comment).render
       end,
@@ -22,4 +23,9 @@ class PostPresenter
       end
     }
   end
+
+  private
+    def signature
+      EncryptionService::EncryptedContentTransform.to_json(@post.signature)
+    end
 end

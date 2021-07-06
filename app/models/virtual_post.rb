@@ -29,7 +29,7 @@ class VirtualPost
   end
 
   delegate(*PERMITTED_DELEGATED_METHODS, to: :@presenter)
-  delegate :reaction_counters, :cache_reactions, :latest_comments, :cache_comments, to: :@presenter
+  delegate :reaction_counters, :cache_reactions, :latest_comments, :is_valid_signature?, to: :@presenter
   delegate :id, to: :@remote_post
 
   class << self

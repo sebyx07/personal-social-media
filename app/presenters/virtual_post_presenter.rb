@@ -13,9 +13,10 @@ class VirtualPostPresenter
       created_at: created_at,
       updated_at: @virtual_post.updated_at,
       content: @virtual_post.content,
-      peer: PeerPresenter.new(@virtual_post.peer).render_low_data,
+      peer: PeerPresenter.new(@virtual_post.peer).render_with_is_me,
       views: @virtual_post.views,
       comments_count: @virtual_post.comments_count,
+      is_valid: @virtual_post.is_valid_signature?,
       latest_comments: @virtual_post.latest_comments.map do |comment|
         CommentPresenter.new(comment).render_with_is_mine
       end,

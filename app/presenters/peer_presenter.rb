@@ -9,7 +9,6 @@ class PeerPresenter
     {
       id: @peer.id,
       name: @peer.name,
-      is_me: @peer.is_me,
       nickname: @peer.nickname,
       status: @peer.status,
       avatar: avatar,
@@ -17,6 +16,23 @@ class PeerPresenter
       verify_key: EncryptionService::EncryptedContentTransform.to_json(@peer.verify_key.to_s),
       domain_name: @peer.domain_name
     }
+  end
+
+  def render_in_signature
+    {
+      name: @peer.name,
+      nickname: @peer.nickname,
+      avatar: avatar,
+      public_key: EncryptionService::EncryptedContentTransform.to_json(@peer.public_key.to_s),
+      verify_key: EncryptionService::EncryptedContentTransform.to_json(@peer.verify_key.to_s),
+      domain_name: @peer.domain_name
+    }
+  end
+
+  def render_with_is_me
+    render_low_data.merge({
+      is_me: @peer.is_me,
+    })
   end
 
   private

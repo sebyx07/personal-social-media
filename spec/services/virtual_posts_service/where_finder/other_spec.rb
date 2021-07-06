@@ -4,7 +4,12 @@ require "rails_helper"
 
 RSpec.describe VirtualPostsService::WhereFinder, type: :request do
   include_context "two people"
-  let(:posts) { create_list(:post, 1) }
+  let(:posts) do
+    take_over_wrap! do
+      create_list(:post, 1)
+    end
+  end
+
   let(:pagination_params) { ActionController::Parameters.new({}) }
 
   context "other peers posts" do
@@ -26,7 +31,10 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
         expect(v_post).to be_a(VirtualPost)
         expect(v_post.request).to be_present
 
-        expect(VirtualPostPresenter.new(v_post).render).to be_present
+        VirtualPostPresenter.new(v_post).render.tap do |json|
+          expect(json).to be_present
+          expect(json[:is_valid]).to be_truthy
+        end
       end
     end
   end

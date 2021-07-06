@@ -45,5 +45,17 @@ class VirtualPost
         remote_post.remote_post_id == post_id
       end
     end
+
+    def is_valid_signature?
+      return @is_valid_signature if defined? @is_valid_signature
+      raw_signature = PostsService::RawSignature.new(self, @peer)
+
+      signed_result = EncryptionService::SignedResult.from_json({
+        message: raw_signature.hash.to_s,
+        signature: @post[:signature]
+      }.with_indifferent_access)
+
+      @is_valid_signature = EncryptionService::VerifySignature.new(@peer.verify_key).verify(signed_result)
+    end
   end
 end

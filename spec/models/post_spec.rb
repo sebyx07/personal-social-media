@@ -7,6 +7,7 @@
 #  id         :bigint           not null, primary key
 #  content    :text
 #  post_type  :string           default("standard"), not null
+#  signature  :binary           not null
 #  status     :string           default("pending"), not null
 #  views      :bigint           default(0), not null
 #  created_at :datetime         not null

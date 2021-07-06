@@ -12,7 +12,7 @@ class VirtualReactionPresenter
       character: @virtual_reaction.character,
       subject_id: @virtual_reaction.subject_id,
       subject_type: @virtual_reaction.subject_type,
-      peer: PeerPresenter.new(@virtual_reaction.peer).render_low_data
+      peer: PeerPresenter.new(@virtual_reaction.peer).render_with_is_me
     }
   end
 end
