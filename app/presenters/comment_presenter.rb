@@ -48,13 +48,7 @@ class CommentPresenter
   private
     def peer
       return @peer if defined? @peer
-      return @peer = @comment.peer unless @cache
-
-      local_peer = @cache.sub_peers.detect do |peer|
-        peer == @comment.peer
-      end
-
-      @peer = PeersService::RemotePeerWithFriendship.new(local_peer, @comment.peer)
+      @peer = PeersService::RemotePeerWithFriendship.get_from_cache(@cache, @comment.peer)
     end
 
     def signature
