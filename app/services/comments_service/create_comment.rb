@@ -17,7 +17,8 @@ module CommentsService
         comment_counter: comment_counter,
         peer: current_peer,
         comment_type: comment_params[:comment_type],
-        parent_comment_id: comment_params[:parent_comment_id]
+        parent_comment_id: comment_params[:parent_comment_id],
+        signature: signature
       }
       attributes[:content] = content.saveable_content
 
@@ -45,6 +46,10 @@ module CommentsService
 
       def subject_id
         comment_params[:subject_id]
+      end
+
+      def signature
+        EncryptionService::EncryptedContentTransform.to_str(comment_params[:signature])
       end
   end
 end

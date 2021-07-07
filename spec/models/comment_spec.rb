@@ -8,6 +8,7 @@
 #  comment_type       :string           default("standard"), not null
 #  content            :jsonb            not null
 #  is_latest          :boolean          not null
+#  signature          :binary           not null
 #  sub_comments_count :bigint           default(0), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null

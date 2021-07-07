@@ -12,20 +12,16 @@ class PeerPresenter
       nickname: @peer.nickname,
       status: @peer.status,
       avatar: avatar,
-      public_key: EncryptionService::EncryptedContentTransform.to_json(@peer.public_key.to_s),
-      verify_key: EncryptionService::EncryptedContentTransform.to_json(@peer.verify_key.to_s),
+      public_key: public_key,
+      verify_key: verify_key,
       domain_name: @peer.domain_name
     }
   end
 
   def render_in_signature
     {
-      name: @peer.name,
-      nickname: @peer.nickname,
-      avatar: avatar,
-      public_key: EncryptionService::EncryptedContentTransform.to_json(@peer.public_key.to_s),
-      verify_key: EncryptionService::EncryptedContentTransform.to_json(@peer.verify_key.to_s),
-      domain_name: @peer.domain_name
+      public_key: public_key,
+      verify_key: verify_key,
     }
   end
 
@@ -39,5 +35,13 @@ class PeerPresenter
     def avatar
       return @peer.avatar if @peer.respond_to?(:avatar)
       PeersService::Gravatar.new(email_hexdigest: @peer.email_hexdigest).url(size: 120)
+    end
+
+    def public_key
+      EncryptionService::EncryptedContentTransform.to_json(@peer.public_key.to_s)
+    end
+
+    def verify_key
+      EncryptionService::EncryptedContentTransform.to_json(@peer.verify_key.to_s)
     end
 end

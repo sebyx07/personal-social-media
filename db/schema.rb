@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_06_114909) do
+ActiveRecord::Schema.define(version: 2021_07_07_005108) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2021_07_06_114909) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "sub_comments_count", default: 0, null: false
     t.boolean "is_latest", null: false
+    t.binary "signature", null: false
     t.index ["comment_counter_id"], name: "index_comments_on_comment_counter_id"
     t.index ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
     t.index ["peer_id"], name: "index_comments_on_peer_id"

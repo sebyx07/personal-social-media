@@ -38,13 +38,15 @@ module Api
       def comment_params_create
         @comment_params ||= decrypted_params.require(:comment).permit(
           :comment_type, :parent_comment_id, :subject_id, :subject_type,
-          *VirtualCommentsService::CommentContent::PERMITTED_CONTENT_ATTRIBUTES
+          *VirtualCommentsService::CommentContent::PERMITTED_CONTENT_ATTRIBUTES,
+          signature: []
         )
       end
 
       def comment_params_update
         @comment_params_update ||= decrypted_params.require(:comment).permit(
-          *VirtualCommentsService::CommentContent::PERMITTED_CONTENT_ATTRIBUTES
+          *VirtualCommentsService::CommentContent::PERMITTED_CONTENT_ATTRIBUTES,
+          signature: []
         )
       end
 

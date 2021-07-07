@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module PeersService
-  class RemoteFakePeerValidator
+  class RemotePeerWithFriendship
     delegate_missing_to :json_peer
     attr_reader :local_peer, :json_peer
 

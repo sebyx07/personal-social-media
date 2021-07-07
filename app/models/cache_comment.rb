@@ -36,4 +36,8 @@ class CacheComment < ApplicationRecord
   def local_comment
     @local_comment ||= Comment.find_by(id: remote_comment_id)
   end
+
+  def raw_signature
+    CommentsService::RawSignature.new(self, Current.peer)
+  end
 end

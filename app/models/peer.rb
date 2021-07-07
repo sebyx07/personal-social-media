@@ -27,6 +27,10 @@
 class Peer < ApplicationRecord
   include BitwiseAttribute
 
+  if Rails.env.test?
+    attr_accessor :private_key, :signing_key
+  end
+
   attr_bitwise :status, values: %i[
     imported stranger friend
     full_block_by_me full_block_by_external

@@ -13,8 +13,13 @@ module CommentsService
 
     def call!
       comment.tap do |c|
-        c.update!(content: content.saveable_content)
+        c.update!(content: content.saveable_content, signature: signature)
       end
     end
+
+    private
+      def signature
+        EncryptionService::EncryptedContentTransform.to_str(comment_params[:signature])
+      end
   end
 end

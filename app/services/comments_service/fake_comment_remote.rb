@@ -26,5 +26,9 @@ module CommentsService
         ReactionCountersService::FakeReactionCounter.new(reaction_counter)
       end
     end
+
+    def raw_signature
+      @raw_signature ||= CommentsService::RawSignature.new(self, peer)
+    end
   end
 end

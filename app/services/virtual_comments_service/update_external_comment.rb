@@ -7,9 +7,11 @@ module VirtualCommentsService
     attr_reader :cache_comment, :content, :comment_type
 
     def initialize(cache_comment, content, comment_type)
-      @cache_comment = cache_comment
-      @content = content
       @comment_type = comment_type
+      @content = content
+      @cache_comment = cache_comment.tap do |comment|
+        comment.assign_attributes(update_attributes)
+      end
     end
 
     def call!
@@ -22,9 +24,7 @@ module VirtualCommentsService
 
     private
       def handle_valid_request
-        cache_comment.tap do |c|
-          c.update!(update_attributes)
-        end
+        cache_comment.tap(&:save!)
       end
 
       def needs_update?
@@ -38,7 +38,7 @@ module VirtualCommentsService
       def update_attributes
         {
           content: content.saveable_content,
-          comment_type: comment_type
+          comment_type: comment_type,
         }
       end
 
@@ -53,8 +53,12 @@ module VirtualCommentsService
 
       def body
         {
-          comment: update_attributes
+          comment: update_attributes.merge(signature: signature)
         }
+      end
+
+      def signature
+        CommentsService::JsonSignature.new(cache_comment).call
       end
   end
 end

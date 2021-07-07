@@ -10,6 +10,12 @@ module EncryptionService
         signature = EncryptedContentTransform.to_str(json["signature"])
         new(message, signature, json["verify_key"])
       end
+
+      def from_str(str_json)
+        message = str_json["message"]
+        signature = str_json["signature"]
+        new(message, signature, str_json["verify_key"])
+      end
     end
 
     def initialize(message, signature, verify_key)

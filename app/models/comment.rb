@@ -8,6 +8,7 @@
 #  comment_type       :string           default("standard"), not null
 #  content            :jsonb            not null
 #  is_latest          :boolean          not null
+#  signature          :binary           not null
 #  sub_comments_count :bigint           default(0), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -47,6 +48,16 @@ class Comment < ApplicationRecord
 
   str_enum :comment_type, %i(standard)
   validates :comment_type, presence: true
+  validates :signature, presence: true
+  validate :validate_signature
+
+  def is_valid_signature?
+    true
+  end
+
+  def raw_signature
+    CommentsService::RawSignature.new(self, peer)
+  end
 
   private
     def check_parent_matches
@@ -56,5 +67,16 @@ class Comment < ApplicationRecord
 
     def handle_update_latest
       CommentsService::HandleUpdateLatest.new(self).call!
+    end
+
+    def validate_signature
+      signed_result = EncryptionService::SignedResult.from_str({
+        message: raw_signature.hash.to_s,
+        signature: signature
+      }.with_indifferent_access)
+
+      unless EncryptionService::VerifySignature.new(peer.verify_key).verify(signed_result)
+        errors.add(:signature, "invalid")
+      end
     end
 end

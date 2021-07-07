@@ -19,7 +19,8 @@ class CommentPresenter
       peer: PeerPresenter.new(peer).render_low_data,
       reaction_counters: @comment.reaction_counters.map do |reaction_counter|
         ReactionCounterPresenter.new(reaction_counter).render
-      end
+      end,
+      signature: signature
     }
   end
 
@@ -33,7 +34,7 @@ class CommentPresenter
       content: @comment.content,
       created_at: @comment.created_at,
       updated_at: @comment.updated_at,
-      peer: PeerPresenter.new(@comment.peer).render_low_data
+      peer: PeerPresenter.new(@comment.peer).render_low_data,
     }
   end
 
@@ -44,14 +45,19 @@ class CommentPresenter
     })
   end
 
-  def peer
-    return @peer if defined? @peer
-    return @peer = @comment.peer unless @cache
+  private
+    def peer
+      return @peer if defined? @peer
+      return @peer = @comment.peer unless @cache
 
-    local_peer = @cache.sub_peers.detect do |peer|
-      peer == @comment.peer
+      local_peer = @cache.sub_peers.detect do |peer|
+        peer == @comment.peer
+      end
+
+      @peer = PeersService::RemotePeerWithFriendship.new(local_peer, @comment.peer)
     end
 
-    @peer = PeersService::RemoteFakePeerValidator.new(local_peer, @comment.peer)
-  end
+    def signature
+      CommentsService::JsonSignature.new(@comment).call
+    end
 end

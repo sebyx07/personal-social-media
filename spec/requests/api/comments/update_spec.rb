@@ -7,13 +7,26 @@ RSpec.describe "PATCH /api/comments/:id" do
   let(:profile) { Current.profile }
   let(:comment) { create(:comment, :standard, peer: peer) }
   let(:sample_comment) { build(:comment, :standard) }
+  let(:comment_attributes) do
+    {
+      content: sample_comment.content
+    }
+  end
 
   let(:params) do
     {
-      comment: {
-        content: sample_comment.content
-      }
+      comment: comment_attributes.merge(signature: signature)
     }
+  end
+
+  let(:prop_comment) do
+    comment.dup.tap do |c|
+      c.assign_attributes(comment_attributes)
+    end
+  end
+
+  let(:signature) do
+    CommentsService::JsonSignature.new(prop_comment).call_test(peer.signing_key)
   end
 
   subject do

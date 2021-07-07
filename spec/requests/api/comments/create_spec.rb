@@ -7,14 +7,28 @@ RSpec.describe "POST /api/comments" do
   let(:profile) { Current.profile }
   let(:sample_comment) { build(:comment, :standard) }
   let(:my_post) { create(:post) }
+  let(:comment_attributes) do
+    {
+      subject_type: "Post",
+      subject_id: my_post.id,
+      comment_type: :standard,
+      content: sample_comment.content
+    }
+  end
+
+  let(:signature) do
+    CommentsService::JsonSignature.new(prop_comment).call_test(peer.signing_key)
+  end
+
+  let(:prop_comment) do
+    build(:comment, comment_attributes.slice(:comment_type, :content).merge(peer: peer)).tap do |comment|
+      comment.comment_counter = build(:comment_counter, comment_attributes.slice(:subject_type, :subject_id))
+    end
+  end
+
   let(:params) do
     {
-      comment: {
-        subject_type: "Post",
-        subject_id: my_post.id,
-        comment_type: :standard,
-        content: sample_comment.content
-      }
+      comment: comment_attributes.merge(signature: signature)
     }
   end
 

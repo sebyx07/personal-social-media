@@ -53,7 +53,8 @@ module VirtualCommentsService
             subject_type: subject_type,
             content: content.saveable_content,
             comment_type: comment_type,
-            parent_comment_id: parent_comment_id
+            parent_comment_id: parent_comment_id,
+            signature: signature
           }
         }
       end
@@ -68,6 +69,10 @@ module VirtualCommentsService
         if remote_record.is_a?(RemotePost)
           "Post"
         end
+      end
+
+      def signature
+        CommentsService::JsonSignature.new(cache_comment).call
       end
   end
 end

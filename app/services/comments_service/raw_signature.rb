@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-module PostsService
+module CommentsService
   class RawSignature
-    def initialize(post, peer)
-      @post = post
+    def initialize(comment, peer)
+      @comment = comment
       @peer = peer
     end
 
@@ -18,8 +18,8 @@ module PostsService
     private
       def attributes
         {
-          content: @post.content,
-          created_at: @post.created_at.as_json,
+          content: @comment.content,
+          comment_type: @comment.comment_type,
           peer: PeerPresenter.new(@peer).render_in_signature
         }
       end

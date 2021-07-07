@@ -14,8 +14,8 @@ module VirtualCommentsService
     def call!
       return cache_comment unless needs_update?
       CacheComment.transaction do
-        local_comment.update!(update_attributes)
         cache_comment.update!(update_attributes)
+        local_comment.update!(update_attributes.merge(signature: signature))
       end
       cache_comment
     end
@@ -28,8 +28,12 @@ module VirtualCommentsService
       def update_attributes
         {
           content: content.saveable_content,
-          comment_type: comment_type
+          comment_type: comment_type,
         }
+      end
+
+      def signature
+        CommentsService::JsonSignature.new(cache_comment).call_raw_str
       end
   end
 end

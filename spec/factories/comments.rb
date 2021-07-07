@@ -8,6 +8,7 @@
 #  comment_type       :string           default("standard"), not null
 #  content            :jsonb            not null
 #  is_latest          :boolean          not null
+#  signature          :binary           not null
 #  sub_comments_count :bigint           default(0), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -39,6 +40,15 @@ FactoryBot.define do
           message: FFaker::Lorem.sentence
         }
       end
+    end
+
+    before(:create) do |r|
+      signing_key = r.peer.signing_key
+      if r.peer == Current.peer
+        signing_key = Current.profile.signing_key
+      end
+
+      r.signature ||= CommentsService::JsonSignature.new(r).call_test_raw_str(signing_key)
     end
   end
 end
