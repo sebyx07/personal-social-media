@@ -2,22 +2,18 @@
 
 module PeersService
   class RemotePeerWithFriendship
-    delegate_missing_to :json_peer
-    attr_reader :local_peer, :json_peer
+    delegate_missing_to :@best_peer
+    attr_reader :best_peer, :local_peer
 
     def initialize(local_peer, json_peer)
       @local_peer = local_peer
-      @json_peer = json_peer
+      @best_peer = local_peer || json_peer
     end
 
     def status
       return [] if local_peer.blank?
-      return %i(fake) if tempered?
 
       local_peer.status
-    end
-
-    def tempered?
     end
   end
 end
