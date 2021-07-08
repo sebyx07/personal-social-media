@@ -32,7 +32,7 @@ class RemotePost < ApplicationRecord
 LEFT JOIN remote_posts
 ON cache_reactions.peer_id = remote_posts.peer_id AND cache_reactions.subject_type = 'RemotePost' AND cache_reactions.subject_id = remote_posts.remote_post_id
     SQL
-    )
+         )
   end, dependent: :delete_all, as: :subject
 
   has_many :cache_comments, -> do
@@ -40,7 +40,7 @@ ON cache_reactions.peer_id = remote_posts.peer_id AND cache_reactions.subject_ty
 LEFT JOIN remote_posts
 ON cache_comments.peer_id = remote_posts.peer_id AND cache_comments.subject_type = 'RemotePost' AND cache_comments.subject_id = remote_posts.remote_post_id
     SQL
-    )
+         )
   end, dependent: :delete_all, as: :subject
 
   def local_post

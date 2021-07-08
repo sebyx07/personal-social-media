@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
 
     @virtual_posts = VirtualComment.where(
       pagination_params: @permitted_index_params, subject: subject, parent_comment_id: permitted_params[:parent_comment_id]
-      ).map! do |vp|
+    ).map! do |vp|
       VirtualCommentPresenter.new(vp)
     end
 
