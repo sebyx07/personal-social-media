@@ -16,6 +16,11 @@ module ApiHelper
     raise Api::BaseController::InvalidParams, "invalid params"
   end
 
+  def render_encrypted_error(error, status: 422)
+    ErrorsService::LogDevError.log({ api_path: request.fullpath, error: error })
+    render json: encrypt_json(error: error), status: status
+  end
+
   def require_current_peer
     render json: { error: "peer not found" }, status: 422 if current_peer.blank?
   end

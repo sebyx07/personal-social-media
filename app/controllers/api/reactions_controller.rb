@@ -18,7 +18,7 @@ module Api
 
       render :create
     rescue ActiveRecord::RecordInvalid => e
-      render json: encrypt_json({ error: e.message }), status: 422
+      render_encrypted_error(e.message)
     end
 
     def destroy
@@ -36,7 +36,7 @@ module Api
       end
 
       def require_current_reaction
-        render json: { error: "reaction not found" }, status: 404 if current_reaction.blank?
+        render_encrypted_error("Reaction not found #{params[:id]}", status: 404) if current_reaction.blank?
       end
 
       def scoped_reactions

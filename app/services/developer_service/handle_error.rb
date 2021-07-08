@@ -24,10 +24,7 @@ module DeveloperService
     end
 
     def handle_deployed
-      return unless DeveloperService::IsEnabled.is_enabled?
-      return if Rails.application.secrets.bugsnag.blank?
-
-      Bugsnag.notify(error)
+      ErrorsService::LogDevError.log(error)
     end
   end
 end

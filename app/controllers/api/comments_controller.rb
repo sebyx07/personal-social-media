@@ -18,7 +18,7 @@ module Api
 
       render :create
     rescue ActiveRecord::RecordInvalid, CommentsService::CreateComment::Error => e
-      render json: encrypt_json({ error: e.message }), status: 422
+      render_encrypted_error(e.message)
     end
 
     def update
@@ -26,7 +26,7 @@ module Api
 
       render :create
     rescue ActiveRecord::RecordInvalid => e
-      render json: encrypt_json({ error: e.message }), status: 422
+      render_encrypted_error(e.message)
     end
 
     def destroy
@@ -55,7 +55,7 @@ module Api
       end
 
       def require_current_comment
-        render json: { error: "comment not found" }, status: 404 if current_comment.blank?
+        render_encrypted_error("Comment not found #{params[:id]}", status: 404) if current_comment.blank?
       end
 
       def scoped_comments

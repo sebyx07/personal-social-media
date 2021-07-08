@@ -33,7 +33,7 @@ module Api
     end
 
     def require_current_peer_even_blocked_by_me
-      render json: { error: "you are unfriendly" }, status: 422 unless current_peer_even_blocked_by_me
+      render_encrypted_error("you are unfriendly") unless current_peer_even_blocked_by_me
     end
 
     def current_peer_even_blocked_by_me

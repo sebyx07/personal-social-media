@@ -31,7 +31,7 @@ module Api
       end
 
       def require_current_post
-        render json: { error: "post not found" }, status: 404 if current_post.blank?
+        render_encrypted_error("Post not found #{params[:id]}", status: 404) if current_post.blank?
       end
 
       def increment_views
