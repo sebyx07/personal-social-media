@@ -23,6 +23,8 @@ RSpec.describe "POST /peers" do
       subject
     end.to change { Peer.count }
 
+    expect(Peer.where(verify_key: nil).count).to be 0
+
     expect(response).to have_http_status(:ok)
     expect(raw_json[:peer]).to be_present
 
