@@ -41,7 +41,8 @@ class CommentPresenter
   def render_locally(cache)
     @cache = cache
     render.merge({
-      is_mine: Current.peer == @comment.peer
+      is_mine: Current.peer == @comment.peer,
+      cache_comment_id: cache_comment_id
     })
   end
 
@@ -53,5 +54,8 @@ class CommentPresenter
 
     def signature
       CommentsService::JsonSignature.new(@comment).call
+    end
+
+    def cache_comment_id
     end
 end

@@ -6,6 +6,9 @@ module Api
     before_action :require_current_peer_even_blocked_by_me, only: :update_relationship
 
     def whoami
+      verify_key = decrypted_params.permit(peer: { verify_key: [] })[:verify_key]
+      PeersService::SetVerifyKeyOnWhoami.new(current_peer, verify_key).call!
+
       @profile = Current.profile
     end
 

@@ -34,7 +34,7 @@ class CacheComment < ApplicationRecord
   validates :message, presence: true, length: { maximum: 1000 }, if: -> { standard? }
 
   def local_comment
-    @local_comment ||= Comment.find_by(id: remote_comment_id)
+    @local_comment ||= Comment.find_by(id: remote_comment_id, peer: Current.peer)
   end
 
   def raw_signature

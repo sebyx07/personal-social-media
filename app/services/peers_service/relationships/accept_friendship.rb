@@ -11,7 +11,9 @@ module PeersService
       end
 
       def call!
-        make_request!
+        accept_friendship_if_dev do
+          make_request!
+        end
         update_peer!
       end
 
@@ -28,6 +30,12 @@ module PeersService
           if !request.valid? && request.safe_retry?
             raise UpdatePeerRelationship::RequestError, "Cannot accept friendship"
           end
+        end
+
+        def accept_friendship_if_dev
+          return yield unless Rails.env.production?
+          return yield unless DeveloperService::IsEnabled.is_enabled?
+          yield unless peer.domain_name.match?(/^localhost(:\d+)?/)
         end
     end
   end

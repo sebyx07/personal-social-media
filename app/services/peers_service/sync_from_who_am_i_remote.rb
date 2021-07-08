@@ -6,7 +6,7 @@ module PeersService
     def initialize(peer, will_retry:)
       @peer = peer
       @will_retry = will_retry
-      @request = HttpService::ApiClient.new(url: peer.api_url("/instance/whoami"), method: :post, peer: peer)
+      @request = HttpService::ApiClient.new(url: peer.api_url("/instance/whoami"), body: body, method: :post, peer: peer)
     end
 
     def call!
@@ -38,6 +38,14 @@ module PeersService
           email_hexdigest: json[:email_hexdigest],
           nickname: json[:nickname],
         )
+      end
+
+      def body
+        {
+          peer: {
+            verify_key: EncryptionService::EncryptedContentTransform.to_json(Current.peer.verify_key)
+          }
+        }
       end
   end
 end
