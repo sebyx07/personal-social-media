@@ -76,7 +76,7 @@ class Comment < ApplicationRecord
       }.with_indifferent_access)
 
       ErrorsService::LogDevError.log({
-       signed_result: signed_result, raw_signature: raw_signature,
+       signed_result: signed_result, raw_signature: raw_signature.send(:attributes),
        raw_signature_hash: raw_signature.hash.to_s, signature: signature
       })
 

@@ -4,7 +4,7 @@ module ErrorsService
   class LogDevError
     class << self
       def log(error)
-        unless Rails.env.production?
+        if Rails.env.development?
           return print "#{error}\n"
         end
 
