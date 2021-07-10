@@ -70,6 +70,7 @@ gem "bitwise_attribute", github: "personal-social-media/bitwise_attribute", ref:
 gem "bugsnag", "~> 6.21", require: is_dev
 gem "bullet", "~> 6.1", ">= 6.1.4", require: is_dev
 gem "email_validator", "~> 2.2", ">= 2.2.3"
+gem "hash_digest", "~> 1.1", ">= 1.1.3"
 gem "hcaptcha", github: "personal-social-media/hcaptcha", ref: "a2135327e0f22ddba170d77dbba86827cd05c2cb"
 gem "hiredis", "~> 0.6.3", require: %w(redis redis/connection/hiredis)
 gem "jb", "~> 0.8.0"

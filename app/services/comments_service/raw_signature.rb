@@ -8,7 +8,7 @@ module CommentsService
     end
 
     def hash
-      attributes.hash
+      HashDigest.digest3(attributes)
     end
 
     def ==(raw_signature)
