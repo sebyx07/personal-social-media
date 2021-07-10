@@ -32,7 +32,10 @@ module HttpService
     end
 
     def json
-      @json ||= JSON.parse!(decrypted_result).with_indifferent_access
+      return @json if defined? @json
+      @json = JSON.parse!(decrypted_result).with_indifferent_access
+    rescue JSON::ParserError
+      @json = nil
     end
 
     def safe_retry?

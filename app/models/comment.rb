@@ -75,6 +75,11 @@ class Comment < ApplicationRecord
         signature: signature
       }.with_indifferent_access)
 
+      ErrorsService::LogDevError.log({
+       signed_result: signed_result, raw_signature: raw_signature,
+       raw_signature_hash: raw_signature.hash.to_s, signature: signature
+      })
+
       unless EncryptionService::VerifySignature.new(peer.verify_key).verify(signed_result)
         errors.add(:signature, "invalid")
       end

@@ -38,8 +38,17 @@ module HttpService
 
     def handle_test_invalid_request
       # binding.pry # uncomment this to debug
-      error_msg = { url: url, status: status, body_str: body_str, raw_body: raw_body }.to_json
-      DeveloperService::HandleError.handle_error(InvalidResponse.new(error_msg))
+      error_msg = {
+        url: url, status: status,
+        raw_body: raw_body
+      }
+      if json.present?
+        error_msg[:json] = json
+      else
+        error_msg[:raw_json] = raw_json
+      end
+
+      DeveloperService::HandleError.handle_error(InvalidResponse.new(error_msg.to_json))
     end
 
     private
