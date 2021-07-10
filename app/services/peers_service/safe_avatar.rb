@@ -16,12 +16,13 @@ module PeersService
       blank_avatar
     end
 
-    def blank_avatar
-      image_url("placeholders/avatar-placeholder.svg")
-    end
+    private
+      def blank_avatar
+        image_url("placeholders/avatar-placeholder.svg")
+      end
 
-    def gravatar
-      PeersService::Gravatar.new(email_hexdigest: peer.email_hexdigest).url(size: size)
-    end
+      def gravatar
+        PeersService::Gravatar.new(email_hexdigest: peer.email_hexdigest).url(size: size)
+      end
   end
 end
