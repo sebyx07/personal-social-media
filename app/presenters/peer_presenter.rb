@@ -34,7 +34,7 @@ class PeerPresenter
   private
     def avatar
       return @peer.avatar if @peer.respond_to?(:avatar)
-      PeersService::Gravatar.new(email_hexdigest: @peer.email_hexdigest).url(size: 120)
+      PeersService::SafeAvatar.new(@peer).url(size: 120)
     end
 
     def public_key
