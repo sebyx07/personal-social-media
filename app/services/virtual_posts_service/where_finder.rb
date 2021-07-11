@@ -27,15 +27,15 @@ module VirtualPostsService
       end
 
       def handle_remote_requests(requests)
-        remote_requests_cache = RemoteRequestsCache.new
+        request_helper_cache = RemoteRequestsCache.new
 
         requests.filter_map do |result|
           next VirtualPost.new(post: result, peer: Current.peer, remote_post: result.remote_post) if result.is_a?(Post)
           next unless result.valid?
 
           peer = result.peer
-          remote_requests_cache.requests << result
-          next VirtualPost.load_multiple(request: result, peer: peer, remote_requests_cache: remote_requests_cache)
+          request_helper_cache.requests << result
+          next VirtualPost.load_multiple(request: result, peer: peer, request_helper_cache: request_helper_cache)
         end.flatten
       end
 
