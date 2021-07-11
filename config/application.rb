@@ -39,6 +39,5 @@ module Psm
     config.time_zone = "UTC"
     config.active_record.default_timezone = :utc
     config.active_job.queue_adapter = :sidekiq
-    config.middleware.use RailsServerMonitor::RackMiddleware
   end
 end

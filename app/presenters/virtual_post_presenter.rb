@@ -18,7 +18,7 @@ class VirtualPostPresenter
       comments_count: @virtual_post.comments_count,
       is_valid: @virtual_post.is_valid_signature?,
       latest_comments: @virtual_post.latest_comments.map do |comment|
-        CommentPresenter.new(comment).render_locally(@virtual_post.remote_requests_cache)
+        CommentPresenter.new(comment).render_locally(@virtual_post.remote_requests_cache, @virtual_post)
       end,
       reaction_counters: @virtual_post.reaction_counters.map do |reaction_counter|
         ReactionCounterPresenter.new(reaction_counter).render_with_has_reacted(@virtual_post.cache_reactions)

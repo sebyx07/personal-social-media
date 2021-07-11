@@ -51,6 +51,14 @@ class Comment < ApplicationRecord
   validates :signature, presence: true
   validate :validate_signature
 
+  has_one :cache_comment, -> do
+    unscoped.joins(<<-SQL
+LEFT JOIN comments
+ON cache_comments.peer_id = comments.peer_id
+    SQL
+                  )
+  end, foreign_key: :remote_comment_id
+
   def is_valid_signature?
     true
   end

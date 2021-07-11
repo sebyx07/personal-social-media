@@ -54,7 +54,7 @@ module VirtualPostsService
       @cache_comments = grouped_queries.map do |subject_type, queries|
         peer_ids = queries.map { |q| q[:peer_id] }
         remote_ids = queries.map { |q| q[:remote_id] }
-        CacheComment.where(subject_type: subject_type, peer_id: peer_ids, subject_id: remote_ids).to_a
+        CacheComment.includes(:peer).where(subject_type: subject_type, peer_id: peer_ids, subject_id: remote_ids).to_a
       end.flatten
     end
 

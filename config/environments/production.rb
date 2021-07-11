@@ -48,4 +48,6 @@ Rails.application.configure do
     Bullet.rails_logger  = true
     Bullet.add_footer    = true
   end if ENV["DEVELOPER"].present?
+
+  config.middleware.use RailsServerMonitor::RackMiddleware
 end

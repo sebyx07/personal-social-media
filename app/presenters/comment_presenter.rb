@@ -16,7 +16,7 @@ class CommentPresenter
       created_at: @comment.created_at,
       updated_at: @comment.updated_at,
       sub_comments_count: @comment.sub_comments_count,
-      peer: PeerPresenter.new(peer).render_low_data,
+      peer: PeerPresenter.new(peer).render_with_is_me,
       reaction_counters: @comment.reaction_counters.map do |reaction_counter|
         ReactionCounterPresenter.new(reaction_counter).render
       end,
@@ -38,11 +38,10 @@ class CommentPresenter
     }
   end
 
-  def render_locally(cache)
+  def render_locally(cache, parent_record)
     @cache = cache
     render.merge({
-      is_mine: Current.peer == @comment.peer,
-      cache_comment_id: cache_comment_id
+      cache_comment_id: cache_comment_id(parent_record)
     })
   end
 
@@ -56,6 +55,7 @@ class CommentPresenter
       CommentsService::JsonSignature.new(@comment).call
     end
 
-    def cache_comment_id
+    def cache_comment_id(parent_record)
+      CommentsService::GetCacheCommentIdFromCache.new(@cache, parent_record, @comment).call
     end
 end
