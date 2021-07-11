@@ -21,7 +21,7 @@ module CommentsService
 
     def handle_remote_comment
       @cache.cache_comments.detect do |cache_comment|
-        cache_comment.peer == peer && cache_comment.remote_comment_id == comment_id
+        cache_comment.peer == peer && cache_comment.remote_comment_id == comment.id
       end&.id
     end
   end
