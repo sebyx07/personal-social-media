@@ -33,9 +33,11 @@ group :development do
   gem "binding_of_caller", "~> 1.0"
   gem "foreman", "~> 0.87.2"
   gem "lefthook", "~> 0.7.6"
+  gem "memory_profiler"
   gem "puma", "~> 5.3"
   gem "rack-mini-profiler", "~> 2.3", ">= 2.3.2"
   gem "rubocop-rails_config", "~> 1.6"
+  gem "stackprof"
 end
 
 group :development, :test do

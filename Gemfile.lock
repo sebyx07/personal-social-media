@@ -272,6 +272,7 @@ GEM
       mini_mime (>= 0.1.1)
     mapping (1.1.1)
     marcel (1.0.1)
+    memory_profiler (1.0.0)
     method_source (1.0.0)
     mini_mime (1.1.0)
     minitest (5.14.4)
@@ -479,6 +480,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    stackprof (0.2.17)
     str_enum (0.2.0)
       activesupport (>= 5)
     strong_migrations (0.7.7)
@@ -550,6 +552,7 @@ DEPENDENCIES
   lefthook (~> 0.7.6)
   listen (~> 3.5, >= 3.5.1)
   lockbox (~> 0.6.4)
+  memory_profiler
   oj (~> 3.12)
   pg (~> 1.2, >= 1.2.3)
   pg_query (~> 2.0, >= 2.0.3)
@@ -575,6 +578,7 @@ DEPENDENCIES
   skylight (~> 5.1, >= 5.1.1)
   spring
   spring-commands-rspec (~> 1.0, >= 1.0.4)
+  stackprof
   str_enum (~> 0.2.0)
   strong_migrations (~> 0.7.7)
   turbolinks (~> 5.2, >= 5.2.1)
