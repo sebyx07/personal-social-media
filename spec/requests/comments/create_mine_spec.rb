@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "POST /comments" do
+RSpec.describe "POST /posts/:post_id/comments" do
   include_context "logged in"
   let(:sample_comment) { build(:comment, :standard) }
   let(:sample_post) { create(:post) }
@@ -20,7 +20,7 @@ RSpec.describe "POST /comments" do
   end
 
   subject do
-    post "/comments", params: params
+    post "/posts/#{remote_post.id}/comments", params: params
   end
 
   it "creates a new comment locally" do

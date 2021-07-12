@@ -3,11 +3,12 @@
 module VirtualCommentsService
   class WhereFinder
     DEFAULT_LIMIT = 15
-    attr_reader :pagination_params, :subject, :parent_comment_id
-    def initialize(pagination_params, subject:, parent_comment_id:)
+    attr_reader :pagination_params, :subject, :parent_comment_id, :remote_post
+    def initialize(pagination_params, subject:, parent_comment_id:, remote_post:)
       @pagination_params = pagination_params
       @parent_comment_id = parent_comment_id
       @subject = subject
+      @remote_post = remote_post
     end
 
     def results
@@ -18,7 +19,7 @@ module VirtualCommentsService
 
     private
       def handle_remotely
-        json_records = VirtualCommentsService::WhereFinder::FindRemotely.new(pagination_params, subject, parent_comment_id).results
+        json_records = VirtualCommentsService::WhereFinder::FindRemotely.new(pagination_params, subject, parent_comment_id, remote_post).results
         json_records.map! do |json|
           VirtualComment.new(json: json)
         end
@@ -32,7 +33,7 @@ module VirtualCommentsService
       end
 
       def is_local_record?
-        subject.peer_id == Current.peer.id
+        remote_post.peer_id == Current.peer.id
       end
   end
 end

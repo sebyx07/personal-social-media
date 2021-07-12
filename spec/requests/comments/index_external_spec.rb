@@ -26,7 +26,7 @@ RSpec.describe "GET /comments" do
   end
 
   subject do
-    get "/comments?#{params.to_query}"
+    get "/posts/#{remote_post.id}/comments?#{params.to_query}"
   end
 
   it "lists the comments" do

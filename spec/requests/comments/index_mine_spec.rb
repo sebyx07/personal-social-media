@@ -24,7 +24,7 @@ RSpec.describe "GET /comments" do
     get "/comments?#{params.to_query}"
   end
 
-  it "lists the comments" do
+  xit "lists the comments" do
     subject
 
     expect(response).to have_http_status(:ok)

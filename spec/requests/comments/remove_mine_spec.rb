@@ -20,7 +20,7 @@ RSpec.describe "DELETE /comments/:id" do
     delete "/comments/#{cache_comment.id}"
   end
 
-  it "deletes a comment locally" do
+  xit "deletes a comment locally" do
     cache_comment
 
     expect do

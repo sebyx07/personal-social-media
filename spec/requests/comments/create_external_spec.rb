@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "POST /comments" do
+RSpec.describe "POST /posts/:post_id/comments" do
   include_context "logged in"
   include_context "two people"
   let(:sample_comment) { build(:comment, :standard) }
@@ -23,7 +23,7 @@ RSpec.describe "POST /comments" do
   subject do
     remote_post.update!(peer: other_peer)
 
-    post "/comments", params: params
+    post "/posts/#{remote_post.id}/comments", params: params
   end
 
   before do

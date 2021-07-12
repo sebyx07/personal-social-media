@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
+  before_action :require_remote_post
   before_action :require_subject_resource, only: %i(create)
   before_action :require_subject_type, only: %i(create)
   before_action :require_subject_index, only: :index
@@ -11,7 +12,8 @@ class CommentsController < ApplicationController
     @permitted_index_params = params.permit(pagination: :from)
 
     @virtual_posts = VirtualComment.where(
-      pagination_params: @permitted_index_params, subject: subject, parent_comment_id: permitted_params[:parent_comment_id]
+      pagination_params: @permitted_index_params, subject: subject, parent_comment_id: permitted_params[:parent_comment_id],
+      remote_post: remote_post
     ).map! do |vp|
       VirtualCommentPresenter.new(vp)
     end
@@ -24,7 +26,8 @@ class CommentsController < ApplicationController
 
     @cache_comment = VirtualComment.create_comment(
       subject.subject_type, subject.subject_id, content,
-      permitted_params[:parent_comment_id], permitted_params[:comment_type]
+      permitted_params[:parent_comment_id], permitted_params[:comment_type],
+      remote_post: remote_post
     )
   end
 
@@ -68,14 +71,20 @@ class CommentsController < ApplicationController
 
     def require_subject_index
       @permitted_params = params.permit(:subject_id, :subject_type, :parent_comment_id, pagination: :from)
-      virtual_subject = VirtualSubject.new(permitted_params)
+      @subject = VirtualSubject.new(permitted_params)
 
-      unless %w(RemotePost).include?(virtual_subject.subject_type)
+      unless %w(RemotePost).include?(subject.subject_type)
         return render json: { error: "Invalid subject_type" }, status: 422
       end
 
-      @subject = virtual_subject.resolve!
-
       render json: { error: "subject not found" }, status: 404 if subject.blank?
+    end
+
+    def remote_post
+      @remote_post ||= RemotePost.find_by(id: params[:post_id])
+    end
+
+    def require_remote_post
+      render json: { error: "Remote Post not found" }, status: 404 if remote_post.blank?
     end
 end

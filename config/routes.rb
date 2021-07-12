@@ -29,10 +29,10 @@ Rails.application.routes.draw do
   end
   resources :posts, only: %i(index new create show update destroy edit) do
     reactable
-  end
 
-  resources :comments, only: %i(index create destroy update) do
-    reactable
+    resources :comments, only: %i(index create destroy update) do
+      reactable
+    end
   end
 
   namespace :sessions, path: "" do

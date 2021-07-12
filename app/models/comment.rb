@@ -56,7 +56,7 @@ class Comment < ApplicationRecord
 LEFT JOIN comments
 ON cache_comments.peer_id = comments.peer_id
     SQL
-                  )
+         )
   end, foreign_key: :remote_comment_id
 
   has_many :cache_reactions, -> do
@@ -64,7 +64,7 @@ ON cache_comments.peer_id = comments.peer_id
 LEFT JOIN comments
 ON cache_reactions.peer_id = comments.peer_id AND cache_reactions.subject_type = 'RemotePost' AND cache_reactions.subject_id = comments.id
     SQL
-    )
+         )
   end, dependent: :delete_all, as: :subject
 
   def is_valid_signature?

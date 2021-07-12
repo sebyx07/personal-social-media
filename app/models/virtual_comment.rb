@@ -18,14 +18,15 @@ class VirtualComment
   delegate :id, :peer, :reaction_counters, to: :@presenter
 
   class << self
-    def where(pagination_params: {}, subject:, parent_comment_id:)
+    def where(pagination_params: {}, subject:, parent_comment_id:, remote_post:)
       VirtualCommentsService::WhereFinder.new(
-        pagination_params, subject: subject, parent_comment_id: parent_comment_id
+        pagination_params, subject: subject, parent_comment_id: parent_comment_id,
+        remote_post: remote_post
       ).results
     end
 
-    def create_comment(subject_type, subject_id, content, parent_comment_id, comment_type)
-      VirtualCommentsService::CreateComment.new(subject_type, subject_id, content, parent_comment_id, comment_type).call!
+    def create_comment(subject_type, subject_id, content, parent_comment_id, comment_type, remote_post:)
+      VirtualCommentsService::CreateComment.new(subject_type, subject_id, content, parent_comment_id, comment_type, remote_post).call!
     end
 
     def update_comment(cache_comment, content, comment_type)

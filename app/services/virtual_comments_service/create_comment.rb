@@ -3,14 +3,15 @@
 module VirtualCommentsService
   class CreateComment
     class Error < StandardError; end
-    attr_reader :subject_type, :subject_id, :content, :parent_comment_id, :comment_type
+    attr_reader :subject_type, :subject_id, :content, :parent_comment_id, :comment_type, :remote_post
 
-    def initialize(subject_type, subject_id, content, parent_comment_id, comment_type)
+    def initialize(subject_type, subject_id, content, parent_comment_id, comment_type, remote_post)
       @subject_type = subject_type
       @subject_id = subject_id
       @content = content
       @parent_comment_id = parent_comment_id
       @comment_type = comment_type
+      @remote_post = remote_post
     end
 
     def call!
@@ -23,6 +24,10 @@ module VirtualCommentsService
     private
       def remote_record
         return @remote_record if defined? @remote_record
+
+        if subject_type == "RemotePost"
+          return @remote_record = remote_post
+        end
 
         @remote_record = subject_type.constantize.find_by(id: subject_id).tap do |record|
           raise Error, "remote_record not found #{subject_type} - #{subject_id}" if record.blank?
