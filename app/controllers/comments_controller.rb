@@ -10,7 +10,6 @@ class CommentsController < ApplicationController
 
   def index
     @permitted_index_params = params.permit(pagination: :from)
-
     @virtual_posts = VirtualComment.where(
       pagination_params: @permitted_index_params, subject: subject, parent_comment_id: permitted_params[:parent_comment_id],
       remote_post: remote_post

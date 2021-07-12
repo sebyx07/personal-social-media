@@ -29,7 +29,7 @@
 #  fk_rails_...  (peer_id => peers.id)
 #
 class Comment < ApplicationRecord
-  PERMITTED_SUBJECT_CLASSES = %w(Post)
+  PERMITTED_SUBJECT_CLASSES = %w(Post Comment)
   belongs_to :comment_counter, counter_cache: true
   delegate :subject_type, :subject_id, :subject, to: :comment_counter
   belongs_to :peer

@@ -5,13 +5,17 @@ require "rails_helper"
 RSpec.describe "post /api/reactions" do
   include_context "api request"
   let(:profile) { Current.profile }
-  let(:comment) { create(:comment, :standard, peer: peer) }
+  let(:my_post) { create(:post) }
+  let(:comment_counter) { create(:comment_counter, subject: my_post) }
+  let(:parent_comment) { create(:comment, :standard, comment_counter: comment_counter) }
+  let(:comment) { create(:comment, :standard, peer: peer, parent_comment_id: parent_comment.id, comment_counter: comment_counter) }
 
   let(:params) do
     {
       comments: {
         subject_id: comment.subject_id,
         subject_type: comment.subject_type,
+        parent_comment_id: parent_comment.id
       }
     }
   end
