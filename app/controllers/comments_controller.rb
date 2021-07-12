@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class CommentsController < ApplicationController
-  before_action :require_remote_post
+  before_action :require_remote_post, only: %i(index create)
   before_action :require_subject_resource, only: %i(create)
   before_action :require_subject_type, only: %i(create)
   before_action :require_subject_index, only: :index

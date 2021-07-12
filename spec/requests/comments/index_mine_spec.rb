@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "GET /comments" do
+RSpec.describe "GET /posts/:post_id/comments" do
   include_context "logged in"
   let(:comments) { create_list(:comment, 3, :standard, comment_counter: comment_counter) }
   let(:comment_counter) { create(:comment_counter, subject: post) }
@@ -21,10 +21,10 @@ RSpec.describe "GET /comments" do
   end
 
   subject do
-    get "/comments?#{params.to_query}"
+    get "/posts/#{remote_post.id}/comments?#{params.to_query}"
   end
 
-  xit "lists the comments" do
+  it "lists the comments" do
     subject
 
     expect(response).to have_http_status(:ok)

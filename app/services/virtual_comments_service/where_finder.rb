@@ -26,7 +26,7 @@ module VirtualCommentsService
       end
 
       def handle_local
-        comments = VirtualCommentsService::WhereFinder::FindLocal.new(pagination_params, subject, parent_comment_id).results
+        comments = VirtualCommentsService::WhereFinder::FindLocal.new(pagination_params, subject, parent_comment_id, remote_post).results
         comments.to_a.map! do |comment|
           VirtualComment.new(comment: comment)
         end

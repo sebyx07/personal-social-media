@@ -35,6 +35,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :comments, only: %i(destroy update)
+
   namespace :sessions, path: "" do
     get "/login", action: :login
     post "/login", action: :login_post

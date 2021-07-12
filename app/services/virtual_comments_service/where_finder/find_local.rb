@@ -4,12 +4,13 @@ module VirtualCommentsService
   class WhereFinder
     class FindLocal
       class Error < StandardError; end
-      attr_reader :subject, :pagination_params, :parent_comment_id
+      attr_reader :subject, :pagination_params, :parent_comment_id, :remote_post
 
-      def initialize(pagination_params, subject, parent_comment_id)
+      def initialize(pagination_params, subject, parent_comment_id, remote_post)
         @pagination_params = pagination_params
         @subject = subject
         @parent_comment_id = parent_comment_id
+        @remote_post = remote_post
       end
 
       def results
@@ -26,8 +27,8 @@ module VirtualCommentsService
         end
 
         def local_record
-          if subject.is_a?(RemotePost)
-            subject.local_post
+          if subject.subject_type == "RemotePost"
+            remote_post.local_post
           end
         end
     end
