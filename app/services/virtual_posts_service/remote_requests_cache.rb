@@ -58,6 +58,10 @@ module VirtualPostsService
       end.flatten
     end
 
+    def cache_reactions
+      return @cache_reactions if defined? @cache_reactions
+    end
+
     def get_remote_id_for_record(record)
       if record.is_a?(RemotePost)
         record.remote_post_id
