@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module VirtualPostsService
-  class RemoteRequestsCache
+  class PostsRequestCache
     attr_reader :requests
     def initialize
       @requests = []
@@ -56,10 +56,6 @@ module VirtualPostsService
         remote_ids = queries.map { |q| q[:remote_id] }
         CacheComment.includes(:peer).where(subject_type: subject_type, peer_id: peer_ids, subject_id: remote_ids).to_a
       end.flatten
-    end
-
-    def cache_reactions
-      return @cache_reactions if defined? @cache_reactions
     end
 
     def get_remote_id_for_record(record)

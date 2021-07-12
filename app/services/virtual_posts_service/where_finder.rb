@@ -27,7 +27,7 @@ module VirtualPostsService
       end
 
       def handle_remote_requests(requests)
-        request_helper_cache = RemoteRequestsCache.new
+        request_helper_cache = PostsRequestCache.new
 
         requests.filter_map do |result|
           next VirtualPost.new(post: result, peer: Current.peer, remote_post: result.remote_post) if result.is_a?(Post)
