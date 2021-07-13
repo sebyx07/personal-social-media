@@ -7,6 +7,6 @@ class VirtualComment
     end
 
     delegate(*VirtualComment::PERMITTED_DELEGATED_METHODS, to: :@comment)
-    delegate :id, :peer, :reaction_counters, to: :@comment
+    delegate :id, :peer, :reaction_counters, :cache_reactions, to: :@comment
   end
 end

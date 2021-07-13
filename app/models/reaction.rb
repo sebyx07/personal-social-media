@@ -23,7 +23,6 @@
 class Reaction < ApplicationRecord
   delegate :character, :subject_id, :subject_type, to: :reaction_counter
   belongs_to :reaction_counter, counter_cache: true
-  has_one :subject, through: :reaction_counter, source: :subject
   belongs_to :peer
 
   validates :reaction_counter_id, uniqueness: { scope: :peer_id }

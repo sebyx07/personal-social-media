@@ -2,8 +2,11 @@
 
 class VirtualComment
   class PresenterForJson
-    def initialize(json)
+    delegate :cache_reactions, to: :@request_helper_cache
+
+    def initialize(json, request_helper_cache)
       @json = json
+      @request_helper_cache = request_helper_cache
     end
 
     VirtualComment::PERMITTED_DELEGATED_METHODS.each do |method_name|

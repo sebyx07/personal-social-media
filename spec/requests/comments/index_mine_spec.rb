@@ -1,23 +1,17 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "./index_comments_context"
 
 RSpec.describe "GET /posts/:post_id/comments" do
   include_context "logged in"
-  let(:comments) { create_list(:comment, 3, :standard, comment_counter: comment_counter) }
-  let(:comment_counter) { create(:comment_counter, subject: post) }
-  let(:post) { create(:post) }
-  let(:remote_post) { post.remote_post }
+  include_context "comments index with all relationships"
 
   let(:params) do
     {
       subject_type: "RemotePost",
       subject_id: remote_post.id
     }
-  end
-
-  before do
-    comments
   end
 
   subject do
@@ -30,5 +24,7 @@ RSpec.describe "GET /posts/:post_id/comments" do
     expect(response).to have_http_status(:ok)
     expect(json[:comments]).to be_present
     expect(json[:comments].size).to eq(3)
+
+    context_check_comment_have_reactions!
   end
 end

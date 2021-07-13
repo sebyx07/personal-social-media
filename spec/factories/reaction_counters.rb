@@ -16,11 +16,13 @@
 #
 #  index_reaction_counters_on_character  (character)
 #  index_reaction_counters_on_subject    (subject_type,subject_id)
-#
+emojis = %w(😀 😃 😄 😁 😆 😅 😂 🤣)
+emojis_size = emojis.size
 FactoryBot.define do
   factory :reaction_counter do
-    character { "🤘" }
-    reactions_count { 1 }
+    sequence :character do |n|
+      emojis[n % emojis_size]
+    end
     before(:create) do |r|
       r.subject ||= create(:post)
     end

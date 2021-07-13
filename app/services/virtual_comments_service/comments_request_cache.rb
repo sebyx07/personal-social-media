@@ -2,9 +2,10 @@
 
 module VirtualCommentsService
   class CommentsRequestCache
-    attr_reader :comments, :top_cache
-    def initialize(comments, top_cache: nil)
-      @comments = comments
+    attr_reader :json_comments, :top_cache, :remote_peer
+    def initialize(json_comments, remote_peer, top_cache: nil)
+      @json_comments = json_comments
+      @remote_peer = remote_peer
       @top_cache = top_cache
     end
 
@@ -16,7 +17,7 @@ module VirtualCommentsService
       end
 
       sub_peers_verify_keys = []
-      comments.each do |comment|
+      json_comments.each do |comment|
         verify_key = get_verify_key_from_json(comment.dig(:peer, :verify_key))
         sub_peers_verify_keys << verify_key
       end
@@ -30,7 +31,17 @@ module VirtualCommentsService
         return @cache_reactions = top_cache.cache_reactions
       end
 
-      CacheReaction.where()
+      characters = []
+      comment_ids = []
+      json_comments.each do |comment|
+        comment_ids << comment[:id]
+
+        comment[:reaction_counters].each do |cache_reaction|
+          characters << cache_reaction[:character]
+        end
+      end
+
+      @cache_reactions = CacheReaction.where(peer: remote_peer, character: characters, subject_id: comment_ids, subject_type: "Comment")
     end
 
     private

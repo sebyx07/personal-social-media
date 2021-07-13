@@ -6,16 +6,16 @@ class VirtualComment
     created_at updated_at
   )
 
-  def initialize(comment: nil, json: nil)
+  def initialize(comment: nil, json: nil, request_helper_cache: nil)
     if comment.present?
       @presenter = VirtualComment::PresenterForComment.new(comment)
     elsif json.present?
-      @presenter = VirtualComment::PresenterForJson.new(json)
+      @presenter = VirtualComment::PresenterForJson.new(json, request_helper_cache)
     end
   end
 
   delegate(*PERMITTED_DELEGATED_METHODS, to: :@presenter)
-  delegate :id, :peer, :reaction_counters, to: :@presenter
+  delegate :id, :peer, :reaction_counters, :cache_reactions, to: :@presenter
 
   class << self
     def where(pagination_params: {}, subject:, parent_comment_id:, remote_post:)

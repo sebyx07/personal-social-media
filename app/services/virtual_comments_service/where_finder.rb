@@ -20,8 +20,9 @@ module VirtualCommentsService
     private
       def handle_remotely
         json_records = VirtualCommentsService::WhereFinder::FindRemotely.new(pagination_params, subject, parent_comment_id, remote_post).results
-        json_records.map! do |json|
-          VirtualComment.new(json: json)
+        request_helper_cache = CommentsRequestCache.new(json_records, remote_post.peer)
+        json_records.map do |json|
+          VirtualComment.new(json: json, request_helper_cache: request_helper_cache)
         end
       end
 

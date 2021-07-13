@@ -22,7 +22,7 @@ module VirtualCommentsService
       private
         def scope
           local_record.comments.unscoped
-                      .includes(:reaction_counters, :peer)
+                      .includes(:reaction_counters, :peer, :cache_reactions)
                       .where(parent_comment_id: parent_comment_id)
         end
 
