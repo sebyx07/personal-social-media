@@ -15,6 +15,7 @@ class VirtualCommentPresenter
       updated_at: @virtual_comment.updated_at,
       sub_comments_count: @virtual_comment.sub_comments_count,
       peer: PeerPresenter.new(@virtual_comment.peer).render_with_is_me,
+      cache_comment_id: @virtual_comment.cache_comment&.id,
       reaction_counters: @virtual_comment.reaction_counters.map do |reaction_counter|
         ReactionCounterPresenter.new(reaction_counter).render_with_has_reacted(@virtual_comment.cache_reactions)
       end

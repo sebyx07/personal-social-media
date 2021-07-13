@@ -26,6 +26,13 @@
 #
 FactoryBot.define do
   factory :cache_comment do
-    comment_type { :standard }
+    trait :standard do
+      comment_type { :standard }
+      content do
+        {
+          message: FFaker::Lorem.sentence
+        }
+      end
+    end
   end
 end

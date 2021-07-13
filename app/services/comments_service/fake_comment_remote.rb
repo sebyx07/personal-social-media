@@ -2,17 +2,23 @@
 
 module CommentsService
   class FakeCommentRemote
+    attr_reader :request_helper_cache, :parent_record
     ATTRIBUTES = %i(
       id comment_type content sub_comments_count parent_comment_id subject_id subject_type
       created_at updated_at
     )
 
-    def initialize(attributes)
+    def initialize(attributes, request_helper_cache, parent_record)
       @attributes = attributes
+      @request_helper_cache = request_helper_cache
+      @parent_record = parent_record
     end
 
     def peer
-      @peer ||= PeersService::FakePeerRemote.new(@attributes[:peer])
+      return @peer if defined? @peer
+      peer = PeersService::FakePeerRemote.new(@attributes[:peer])
+
+      @peer = PeersService::RemotePeerWithFriendship.get_from_cache(request_helper_cache, peer)
     end
 
     ATTRIBUTES.each do |attr|
@@ -29,6 +35,11 @@ module CommentsService
 
     def raw_signature
       @raw_signature ||= CommentsService::RawSignature.new(self, peer)
+    end
+
+    def cache_comment
+      # binding.pry
+      @cache_comment ||= CommentsService::GetCacheCommentIdFromCache.new(request_helper_cache, parent_record, self).call
     end
   end
 end

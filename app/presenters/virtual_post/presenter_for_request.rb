@@ -4,7 +4,7 @@ class VirtualPost
   class PresenterForRequest
     class Error < StandardError; end
     delegate :cache_reactions, :cache_comments, to: :remote_post
-    attr_reader :request_helper_cache
+    attr_reader :request_helper_cache, :peer
 
     def initialize(request, peer, request_helper_cache)
       @request = request
@@ -29,9 +29,12 @@ class VirtualPost
 
     def latest_comments
       return @latest_comments if defined? @latest_comments
-
+      comments_request_cache = VirtualCommentsService::CommentsRequestCache.new(
+        nil, nil,
+        top_cache: request_helper_cache
+      )
       @latest_comments = @post[:latest_comments].map do |json|
-        CommentsService::FakeCommentRemote.new(json)
+        CommentsService::FakeCommentRemote.new(json, comments_request_cache, self)
       end
     end
 

@@ -15,7 +15,7 @@ class VirtualComment
   end
 
   delegate(*PERMITTED_DELEGATED_METHODS, to: :@presenter)
-  delegate :id, :peer, :reaction_counters, :cache_reactions, to: :@presenter
+  delegate :id, :peer, :reaction_counters, :cache_reactions, :cache_comment, to: :@presenter
 
   class << self
     def where(pagination_params: {}, subject:, parent_comment_id:, remote_post:)

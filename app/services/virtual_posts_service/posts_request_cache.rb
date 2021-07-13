@@ -28,6 +28,23 @@ module VirtualPostsService
       return @cache_comments if defined? @cache_comments
       queries = []
 
+      handle_requests_with_multiple_records do |record|
+        queries << {
+          peer_id: record.peer_id,
+          subject_id: get_remote_id_for_record(record),
+        }
+      end
+
+      peer_ids = queries.map { |q| q[:peer_id] }
+      subject_ids = queries.map { |q| q[:subject_id] }
+
+      @cache_comments = CacheComment.includes(:peer).where(subject_type: "RemotePost", peer_id: peer_ids, subject_id: subject_ids).to_a
+    end
+
+    def cache_reactions
+      return @cache_reactions if defined? @cache_reactions
+
+      queries = []
       requests.each do |request|
         if request.record.respond_to?(:each)
           request.record.each do |record|
@@ -51,22 +68,34 @@ module VirtualPostsService
         query[:subject_type]
       end
 
-      @cache_comments = grouped_queries.map do |subject_type, queries|
+      @cache_reactions = grouped_queries.map do |subject_type, queries|
         peer_ids = queries.map { |q| q[:peer_id] }
         remote_ids = queries.map { |q| q[:remote_id] }
         CacheComment.includes(:peer).where(subject_type: subject_type, peer_id: peer_ids, subject_id: remote_ids).to_a
       end.flatten
     end
 
-    def get_remote_id_for_record(record)
-      if record.is_a?(RemotePost)
-        record.remote_post_id
-      end
-    end
-
     private
       def get_verify_key_from_json(json)
         EncryptionService::EncryptedContentTransform.to_str(json)
+      end
+
+      def get_remote_id_for_record(record)
+        if record.is_a?(RemotePost)
+          record.remote_post_id
+        end
+      end
+
+      def handle_requests_with_multiple_records
+        requests.each do |request|
+          if request.record.respond_to?(:each)
+            request.record.each do |record|
+              yield record
+            end
+          else
+            yield request.record
+          end
+        end
       end
   end
 end

@@ -44,6 +44,13 @@ module VirtualCommentsService
       @cache_reactions = CacheReaction.where(peer: remote_peer, character: characters, subject_id: comment_ids, subject_type: "Comment")
     end
 
+    def cache_comments
+      return @cache_comments if defined? @cache_comments
+      if top_cache.present?
+        @cache_comments = top_cache.cache_comments
+      end
+    end
+
     private
       def get_verify_key_from_json(json)
         EncryptionService::EncryptedContentTransform.to_str(json)
