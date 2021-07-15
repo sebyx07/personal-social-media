@@ -47,7 +47,7 @@ module VirtualCommentsService
     def cache_comments
       return @cache_comments if defined? @cache_comments
       if top_cache.present?
-        @cache_comments = top_cache.cache_comments
+        return @cache_comments = top_cache.cache_comments
       end
 
       remote_comment_ids = json_comments.map do |json_comment|
