@@ -8,7 +8,10 @@ RSpec.describe "GET /posts/:post_id/comments" do
   include_context "comments index with all relationships"
   let(:comment_counter) { create(:comment_counter, subject: sample_post) }
   let(:parent_comment) { create(:comment, :standard, comment_counter: comment_counter) }
-  let(:comments) { create_list(:comment, 3, :standard, comment_counter: comment_counter, parent_comment: parent_comment) }
+  let(:comments) { create_list(:comment, 2, :standard, comment_counter: comment_counter, parent_comment: parent_comment) }
+  let(:my_comments) { create_list(:comment, 1, :standard, comment_counter: comment_counter, peer: context_my_peer, parent_comment_id: parent_comment.id) }
+  let(:context_my_peer) { Current.peer }
+  let(:context_other_peer) { Current.peer }
 
   let(:params) do
     {
@@ -46,6 +49,7 @@ RSpec.describe "GET /posts/:post_id/comments" do
       expect(json[:comments].size).to eq(3)
 
       context_check_comment_have_reactions!
+      context_check_comments_have_cache_comments!
     end
   end
 end

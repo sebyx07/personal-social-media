@@ -49,6 +49,12 @@ module VirtualCommentsService
       if top_cache.present?
         @cache_comments = top_cache.cache_comments
       end
+
+      remote_comment_ids = json_comments.map do |json_comment|
+        json_comment[:id]
+      end
+
+      @cache_comments = CacheComment.where(peer: remote_peer, remote_comment_id: remote_comment_ids).to_a
     end
 
     private

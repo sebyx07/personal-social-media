@@ -6,6 +6,8 @@ require_relative "./index_comments_context"
 RSpec.describe "GET /posts/:post_id/comments" do
   include_context "logged in"
   include_context "comments index with all relationships"
+  let(:context_my_peer) { Current.peer }
+  let(:context_other_peer) { Current.peer }
 
   let(:params) do
     {

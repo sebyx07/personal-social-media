@@ -2,6 +2,7 @@
 
 class VirtualComment
   class PresenterForJson
+    include BetterInspect
     delegate :cache_reactions, to: :@request_helper_cache
 
     def initialize(json, request_helper_cache)
@@ -30,5 +31,16 @@ class VirtualComment
         ReactionCounter.new(json)
       end
     end
+
+    def cache_comment
+      @cache_comment ||= CommentsService::GetCacheCommentIdFromCache.new(@request_helper_cache, nil, self).call
+    end
+
+    private
+      def inspected_values
+        {
+          json: @json
+        }
+      end
   end
 end

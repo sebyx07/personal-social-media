@@ -22,7 +22,8 @@ module VirtualCommentsService
       private
         def scope
           local_record.comments.unscoped
-                      .includes(:reaction_counters, :peer, :cache_reactions)
+                      .order("comments.id": :desc)
+                      .includes(:reaction_counters, :peer, :cache_reactions, :cache_comment)
                       .where(parent_comment_id: parent_comment_id)
         end
 

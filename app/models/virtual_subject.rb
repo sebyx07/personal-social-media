@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class VirtualSubject
+  include BetterInspect
   attr_reader :params
   def initialize(params)
     @params = params
@@ -22,4 +23,12 @@ class VirtualSubject
     return false if subject_id.blank? || subject_type.blank?
     true
   end
+
+  private
+    def inspected_values
+      {
+        subject_id: subject_id,
+        subject_type: subject_type,
+      }
+    end
 end

@@ -7,6 +7,8 @@ RSpec.describe "GET /comments" do
   include_context "logged in"
   include_context "two people"
   include_context "comments index with all relationships"
+  let(:context_my_peer) { Current.peer }
+  let(:context_other_peer) { other_peer }
 
   let(:cache_reactions) do
     reactions.map do |reaction|
@@ -46,5 +48,6 @@ RSpec.describe "GET /comments" do
     expect(json[:comments].size).to eq(3)
 
     context_check_comment_have_reactions!
+    context_check_comments_have_cache_comments!
   end
 end

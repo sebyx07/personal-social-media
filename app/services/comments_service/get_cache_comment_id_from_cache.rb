@@ -2,11 +2,10 @@
 
 module CommentsService
   class GetCacheCommentIdFromCache
-    attr_reader :cache, :parent_record, :peer, :comment
+    attr_reader :cache, :parent_record, :comment
     def initialize(cache, parent_record, comment)
       @cache = cache
       @parent_record = parent_record
-      @peer = parent_record.peer
       @comment = comment
     end
 
@@ -21,8 +20,17 @@ module CommentsService
 
     def handle_remote_comment
       @cache.cache_comments.detect do |cache_comment|
-        cache_comment.peer == peer && cache_comment.remote_comment_id == comment.id
-      end&.id
+        if peer.present?
+          cache_comment.peer == peer && cache_comment.remote_comment_id == comment.id
+        else
+          cache_comment.remote_comment_id == comment.id
+        end
+      end
+    end
+
+    def peer
+      return @peer if defined? @peer
+      @peer = @parent_record&.peer
     end
   end
 end

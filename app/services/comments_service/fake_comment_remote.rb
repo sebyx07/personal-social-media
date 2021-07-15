@@ -38,7 +38,6 @@ module CommentsService
     end
 
     def cache_comment
-      # binding.pry
       @cache_comment ||= CommentsService::GetCacheCommentIdFromCache.new(request_helper_cache, parent_record, self).call
     end
   end

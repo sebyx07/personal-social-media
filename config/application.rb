@@ -32,7 +32,8 @@ module Psm
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
-    config.eager_load_paths << Rails.root.join("storage")
+    config.autoload_paths << Rails.root.join("app" "storage")
+    config.autoload_paths << Rails.root.join("lib", "utils")
 
     # Don't generate system test files.
     config.generators.system_tests = nil
