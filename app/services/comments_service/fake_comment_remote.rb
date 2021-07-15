@@ -2,6 +2,7 @@
 
 module CommentsService
   class FakeCommentRemote
+    include BetterInspect
     attr_reader :request_helper_cache, :parent_record
     ATTRIBUTES = %i(
       id comment_type content sub_comments_count parent_comment_id subject_id subject_type
@@ -40,5 +41,17 @@ module CommentsService
     def cache_comment
       @cache_comment ||= CommentsService::GetCacheCommentIdFromCache.new(request_helper_cache, parent_record, self).call
     end
+
+    def cache_reactions
+      @cache_reactions ||= CommentsService::GetCacheReactionsFromCache.new(request_helper_cache, parent_record, self).call
+    end
+
+    private
+      def inspected_values
+        {
+          id: id,
+          peer: peer
+        }
+      end
   end
 end

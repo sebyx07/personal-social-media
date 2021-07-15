@@ -42,6 +42,14 @@ FactoryBot.define do
       end
     end
 
+    trait :with_reactions do
+      after(:create) do |comment|
+        create(:reaction_counter, subject: comment).tap do |reaction_counter|
+          create_list(:reaction, 2, reaction_counter: reaction_counter)
+        end
+      end
+    end
+
     before(:create) do |r|
       signing_key = r.peer.signing_key
       if r.peer == Current.peer

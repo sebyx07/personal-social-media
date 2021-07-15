@@ -16,11 +16,11 @@ module BetterInspect
     def call_nested
       inspected_values = object.send(:inspected_values)
       raise Error, "#inspected_values must return a hash for #{object.class.name}" unless inspected_values.is_a?(Hash)
-      default + " " + inspected_values.map do |field_name, value|
+      default + " (" + inspected_values.map do |field_name, value|
         InspectedValue.new(field_name, value)
       end.sort_by(&:is_user_object?).map do |inspected_value|
         inspected_value.to_s
-      end.join(" ")
+      end.join(" ") + ")"
     rescue Exception => e
       print "\n#{e}"
       default

@@ -2,6 +2,7 @@
 
 module PeersService
   class RemotePeerWithFriendship
+    include BetterInspect
     delegate_missing_to :@best_peer
     attr_reader :best_peer, :local_peer
 
@@ -27,5 +28,12 @@ module PeersService
 
       local_peer.status
     end
+
+    private
+      def inspected_values
+        {
+          peer: @best_peer
+        }
+      end
   end
 end
