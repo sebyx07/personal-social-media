@@ -43,10 +43,21 @@ module VirtualPostsService
         query[:peer_id]
       end
 
-      @cache_comments = grouped_queries.map do |peer_id, gr_queries|
+      return @cache_comments if grouped_queries.blank?
+
+      query = nil
+      first_query = true
+
+      grouped_queries.each do |peer_id, gr_queries|
         remote_comment_ids = gr_queries.map { |q| q[:remote_comment_id] }
-        CacheComment.includes(:peer).where(peer_id: peer_id, remote_comment_id: remote_comment_ids).to_a
-      end.flatten
+        if first_query
+          query = build_query_cache_comments(peer_id, remote_comment_ids).includes(:peer)
+          next first_query = false
+        end
+        query = query.or(build_query_cache_comments(peer_id, remote_comment_ids))
+      end
+
+      @cache_comments = query.to_a
     end
 
     def cache_reactions
@@ -64,11 +75,22 @@ module VirtualPostsService
         query[:subject_type]
       end
 
-      @cache_reactions = grouped_queries.map do |subject_type, gr_queries|
+      return @cache_reactions = [] if grouped_queries.blank?
+
+      query = nil
+      first_query = true
+
+      grouped_queries.each do |subject_type, gr_queries|
         peer_ids = gr_queries.map { |q| q[:peer_id] }
         remote_ids = gr_queries.map { |q| q[:remote_id] }
-        CacheReaction.includes(:peer).where(subject_type: subject_type, peer_id: peer_ids, subject_id: remote_ids).to_a
-      end.flatten
+        if first_query
+          query = build_query_cache_reactions(subject_type, peer_ids, remote_ids).includes(:peer)
+          next first_query = false
+        end
+        query = query.or(build_query_cache_reactions(subject_type, peer_ids, remote_ids))
+      end
+
+      @cache_reactions = query.to_a
     end
 
     private
@@ -92,6 +114,14 @@ module VirtualPostsService
             yield request.record
           end
         end
+      end
+
+      def build_query_cache_comments(peer_id, remote_comment_ids)
+        CacheComment.where(peer_id: peer_id, remote_comment_id: remote_comment_ids)
+      end
+
+      def build_query_cache_reactions(subject_type, peer_ids, remote_ids)
+        CacheReaction.where(subject_type: subject_type, peer_id: peer_ids, subject_id: remote_ids)
       end
   end
 end
