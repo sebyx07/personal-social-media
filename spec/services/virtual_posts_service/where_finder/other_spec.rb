@@ -10,6 +10,17 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
     end
   end
 
+  let(:cache_comments) do
+    posts.each do |post|
+      post.comments.each do |comment|
+        create(:cache_comment, :standard, peer_id: other_peer.id, remote_comment_id: comment.id,
+               remote_parent_comment_id: comment.parent_comment_id, subject_type: "RemotePost",
+               subject_id: RemotePost.find_by(remote_post_id: post.id).id,
+               )
+      end
+    end
+  end
+
   let(:pagination_params) { ActionController::Parameters.new({}) }
 
   context "other peers posts" do
@@ -18,6 +29,7 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
       setup_other_peer(statuses: :friend)
 
       RemotePost.where(remote_post_id: posts.map(&:id)).update_all(peer_id: reverse_my_peer.id)
+      cache_comments
 
       Peer.where.not(id: Current.peer.id).find_each do |peer|
         peer.update!(status: %i(friend))
@@ -42,6 +54,8 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
           json[:latest_comments].each do |comment|
             peer = comment[:peer]
             expect(peer[:status]).to match_array(:friend)
+
+            expect(comment[:cache_comment_id]).to be_present
           end
         end
       end
