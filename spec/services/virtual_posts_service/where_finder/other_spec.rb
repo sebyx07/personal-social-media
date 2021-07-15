@@ -16,7 +16,7 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
         create(:cache_comment, :standard, peer_id: other_peer.id, remote_comment_id: comment.id,
                remote_parent_comment_id: comment.parent_comment_id, subject_type: "RemotePost",
                subject_id: RemotePost.find_by(remote_post_id: post.id).id,
-               )
+        )
       end
     end
   end
