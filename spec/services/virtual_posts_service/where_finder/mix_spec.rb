@@ -131,7 +131,7 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
 
     it "returns 4 post" do
       expect(subject.size).to eq(4)
-      subject.each_with_index do |v_post, index|
+      subject.each do |v_post|
         expect(v_post).to be_a(VirtualPost)
         VirtualPostPresenter.new(v_post).render.tap do |json|
           expect(json).to be_present
@@ -151,6 +151,10 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
 
           json[:latest_comments].each do |comment|
             expect(comment[:reaction_counters]).to be_present
+
+            comment[:reaction_counters].each do |reaction_counter|
+              expect(reaction_counter[:has_reacted]).to be_truthy
+            end
           end
         end
       end

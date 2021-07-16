@@ -43,7 +43,7 @@ module VirtualPostsService
         query[:peer_id]
       end
 
-      return @cache_comments if grouped_queries.blank?
+      return @cache_comments = [] if grouped_queries.blank?
 
       query = nil
       first_query = true
@@ -64,32 +64,43 @@ module VirtualPostsService
       return @cache_reactions if defined? @cache_reactions
 
       queries = []
-      handle_requests_with_multiple_records do |record|
+      handle_requests_with_multiple_records do |record, json|
+        subject_ids = []
+        characters = []
+        json[:posts].map do |json_post|
+          json_post[:latest_comments].map do |comment|
+            subject_ids << comment[:id]
+            comment[:reaction_counters].map do |reaction_counter|
+              characters << reaction_counter[:character]
+            end
+          end
+        end
+        next if subject_ids.blank?
+
         queries << {
-          peer_id: record.peer_id,
-          remote_id: get_remote_id_for_record(record),
-          subject_type: record.class.name
+          peer_id: record.peer.id,
+          subject_ids: subject_ids,
+          characters: characters
         }
       end
-      grouped_queries = queries.group_by do |query|
-        query[:subject_type]
-      end
 
-      return @cache_reactions = [] if grouped_queries.blank?
+      grouped_queries = queries.group_by do |query|
+        query[:peer_id]
+      end
 
       query = nil
       first_query = true
 
-      grouped_queries.each do |subject_type, gr_queries|
-        peer_ids = gr_queries.map { |q| q[:peer_id] }
-        remote_ids = gr_queries.map { |q| q[:remote_id] }
+      grouped_queries.each do |peer_id, gr_queries|
+        subject_ids = gr_queries.map { |gr| gr[:subject_ids] }.flatten
+        characters = gr_queries.map { |gr| gr[:characters] }.flatten
+
         if first_query
-          query = build_query_cache_reactions(subject_type, peer_ids, remote_ids).includes(:peer)
+          query = build_query_cache_reactions(peer_id, subject_ids, characters).includes(:peer)
           next first_query = false
         end
-        query = query.or(build_query_cache_reactions(subject_type, peer_ids, remote_ids))
+        query = query.or(build_query_cache_reactions(peer_id, subject_ids, characters))
       end
-
       @cache_reactions = query.to_a
     end
 
@@ -108,10 +119,10 @@ module VirtualPostsService
         requests.each do |request|
           if request.record.respond_to?(:each)
             request.record.each do |record|
-              yield record
+              yield record, request.json
             end
           else
-            yield request.record
+            yield request.record, request.json
           end
         end
       end
@@ -120,8 +131,8 @@ module VirtualPostsService
         CacheComment.where(peer_id: peer_id, remote_comment_id: remote_comment_ids)
       end
 
-      def build_query_cache_reactions(subject_type, peer_ids, remote_ids)
-        CacheReaction.where(subject_type: subject_type, peer_id: peer_ids, subject_id: remote_ids)
+      def build_query_cache_reactions(peer_id, subject_ids, characters)
+        CacheReaction.where(peer_id: peer_id, subject_type: "Comment", subject_id: subject_ids, character: characters)
       end
   end
 end

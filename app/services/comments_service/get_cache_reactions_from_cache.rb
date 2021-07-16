@@ -21,16 +21,9 @@ module CommentsService
     def handle_remote_comment
       @cache.cache_reactions.select do |cache_reaction|
         next false unless cache_reaction.subject_type == "Comment"
-        raise "x" if peer.blank?
-        cache_comment.peer == peer && cache_reaction.subject_id == comment.id
+        raise peer.to_json if peer.blank?
+        cache_reaction.peer == peer && cache_reaction.subject_id == comment.id
       end
-      # @cache.cache_comments.detect do |cache_comment|
-      #   if peer.present?
-      #     cache_comment.peer == peer && cache_comment.remote_comment_id == comment.id
-      #   else
-      #     cache_comment.remote_comment_id == comment.id
-      #   end
-      # end
     end
 
     def peer
