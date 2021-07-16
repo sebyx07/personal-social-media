@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  notification: render(partial: "notifications/notification", locals: { notification: @notification })
+}

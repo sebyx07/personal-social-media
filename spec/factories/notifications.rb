@@ -25,10 +25,10 @@
 #
 FactoryBot.define do
   factory :notification do
-    peer { nil }
-    type { "" }
-    content { "" }
-    seen { false }
-    subject { nil }
+    peer
+  end
+
+  factory :notification_friendship_request, class: "Notification::FriendshipRequest", parent: :notification do
+    content { { status: :requested } }
   end
 end

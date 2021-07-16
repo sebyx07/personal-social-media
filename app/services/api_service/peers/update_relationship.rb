@@ -47,7 +47,7 @@ module ApiService
           return if peer.friend?
           add_status(result)
           remove_from_status(:imported, :stranger)
-          Notification::FriendshipRequest.create!(peer: peer)
+          Notification::FriendshipRequest.create!(peer: peer, content: { status: :requested })
           save_peer!
         end
 

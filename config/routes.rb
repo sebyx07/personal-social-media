@@ -37,6 +37,16 @@ Rails.application.routes.draw do
 
   resources :comments, only: %i(destroy update)
 
+  resources :notifications, only: %i(index create update destroy) do
+    collection do
+      post "/mark_all_as_seen", action: :mark_all_as_seen
+    end
+
+    member do
+      post "/trigger_event", action: :trigger_event
+    end
+  end
+
   namespace :sessions, path: "" do
     get "/login", action: :login
     post "/login", action: :login_post

@@ -24,6 +24,22 @@
 #  fk_rails_...  (peer_id => peers.id)
 #
 class Notification < ApplicationRecord
+  class InvalidEvent < StandardError; end
   belongs_to :peer
   belongs_to :subject, polymorphic: true, optional: true
+
+  def raise_invalid_event
+    raise InvalidEvent, "invalid event"
+  end
+
+  def handle_event_wrapper(event_name, event_value)
+    output = nil
+
+    Notification.transaction do
+      output = handle_event(event_name, event_value)
+      self.seen = true
+      save!
+    end
+    output
+  end
 end

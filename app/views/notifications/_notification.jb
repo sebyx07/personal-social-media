@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+fields = %i(id content seen subject_type type created_at subject_id)
+
+notification.as_json(only: fields).tap do |json|
+  json[:peer] = PeerPresenter.new(notification.peer).render_low_data
+end
