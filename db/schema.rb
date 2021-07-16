@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_16_021913) do
+ActiveRecord::Schema.define(version: 2021_07_16_034404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -64,6 +64,28 @@ ActiveRecord::Schema.define(version: 2021_07_16_021913) do
     t.index ["comment_counter_id"], name: "index_comments_on_comment_counter_id"
     t.index ["parent_comment_id"], name: "index_comments_on_parent_comment_id"
     t.index ["peer_id"], name: "index_comments_on_peer_id"
+  end
+
+  create_table "conversation_messages", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "peer_id", null: false
+    t.jsonb "content", null: false
+    t.string "conversation_message_type", null: false
+    t.boolean "seen", null: false
+    t.bigint "remote_conversation_message_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["conversation_id"], name: "index_conversation_messages_on_conversation_id"
+    t.index ["peer_id"], name: "index_conversation_messages_on_peer_id"
+  end
+
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "peer_id", null: false
+    t.boolean "is_focused", default: false, null: false
+    t.bigint "unread_messages_count", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["peer_id"], name: "index_conversations_on_peer_id"
   end
 
   create_table "external_accounts", force: :cascade do |t|
@@ -304,6 +326,9 @@ ActiveRecord::Schema.define(version: 2021_07_16_021913) do
   add_foreign_key "comments", "comment_counters"
   add_foreign_key "comments", "comments", column: "parent_comment_id"
   add_foreign_key "comments", "peers"
+  add_foreign_key "conversation_messages", "conversations"
+  add_foreign_key "conversation_messages", "peers"
+  add_foreign_key "conversations", "peers"
   add_foreign_key "notifications", "peers"
   add_foreign_key "psm_cdn_files", "external_accounts"
   add_foreign_key "psm_cdn_files", "psm_file_variants"
