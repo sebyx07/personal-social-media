@@ -18,7 +18,9 @@ RSpec.describe "POST /api/instance/update_relationship" do
   end
 
   it "returns the peer profile" do
-    subject
+    expect do
+      subject
+    end.to change { Notification::FriendshipRequest.count }.by(1)
 
     expect(response).to have_http_status(:ok)
     expect(json[:relationship]).to eq("friendship_requested_by_external")

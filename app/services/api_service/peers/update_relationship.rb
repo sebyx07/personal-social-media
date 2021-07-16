@@ -12,35 +12,42 @@ module ApiService
       end
 
       def call!
-        check_for_blocked!
-
-        if relationship == "friendship_requested_by_external"
-          handle_friend_request
-        elsif relationship == "friendship_requested_by_external_blocked"
-          handle_decline
-        elsif relationship == "cancel_friendship"
-          handle_cancel_friendship
-        elsif relationship == "unblock"
-          handle_being_unblocked
-        elsif relationship == "full_block_by_external"
-          handle_block
-        elsif relationship == "unfriend"
-          handle_unfriend
-        elsif relationship == "friend"
-          handle_friend_accepted
-        else
-          raise Error, "invalid relationship"
+        Peer.transaction do
+          wrapped_call
         end
 
         self
       end
 
       private
+        def wrapped_call
+          check_for_blocked!
+
+          if relationship == "friendship_requested_by_external"
+            handle_friend_request
+          elsif relationship == "friendship_requested_by_external_blocked"
+            handle_decline
+          elsif relationship == "cancel_friendship"
+            handle_cancel_friendship
+          elsif relationship == "unblock"
+            handle_being_unblocked
+          elsif relationship == "full_block_by_external"
+            handle_block
+          elsif relationship == "unfriend"
+            handle_unfriend
+          elsif relationship == "friend"
+            handle_friend_accepted
+          else
+            raise Error, "invalid relationship"
+          end
+        end
+
         def handle_friend_request
           @result = :friendship_requested_by_external
           return if peer.friend?
           add_status(result)
           remove_from_status(:imported, :stranger)
+          Notification::FriendshipRequest.create!(peer: peer)
           save_peer!
         end
 

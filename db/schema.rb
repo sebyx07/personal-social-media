@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_07_005108) do
+ActiveRecord::Schema.define(version: 2021_07_16_021913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -79,6 +79,19 @@ ActiveRecord::Schema.define(version: 2021_07_07_005108) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "status", default: "initializing", null: false
     t.string "usage", null: false
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "peer_id", null: false
+    t.string "type", null: false
+    t.jsonb "content", default: "{}", null: false
+    t.boolean "seen", default: false, null: false
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["peer_id"], name: "index_notifications_on_peer_id"
+    t.index ["subject_type", "subject_id"], name: "index_notifications_on_subject"
   end
 
   create_table "peers", force: :cascade do |t|
@@ -291,6 +304,7 @@ ActiveRecord::Schema.define(version: 2021_07_07_005108) do
   add_foreign_key "comments", "comment_counters"
   add_foreign_key "comments", "comments", column: "parent_comment_id"
   add_foreign_key "comments", "peers"
+  add_foreign_key "notifications", "peers"
   add_foreign_key "psm_cdn_files", "external_accounts"
   add_foreign_key "psm_cdn_files", "psm_file_variants"
   add_foreign_key "psm_file_permanents", "external_accounts"
