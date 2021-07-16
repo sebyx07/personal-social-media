@@ -37,13 +37,13 @@ class Notification
 
     private
       def accept
-        trigger_relationship(:friend).call!
+        trigger_relationship(:friend)
         self.content = { status: :accepted }
         output
       end
 
       def decline
-        trigger_relationship(:friendship_requested_by_me_blocked).call!
+        trigger_relationship(:friendship_requested_by_me_blocked)
         self.content = { status: :declined }
         output
       end
@@ -53,7 +53,9 @@ class Notification
       end
 
       def output
-        PeerPresenter.new(peer).render_low_data
+        {
+          peer: PeerPresenter.new(peer).render_low_data
+        }
       end
   end
 end

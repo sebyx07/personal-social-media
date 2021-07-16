@@ -31,8 +31,8 @@ class NotificationsController < ApplicationController
 
     render json: output
 
-  rescue StandardError => e
-    render json: { error: e.message }, status: 422
+    rescue StandardError => e
+      render json: { error: e.message }, status: 422
   end
 
   def destroy
