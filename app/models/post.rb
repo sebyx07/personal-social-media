@@ -5,7 +5,7 @@
 # Table name: posts
 #
 #  id         :bigint           not null, primary key
-#  content    :text
+#  content    :jsonb            not null
 #  post_type  :string           default("standard"), not null
 #  signature  :binary           not null
 #  status     :string           default("pending"), not null
@@ -41,6 +41,9 @@ class Post < ApplicationRecord
   has_many :psm_files, dependent: :destroy, as: :subject
 
   has_many :cache_comments, dependent: :delete_all, as: :subject
+
+  store :content, accessors: %i(message)
+  validates :message, allow_blank: true, length: { maximum: 2000 }, if: -> { standard? }
 
   class << self
     def allow_propagate_to_remote?

@@ -7,7 +7,14 @@ RSpec.describe "POST /posts" do
   include_context "two people"
   let(:example_post) { build(:post) }
 
-  let(:params) { { post: { content: example_post.content, status: :ready } } }
+  let(:params) do
+    {
+      post: {
+          content: example_post.content,
+          status: :ready
+        }
+    }
+  end
 
   before do
     expect_any_instance_of(Post).to receive(:create_self_remote_post).and_return(true)

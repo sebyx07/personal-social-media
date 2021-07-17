@@ -5,7 +5,7 @@
 # Table name: posts
 #
 #  id         :bigint           not null, primary key
-#  content    :text
+#  content    :jsonb            not null
 #  post_type  :string           default("standard"), not null
 #  signature  :binary           not null
 #  status     :string           default("pending"), not null

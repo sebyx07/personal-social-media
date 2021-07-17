@@ -57,7 +57,7 @@ class PostsController < ApplicationController
 
   private
     def create_post_params
-      params.require(:post).permit(:content, :status)
+      params.require(:post).permit(:status, content: [:message])
     end
 
     def update_post_params

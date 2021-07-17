@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_17_115925) do
+ActiveRecord::Schema.define(version: 2021_07_17_225103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -155,13 +155,13 @@ ActiveRecord::Schema.define(version: 2021_07_17_115925) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.text "content"
     t.string "status", default: "pending", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "post_type", default: "standard", null: false
     t.bigint "views", default: 0, null: false
     t.binary "signature", null: false
+    t.jsonb "content", null: false
   end
 
   create_table "profiles", force: :cascade do |t|
