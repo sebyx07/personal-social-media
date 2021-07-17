@@ -2,17 +2,16 @@
 
 class EncryptFileSchmooze < Schmooze::Base
   method :encrypt, <<-JS
-function encryptFile(inputFilePath, outputFilePath){
+function encryptFile(inputFilePath, outputFilePath, key, iv){
   const {createReadStream, createWriteStream} = require('fs');
   const {pipeline} = require('stream');
   const algorithm = 'aes-256-cbc';
   const {
-    randomBytes,
     createCipheriv
   } = require('crypto');
   return new Promise((resolve) => {
-    const key = randomBytes(32);
-    const iv = randomBytes(16);
+    key = Buffer.from(key);
+    iv = Buffer.from(iv);
 
     const cipher = createCipheriv(algorithm, key, iv);
     const input = createReadStream(inputFilePath);

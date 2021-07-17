@@ -7,6 +7,8 @@
 #  id                       :bigint           not null, primary key
 #  cdn_storage_status       :string           default("pending"), not null
 #  content_type             :string           not null
+#  iv_ciphertext            :text             not null
+#  key_ciphertext           :text             not null
 #  metadata                 :jsonb            not null
 #  name                     :string           not null
 #  permanent_storage_status :string           default("pending"), not null
@@ -23,4 +25,11 @@
 class PsmFile < ApplicationRecord
   belongs_to :subject, polymorphic: true
   has_one :original, -> { where(variant_name: :original) }, class_name: "PsmFileVariant"
+  encrypts :key, :iv
+
+  after_initialize do |psm_file|
+    next if psm_file.persisted?
+    psm_file.key ||= SecureRandom.bytes(32)
+    psm_file.iv ||= SecureRandom.bytes(16)
+  end
 end

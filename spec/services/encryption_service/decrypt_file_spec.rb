@@ -4,13 +4,15 @@ require "rails_helper"
 
 RSpec.describe EncryptionService::DecryptFile do
   describe "#call!" do
+    let(:key) { SecureRandom.bytes(32) }
+    let(:iv) { SecureRandom.bytes(16) }
     let(:output_encrypted_file_path) { "/tmp/sample-decryption-file" }
     let(:output_decrypted_file_path) { "/tmp/sample-decryption-file-output" }
     let(:test_file_path) do
       Rails.root.join("LICENSE")
     end
     let(:encrypted_file) do
-      EncryptionService::EncryptFile.new(test_file_path, output_encrypted_file_path).call!
+      EncryptionService::EncryptFile.new(test_file_path, output_encrypted_file_path, key, iv).call!
     end
     let(:real_content) do
       File.read(test_file_path)

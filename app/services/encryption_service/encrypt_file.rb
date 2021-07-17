@@ -2,10 +2,12 @@
 
 module EncryptionService
   class EncryptFile
-    attr_reader :file_path, :output_path
-    def initialize(file_path, output_path)
+    attr_reader :file_path, :output_path, :key, :iv
+    def initialize(file_path, output_path, key, iv)
       @file_path = file_path
       @output_path = output_path
+      @key = key
+      @iv = iv
     end
 
     class << self
@@ -20,9 +22,10 @@ module EncryptionService
 
     private
       def js_encrypt
-        output = self.class.js_encryptor.encrypt(file_path, output_path)
-        key = EncryptionService::EncryptedContentTransform.to_str(output.dig("key", "data"))
-        iv = EncryptionService::EncryptedContentTransform.to_str(output.dig("iv", "data"))
+        key_bytes = EncryptionService::EncryptedContentTransform.to_json(key)
+        iv_bytes = EncryptionService::EncryptedContentTransform.to_json(iv)
+
+        self.class.js_encryptor.encrypt(file_path, output_path, key_bytes, iv_bytes)
 
         EncryptedFile.new(output_path, key, iv)
       end
