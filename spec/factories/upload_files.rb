@@ -22,8 +22,10 @@
 #
 FactoryBot.define do
   factory :upload_file do
-    upload { nil }
-    file_name { "MyString" }
-    status { "MyString" }
+    upload
+    sequence :file_name do |n|
+      "file-name-#{n}.txt"
+    end
+    status { :ready }
   end
 end

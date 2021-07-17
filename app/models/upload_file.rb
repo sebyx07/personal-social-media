@@ -23,4 +23,5 @@
 class UploadFile < ApplicationRecord
   belongs_to :upload
   str_enum :status, %i(pending ready)
+  validates :file_name, presence: true, uniqueness: { scope: :upload_id }
 end

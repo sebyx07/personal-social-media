@@ -18,7 +18,11 @@
 #
 FactoryBot.define do
   factory :upload do
-    subject { nil }
-    status { "MyString" }
+    status { :pending }
+    resumable_upload_identifier { SecureRandom.hex }
+
+    before(:create) do |r|
+      r.subject ||= create(:post)
+    end
   end
 end

@@ -48,6 +48,11 @@ Rails.application.routes.draw do
   end
 
   resources :uploads, only: :create
+  resources :upload_chunks, only: :create do
+    collection do
+      get "/", action: :show
+    end
+  end
 
   namespace :sessions, path: "" do
     get "/login", action: :login
