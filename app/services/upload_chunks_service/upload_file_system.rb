@@ -11,25 +11,39 @@ module UploadChunksService
 
     def exists?
       return false unless upload_file_record.persisted?
-      File.exist?(chunk_file)
+      File.exist?(chunk_file_path)
+    end
+
+    def upload_dir
+      @upload_dir ||= "/tmp/psm-upload/#{upload.resumable_upload_identifier}"
+    end
+
+    def chunk_file_path
+      @chunk_file_path ||= generate_chunk_file_path(resumable_chunk_number)
+    end
+
+    def path
+      @path ||= upload_dir + "/#{upload_file_record.file_name}"
+    end
+
+    def generate_whole_file!
+      return if @generated_whole_file if defined? @generated_whole_file
+      chunk_file_list = (1..resumable_chunk_number).map do |part|
+        generate_chunk_file_path(part)
+      end
+
+      `cat #{chunk_file_list.join(" ")} > #{path}`
+      @generated_whole_file = true
     end
 
     private
-      def upload_dir
-        @upload_dir ||= "/tmp/psm-upload/#{upload.resumable_upload_identifier}"
-      end
-
-      def upload_file
-        @upload_file ||= upload_dir + "/#{upload_file_record.file_name}"
-      end
-
-      def chunk_file
-        @chunk_file ||= upload_file + ".part#{resumable_chunk_number}"
-      end
-
       def upload_file_record
         return @upload_file_record if defined? @upload_file_record
         @upload_file_record = UploadFile.find_or_initialize_by(upload: upload, file_name: resumable_filename)
+      end
+
+      def generate_chunk_file_path(chunk_number)
+        path + ".part#{chunk_number}"
       end
   end
 end

@@ -12,8 +12,26 @@ class UploadChunksController < ApplicationController
     head 404
   end
 
+  def create
+    upload_id = request.headers["PSM_UPLOAD_ID"]
+    UploadChunksService::UploadChunk.new(permitted_params_create, upload_id).handle_chunk.tap do |service|
+      if service.whole_file_ready?
+        service.process_whole_file
+      end
+
+      head :ok
+    end
+  end
+
   private
     def permitted_params_show
-      @permitted_params ||= params.permit(:resumableIdentifier, :resumableFilename, :resumableChunkNumber)
+      @permitted_params_show ||= params.permit(:resumableIdentifier, :resumableFilename, :resumableChunkNumber)
+    end
+
+    def permitted_params_create
+      @permitted_params_create ||= params.permit(
+        :resumableIdentifier, :resumableFilename, :resumableChunkNumber,
+        :file, :resumableChunkSize, :resumableTotalSize
+      )
     end
 end
