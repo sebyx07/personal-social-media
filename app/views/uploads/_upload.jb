@@ -1,0 +1,3 @@
+# frozen_string_literal: true
+
+upload.as_json

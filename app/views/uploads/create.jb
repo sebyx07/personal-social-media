@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+{
+  upload: render(partial: "uploads/upload", locals: { upload: @upload })
+}

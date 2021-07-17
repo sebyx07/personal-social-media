@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_17_040448) do
+ActiveRecord::Schema.define(version: 2021_07_17_115925) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -323,6 +323,26 @@ ActiveRecord::Schema.define(version: 2021_07_17_040448) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "upload_files", force: :cascade do |t|
+    t.bigint "upload_id", null: false
+    t.string "file_name"
+    t.string "status", default: "pending", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["file_name"], name: "index_upload_files_on_file_name"
+    t.index ["upload_id"], name: "index_upload_files_on_upload_id"
+  end
+
+  create_table "uploads", force: :cascade do |t|
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.string "status", default: "pending", null: false
+    t.string "resumable_upload_identifier"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subject_type", "subject_id"], name: "index_uploads_on_subject"
+  end
+
   add_foreign_key "cache_comments", "peers"
   add_foreign_key "cache_reactions", "peers"
   add_foreign_key "comments", "comment_counters"
@@ -344,4 +364,5 @@ ActiveRecord::Schema.define(version: 2021_07_17_040448) do
   add_foreign_key "reactions", "peers"
   add_foreign_key "reactions", "reaction_counters"
   add_foreign_key "remote_posts", "peers"
+  add_foreign_key "upload_files", "uploads"
 end

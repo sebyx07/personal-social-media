@@ -47,6 +47,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :uploads, only: :create
+
   namespace :sessions, path: "" do
     get "/login", action: :login
     post "/login", action: :login_post
