@@ -33,15 +33,16 @@ module UploadChunksService
       end
 
       `cat #{chunk_file_list.join(" ")} > #{path}`
+      FileUtils.rm_f(chunk_file_list)
       @generated_whole_file = true
     end
 
-    private
-      def upload_file_record
-        return @upload_file_record if defined? @upload_file_record
-        @upload_file_record = UploadFile.find_or_initialize_by(upload: upload, file_name: resumable_filename)
-      end
+    def upload_file_record
+      return @upload_file_record if defined? @upload_file_record
+      @upload_file_record = UploadFile.find_or_initialize_by(upload: upload, file_name: resumable_filename)
+    end
 
+    private
       def generate_chunk_file_path(chunk_number)
         path + ".part#{chunk_number}"
       end

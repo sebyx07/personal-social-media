@@ -16,6 +16,7 @@ class VirtualFile
     @save_virtual_file = SaveVirtualFile.new(self, subject).call
   end
 
-  def download
+  def psm_file
+    @psm_file || @save_virtual_file.try(:psm_file)
   end
 end

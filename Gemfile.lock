@@ -486,6 +486,8 @@ GEM
       activesupport (>= 5)
     strong_migrations (0.7.7)
       activerecord (>= 5)
+    sucker_punch (3.0.1)
+      concurrent-ruby (~> 1.0)
     sys-cpu (1.0.3)
       ffi (~> 1.1)
     temple (0.8.2)
@@ -584,6 +586,7 @@ DEPENDENCIES
   stackprof
   str_enum (~> 0.2.0)
   strong_migrations (~> 0.7.7)
+  sucker_punch (~> 3.0, >= 3.0.1)
   turbolinks (~> 5.2, >= 5.2.1)
   typhoeus (~> 1.4)
   tzinfo-data

@@ -34,6 +34,7 @@ module Psm
     # config.time_zone = "Central Time (US & Canada)"
     config.autoload_paths << Rails.root.join("app" "storage")
     config.autoload_paths << Rails.root.join("app" "schmooze")
+    config.autoload_paths << Rails.root.join("app" "sucker_punch")
     config.autoload_paths << Rails.root.join("lib", "utils")
 
     # Don't generate system test files.

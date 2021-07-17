@@ -94,6 +94,7 @@ gem "sidekiq-cron", "~> 1.2", require: %w(sidekiq/cron/web)
 gem "sidekiq-throttled", "~> 0.13.0", require: "sidekiq/throttled"
 gem "str_enum", "~> 0.2.0"
 gem "strong_migrations", "~> 0.7.7"
+gem "sucker_punch", "~> 3.0", ">= 3.0.1"
 gem "typhoeus", "~> 1.4"
 gem "unicode-emoji"
 gem "validates_host", "~> 1.3"

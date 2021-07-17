@@ -71,6 +71,7 @@ module UploadChunksService
       end
 
       def trigger_bg_process_file
+        SpHandleUploadedFileJob.perform_async(whole_file_path, upload_file.upload_file_record.id)
       end
   end
 end

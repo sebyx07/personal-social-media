@@ -7,12 +7,19 @@ RSpec.describe "POST /upload_chunks", type: :request do
   let(:input_file) { "Gemfile" }
   let(:input_file_size) { File.size(input_file) }
   let(:chunk_size) { (input_file_size / 3.to_f).ceil }
-  let(:chunks) { chunker(input_file, chunk_size) }
+  let(:chunks) { chunker.call! }
   let(:identifier) { SecureRandom.hex }
   let(:upload) { create(:upload) }
+  let(:chunker) do
+    PsmFilesService::Utils::FileChunker.new(input_file, chunk_size)
+  end
 
   before do
     expect_any_instance_of(UploadChunksService::UploadChunk).to receive(:trigger_bg_process_file).and_return(true)
+  end
+
+  after do
+    chunker.clean
   end
 
   it "uploads chunks and processes a whole file" do
@@ -21,20 +28,6 @@ RSpec.describe "POST /upload_chunks", type: :request do
 
       expect(response).to have_http_status(:ok)
     end
-  end
-
-  def chunker(input, chunk_size)
-    output_files = []
-    File.open(input, "r") do |fh_in|
-      until fh_in.eof?
-        tmp_file = Tempfile.new
-        output_files << tmp_file
-        tmp_file.write(fh_in.read(chunk_size))
-        tmp_file.rewind
-      end
-    end
-
-    output_files
   end
 
   def make_request(chunk, chunk_index)
