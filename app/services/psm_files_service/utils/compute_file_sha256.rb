@@ -2,7 +2,7 @@
 
 module PsmFilesService
   module Utils
-    class ComputeSha
+    class ComputeFileSha256
       attr_reader :file, :buffer_size
       def initialize(file, buffer_size: 2.megabytes)
         @file = file

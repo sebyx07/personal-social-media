@@ -12,6 +12,7 @@
 #  metadata                 :jsonb            not null
 #  name                     :string           not null
 #  permanent_storage_status :string           default("pending"), not null
+#  sha_256                  :string(64)       not null
 #  subject_type             :string           not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null

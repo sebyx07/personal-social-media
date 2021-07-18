@@ -63,7 +63,7 @@ class VirtualFile
           PsmPermanentFile.new(
             psm_file_variant: psm_original_variant,
             external_account: adapter.storage_account,
-            adapter: adapter.class.name
+            adapter: adapter.class.name,
           ).tap do |permanent_file|
             permanent_file.adapter_instance = adapter
           end

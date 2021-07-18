@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe PsmFilesService::Utils::ComputeSha do
+RSpec.describe PsmFilesService::Utils::ComputeFileSha256 do
   let(:file) { File.open(Rails.root.join("spec/support/resources/picture.jpg"), "rb") }
   let(:read_1kb) do
     described_class.new(file, buffer_size: 1.kilobyte).call

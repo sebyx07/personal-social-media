@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_18_131947) do
+ActiveRecord::Schema.define(version: 2021_07_18_221140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -224,6 +224,7 @@ ActiveRecord::Schema.define(version: 2021_07_18_131947) do
     t.string "cdn_storage_status", default: "pending", null: false
     t.text "key_ciphertext", null: false
     t.text "iv_ciphertext", null: false
+    t.string "sha_256", limit: 64, null: false
     t.index ["metadata"], name: "index_psm_files_on_metadata", using: :gin
     t.index ["subject_type", "subject_id"], name: "index_psm_files_on_subject"
   end

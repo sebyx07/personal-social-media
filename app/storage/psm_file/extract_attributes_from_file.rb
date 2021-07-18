@@ -11,7 +11,8 @@ class PsmFile
       {
         name: name,
         content_type: content_type,
-        metadata: metadata
+        metadata: metadata,
+        sha_256: PsmFilesService::Utils::ComputeFileSha256.new(physical_file).call
       }
     end
 
