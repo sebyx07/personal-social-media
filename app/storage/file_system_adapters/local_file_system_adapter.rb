@@ -49,23 +49,9 @@ module FileSystemAdapters
 
     class << self
       def test_cleanup!
-        dir = new.storage_default_dir_name
+        dir = new.send(:storage_default_dir_name)
         FileUtils.rm_rf(dir)
       end if Rails.env.test?
-    end
-
-    def storage_default_dir_name
-      return @storage_default_dir_name if defined? @storage_default_dir_name
-      dir = "psm-do-not-delete/uploads"
-      if Rails.env.test?
-        dir = "tmp/" + dir + "/test"
-      elsif Rails.env.development?
-        dir +=" tmp/" + dir + "/dev"
-      else
-        dir = "~/." + dir
-      end
-
-      @storage_default_dir_name = dir
     end
 
     private
@@ -75,6 +61,20 @@ module FileSystemAdapters
 
       def raise_upload_error(msg)
         raise UploadError, "#{self.class.name} - #{}"
+      end
+
+      def storage_default_dir_name
+        return @storage_default_dir_name if defined? @storage_default_dir_name
+        dir = "psm-do-not-delete/uploads"
+        if Rails.env.test?
+          dir = "tmp/" + dir + "/test"
+        elsif Rails.env.development?
+          dir = "tmp/" + dir + "/dev"
+        else
+          dir = "~/." + dir
+        end
+
+        @storage_default_dir_name = dir
       end
   end
 end

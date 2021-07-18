@@ -11,11 +11,11 @@ module PsmFilesService
       end
 
       def call!
-        File.open(input_path, "r") do |fh_in|
-          until fh_in.eof?
+        File.open(input_path, "rb") do |fh_in|
+          ReadFileAsStream.new(fh_in, chunk_size).read do |input|
             tmp_file = Tempfile.new
             output << tmp_file
-            tmp_file.write(fh_in.read(chunk_size))
+            tmp_file.write(input)
             tmp_file.rewind
           end
         end
