@@ -23,4 +23,5 @@
 #
 class PsmFileVariant < ApplicationRecord
   belongs_to :psm_file
+  has_many :psm_permanent_files
 end

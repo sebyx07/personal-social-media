@@ -25,8 +25,6 @@
 #  fk_rails_...  (peer_id => peers.id)
 #
 class CacheComment < ApplicationRecord
-  include PsmAttachmentConcern
-  has_many_psm_files_attached(handler: "CacheCommentsService::CacheCommentsAttachmentsHandler")
   belongs_to :peer
 
   str_enum :comment_type, Comment.comment_types

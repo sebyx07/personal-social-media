@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_17_225103) do
+ActiveRecord::Schema.define(version: 2021_07_18_131947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -232,12 +232,13 @@ ActiveRecord::Schema.define(version: 2021_07_17_225103) do
     t.bigint "size_bytes", default: 0, null: false
     t.string "status", default: "pending", null: false
     t.bigint "psm_file_variant_id", null: false
-    t.bigint "external_account_id", null: false
+    t.bigint "external_account_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "archive_password_ciphertext", null: false
     t.integer "upload_percentage", default: 0, null: false
     t.string "external_file_name", null: false
+    t.string "adapter", null: false
     t.index ["external_account_id"], name: "index_psm_permanent_files_on_external_account_id"
     t.index ["psm_file_variant_id", "external_account_id"], name: "idx_psm_permanent_files_variant_to_external_account", unique: true
   end

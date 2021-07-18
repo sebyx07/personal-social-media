@@ -17,8 +17,9 @@ module ArchiveService
     end
 
     def archive_size
+      return @archive_size if defined? @archive_size
       check_archive
-      File.size(archive.path)
+      @archive_size = File.size(archive.path)
     end
 
     def generate_archive
@@ -28,7 +29,9 @@ module ArchiveService
       system(command)
       raise Error, "archive not created" unless File.exist?(new_archive_path)
 
-      @archive ||= File.open(new_archive_path)
+      @archive = File.open(new_archive_path)
+      archive_size
+      @archive
     end
 
     def extract_archive

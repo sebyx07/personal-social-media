@@ -25,6 +25,8 @@
 class PsmFile < ApplicationRecord
   belongs_to :subject, polymorphic: true
   has_one :original, -> { where(variant_name: :original) }, class_name: "PsmFileVariant"
+  has_many :psm_file_variants
+  has_many :psm_permanent_files, through: :psm_file_variants
   encrypts :key, :iv
 
   after_initialize do |psm_file|

@@ -32,8 +32,14 @@ module UploadChunksService
         generate_chunk_file_path(part)
       end
 
-      `cat #{chunk_file_list.join(" ")} > #{path}`
-      FileUtils.rm_f(chunk_file_list)
+      File.open(path, "wb") do |output|
+        chunk_file_list.each do |f|
+          File.open(f, "rb") do |input|
+            output.write(input.read)
+          end
+          File.delete(f)
+        end
+      end
       @generated_whole_file = true
     end
 

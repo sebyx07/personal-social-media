@@ -14,6 +14,7 @@
 #  updated_at :datetime         not null
 #
 class Post < ApplicationRecord
+  include PsmAttachmentConcern
   validates :content, allow_nil: true, length: { maximum: 2000 }
   str_enum :status, %i(pending ready)
   str_enum :post_type, %i(standard)
@@ -38,9 +39,9 @@ class Post < ApplicationRecord
   delegate :comments_count, to: :comment_counter, allow_nil: true
   has_many :comments, through: :comment_counter, source: :comments
   has_many :latest_comments, -> { where(is_latest: true) }, through: :comment_counter, source: :comments
-  has_many :psm_files, dependent: :destroy, as: :subject
 
   has_many :cache_comments, dependent: :delete_all, as: :subject
+  has_many_psm_files_attached
 
   store :content, accessors: %i(message)
   validates :message, allow_blank: true, length: { maximum: 2000 }, if: -> { standard? }

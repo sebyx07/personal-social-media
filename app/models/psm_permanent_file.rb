@@ -5,6 +5,7 @@
 # Table name: psm_permanent_files
 #
 #  id                          :bigint           not null, primary key
+#  adapter                     :string           not null
 #  archive_password_ciphertext :text             not null
 #  external_file_name          :string           not null
 #  size_bytes                  :bigint           default(0), not null
@@ -12,7 +13,7 @@
 #  upload_percentage           :integer          default(0), not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
-#  external_account_id         :bigint           not null
+#  external_account_id         :bigint
 #  psm_file_variant_id         :bigint           not null
 #
 # Indexes
@@ -27,18 +28,25 @@
 #
 class PsmPermanentFile < ApplicationRecord
   attr_accessor :virtual_file
+  attr_writer :adapter_instance
 
   belongs_to :psm_file_variant
-  belongs_to :external_account
-  before_validation :generate_archive_password, on: :create
+  belongs_to :external_account, optional: true
   str_enum :status, %i(pending ready unavailable)
 
   encrypts :archive_password
   validates :archive_password, presence: true
   validates :size_bytes, presence: true
   validates :size_bytes, numericality: { greater_than: 0 }, on: :update, if: -> { ready? }
+  validates :adapter, presence: true
+  validate :validate_adapter
 
-  def generate_archive_password
-    self.archive_password ||= SecureRandom.urlsafe_base64(64)
-  end
+  attr_reader :adapter_instance
+
+  private
+    def validate_adapter
+      adapter.constantize
+    rescue NameError => e
+      errors.add(:adapter, e.message)
+    end
 end
