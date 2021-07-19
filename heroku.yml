@@ -6,7 +6,7 @@ setup:
       as: REDIS
 build:
   docker:
-    app: .build/docker/Dockerfile
+    app: .build/docker-deployment/Dockerfile
 run:
   web:
     command: bundle exec falcon host
