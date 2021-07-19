@@ -6,7 +6,7 @@ setup:
       as: REDIS
 build:
   docker:
-    app: .build/docker-deployment/Dockerfile
+    app: Dockerfile
 run:
   web:
     command:
