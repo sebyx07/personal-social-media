@@ -12,20 +12,20 @@
 #  url                 :text             not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
-#  external_account_id :bigint           not null
 #  psm_file_variant_id :bigint           not null
-#
-# Indexes
-#
-#  idx_psm_cdn_files_variant_to_external_account  (psm_file_variant_id,external_account_id) UNIQUE
-#  index_psm_cdn_files_on_external_account_id     (external_account_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (external_account_id => external_accounts.id)
 #  fk_rails_...  (psm_file_variant_id => psm_file_variants.id)
 #
 class PsmCdnFile < ApplicationRecord
   belongs_to :psm_file_variant
-  belongs_to :external_account
+  belongs_to :cdn_storage_provider
+  before_save :update_cdn_storage_provider
+
+  private
+    def update_cdn_storage_provider
+      cdn_storage_provider.used_space_bytes += size_bytes
+      cdn_storage_provider.save!
+    end
 end

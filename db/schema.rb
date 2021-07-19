@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_18_223001) do
+ActiveRecord::Schema.define(version: 2021_07_19_002749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -39,6 +39,17 @@ ActiveRecord::Schema.define(version: 2021_07_18_223001) do
     t.bigint "peer_id", null: false
     t.bigint "remote_reaction_id", null: false
     t.index ["character", "subject_type", "subject_id", "peer_id"], name: "idx_sub_type_sub_id_peer_id"
+  end
+
+  create_table "cdn_storage_providers", force: :cascade do |t|
+    t.string "adapter", null: false
+    t.boolean "enabled", default: false, null: false
+    t.string "free_space_bytes", default: "0", null: false
+    t.string "used_space_bytes", default: "0", null: false
+    t.bigint "external_account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["external_account_id"], name: "index_cdn_storage_providers_on_external_account_id"
   end
 
   create_table "comment_counters", force: :cascade do |t|
@@ -193,13 +204,10 @@ ActiveRecord::Schema.define(version: 2021_07_18_223001) do
     t.string "status", default: "pending", null: false
     t.bigint "size_bytes", default: 0, null: false
     t.bigint "psm_file_variant_id", null: false
-    t.bigint "external_account_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "upload_percentage", default: 0, null: false
     t.string "external_file_name", null: false
-    t.index ["external_account_id"], name: "index_psm_cdn_files_on_external_account_id"
-    t.index ["psm_file_variant_id", "external_account_id"], name: "idx_psm_cdn_files_variant_to_external_account", unique: true
   end
 
   create_table "psm_file_permanents", force: :cascade do |t|
@@ -356,6 +364,7 @@ ActiveRecord::Schema.define(version: 2021_07_18_223001) do
 
   add_foreign_key "cache_comments", "peers"
   add_foreign_key "cache_reactions", "peers"
+  add_foreign_key "cdn_storage_providers", "external_accounts"
   add_foreign_key "comments", "comment_counters"
   add_foreign_key "comments", "comments", column: "parent_comment_id"
   add_foreign_key "comments", "peers"
@@ -364,7 +373,6 @@ ActiveRecord::Schema.define(version: 2021_07_18_223001) do
   add_foreign_key "conversations", "peers"
   add_foreign_key "notifications", "peers"
   add_foreign_key "permanent_storage_providers", "external_accounts"
-  add_foreign_key "psm_cdn_files", "external_accounts"
   add_foreign_key "psm_cdn_files", "psm_file_variants"
   add_foreign_key "psm_file_permanents", "external_accounts"
   add_foreign_key "psm_file_permanents", "psm_file_variants"
