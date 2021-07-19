@@ -9,10 +9,12 @@ build:
     app: .build/docker-deployment/Dockerfile
 run:
   web:
-    command: bundle exec falcon host
+    command:
+      - bundle exec falcon host
     image: app
   background:
-    command: bundle exec sidekiq
+    command:
+      - bundle exec sidekiq
     image: app
 release:
   command:
