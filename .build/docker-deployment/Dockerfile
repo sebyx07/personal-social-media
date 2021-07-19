@@ -5,8 +5,9 @@ RUN apt-get update && \
 
 RUN mkdir -p /app
 WORKDIR /app
-COPY . .
+COPY . ./
 
 RUN gem install bundler
 RUN bundle install --jobs 20
 RUN yarn install
+RUN bundle exec rake assets:precompile
