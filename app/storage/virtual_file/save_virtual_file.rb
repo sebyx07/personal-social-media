@@ -16,7 +16,8 @@ class VirtualFile
       protected_archive.generate_archive
       virtual_file.protected_archive = protected_archive
       permanent_psm_files.each do |permanent_file|
-        permanent_file.adapter_instance.upload(permanent_file)
+        archive = permanent_file.virtual_file&.protected_archive&.archive
+        permanent_file.permanent_storage_provider.upload(archive)
       end
       update_permanent_psm_files!
       self
@@ -50,23 +51,16 @@ class VirtualFile
     end
 
     private
-      def permanent_storage_accounts
-        @permanent_storage_accounts ||= ExternalAccount::GetPermanentStorageAccounts.new
-      end
-
-      def adapters
-        @adapters ||= permanent_storage_accounts.adapters
+      def permanent_storage_providers
+        @permanent_storage_providers ||= PermanentStorageProvider.where(enabled: true)
       end
 
       def permanent_psm_files
-        @permanent_psm_file ||= adapters.map do |adapter|
+        @permanent_psm_file ||= permanent_storage_providers.map do |permanent_storage_provider|
           PsmPermanentFile.new(
             psm_file_variant: psm_original_variant,
-            external_account: adapter.storage_account,
-            adapter: adapter.class.name,
-          ).tap do |permanent_file|
-            permanent_file.adapter_instance = adapter
-          end
+            permanent_storage_provider: permanent_storage_provider,
+          )
         end
       end
 

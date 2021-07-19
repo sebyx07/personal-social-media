@@ -7,14 +7,14 @@ module FileSystemAdapters
       FileUtils.mkdir_p(storage_default_dir_name)
     end
 
-    def upload(psm_permanent_file)
+    def upload(file)
       bootstrap
-      archive = psm_permanent_file.virtual_file&.protected_archive&.archive
-      archive.close
-      raise_upload_error("no physical_file") if archive.blank?
+      file.close
+      raise_upload_error("no physical_file") if file.blank?
+      binding.pry
 
-      output_path = storage_default_dir_name + "/" + File.basename(archive)
-      FileUtils.mv(archive.path, output_path)
+      output_path = storage_default_dir_name + "/" + File.basename(file)
+      FileUtils.mv(file.path, output_path)
     end
 
     def upload_multi(psm_permanent_files)

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_18_221140) do
+ActiveRecord::Schema.define(version: 2021_07_18_223001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -134,6 +134,17 @@ ActiveRecord::Schema.define(version: 2021_07_18_221140) do
     t.index ["verify_key"], name: "index_peers_on_verify_key"
   end
 
+  create_table "permanent_storage_providers", force: :cascade do |t|
+    t.bigint "external_account_id"
+    t.string "adapter", null: false
+    t.string "used_space_bytes", default: "0", null: false
+    t.string "free_space_bytes", default: "0", null: false
+    t.boolean "enabled", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["external_account_id"], name: "index_permanent_storage_providers_on_external_account_id"
+  end
+
   create_table "pghero_query_stats", force: :cascade do |t|
     t.text "database"
     t.text "user"
@@ -233,15 +244,13 @@ ActiveRecord::Schema.define(version: 2021_07_18_221140) do
     t.bigint "size_bytes", default: 0, null: false
     t.string "status", default: "pending", null: false
     t.bigint "psm_file_variant_id", null: false
-    t.bigint "external_account_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "archive_password_ciphertext", null: false
     t.integer "upload_percentage", default: 0, null: false
     t.string "external_file_name", null: false
-    t.string "adapter", null: false
-    t.index ["external_account_id"], name: "index_psm_permanent_files_on_external_account_id"
-    t.index ["psm_file_variant_id", "external_account_id"], name: "idx_psm_permanent_files_variant_to_external_account", unique: true
+    t.bigint "permanent_storage_provider_id", null: false
+    t.index ["permanent_storage_provider_id"], name: "index_psm_permanent_files_on_permanent_storage_provider_id"
   end
 
   create_table "rails_server_monitor_server_groups", force: :cascade do |t|
@@ -354,12 +363,13 @@ ActiveRecord::Schema.define(version: 2021_07_18_221140) do
   add_foreign_key "conversation_messages", "peers"
   add_foreign_key "conversations", "peers"
   add_foreign_key "notifications", "peers"
+  add_foreign_key "permanent_storage_providers", "external_accounts"
   add_foreign_key "psm_cdn_files", "external_accounts"
   add_foreign_key "psm_cdn_files", "psm_file_variants"
   add_foreign_key "psm_file_permanents", "external_accounts"
   add_foreign_key "psm_file_permanents", "psm_file_variants"
   add_foreign_key "psm_file_variants", "psm_files"
-  add_foreign_key "psm_permanent_files", "external_accounts"
+  add_foreign_key "psm_permanent_files", "permanent_storage_providers"
   add_foreign_key "psm_permanent_files", "psm_file_variants"
   add_foreign_key "rails_server_monitor_server_snapshots", "rails_server_monitor_servers"
   add_foreign_key "rails_server_monitor_servers", "rails_server_monitor_server_groups"

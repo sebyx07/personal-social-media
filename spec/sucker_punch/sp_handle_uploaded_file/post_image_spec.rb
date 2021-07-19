@@ -4,6 +4,12 @@ require "rails_helper"
 
 RSpec.describe SpHandleUploadedFileJob do
   describe "Post with an image attached" do
+    let(:permanent_storage) { create(:permanent_storage_provider, :local) }
+    before do
+      permanent_storage
+      expect_any_instance_of(FileSystemAdapters::LocalFileSystemAdapter).to receive(:upload)
+    end
+
     let(:post) { create(:post) }
     let(:upload) { create(:upload, subject: post) }
     let(:upload_file) do
