@@ -1,6 +1,7 @@
 FROM heroku/heroku:20
 
-RUN apt-get install -y libsodium-dev p7zip-full libwebp-dev libvips-dev libexif-dev
+RUN apt-getupdate && \
+    apt-get install -y libsodium-dev p7zip-full libwebp-dev libvips-dev libexif-dev
 
 RUN mkdir -p /app
 WORKDIR /app
