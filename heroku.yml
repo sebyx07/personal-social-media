@@ -6,7 +6,7 @@ setup:
       as: REDIS
 build:
   docker:
-    app: Dockerfile
+    app: Dockerfile.heroku
 run:
   web:
     command:
