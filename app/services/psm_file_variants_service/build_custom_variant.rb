@@ -10,7 +10,10 @@ module PsmFileVariantsService
     end
 
     def call
-      File.open(encrypted_file.path)
+      {
+        encrypted_file: File.open(encrypted_file.path),
+        metadata: metadata
+      }
     end
 
     private
@@ -26,6 +29,18 @@ module PsmFileVariantsService
 
           if psm_file.type == :image
             BuildCustomVariantForImage.new(psm_file_variant).call
+          end
+        end
+      end
+
+      def metadata
+        memo(:@metadata) do
+          next {} if variant_name.to_s == "original"
+
+          if psm_file.type == :image
+            PsmFilesService::Utils::Metadata::ExtractFromImage.new(transformed_file).call
+          else
+            {}
           end
         end
       end

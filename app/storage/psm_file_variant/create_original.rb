@@ -9,8 +9,10 @@ class PsmFileVariant
     end
 
     def save!
-      PsmFileVariant.create!(psm_file: psm_file, variant_name: :original).tap do |variant|
+      PsmFileVariant.new(psm_file: psm_file, variant_name: :original).tap do |variant|
         variant.original_physical_file = original_physical_file
+        variant.create_variant_file!
+        variant.save!
       end
     end
   end

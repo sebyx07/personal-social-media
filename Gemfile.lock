@@ -200,6 +200,7 @@ GEM
     ethon (0.14.0)
       ffi (>= 1.15.0)
     execjs (2.8.1)
+    exif (2.2.1)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -551,6 +552,7 @@ DEPENDENCIES
   dotenv-rails (~> 2.7, >= 2.7.6)
   email_validator (~> 2.2, >= 2.2.3)
   erb_lint
+  exif (~> 2.2, >= 2.2.1)
   factory_bot_rails (~> 6.2)
   falcon (~> 0.39.2)
   ffaker (~> 2.18)
@@ -583,7 +585,7 @@ DEPENDENCIES
   rspec-rails (~> 5.0, >= 5.0.1)
   rubocop-rails_config (~> 1.6)
   sass-rails (>= 6)
-  schmooze
+  schmooze (~> 0.2.0)
   sidekiq (~> 6.2, >= 6.2.1)
   sidekiq-cron (~> 1.2)
   sidekiq-throttled (~> 0.13.0)
@@ -597,7 +599,7 @@ DEPENDENCIES
   turbolinks (~> 5.2, >= 5.2.1)
   typhoeus (~> 1.4)
   tzinfo-data
-  unicode-emoji
+  unicode-emoji (~> 2.8)
   validates_host (~> 1.3)
   vcr (~> 6.0)
   view_component

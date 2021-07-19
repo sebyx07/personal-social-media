@@ -11,4 +11,13 @@ module PsmAttachmentConcern
       has_many :psm_cdn_files, through: :psm_files
     end
   end
+
+  included do
+    def attachments
+      psm_cdn_files.group_by(&:psm_file_variant).map do |psm_file_variant, grouped_cdn_files|
+      end
+      psm_cdn_files.map do |psm_cdn_file|
+      end
+    end
+  end
 end

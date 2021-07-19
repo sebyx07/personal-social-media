@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_19_192505) do
+ActiveRecord::Schema.define(version: 2021_07_19_212008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -201,15 +201,11 @@ ActiveRecord::Schema.define(version: 2021_07_19_192505) do
 
   create_table "psm_cdn_files", force: :cascade do |t|
     t.string "status", default: "pending", null: false
-    t.bigint "size_bytes", default: 0, null: false
     t.bigint "psm_file_variant_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "upload_percentage", default: 0, null: false
-    t.string "external_file_name", null: false
     t.bigint "cdn_storage_provider_id", null: false
-    t.string "key_ciphertext", null: false
-    t.string "iv_ciphertext", null: false
     t.text "cache_url"
     t.index ["cdn_storage_provider_id"], name: "index_psm_cdn_files_on_cdn_storage_provider_id"
   end
@@ -227,11 +223,15 @@ ActiveRecord::Schema.define(version: 2021_07_19_192505) do
   create_table "psm_file_variants", force: :cascade do |t|
     t.bigint "psm_file_id", null: false
     t.string "variant_name", null: false
-    t.text "variant_metadata", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "permanent_storage_status", default: "pending", null: false
     t.string "cdn_storage_status", default: "pending", null: false
+    t.string "key_ciphertext", null: false
+    t.string "iv_ciphertext", null: false
+    t.bigint "size_bytes", default: 0, null: false
+    t.string "external_file_name", null: false
+    t.jsonb "variant_metadata", default: "{}", null: false
     t.index ["psm_file_id", "variant_name"], name: "index_psm_file_variants_on_psm_file_id_and_variant_name", unique: true
   end
 
@@ -245,8 +245,6 @@ ActiveRecord::Schema.define(version: 2021_07_19_192505) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "permanent_storage_status", default: "pending", null: false
     t.string "cdn_storage_status", default: "pending", null: false
-    t.text "key_ciphertext", null: false
-    t.text "iv_ciphertext", null: false
     t.string "sha_256", limit: 64, null: false
     t.index ["metadata"], name: "index_psm_files_on_metadata", using: :gin
     t.index ["subject_type", "subject_id"], name: "index_psm_files_on_subject"

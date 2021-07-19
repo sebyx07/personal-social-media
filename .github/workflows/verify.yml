@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Install ubuntu deps
         run: |
-          sudo apt update && sudo apt-get install -y libvips libvips-dev libvips-tools wget libcurl4 libcurl3-gnutls libcurl4-openssl-dev
+          sudo apt update && sudo apt-get install -y libvips libvips-dev libvips-tools wget libcurl4 libcurl3-gnutls libcurl4-openssl-dev libexif-dev
           wget http://mirrors.kernel.org/ubuntu/pool/main/libf/libffi/libffi6_3.2.1-8_amd64.deb
           sudo apt install -y ./libffi6_3.2.1-8_amd64.deb
       - name: Checkout code

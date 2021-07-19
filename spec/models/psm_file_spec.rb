@@ -7,8 +7,6 @@
 #  id                       :bigint           not null, primary key
 #  cdn_storage_status       :string           default("pending"), not null
 #  content_type             :string           not null
-#  iv_ciphertext            :text             not null
-#  key_ciphertext           :text             not null
 #  metadata                 :jsonb            not null
 #  name                     :string           not null
 #  permanent_storage_status :string           default("pending"), not null

@@ -10,8 +10,10 @@ class PsmFileVariant
 
     def save!
       %i(xs small mobile large hd).map do |variant_name|
-        PsmFileVariant.create!(psm_file: psm_file, variant_name: variant_name).tap do |variant|
+        PsmFileVariant.new(psm_file: psm_file, variant_name: variant_name).tap do |variant|
           variant.original_physical_file = original_physical_file
+          variant.create_variant_file!
+          variant.save!
         end
       end
     end

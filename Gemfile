@@ -72,6 +72,7 @@ gem "bitwise_attribute", github: "personal-social-media/bitwise_attribute", ref:
 gem "bugsnag", "~> 6.21", require: is_dev
 gem "bullet", "~> 6.1", ">= 6.1.4", require: is_dev
 gem "email_validator", "~> 2.2", ">= 2.2.3"
+gem "exif", "~> 2.2", ">= 2.2.1"
 gem "hash_digest", "~> 1.1", ">= 1.1.3"
 gem "hcaptcha", github: "personal-social-media/hcaptcha", ref: "a2135327e0f22ddba170d77dbba86827cd05c2cb"
 gem "hiredis", "~> 0.6.3", require: %w(redis redis/connection/hiredis)
@@ -89,7 +90,7 @@ gem "render_async", "~> 2.1", ">= 2.1.10"
 gem "request_store", "~> 1.5"
 gem "request_store_rails-sidekiq", "~> 0.1.0"
 gem "rmega", github: "personal-social-media/rmega", ref: "bc1ffc624cfb30197fea1b042ff1115961ad89f5"
-gem "schmooze"
+gem "schmooze", "~> 0.2.0"
 gem "sidekiq", "~> 6.2", ">= 6.2.1", require: %w(sidekiq/web)
 gem "sidekiq-cron", "~> 1.2", require: %w(sidekiq/cron/web)
 gem "sidekiq-throttled", "~> 0.13.0", require: "sidekiq/throttled"
@@ -97,6 +98,6 @@ gem "str_enum", "~> 0.2.0"
 gem "strong_migrations", "~> 0.7.7"
 gem "sucker_punch", "~> 3.0", ">= 3.0.1"
 gem "typhoeus", "~> 1.4"
-gem "unicode-emoji"
+gem "unicode-emoji", "~> 2.8"
 gem "validates_host", "~> 1.3"
 gem "view_component", require: "view_component/engine"

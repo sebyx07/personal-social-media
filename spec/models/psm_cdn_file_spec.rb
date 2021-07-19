@@ -6,10 +6,6 @@
 #
 #  id                      :bigint           not null, primary key
 #  cache_url               :text
-#  external_file_name      :string           not null
-#  iv_ciphertext           :string           not null
-#  key_ciphertext          :string           not null
-#  size_bytes              :bigint           default(0), not null
 #  status                  :string           default("pending"), not null
 #  upload_percentage       :integer          default(0), not null
 #  created_at              :datetime         not null

@@ -6,10 +6,6 @@
 #
 #  id                      :bigint           not null, primary key
 #  cache_url               :text
-#  external_file_name      :string           not null
-#  iv_ciphertext           :string           not null
-#  key_ciphertext          :string           not null
-#  size_bytes              :bigint           default(0), not null
 #  status                  :string           default("pending"), not null
 #  upload_percentage       :integer          default(0), not null
 #  created_at              :datetime         not null
@@ -28,9 +24,8 @@
 #
 class PsmCdnFile < ApplicationRecord
   attr_accessor :virtual_file
-  encrypts :key, type: :binary
-  encrypts :iv, type: :binary
 
+  delegate :size_bytes, to: :psm_file_variant
   belongs_to :psm_file_variant
   belongs_to :cdn_storage_provider
   before_save :update_cdn_storage_provider

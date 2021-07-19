@@ -13,7 +13,6 @@ class VirtualFile
     def call
       psm_cdn_files.each do |psm_cdn_file|
         psm_cdn_file.virtual_file = virtual_file
-        psm_cdn_file.psm_file_variant.create_variant_file!
       end
 
       psm_cdn_files.group_by(&:cdn_storage_provider).each do |cdn_storage_provider, grouped_psm_cdn_files|
@@ -25,12 +24,9 @@ class VirtualFile
       end
 
       psm_cdn_files.each do |psm_cdn_file|
-        psm_cdn_file.external_file_name = psm_cdn_file.psm_file_variant.new_variant_file_name
-        psm_cdn_file.size_bytes = psm_cdn_file.psm_file_variant.size_bytes
-        psm_cdn_file.key = psm_cdn_file.psm_file_variant.key
-        psm_cdn_file.iv = psm_cdn_file.psm_file_variant.iv
         psm_cdn_file.status = :ready
         psm_cdn_file.save!
+        psm_cdn_file.psm_file_variant.clean_variant_file!
       end
     end
 

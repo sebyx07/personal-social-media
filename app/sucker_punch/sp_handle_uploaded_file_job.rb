@@ -10,17 +10,9 @@ class SpHandleUploadedFileJob
     return if upload_file_record.blank?
 
     create_psm_file_record
-    # upload_to_permanent_storages
-    # upload_to_cdns
-    #
-    # mark_upload_file_as_ready
-    # if all_attachments_ready?
-    #   mark_upload_as_ready
-    #   update_subject_content
-    #   mark_subject_as_ready
-    # end
   ensure
     uploaded_file.close
+    File.delete(uploaded_file.path)
   end
 
   private

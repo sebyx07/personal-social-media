@@ -6,8 +6,12 @@
 #
 #  id                       :bigint           not null, primary key
 #  cdn_storage_status       :string           default("pending"), not null
+#  external_file_name       :string           not null
+#  iv_ciphertext            :string           not null
+#  key_ciphertext           :string           not null
 #  permanent_storage_status :string           default("pending"), not null
-#  variant_metadata         :text             default("{}"), not null
+#  size_bytes               :bigint           default(0), not null
+#  variant_metadata         :jsonb            not null
 #  variant_name             :string           not null
 #  created_at               :datetime         not null
 #  updated_at               :datetime         not null
