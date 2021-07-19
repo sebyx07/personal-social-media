@@ -8,6 +8,7 @@ module PsmAttachmentConcern
       has_many :psm_files, dependent: :destroy, as: :subject
       has_many :psm_file_variants, through: :psm_files
       has_many :psm_permanent_files, through: :psm_files
+      has_many :psm_cdn_files, through: :psm_files
     end
   end
 end

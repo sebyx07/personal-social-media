@@ -18,9 +18,9 @@ module FileSystemAdapters
       FileUtils.mv(file.path, output_path)
     end
 
-    def upload_multi(psm_permanent_files)
-      psm_permanent_files.each do |psm_permanent_file|
-        upload(psm_permanent_file)
+    def upload_multi(files)
+      files.each do |file|
+        upload(file)
       end
     end
 

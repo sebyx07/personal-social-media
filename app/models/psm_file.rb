@@ -24,15 +24,27 @@
 #  index_psm_files_on_subject   (subject_type,subject_id)
 #
 class PsmFile < ApplicationRecord
+  include Memo
   belongs_to :subject, polymorphic: true
   has_one :original, -> { where(variant_name: :original) }, class_name: "PsmFileVariant"
   has_many :psm_file_variants
   has_many :psm_permanent_files, through: :psm_file_variants
+  has_many :psm_cdn_files, through: :psm_file_variants
   encrypts :key, :iv
 
   after_initialize do |psm_file|
     next if psm_file.persisted?
     psm_file.key ||= SecureRandom.bytes(32)
     psm_file.iv ||= SecureRandom.bytes(16)
+  end
+
+  def type
+    memo(:@type) do
+      if content_type.match?(/^image\//)
+        :image
+      else
+        :unknown
+      end
+    end
   end
 end

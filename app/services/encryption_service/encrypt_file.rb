@@ -26,7 +26,6 @@ module EncryptionService
         iv_bytes = EncryptionService::EncryptedContentTransform.to_json(iv)
 
         self.class.js_encryptor.encrypt(file_path, output_path, key_bytes, iv_bytes)
-
         EncryptedFile.new(output_path, key, iv)
       end
   end

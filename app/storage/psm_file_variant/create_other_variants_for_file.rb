@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class PsmFileVariant
-  class CreateOriginal
+  class CreateOtherVariantsForFile
     attr_reader :psm_file, :original_physical_file
     def initialize(psm_file, original_physical_file)
       @psm_file = psm_file
@@ -9,8 +9,10 @@ class PsmFileVariant
     end
 
     def save!
-      PsmFileVariant.create!(psm_file: psm_file, variant_name: :original).tap do |variant|
-        variant.original_physical_file = original_physical_file
+      if psm_file.type == :image
+        CreateOtherVariantsForImageFile.new(psm_file, original_physical_file).save!
+      else
+        []
       end
     end
   end

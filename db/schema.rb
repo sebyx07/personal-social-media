@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_19_002749) do
+ActiveRecord::Schema.define(version: 2021_07_19_192505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -200,7 +200,6 @@ ActiveRecord::Schema.define(version: 2021_07_19_002749) do
   end
 
   create_table "psm_cdn_files", force: :cascade do |t|
-    t.text "url", null: false
     t.string "status", default: "pending", null: false
     t.bigint "size_bytes", default: 0, null: false
     t.bigint "psm_file_variant_id", null: false
@@ -208,6 +207,11 @@ ActiveRecord::Schema.define(version: 2021_07_19_002749) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "upload_percentage", default: 0, null: false
     t.string "external_file_name", null: false
+    t.bigint "cdn_storage_provider_id", null: false
+    t.string "key_ciphertext", null: false
+    t.string "iv_ciphertext", null: false
+    t.text "cache_url"
+    t.index ["cdn_storage_provider_id"], name: "index_psm_cdn_files_on_cdn_storage_provider_id"
   end
 
   create_table "psm_file_permanents", force: :cascade do |t|
@@ -373,6 +377,7 @@ ActiveRecord::Schema.define(version: 2021_07_19_002749) do
   add_foreign_key "conversations", "peers"
   add_foreign_key "notifications", "peers"
   add_foreign_key "permanent_storage_providers", "external_accounts"
+  add_foreign_key "psm_cdn_files", "cdn_storage_providers"
   add_foreign_key "psm_cdn_files", "psm_file_variants"
   add_foreign_key "psm_file_permanents", "external_accounts"
   add_foreign_key "psm_file_permanents", "psm_file_variants"

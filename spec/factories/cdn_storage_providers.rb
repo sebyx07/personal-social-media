@@ -7,8 +7,8 @@
 #  id                  :bigint           not null, primary key
 #  adapter             :string           not null
 #  enabled             :boolean          default(FALSE), not null
-#  free_space_bytes    :string           default("0"), not null
-#  used_space_bytes    :string           default("0"), not null
+#  free_space_bytes    :string           default(0), not null
+#  used_space_bytes    :string           default(0), not null
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #  external_account_id :bigint
@@ -23,10 +23,10 @@
 #
 FactoryBot.define do
   factory :cdn_storage_provider do
-    adapter { "MyString" }
-    enabled { false }
-    free_space_bytes { "MyString" }
-    used_space_bytes { "MyString" }
-    external_account { nil }
+    enabled { true }
+
+    trait :local do
+      adapter { "FileSystemAdapters::LocalFileSystemAdapter" }
+    end
   end
 end

@@ -2,74 +2,63 @@
 
 class VirtualFile
   class SaveCdnFiles
-    # include Memo
-    # attr_reader :virtual_file, :psm_file, :psm_original_variant
-    # def initialize(virtual_file, psm_file, psm_original_variant)
-    #   @virtual_file = virtual_file
-    #   @psm_file = psm_file
-    #   @psm_original_variant = psm_original_variant
-    # end
-    #
-    # def call
-    #   permanent_psm_files.each do |permanent_file|
-    #     permanent_file.virtual_file = virtual_file
-    #     permanent_file.archive_password = archive_password
-    #   end
-    #   protected_archive.generate_archive
-    #   virtual_file.protected_archive = protected_archive
-    #   permanent_psm_files.each do |permanent_file|
-    #     archive = permanent_file.virtual_file&.protected_archive&.archive
-    #     notify_progress.notify_upload_permanent_file(permanent_file, :start)
-    #     permanent_file.permanent_storage_provider.upload(archive)
-    #     notify_progress.notify_upload_permanent_file(permanent_file, :end)
-    #   end
-    #   update_permanent_psm_files!
-    # end
-    #
-    # private
-    #   def permanent_storage_providers
-    #     @permanent_storage_providers ||= PermanentStorageProvider.where(enabled: true)
-    #   end
-    #
-    #   def permanent_psm_files
-    #     memo :@permanent_psm_file do
-    #       permanent_storage_providers.map do |permanent_storage_provider|
-    #         PsmPermanentFile.new(
-    #           psm_file_variant: psm_original_variant,
-    #           permanent_storage_provider: permanent_storage_provider,
-    #         )
-    #       end
-    #     end
-    #   end
-    #
-    #   def file_name
-    #     @file_name ||= File.basename(virtual_file.original_physical_file.path)
-    #   end
-    #
-    #   def archive_password
-    #     @archive_password ||= SecureRandom.urlsafe_base64(64)
-    #   end
-    #
-    #   def protected_archive
-    #     memo :@protected_archive do
-    #       ArchiveService::ProtectedArchive.new(file: virtual_file.original_physical_file, file_name: file_name, password: archive_password)
-    #     end
-    #   end
-    #
-    #   def update_permanent_psm_files!
-    #     size_bytes = protected_archive.archive_size
-    #     external_file_name = protected_archive.new_archive_name
-    #
-    #     permanent_psm_files.each do |permanent_psm_file|
-    #       permanent_psm_file.external_file_name = external_file_name
-    #       permanent_psm_file.size_bytes = size_bytes
-    #       permanent_psm_file.status = :ready
-    #       permanent_psm_file.save!
-    #     end
-    #   end
-    #
-    #   def notify_progress
-    #     @notify_progress ||= UploadsService::NotifyProgress.new
-    #   end
+    include Memo
+    attr_reader :virtual_file, :psm_file, :psm_original_variant
+    def initialize(virtual_file, psm_file, psm_original_variant)
+      @virtual_file = virtual_file
+      @psm_file = psm_file
+      @psm_original_variant = psm_original_variant
+    end
+
+    def call
+      psm_cdn_files.each do |psm_cdn_file|
+        psm_cdn_file.virtual_file = virtual_file
+        psm_cdn_file.psm_file_variant.create_variant_file!
+      end
+
+      psm_cdn_files.group_by(&:cdn_storage_provider).each do |cdn_storage_provider, grouped_psm_cdn_files|
+        cdn_files = grouped_psm_cdn_files.map do |psm_cdn_file|
+          psm_cdn_file.psm_file_variant.variant_file
+        end
+
+        cdn_storage_provider.upload_multi(cdn_files)
+      end
+
+      psm_cdn_files.each do |psm_cdn_file|
+        psm_cdn_file.external_file_name = psm_cdn_file.psm_file_variant.new_variant_file_name
+        psm_cdn_file.size_bytes = psm_cdn_file.psm_file_variant.size_bytes
+        psm_cdn_file.key = psm_cdn_file.psm_file_variant.key
+        psm_cdn_file.iv = psm_cdn_file.psm_file_variant.iv
+        psm_cdn_file.status = :ready
+        psm_cdn_file.save!
+      end
+    end
+
+    private
+      def cdn_storage_providers
+        @cdn_storage_providers ||= CdnStorageProvider.where(enabled: true)
+      end
+
+      def variants
+        memo(:@variants) do
+          all_variants = PsmFileVariant::CreateOtherVariantsForFile.new(psm_file, virtual_file.original_physical_file).save!
+          all_variants << psm_original_variant
+          all_variants
+        end
+      end
+
+      def notify_progress
+        @notify_progress ||= UploadsService::NotifyProgress.new
+      end
+
+      def psm_cdn_files
+        memo(:@psm_cdn_files) do
+          cdn_storage_providers.map do |cdn_storage_provider|
+            variants.map do |variant|
+              PsmCdnFile.new(psm_file_variant: variant, cdn_storage_provider: cdn_storage_provider)
+            end
+          end.flatten
+        end
+      end
   end
 end
