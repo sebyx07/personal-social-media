@@ -1,0 +1,22 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: DATABASE
+    - plan: heroku-redis
+      as: REDIS
+build:
+  docker:
+    app: heroku.dockerfle
+run:
+  web:
+    command:
+      - bundle exec falcon host
+    image: app
+  background:
+    command:
+      - bundle exec sidekiq
+    image: app
+release:
+  command:
+    - bundle exec rake db:migrate
+  image: app

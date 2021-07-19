@@ -2,6 +2,7 @@
 
 return if Rails.env.test?
 return if Rails.application.secrets.redis[:url].blank?
+return if ENV["IS_DEPLOYING"]
 
 schedule_file = "config/schedule.yml"
 
