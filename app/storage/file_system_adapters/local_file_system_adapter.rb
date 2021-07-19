@@ -3,6 +3,8 @@
 module FileSystemAdapters
   class LocalFileSystemAdapter < BaseAdapter
     def bootstrap
+      return if defined? @boostrap
+      @boostrap = true
       return if File.directory?(storage_default_dir_name)
       FileUtils.mkdir_p(storage_default_dir_name)
     end
@@ -11,7 +13,6 @@ module FileSystemAdapters
       bootstrap
       file.close
       raise_upload_error("no physical_file") if file.blank?
-      binding.pry
 
       output_path = storage_default_dir_name + "/" + File.basename(file)
       FileUtils.mv(file.path, output_path)

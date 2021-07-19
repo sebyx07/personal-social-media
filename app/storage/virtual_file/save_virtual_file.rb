@@ -17,7 +17,9 @@ class VirtualFile
       virtual_file.protected_archive = protected_archive
       permanent_psm_files.each do |permanent_file|
         archive = permanent_file.virtual_file&.protected_archive&.archive
+        notify_progress.notify_upload_permanent_file(permanent_file, :start)
         permanent_file.permanent_storage_provider.upload(archive)
+        notify_progress.notify_upload_permanent_file(permanent_file, :end)
       end
       update_permanent_psm_files!
       self
@@ -92,6 +94,10 @@ class VirtualFile
           permanent_psm_file.status = :ready
           permanent_psm_file.save!
         end
+      end
+
+      def notify_progress
+        @notify_progress ||= UploadsService::NotifyProgress.new
       end
   end
 end

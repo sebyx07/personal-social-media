@@ -28,13 +28,19 @@ class PsmPermanentFile < ApplicationRecord
   attr_accessor :virtual_file
 
   belongs_to :psm_file_variant
+  has_one :psm_file, through: :psm_file_variant
   belongs_to :external_account, optional: true
   belongs_to :permanent_storage_provider
-
+  before_save :update_permanent_storage_provider
   str_enum :status, %i(pending ready unavailable)
 
   encrypts :archive_password
   validates :archive_password, presence: true
-  validates :size_bytes, presence: true
-  validates :size_bytes, numericality: { greater_than: 0 }, on: :update, if: -> { ready? }
+  validates :size_bytes, presence: true, numericality: { greater_than: 0 }, on: :update, if: -> { ready? }
+
+  private
+    def update_permanent_storage_provider
+      permanent_storage_provider.used_space_bytes += size_bytes
+      permanent_storage_provider.save!
+    end
 end
