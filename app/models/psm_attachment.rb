@@ -28,6 +28,7 @@ class PsmAttachment < ApplicationRecord
   has_many :psm_cdn_files, through: :psm_file
 
   after_destroy :destroy_psm_file_if_no_attachments
+  validates :psm_file_id, uniqueness: { scope: %i(subject_type subject_id) }
 
   private
     def destroy_psm_file_if_no_attachments

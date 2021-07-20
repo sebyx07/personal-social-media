@@ -32,7 +32,7 @@ RSpec.describe SpHandleUploadedFileJob do
     it "attaches the image to the post and updates content" do
       expect do
         subject
-        subject.reload
+        post.reload
       end.to change { post.psm_attachments.count }.by(1)
         .and change { post.psm_file_variants.count }.by(6)
         .and change { post.psm_permanent_files.count }.by(1)
@@ -44,6 +44,8 @@ RSpec.describe SpHandleUploadedFileJob do
         expect(variant.variant_metadata["height"]).to be_present
         expect(variant.variant_metadata["width"]).to be_present
       end
+
+      expect(post.ready?).to be_truthy
     end
   end
 end
