@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_19_212008) do
+ActiveRecord::Schema.define(version: 2021_07_20_130251) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -199,6 +199,16 @@ ActiveRecord::Schema.define(version: 2021_07_19_212008) do
     t.string "backup_password_ciphertext", null: false
   end
 
+  create_table "psm_attachments", force: :cascade do |t|
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.bigint "psm_file_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["psm_file_id"], name: "index_psm_attachments_on_psm_file_id"
+    t.index ["subject_type", "subject_id"], name: "index_psm_attachments_on_subject"
+  end
+
   create_table "psm_cdn_files", force: :cascade do |t|
     t.string "status", default: "pending", null: false
     t.bigint "psm_file_variant_id", null: false
@@ -239,15 +249,12 @@ ActiveRecord::Schema.define(version: 2021_07_19_212008) do
     t.string "name", null: false
     t.string "content_type", null: false
     t.jsonb "metadata", null: false
-    t.string "subject_type", null: false
-    t.bigint "subject_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "permanent_storage_status", default: "pending", null: false
     t.string "cdn_storage_status", default: "pending", null: false
     t.string "sha_256", limit: 64, null: false
     t.index ["metadata"], name: "index_psm_files_on_metadata", using: :gin
-    t.index ["subject_type", "subject_id"], name: "index_psm_files_on_subject"
   end
 
   create_table "psm_permanent_files", force: :cascade do |t|
@@ -375,6 +382,7 @@ ActiveRecord::Schema.define(version: 2021_07_19_212008) do
   add_foreign_key "conversations", "peers"
   add_foreign_key "notifications", "peers"
   add_foreign_key "permanent_storage_providers", "external_accounts"
+  add_foreign_key "psm_attachments", "psm_files"
   add_foreign_key "psm_cdn_files", "cdn_storage_providers"
   add_foreign_key "psm_cdn_files", "psm_file_variants"
   add_foreign_key "psm_file_permanents", "external_accounts"

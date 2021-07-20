@@ -10,10 +10,10 @@ class VirtualFile
     @psm_file = psm_file
   end
 
-  def save!(subject)
+  def save!
     raise Error, "no original_physical_file" if original_physical_file.blank?
 
-    @save_virtual_file = SaveVirtualFile.new(self, subject).call
+    @save_virtual_file = SaveVirtualFile.new(self).call
   end
 
   def psm_file

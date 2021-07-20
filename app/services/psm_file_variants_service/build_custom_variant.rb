@@ -4,7 +4,7 @@ module PsmFileVariantsService
   class BuildCustomVariant
     include Memo
     attr_reader :psm_file_variant
-    delegate :psm_file, :variant_name, :original_physical_file, :key, :iv, to: :psm_file_variant
+    delegate :psm_file, :variant_name, :original_physical_file, :key, :iv, :original?, to: :psm_file_variant
     def initialize(psm_file_variant)
       @psm_file_variant = psm_file_variant
     end
@@ -25,7 +25,7 @@ module PsmFileVariantsService
 
       def transformed_file
         memo(:@transformed_file) do
-          next original_physical_file if variant_name.to_s == "original"
+          next original_physical_file if original?
 
           if psm_file.type == :image
             BuildCustomVariantForImage.new(psm_file_variant).call
@@ -35,14 +35,27 @@ module PsmFileVariantsService
 
       def metadata
         memo(:@metadata) do
-          next {} if variant_name.to_s == "original"
+          result = {}
 
           if psm_file.type == :image
-            PsmFilesService::Utils::Metadata::ExtractFromImage.new(transformed_file).call
-          else
-            {}
+            result = PsmFilesService::Utils::Metadata::ExtractFromImage.new(transformed_file).call
           end
+
+          add_exif_to_result(result)
+          result
         end
+      end
+
+      def add_exif_to_result(result)
+        return unless original?
+
+        exif = {}
+        if psm_file.type == :image
+          exif = PsmFilesService::Utils::Exif::ExtractExifFromImage.new(original_physical_file).call
+        end
+
+        return if exif.blank?
+        result[:exif] = exif
       end
   end
 end

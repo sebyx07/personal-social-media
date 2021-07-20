@@ -3,7 +3,7 @@
 class SpHandleUploadedFileJob
   include SuckerPunch::Job
 
-  attr_reader :upload_file_record, :psm_file, :virtual_file
+  attr_reader :upload_file_record, :psm_file, :virtual_file, :psm_attachment
   def perform(uploaded_file_path, upload_file_id)
     @uploaded_file_path = uploaded_file_path
     @upload_file_record = UploadFile.find_by(id: upload_file_id)
@@ -22,9 +22,10 @@ class SpHandleUploadedFileJob
 
     def create_psm_file_record
       @virtual_file = VirtualFile.new(original_physical_file: uploaded_file).tap do |v_file|
-        v_file.save!(upload_file_record.upload.subject)
+        v_file.save!
       end
       @psm_file = virtual_file.psm_file
+      @psm_attachment = PsmAttachment.create!(psm_file: psm_file, subject: upload_file_record.upload.subject)
     end
 
     def uploaded_file
