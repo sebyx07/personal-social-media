@@ -18,7 +18,7 @@ module PostsService
     private
       def attributes
         {
-          content: @post.content,
+          content: @post.content_with_attachments,
           created_at: @post.created_at.as_json,
           peer: PeerPresenter.new(@peer).render_in_signature
         }

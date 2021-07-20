@@ -14,11 +14,13 @@ module PsmAttachmentConcern
   end
 
   included do
-    def attachments
-      psm_cdn_files.group_by(&:psm_file_variant).map do |psm_file_variant, grouped_cdn_files|
-      end
-      psm_cdn_files.map do |psm_cdn_file|
-      end
+    def content_with_attachments
+      return content if psm_attachments.blank?
+      content.merge(
+        attachments: psm_attachments.map do |attachment|
+          PsmAttachmentPresenter.new(attachment).render_inside_content
+        end
+      )
     end
   end
 end

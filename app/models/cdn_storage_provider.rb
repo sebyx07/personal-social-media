@@ -27,22 +27,27 @@ class CdnStorageProvider < ApplicationRecord
   attribute :free_space_bytes, :integer
   validate :validate_adapter
 
-  def upload(file)
-    adapter_instance.upload(file)
-  end
-
   def upload_multi(files)
     adapter_instance.upload_multi(files)
   end
 
+  delegate :resolve_urls_for_file, :upload, to: :adapter_instance
   def adapter_instance
     @adapter_instance ||= adapter.constantize.new
   end
 
   private
     def validate_adapter
-      adapter.constantize
+      adapter_class = adapter.constantize
     rescue NameError => e
       errors.add(:adapter, e.message)
+
+      if adapter_class == FileSystemAdapters::TestAdapter && !Rails.env.test?
+        errors.add(:adapter, :invalid)
+      end
+
+      unless adapter_class.ancestors.include?(FileSystemAdapters::BaseAdapter)
+        errors.add(:adapter, :invalid)
+      end
     end
 end

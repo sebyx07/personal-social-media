@@ -28,5 +28,9 @@ FactoryBot.define do
     trait :local do
       adapter { "FileSystemAdapters::LocalFileSystemAdapter" }
     end
+
+    trait :test do
+      adapter { "FileSystemAdapters::TestAdapter" }
+    end
   end
 end

@@ -28,6 +28,7 @@ class PsmCdnFile < ApplicationRecord
   delegate :size_bytes, to: :psm_file_variant
   belongs_to :psm_file_variant
   belongs_to :cdn_storage_provider
+  has_one :psm_file, through: :psm_file_variant
   before_save :update_cdn_storage_provider
 
   private

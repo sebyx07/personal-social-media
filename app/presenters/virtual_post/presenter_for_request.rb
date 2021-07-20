@@ -2,6 +2,7 @@
 
 class VirtualPost
   class PresenterForRequest
+    include BetterInspect
     class Error < StandardError; end
     delegate :cache_reactions, :cache_comments, to: :remote_post
     attr_reader :request_helper_cache, :peer
@@ -62,5 +63,14 @@ class VirtualPost
 
       @is_valid_signature = EncryptionService::VerifySignature.new(@peer.verify_key).verify(signed_result)
     end
+
+    def content_with_attachments
+      @post[:content]
+    end
+
+    private
+      def inspected_values
+        @post
+      end
   end
 end

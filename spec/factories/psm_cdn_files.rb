@@ -24,9 +24,7 @@
 #
 FactoryBot.define do
   factory :psm_cdn_file do
-    url { "" }
-    size_bytes { 1 }
-    psm_file_variant { nil }
-    external_account { nil }
+    status { :ready }
+    upload_percentage { 100 }
   end
 end

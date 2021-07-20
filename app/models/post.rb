@@ -7,7 +7,6 @@
 #  id         :bigint           not null, primary key
 #  content    :jsonb            not null
 #  post_type  :string           default("standard"), not null
-#  signature  :binary           not null
 #  status     :string           default("pending"), not null
 #  views      :bigint           default(0), not null
 #  created_at :datetime         not null
@@ -22,7 +21,6 @@ class Post < ApplicationRecord
   after_commit :propagate_to_peers_destroy, on: :destroy, if: :propagate_to_peers_destroy?
   before_update :update_remote_post, if: -> { post_type_changed? }
   after_create :create_self_remote_post
-  before_save :generate_signature
 
   validates :post_type, presence: true
   if Rails.env.test?
@@ -53,12 +51,15 @@ class Post < ApplicationRecord
   end
 
   def raw_signature
-    initialize_timestamps
     PostsService::RawSignature.new(self, Current.peer)
   end
 
   def is_valid_signature?
     true
+  end
+
+  def signature
+    EncryptionService::Sign.new.sign_message(raw_signature.hash.to_s).signature
   end
 
   private
@@ -85,15 +86,5 @@ class Post < ApplicationRecord
     def update_remote_post
       remote_post.update!(post_type: post_type)
       propagate_to_peers
-    end
-
-    def generate_signature
-      self.signature = EncryptionService::Sign.new.sign_message(raw_signature.hash.to_s).signature
-    end
-
-    def initialize_timestamps
-      return if created_at.present?
-      self.created_at = Time.zone.now
-      self.updated_at = created_at
     end
 end
