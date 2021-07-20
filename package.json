@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "lint": "yarn eslint --fix --ext .js --ext .jsx app/javascript"
+    "lint": "yarn eslint --fix --ext .js --ext .jsx app/ config/"
   },
   "browserslist": [
     "defaults"
   ],
   "dependencies": {
+    "@activeadmin/activeadmin": "^2.9.0",
     "@babel/preset-react": "^7.14.5",
     "@draft-js-plugins/editor": "^4.1.0",
     "@fortawesome/fontawesome-free": "^5.15.3",

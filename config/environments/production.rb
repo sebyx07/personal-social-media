@@ -35,10 +35,6 @@ Rails.application.configure do
 
   config.active_record.dump_schema_after_migration = false
 
-  config.assets.configure do |env|
-    env.export_concurrent = false
-  end if ENV["DEVELOPER"].present?
-
   config.after_initialize do
     Bullet.bugsnag       = true if ENV["BUGSNAG"].present?
     Bullet.enable        = true
