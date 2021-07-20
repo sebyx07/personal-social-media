@@ -73,6 +73,7 @@ gem "attributes_sanitizer", "~> 0.1.6"
 gem "bitwise_attribute", github: "personal-social-media/bitwise_attribute", ref: "36371f6511a5907d1ec96385e0baca55d935cb99"
 gem "bugsnag", "~> 6.21", require: is_dev
 gem "bullet", "~> 6.1", ">= 6.1.4", require: is_dev
+gem "draper", "~> 4.0", ">= 4.0.2"
 gem "email_validator", "~> 2.2", ">= 2.2.3"
 gem "exif", "~> 2.2", ">= 2.2.1"
 gem "hash_digest", "~> 1.1", ">= 1.1.3"
