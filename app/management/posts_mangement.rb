@@ -2,7 +2,7 @@
 
 ActiveAdmin.register Post, namespace: :management do
   decorate_with ManagementPostDecorator
-  menu label: "My Posts"
+  menu label: "My Posts", priority: 0
   actions :index, :show, :destroy
 
   filter :created_at

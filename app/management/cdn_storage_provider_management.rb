@@ -29,7 +29,9 @@ ActiveAdmin.register CdnStorageProvider, namespace: :management do
     f.semantic_errors(*f.object.errors.keys)
     columns do
       column do
-        f.input :adapter, as: :select, collection: translated_cdn_storage_providers, include_blank: false
+        f.input :adapter, as: :select, collection: translated_cdn_storage_providers, include_blank: false, input_html: {
+          disabled: persisted?
+        }
         f.input :enabled, as: :boolean
       end
       column
@@ -47,6 +49,7 @@ ActiveAdmin.register CdnStorageProvider, namespace: :management do
       end
     end
 
-    helper_method :translated_cdn_storage_providers
+    delegate :persisted?, to: :@cdn_storage_provider
+    helper_method :translated_cdn_storage_providers, :persisted?
   end
 end

@@ -2,7 +2,7 @@
 
 ActiveAdmin.register Setting, namespace: :management do
   actions :index, :edit, :update
-  menu url: -> { edit_management_setting_path(Current.settings) }
+  menu url: -> { edit_management_setting_path(Current.settings) }, priority: 99
 
   controller do
     def index
