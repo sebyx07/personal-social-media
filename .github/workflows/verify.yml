@@ -4,6 +4,7 @@ on: [push]
 jobs:
   linters:
     name: Linters
+    if: github.repository_owner == 'personal-social-media'
     runs-on: ubuntu-latest
     steps:
       - name: Install ubuntu deps
@@ -57,6 +58,7 @@ jobs:
 
   tests:
     name: Tests
+    if: github.repository_owner == 'personal-social-media'
     runs-on: ubuntu-latest
     services:
       postgres:
