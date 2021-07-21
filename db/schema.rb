@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_20_152912) do
+ActiveRecord::Schema.define(version: 2021_07_21_010125) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_152912) do
 
   create_table "cdn_storage_providers", force: :cascade do |t|
     t.string "adapter", null: false
-    t.boolean "enabled", default: false, null: false
+    t.boolean "enabled", default: true, null: false
     t.string "free_space_bytes", default: "0", null: false
     t.string "used_space_bytes", default: "0", null: false
     t.bigint "external_account_id"
@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(version: 2021_07_20_152912) do
     t.string "adapter", null: false
     t.string "used_space_bytes", default: "0", null: false
     t.string "free_space_bytes", default: "0", null: false
-    t.boolean "enabled", default: false, null: false
+    t.boolean "enabled", default: true, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["external_account_id"], name: "index_permanent_storage_providers_on_external_account_id"

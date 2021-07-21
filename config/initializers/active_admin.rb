@@ -6,6 +6,8 @@ ActiveAdmin.setup do |config|
   config.load_paths = [File.expand_path("app/management", Rails.root)]
   config.default_namespace = :management
   config.namespace :management do |management|
+    management.batch_actions = false
+    management.download_links = false
     management.site_title = "Management"
     management.site_title_link = "/management"
   end

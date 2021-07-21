@@ -6,7 +6,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  adapter             :string           not null
-#  enabled             :boolean          default(FALSE), not null
+#  enabled             :boolean          default(TRUE), not null
 #  free_space_bytes    :string           default(0), not null
 #  used_space_bytes    :string           default(0), not null
 #  created_at          :datetime         not null
@@ -22,10 +22,15 @@
 #  fk_rails_...  (external_account_id => external_accounts.id)
 #
 class CdnStorageProvider < ApplicationRecord
+  PERMITTED_ADAPTERS = %w(FileSystemAdapters::LocalFileSystemAdapter)
+  UNIQUE_ADAPTERS = %w(FileSystemAdapters::LocalFileSystemAdapter)
+  PERMITTED_ADAPTERS << "FileSystemAdapters::TestAdapter" if Rails.env.test?
+
   belongs_to :external_account, optional: true
   attribute :used_space_bytes, :integer
   attribute :free_space_bytes, :integer
-  validate :validate_adapter
+  validates :adapter, inclusion: { in: PERMITTED_ADAPTERS }
+  validates :adapter, uniqueness: true, if: -> { UNIQUE_ADAPTERS.include?(adapter) }
 
   def upload_multi(files)
     adapter_instance.upload_multi(files)
@@ -36,18 +41,7 @@ class CdnStorageProvider < ApplicationRecord
     @adapter_instance ||= adapter.constantize.new
   end
 
-  private
-    def validate_adapter
-      adapter_class = adapter.constantize
-    rescue NameError => e
-      errors.add(:adapter, e.message)
-
-      if adapter_class == FileSystemAdapters::TestAdapter && !Rails.env.test?
-        errors.add(:adapter, :invalid)
-      end
-
-      unless adapter_class.ancestors.include?(FileSystemAdapters::BaseAdapter)
-        errors.add(:adapter, :invalid)
-      end
-    end
+  def is_local_fs?
+    adapter == "FileSystemAdapters::LocalFileSystemAdapter"
+  end
 end

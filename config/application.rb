@@ -37,6 +37,9 @@ module Psm
     config.autoload_paths << Rails.root.join("app" "sucker_punch")
     config.autoload_paths << Rails.root.join("lib", "utils")
 
+    config.i18n.load_path += Dir[Rails.root.join("config", "locales", "**/*.{rb,yml}")]
+    config.i18n.default_locale = :en
+
     # Don't generate system test files.
     config.generators.system_tests = nil
     config.time_zone = "UTC"
