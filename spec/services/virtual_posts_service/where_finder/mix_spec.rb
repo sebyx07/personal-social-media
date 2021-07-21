@@ -4,11 +4,16 @@ require "rails_helper"
 
 RSpec.describe VirtualPostsService::WhereFinder, type: :request do
   include_context "two people"
-  let(:posts) { create_list(:post, 2, :with_reactions, :with_comments) }
+  let(:posts) { create_list(:post, 2, :with_reactions, :with_comments, :with_test_attachments) }
+  let(:storage_adapters) do
+    create(:cdn_storage_provider, :test)
+    create(:permanent_storage_provider, :test)
+  end
+
   let(:other_posts) do
     output = []
     take_over_wrap! do
-      output += create_list(:post, 2, :with_reactions, :with_comments)
+      output += create_list(:post, 2, :with_reactions, :with_comments, :with_test_attachments)
     end
     output
   end
@@ -108,6 +113,8 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
 
   context "mixed posts" do
     before do
+      storage_adapters
+
       posts
       other_cache_comments
       other_cache_reactions
@@ -136,6 +143,7 @@ RSpec.describe VirtualPostsService::WhereFinder, type: :request do
         VirtualPostPresenter.new(v_post).render.tap do |json|
           expect(json).to be_present
           expect(json[:is_valid]).to be_truthy
+          expect(json.dig(:content, :attachments)).to be_present
 
           expect(json[:latest_comments]).to be_present
           json[:latest_comments].each do |comment|

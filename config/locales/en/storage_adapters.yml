@@ -1,0 +1,5 @@
+en:
+  storage_adapters:
+    FileSystemAdapters::LocalFileSystemAdapter:
+      name: Local File System
+      description: "*Free* (Non compatible with Heroku like systems and only works in a single server environment)"

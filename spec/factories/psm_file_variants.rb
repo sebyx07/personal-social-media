@@ -27,6 +27,12 @@
 #
 FactoryBot.define do
   factory :psm_file_variant do
-    psm_file { nil }
+    cdn_storage_status { :ready }
+    permanent_storage_status { :ready }
+
+    trait :test_image_variant do
+      variant_name { SecureRandom.hex }
+      external_file_name { SecureRandom.hex }
+    end
   end
 end

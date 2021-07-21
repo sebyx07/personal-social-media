@@ -6,7 +6,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  adapter             :string           not null
-#  enabled             :boolean          default(FALSE), not null
+#  enabled             :boolean          default(TRUE), not null
 #  free_space_bytes    :string           default(0), not null
 #  used_space_bytes    :string           default(0), not null
 #  created_at          :datetime         not null

@@ -1,6 +1,6 @@
-const { merge } = require('webpack-merge');
+const {merge} = require('webpack-merge');
 const webpack = require('webpack');
-const { webpackConfig } = require('@rails/webpacker');
+const {webpackConfig} = require('@rails/webpacker');
 
 module.exports = merge(webpackConfig, {
   plugins: [
@@ -10,7 +10,7 @@ module.exports = merge(webpackConfig, {
   ],
   resolve: {
     alias: {
-      process: "process/browser"
+      process: 'process/browser',
     },
-  }
-})
+  },
+});

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
   SettingsService::WebUrl.new.full_host.tap do |full_host|
     Rails.application.routes.default_url_options[:host] = full_host if full_host.present?
   end

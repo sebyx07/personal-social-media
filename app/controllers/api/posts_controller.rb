@@ -23,7 +23,10 @@ module Api
 
     private
       def default_scope
-        Post.includes(:reaction_counters, :comment_counter, latest_comments: [:peer, :reaction_counters]).ready
+        Post.includes(
+          :reaction_counters, :comment_counter, latest_comments: [:peer, :reaction_counters],
+          psm_attachments: [psm_file_variants: [ psm_cdn_files: [ cdn_storage_provider: :external_account] ] ]
+        ).ready
       end
 
       def current_post

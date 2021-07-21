@@ -2,7 +2,7 @@
 
 class VirtualPost
   class LoadMultipleError < StandardError; end
-  PERMITTED_DELEGATED_METHODS = %i(created_at updated_at content views comments_count)
+  PERMITTED_DELEGATED_METHODS = %i(created_at updated_at views comments_count)
 
   attr_reader :post, :request, :peer
 
@@ -30,7 +30,7 @@ class VirtualPost
 
   delegate(*PERMITTED_DELEGATED_METHODS, to: :@presenter)
   delegate :reaction_counters, :cache_reactions, :latest_comments,
-           :is_valid_signature?, :request_helper_cache,
+           :is_valid_signature?, :request_helper_cache, :content_with_attachments,
            to: :@presenter
   delegate :id, to: :@remote_post
 

@@ -12,7 +12,7 @@ class VirtualPostPresenter
       id: id,
       created_at: created_at,
       updated_at: @virtual_post.updated_at,
-      content: @virtual_post.content,
+      content: @virtual_post.content_with_attachments,
       peer: PeerPresenter.new(@virtual_post.peer).render_with_is_me,
       views: @virtual_post.views,
       comments_count: @virtual_post.comments_count,

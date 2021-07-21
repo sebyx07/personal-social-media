@@ -46,13 +46,16 @@ class PsmFileVariant < ApplicationRecord
     return if variant_file.present?
     result = PsmFileVariantsService::BuildCustomVariant.new(self).call
     @variant_file = result[:encrypted_file]
-    self.variant_metadata = result[:metadata]
+    self.variant_metadata = result[:metadata].except(:exif)
+    if original?
+      update_exif_for_psm_file!(result)
+    end
     self.external_file_name = new_variant_file_name
     self.size_bytes = variant_file.size
   end
 
   def clean_variant_file!
-    return if variant_name.to_s == "original"
+    return if original?
     return unless File.exist?(variant_file.path)
     File.delete(variant_file.path)
   end
@@ -60,4 +63,16 @@ class PsmFileVariant < ApplicationRecord
   def new_variant_file_name
     @new_variant_file_name ||= SecureRandom.urlsafe_base64(32) + ".#{File.extname(original_physical_file)}"
   end
+
+  def original?
+    memo(:@original) do
+      variant_name.to_s == "original"
+    end
+  end
+
+  private
+    def update_exif_for_psm_file!(variant_result)
+      psm_file.metadata["exif"] = variant_result[:metadata][:exif]
+      psm_file.save!
+    end
 end

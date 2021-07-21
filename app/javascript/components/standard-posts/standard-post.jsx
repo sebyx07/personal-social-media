@@ -11,7 +11,6 @@ import StandardPostComment from './standard-post-comment';
 import StandardPostReactions from './standard-post-reactions';
 
 export default function StandardPost({data: post}) {
-  const {id, content, peer, createdAt} = post;
   const state = useState({
     showNewComment: false,
   });
@@ -37,14 +36,14 @@ export default function StandardPost({data: post}) {
   return (
     <div className="bg-gray-200 my-2 p-2 rounded">
       <div>
-        <DefaultPeerAvatar peer={peer}>
+        <DefaultPeerAvatar peer={post.peer}>
           <div>
-            {timeAgoInWords(createdAt.get())}
+            {timeAgoInWords(post.createdAt.get())}
           </div>
         </DefaultPeerAvatar>
       </div>
       <div>
-        {content.get()}
+        {post.content.message.get()}
       </div>
       <div className="my-4">
         <StandardPostReactions post={post} cbInc={incrementReaction} cbDec={decrementReaction}/>
@@ -52,7 +51,7 @@ export default function StandardPost({data: post}) {
       <div className="flex items-center">
         <div>
           <ReactToSubject
-            baseUrl={`/posts/${id.get()}`}
+            baseUrl={`/posts/${post.id.get()}`}
             className="hover:bg-gray-100"
             cbInc={incrementReaction}
             model={post}
