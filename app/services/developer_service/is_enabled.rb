@@ -4,7 +4,7 @@ module DeveloperService
   class IsEnabled
     class << self
       def is_enabled?
-        ENV["DEVELOPER"].present?
+        ENV["DEVELOPER"] == "true"
       end
     end
   end

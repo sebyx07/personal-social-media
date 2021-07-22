@@ -20,3 +20,4 @@ RUN gem install bundler
 RUN bundle install --jobs 4
 RUN yarn install
 RUN DEVELOPER=true IS_DEPLOYING=true bundle exec rake assets:precompile
+RUN rm -rf node_modules log/*
