@@ -14,14 +14,6 @@ GIT
       json
 
 GIT
-  remote: https://github.com/personal-social-media/rmega.git
-  revision: bc1ffc624cfb30197fea1b042ff1115961ad89f5
-  ref: bc1ffc624cfb30197fea1b042ff1115961ad89f5
-  specs:
-    rmega (0.2.7)
-      pbkdf2-ruby
-
-GIT
   remote: https://github.com/rails/webpacker.git
   revision: 032c2d11a3758035305fe34e6795ab133128ee32
   specs:
@@ -444,6 +436,8 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.5)
+    rmega (0.2.7)
+      pbkdf2-ruby
     rspec-core (3.10.1)
       rspec-support (~> 3.10.0)
     rspec-expectations (3.10.1)
@@ -629,7 +623,7 @@ DEPENDENCIES
   render_async (~> 2.1, >= 2.1.10)
   request_store (~> 1.5)
   request_store_rails-sidekiq (~> 0.1.0)
-  rmega!
+  rmega
   rspec-rails (~> 5.0, >= 5.0.1)
   rubocop-rails_config (~> 1.6)
   sass-rails (>= 6)
