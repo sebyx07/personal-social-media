@@ -10,24 +10,26 @@ class CommentsController < ApplicationController
 
   def index
     @permitted_index_params = params.permit(pagination: :from)
-    @virtual_posts = VirtualComment.where(
+    @virtual_comments = VirtualComment.where(
       pagination_params: @permitted_index_params, subject: subject, parent_comment_id: permitted_params[:parent_comment_id],
       remote_post: remote_post
     ).map! do |vp|
       VirtualCommentPresenter.new(vp)
     end
 
-    render json: { comments: @virtual_posts.map(&:render) }
+    render json: { comments: @virtual_comments.map(&:render) }
   end
 
   def create
     content = VirtualCommentsService::CommentContent.new(permitted_params: permitted_params)
 
-    @cache_comment = VirtualComment.create_comment(
+    cache_comment = VirtualComment.create_comment(
       subject.subject_type, subject.subject_id, content,
       permitted_params[:parent_comment_id], permitted_params[:comment_type],
       remote_post: remote_post
     )
+
+    @virtual_comment = VirtualComment.new(comment: cache_comment.local_comment)
   end
 
   def update

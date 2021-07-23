@@ -2,14 +2,16 @@ import MessageBoxForm from '../util/communication/message-box-form';
 import commentForModel from '../../utils/comments/comment-for-model';
 
 export default function StandardPostComment({post}) {
-  function saveComment(message) {
-    return commentForModel({
+  async function saveComment(message) {
+    const {data: {comment: newComment}} = await commentForModel({
       commentType: 'standard',
       content: {message},
       parentCommentId: null,
       subjectId: post.id.get(),
       subjectType: 'RemotePost',
     });
+
+    post.latestComments.merge([newComment]);
   }
 
   return (

@@ -71,8 +71,8 @@ export default function StandardPost({data: post}) {
         </div>
       }
 
-      <div>
-        <CommentsList latestComments={post.latestComments}/>
+      <div className="pt-2">
+        <CommentsList latestComments={post.latestComments} comments={post.comments}/>
       </div>
     </div>
   );

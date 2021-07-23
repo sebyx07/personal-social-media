@@ -1,7 +1,13 @@
 import {axios} from '../axios';
 
 export default function commentForModel({parentCommentId, content, subjectType, subjectId, commentType}) {
-  return axios.post('/comments', {
+  let urlSubjectType;
+  if (subjectType === 'RemotePost') {
+    urlSubjectType = 'posts';
+  }
+
+  const url = `${urlSubjectType}/${subjectId}/comments`;
+  return axios.post(url, {
     comment: {
       commentType,
       content,

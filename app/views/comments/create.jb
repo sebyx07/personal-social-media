@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 {
-  comment: CommentPresenter.new(@cache_comment).render_cache_comment
+  comment: VirtualCommentPresenter.new(@virtual_comment).render
 }

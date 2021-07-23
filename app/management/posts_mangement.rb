@@ -12,7 +12,7 @@ ActiveAdmin.register Post, namespace: :management do
   index do
     selectable_column
     column :content do |post|
-      react_component("mountable/management-standard-post", { post: post.virtual_post_presenter.render })
+      react_component("mountable-in-management/management-standard-post", { post: post.virtual_post_presenter.render })
     end
 
     column :id
