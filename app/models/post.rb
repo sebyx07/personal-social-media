@@ -63,15 +63,9 @@ class Post < ApplicationRecord
     EncryptionService::Sign.new.sign_message(raw_signature.hash.to_s).signature
   end
 
-  def presented_as_json
-    return { id: id } if destroyed?
-    VirtualPost.new(post: self, remote_post: remote_post, peer: Current.peer).yield_self do |virtual_post|
-      VirtualPostPresenter.new(virtual_post).render
-    end
-  end
-
-  def presented_as_json_type
-    "RemotePost"
+  delegate :can_propagate_realtime?, to: :real_time_record
+  def real_time_record
+    @real_time_record ||= PostsService::RealTimePostRecord.new(self)
   end
 
   private

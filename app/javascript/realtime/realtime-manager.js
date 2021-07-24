@@ -1,5 +1,7 @@
 import {generateRandomId} from '../lib/string/generate-random-id';
 import {isEmpty} from 'lodash';
+import {transformKeys} from '../lib/object/transformKeys';
+import consumer from '../channels/consumer';
 
 class RealtimeManager {
   constructor() {
@@ -7,8 +9,10 @@ class RealtimeManager {
   };
 
   pushRecord(type, record, options = {}) {
+    this.boostrapConnection();
+
     if (!this.cache[type]) this.cache[type] = {};
-    const recordId = record.id.get();
+    const recordId = options.virtualRecordId || record.id.get();
 
     const subscriptionId = generateRandomId();
     if (!this.cache[type][recordId]) {
@@ -30,8 +34,8 @@ class RealtimeManager {
     return subscriptionId;
   }
 
-  removeRecord(type, record, subscriptionId) {
-    const recordId = record.id.get();
+  removeRecord(type, record, subscriptionId, virtualRecordId) {
+    const recordId = virtualRecordId || record.id.get();
     if (!this.cache[type][recordId]) return;
 
     const subscriptions = this.cache[type][recordId].subscriptions;
@@ -42,8 +46,8 @@ class RealtimeManager {
     }
   }
 
-  updateRecord(type, recordJson) {
-    const recordId = recordJson.id;
+  updateRecord(type, recordJson, virtualId) {
+    const recordId = virtualId || recordJson.id;
     const batchedOperations = [];
 
     if (!(this.cache[type] && this.cache[type][recordId])) return;
@@ -60,6 +64,23 @@ class RealtimeManager {
       batchedOperations.forEach((operation) => {
         operation.record.merge(operation.recordJson);
       });
+    });
+  }
+
+  boostrapConnection() {
+    if (this.alreadyBootstrapedConnection) return;
+    this.alreadyBootstrapedConnection = true;
+    const self = this;
+
+    consumer.subscriptions.create('RealTimeRecordsChannel', {
+      received(data) {
+        const transformedData = transformKeys(data, {deep: true});
+        const {action, type, record, virtualId} = transformedData;
+
+        if (action === 'update') {
+          self.updateRecord(type, record, virtualId);
+        }
+      },
     });
   }
 }
@@ -99,4 +120,6 @@ function removeSubSubscriptions(subSubscriptions) {
 
 export const realTimeManager = new RealtimeManager();
 
-window.realTimeManager = realTimeManager;
+if (process.env.RAILS_ENV !== 'production') {
+  window.realTimeManager = realTimeManager;
+}

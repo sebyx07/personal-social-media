@@ -3,10 +3,9 @@
 module PsmRealTimeRecord
   class PropagateRealTime
     class UnknownAction < StandardError; end
-    attr_reader :presented_as_json, :presented_as_json_type, :action
-    def initialize(presented_as_json_type, presented_as_json, action)
-      @presented_as_json_type = presented_as_json_type
-      @presented_as_json = presented_as_json
+    attr_reader :real_time_record, :action
+    def initialize(real_time_record, action)
+      @real_time_record = real_time_record
       @action = action
     end
 
@@ -19,16 +18,16 @@ module PsmRealTimeRecord
         raise UnknownAction, "unknown action #{action}"
       end
 
-      ActionCable.server.broadcast("psm_real_time", message)
+      ActionCable.server.broadcast("psm_real_time_updates", message)
     end
 
     private
       def update_message
-        { action: action, type: presented_as_json_type, record: presented_as_json }
+        { action: action, type: real_time_record.type, record: real_time_record.json, virtual_id: real_time_record.virtual_id }
       end
 
       def destroy_message
-        { action: action, type: presented_as_json_type, record_id: presented_as_json[:id] }
+        { action: action, type: real_time_record, record_id: real_time_record.json[:id], virtual_id: real_time_record.virtual_id }
       end
   end
 end

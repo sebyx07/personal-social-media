@@ -4,7 +4,7 @@ import {useState} from '@hookstate/core';
 import Comment from './comment';
 import PropTypes from 'prop-types';
 
-export default function CommentsList({latestComments}) {
+export default function CommentsList({latestComments, hostOfCommentPeer}) {
   const renderedLatestComments = takeRight(latestComments, 3);
 
   const state = useState({
@@ -35,7 +35,7 @@ export default function CommentsList({latestComments}) {
               renderedLatestComments.map((comment) => {
                 return (
                   <div key={comment.id.get()}>
-                    <Comment data={comment}/>
+                    <Comment data={comment} hostOfCommentPeer={hostOfCommentPeer}/>
                   </div>
                 );
               })
@@ -55,5 +55,6 @@ export default function CommentsList({latestComments}) {
 
 
 CommentsList.propTypes = {
+  hostOfCommentPeer: PropTypes.object.isRequired,
   latestComments: PropTypes.array,
 };

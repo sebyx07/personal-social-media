@@ -1,11 +1,18 @@
 import {getHookstateProperties} from '../../lib/hookstate/get-properties';
+import {registerRealTimeComment, unRegisterRealTimeComment} from '../../realtime/register-record/register-comment';
 import {timeAgoInWords} from '../../lib/dates/time-ago';
+import {useEffect} from 'react';
 import CommentStandardContent from './content-standard';
 import EditComment from './edit-comment';
 import RemotePeerAvatar from '../peers/avatars/remote-avatar';
 
-export default function Comment({data: comment}) {
+export default function Comment({data: comment, hostOfCommentPeer}) {
   const {commentType} = getHookstateProperties(comment, 'commentType', 'peer');
+  useEffect(() => {
+    const subscriptionId = registerRealTimeComment(hostOfCommentPeer, comment);
+    return () => unRegisterRealTimeComment(hostOfCommentPeer, comment, subscriptionId);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   let ContentTag;
   switch (commentType) {
     case 'standard':

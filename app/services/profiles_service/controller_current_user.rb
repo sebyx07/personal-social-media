@@ -10,18 +10,28 @@ module ProfilesService
     def call
       return Current.profile if in_spec_logged_in?
 
-      password_digest = session[:password_digest]
-      return nil if password_digest.blank?
-      if Current.profile.password_digest != password_digest
-        session[:password_digest] = nil
-        return nil
-      end
-      Current.profile
+      return_profile_if_valid_password_digest(Current.profile)
+    end
+
+    def call_from_action_cable
+      return Profile.first if in_spec_logged_in?
+
+      return_profile_if_valid_password_digest(Profile.first)
     end
 
     private
       def in_spec_logged_in?
         Rails.env.test? && ENV["SPEC_LOGGED_IN"]
+      end
+
+      def return_profile_if_valid_password_digest(profile)
+        password_digest = session[:password_digest]
+        return nil if password_digest.blank?
+        if profile.password_digest != password_digest
+          session[:password_digest] = nil
+          return nil
+        end
+        profile
       end
   end
 end

@@ -79,7 +79,7 @@ export default function StandardPost({data: post}) {
       }
 
       <div className="pt-2">
-        <CommentsList latestComments={post.latestComments} comments={post.comments}/>
+        <CommentsList latestComments={post.latestComments} comments={post.comments} hostOfCommentPeer={post.peer}/>
       </div>
     </div>
   );

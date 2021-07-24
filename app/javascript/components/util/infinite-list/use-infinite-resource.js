@@ -1,9 +1,9 @@
 import {axios} from '../../../utils/axios';
 import {isEmpty, isNumber} from 'lodash';
 import {none, useState} from '@hookstate/core';
+import {transformKeys} from '../../../lib/object/transformKeys';
 import {useEffect, useRef} from 'react';
 import qs from 'qs';
-import transformObjectKeys from 'transform-object-keys';
 
 export default function useInfiniteResource(initialState = {}, api = {}) {
   const state = useState({
@@ -89,7 +89,7 @@ async function loadMoreResources(state, lastResource, api) {
 }
 
 function buildUrl(url, queryParams) {
-  const queryString = qs.stringify(transformObjectKeys(queryParams, {deep: true, snakeCase: true}));
+  const queryString = qs.stringify(transformKeys(queryParams, {snakeCase: true}));
   if (isEmpty(queryString)) return url;
 
   return `${url}?${queryString}`;

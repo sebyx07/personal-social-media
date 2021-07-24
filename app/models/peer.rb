@@ -26,6 +26,7 @@
 #
 class Peer < ApplicationRecord
   include BitwiseAttribute
+  include PsmRealTimeRecordConcern
 
   if Rails.env.test?
     attr_accessor :private_key, :signing_key
@@ -97,5 +98,10 @@ class Peer < ApplicationRecord
 
   def public_key_serialized
     @public_key_serialized ||= EncryptionService::EncryptedContentTransform.to_json(public_key.to_s)
+  end
+
+  delegate :can_propagate_realtime?, to: :real_time_record
+  def real_time_record
+    @real_time_record ||= PeersService::RealTimePeerRecord.new(self)
   end
 end
