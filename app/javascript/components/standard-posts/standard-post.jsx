@@ -1,8 +1,10 @@
+import {registerRealTimeRemotePost, unRegisterRealTimeRemotePost} from '../../realtime/register-record/register-remote-post';
 import {
   standardReactionsCbForModelDec,
   standardReactionsCbForModelInc,
 } from '../../utils/reactions/standard-reactions-cb-for-model';
 import {timeAgoInWords} from '../../lib/dates/time-ago';
+import {useEffect} from 'react';
 import {useState} from '@hookstate/core';
 import CommentsList from '../comments/comments-list';
 import DefaultPeerAvatar from '../peers/avatars/default-avatar';
@@ -11,6 +13,11 @@ import StandardPostNewComment from './standard-post-new-comment';
 import StandardPostReactions from './standard-post-reactions';
 
 export default function StandardPost({data: post}) {
+  useEffect(() => {
+    const subscriptionId = registerRealTimeRemotePost(post);
+    return () => unRegisterRealTimeRemotePost(post, subscriptionId);
+  }, [post.id.get()]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const state = useState({
     showNewComment: false,
   });
