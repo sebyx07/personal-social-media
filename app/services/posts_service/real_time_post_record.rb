@@ -13,7 +13,7 @@ module PostsService
 
     def json
       return { id: post.id } if post.destroyed?
-      VirtualPost.new(post: self, remote_post: post.remote_post, peer: Current.peer).yield_self do |virtual_post|
+      VirtualPost.new(post: post, remote_post: post.remote_post, peer: Current.peer).yield_self do |virtual_post|
         VirtualPostPresenter.new(virtual_post).render
       end
     end
@@ -22,7 +22,7 @@ module PostsService
     end
 
     def type
-      "Peer"
+      "RemotePost"
     end
   end
 end
