@@ -7,7 +7,7 @@ import {useState} from '@hookstate/core';
 import CommentsList from '../comments/comments-list';
 import DefaultPeerAvatar from '../peers/avatars/default-avatar';
 import ReactToSubject from '../reactions/react-to-subject';
-import StandardPostComment from './standard-post-comment';
+import StandardPostNewComment from './standard-post-new-comment';
 import StandardPostReactions from './standard-post-reactions';
 
 export default function StandardPost({data: post}) {
@@ -67,7 +67,7 @@ export default function StandardPost({data: post}) {
 
       {
         state.showNewComment.get() && <div className="py-2">
-          <StandardPostComment post={post}/>
+          <StandardPostNewComment post={post}/>
         </div>
       }
 
