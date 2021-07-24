@@ -16,7 +16,7 @@ export default function StandardPost({data: post}) {
   useEffect(() => {
     const subscriptionId = registerRealTimeRemotePost(post);
     return () => unRegisterRealTimeRemotePost(post, subscriptionId);
-  }, [post.id.get()]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const state = useState({
     showNewComment: false,

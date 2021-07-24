@@ -12,12 +12,12 @@ module PsmRealTimeRecord
 
     def call
       message = if action == :update
-                  update_message
-                elsif action == :destroy
-                  destroy_message
-                else
-                  raise UnknownAction, "unknown action #{action}"
-                end
+        update_message
+      elsif action == :destroy
+        destroy_message
+      else
+        raise UnknownAction, "unknown action #{action}"
+      end
 
       ActionCable.server.broadcast("psm_real_time", message)
     end
