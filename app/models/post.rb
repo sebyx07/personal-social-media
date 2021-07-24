@@ -14,6 +14,7 @@
 #
 class Post < ApplicationRecord
   include PsmAttachmentConcern
+  include PsmRealTimeRecordConcern
   validates :content, allow_nil: true, length: { maximum: 2000 }
   str_enum :status, %i(pending ready)
   str_enum :post_type, %i(standard)
@@ -60,6 +61,17 @@ class Post < ApplicationRecord
 
   def signature
     EncryptionService::Sign.new.sign_message(raw_signature.hash.to_s).signature
+  end
+
+  def presented_as_json
+    return { id: id } if destroyed?
+    VirtualPost.new(post: self, remote_post: remote_post, peer: Current.peer).yield_self do |virtual_post|
+      VirtualPostPresenter.new(virtual_post).render
+    end
+  end
+
+  def presented_as_json_type
+    "RemotePost"
   end
 
   private

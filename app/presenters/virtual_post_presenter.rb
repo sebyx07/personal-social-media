@@ -24,14 +24,15 @@ class VirtualPostPresenter
     }
   end
 
-  def latest_comments
-    return @latest_comments if defined? @latest_comments
-    sorted_comments = @virtual_post.latest_comments.sort_by do |comment|
-      -(comment.id.to_i)
-    end
+  private
+    def latest_comments
+      return @latest_comments if defined? @latest_comments
+      sorted_comments = @virtual_post.latest_comments.sort_by do |comment|
+        -(comment.id.to_i)
+      end
 
-    @latest_comments = sorted_comments.map do |comment|
-      VirtualCommentPresenter.new(comment).render
+      @latest_comments = sorted_comments.map do |comment|
+        VirtualCommentPresenter.new(comment).render
+      end
     end
-  end
 end
