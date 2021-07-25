@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "lint": "yarn eslint --fix --ext .js --ext .jsx app/ config/"
+    "lint": "yarn eslint --fix --ext .js --ext .jsx app/ config/ tailwind.config.js"
   },
   "browserslist": [
     "defaults"
@@ -22,6 +22,7 @@
     "autoprefixer": "^10.3.1",
     "axios": "^0.21.1",
     "axios-case-converter": "^0.8.1",
+    "babel-plugin-macros": "^3.1.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "chokidar": "^3.5.2",
     "css-loader": "^5.2.6",
@@ -47,6 +48,7 @@
     "postcss-import": "^14.0.1",
     "postcss-loader": "^6.1.1",
     "postcss-preset-env": "^6.7.0",
+    "pretty-bytes": "^5.6.0",
     "process": "^0.11.10",
     "prop-types": "^15.7.2",
     "psm-draft-js-emoji-mart-plugin": "^1.0.2",

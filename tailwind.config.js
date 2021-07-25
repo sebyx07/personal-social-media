@@ -15,7 +15,17 @@ module.exports = {
   },
   // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      cursor: {
+        'zoom-in': 'zoom-in',
+      },
+      maxWidth: {
+        '3/4': '75%',
+      },
+      minWidth: {
+        '1/3': '33%',
+      },
+    },
   },
   variants: {
     extend: {},

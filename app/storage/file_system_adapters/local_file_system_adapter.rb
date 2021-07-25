@@ -70,7 +70,7 @@ module FileSystemAdapters
         if Rails.env.test?
           dir = "tmp/" + dir + "/test"
         elsif Rails.env.development?
-          dir = "tmp/" + dir + "/dev"
+          dir = "public/" + dir + "/dev"
         else
           dir = "~/." + dir
         end

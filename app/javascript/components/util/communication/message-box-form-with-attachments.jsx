@@ -25,6 +25,14 @@ export default function MessageBoxFormWithAttachments({
     e.target.value = '';
   }
 
+  function removeAttachment(e, attachmentRecord) {
+    e.preventDefault();
+    setState({
+      ...state,
+      selectedFileRecords: state.selectedFileRecords.filter((selectedFileRecord) => selectedFileRecord !== attachmentRecord),
+    });
+  }
+
   return (
     <div>
       <MessageBoxForm
@@ -36,11 +44,18 @@ export default function MessageBoxFormWithAttachments({
         extraButtons={<button onClick={openFilePicker} className="ml-1">
           <i className="fas fa-paperclip"/>
         </button>}
-        extraOutput={<div className="flex flex-wrap pt-1 bg-gray-400">
+        extraOutput={<div className="flex flex-wrap pt-1">
           {
             state.selectedFileRecords.map((attachmentRecord) => {
               return (
-                <MessageBoxAttachment attachmentRecord={attachmentRecord} key={attachmentRecord.key}/>
+                <div key={attachmentRecord.key} className="w-full p-1 hover:bg-gray-200 flex flex-col justify-between">
+                  <MessageBoxAttachment attachmentRecord={attachmentRecord} />
+                  <div className="text-right">
+                    <button className="text-red-500 focus:text-black" onClick={(e) => removeAttachment(e, attachmentRecord)}>
+                      <i className="fas fa-times"/>
+                    </button>
+                  </div>
+                </div>
               );
             })
           }

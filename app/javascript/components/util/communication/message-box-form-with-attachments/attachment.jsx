@@ -1,12 +1,11 @@
-import Attachment from '../attachment';
+import AttachmentWithFileInformation from '../attachment-with-file-information';
 import PropTypes from 'prop-types';
-
 
 export default function MessageBoxAttachment({attachmentRecord}) {
   const {file} = attachmentRecord;
   return (
-    <div className="h-20 w-20 p-1">
-      <Attachment file={file}/>
+    <div className="flex flex-col justify-between h-full">
+      <AttachmentWithFileInformation file={file} informationClassName="text-xs"/>
     </div>
   );
 }

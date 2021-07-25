@@ -14,6 +14,7 @@ class UploadChunksController < ApplicationController
 
   def create
     upload_id = request.headers["PSM_UPLOAD_ID"]
+    head 404 unless upload_id
     UploadChunksService::UploadChunk.new(permitted_params_create, upload_id).handle_chunk.tap do |service|
       if service.whole_file_ready?
         service.process_whole_file
