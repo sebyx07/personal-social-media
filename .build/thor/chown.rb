@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Chown < Thor
   include Thor::Actions
 

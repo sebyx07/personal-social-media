@@ -3,3 +3,7 @@ en:
     FileSystemAdapters::LocalFileSystemAdapter:
       name: Local File System
       description: "*Free* (Non compatible with Heroku like systems and only works in a single server environment)"
+  external_accounts:
+    services:
+      mega_upload:
+        name: "Mega.nz"

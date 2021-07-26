@@ -428,6 +428,7 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
+    redcarpet (3.5.1)
     redis (4.3.1)
     redis-prescription (1.0.0)
     regexp_parser (2.1.1)
@@ -626,6 +627,7 @@ DEPENDENCIES
   rails_admin (~> 2.2)
   rbnacl (~> 7.1, >= 7.1.1)
   react-rails (~> 2.6, >= 2.6.1)
+  redcarpet (~> 3.5, >= 3.5.1)
   render_async (~> 2.1, >= 2.1.10)
   request_store (~> 1.5)
   request_store_rails-sidekiq (~> 0.1.0)

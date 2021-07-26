@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Docker < Thor
   include Thor::Actions
 
