@@ -9,6 +9,7 @@ require_relative "./contexts/storage_download_file_context"
 RSpec.describe FileSystemAdapters::TestAdapter do
   include_examples "storage upload context"
   include_examples "storage remove context"
+  include_examples "storage resolve url context"
   include_examples "storage download context"
 
   let(:account) { nil }

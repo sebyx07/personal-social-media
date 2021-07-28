@@ -3,7 +3,6 @@
 require "rails_helper"
 require_relative "./contexts/storage_upload_context"
 require_relative "./contexts/storage_remove_context"
-require_relative "./contexts/storage_resolve_url_context"
 require_relative "./contexts/storage_download_file_context"
 
 RSpec.describe FileSystemAdapters::MegaUpload, skip: ENV["MEGA_UPLOAD_EMAIL"].blank? do
@@ -23,4 +22,22 @@ RSpec.describe FileSystemAdapters::MegaUpload, skip: ENV["MEGA_UPLOAD_EMAIL"].bl
 
   include_examples "storage upload context"
   include_examples "storage remove context"
+
+  context "download" do
+    include_examples "storage download context"
+
+    after do
+      next clean_download_file(subject) if subject.is_a?(File)
+      next subject.values.each do |file|
+        clean_download_file(file)
+      end if subject.is_a?(Hash)
+
+      raise "invalid subject"
+    end
+  end
+
+  def clean_download_file(file)
+    file.close
+    File.delete(file.path)
+  end
 end

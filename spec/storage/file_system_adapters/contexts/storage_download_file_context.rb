@@ -4,10 +4,18 @@ RSpec.shared_examples "storage download context" do
   let(:test_file_path) { Rails.root.join("spec/support/resources/picture.jpg") }
   let(:file_path) { test_file_path }
   let(:instance) do
-    described_class.new
+    described_class.new.tap do |i|
+      i.set_account(account)
+    end
   end
 
   describe "#download_file" do
+    around do |ex|
+      VCR.use_cassette("storage/#{described_class}/download") do
+        ex.run
+      end
+    end
+
     let(:upload_file) do
       FileSystemAdapters::UploadFile.new(filename, file)
     end
@@ -17,13 +25,17 @@ RSpec.shared_examples "storage download context" do
       instance.download_file(filename)
     end
 
-    it "it returns a file" do
+    it "it returns a file", vcr: { record: :once, match_requests_on: [] } do
       expect(subject).to be_a(File)
     end
   end
 
   describe "#download_files" do
-    let(:filenames) { 4.times.map { SecureRandom.hex } }
+    around do |ex|
+      VCR.use_cassette("storage/#{described_class}/download_files") do
+        ex.run
+      end
+    end
 
     let(:upload_files) do
       filenames.map do |filename|
@@ -36,7 +48,7 @@ RSpec.shared_examples "storage download context" do
       instance.download_files(filenames)
     end
 
-    it "downloads multiple files" do
+    it "downloads multiple files", vcr: { record: :once, match_requests_on: [] } do
       expect(subject).to be_present
       expect(subject).to be_a(Hash)
 

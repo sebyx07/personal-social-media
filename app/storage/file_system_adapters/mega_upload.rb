@@ -35,6 +35,25 @@ module FileSystemAdapters
       end
     end
 
+    def download_file(filename)
+      return nil unless exists?(filename)
+      download_file_name = SecureRandom.hex(50)
+      file_path = "/tmp/#{download_file_name}"
+      FileUtils.rm_rf("/tmp/*")
+      get_file(filename).download("/tmp", output_name: download_file_name)
+
+      File.open(file_path, "rb")
+    end
+
+    def download_files(filenames)
+      result = {}
+      filenames.each do |filename|
+        result[filename] = download_file(filename)
+      end
+
+      result
+    end
+
     private
       def client
         check_storage_account!
