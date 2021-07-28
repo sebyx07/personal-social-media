@@ -27,6 +27,7 @@
 #  fk_rails_...  (psm_file_id => psm_files.id)
 #
 class PsmFileVariant < ApplicationRecord
+  class NoVariantFile < StandardError; end
   include Memo
   encrypts :key, type: :binary
   encrypts :iv, type: :binary
@@ -70,6 +71,13 @@ class PsmFileVariant < ApplicationRecord
   def original?
     memo(:@original) do
       variant_name.to_s == "original"
+    end
+  end
+
+  def chunked_variant_file
+    raise NoVariantFile if variant_file.blank?
+    memo(:@chunked_variant_file) do
+      FileSystemAdapters::ChunkedUploadedFiles.new(external_file_name, variant_file.path)
     end
   end
 

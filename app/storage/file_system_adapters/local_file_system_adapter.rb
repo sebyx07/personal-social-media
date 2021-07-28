@@ -13,12 +13,11 @@ module FileSystemAdapters
       bootstrap if call_bootstrap
       validate_upload_file(upload_file)
 
-      FileUtils.mv(upload_file.file.path, filename_to_path(upload_file.name))
+      FileUtils.cp(upload_file.file.path, filename_to_path(upload_file.name))
     end
 
     def upload_multi(upload_files)
       bootstrap
-      upload_files.each { |upload| validate_upload_file(upload) }
 
       upload_files.each do |upload_file|
         upload(upload_file, call_bootstrap: false)
@@ -62,6 +61,10 @@ module FileSystemAdapters
       end
 
       result
+    end
+
+    def support_chunked_files?
+      true
     end
 
     class << self

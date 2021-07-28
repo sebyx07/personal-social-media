@@ -8,8 +8,6 @@ RSpec.shared_examples "storage download context" do
   end
 
   describe "#download_file" do
-    let(:filename) { SecureRandom.hex }
-
     let(:upload_file) do
       FileSystemAdapters::UploadFile.new(filename, file)
     end

@@ -16,8 +16,6 @@ module FileSystemAdapters
     end
 
     def upload_multi(upload_files)
-      upload_files.each { |upload| validate_upload_file(upload) }
-
       upload_files.each do |upload_file|
         upload(upload_file)
       end
@@ -61,6 +59,10 @@ module FileSystemAdapters
       end
 
       result
+    end
+
+    def support_chunked_files?
+      true
     end
 
     class << self

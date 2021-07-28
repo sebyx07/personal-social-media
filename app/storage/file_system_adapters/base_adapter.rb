@@ -7,6 +7,7 @@ module FileSystemAdapters
     class FileNotFound < StandardError; end
     class NotAllowedInProduction < StandardError; end
     class InvalidUploadFile < StandardError; end
+    class NoStorageAccount < StandardError; end
     attr_reader :storage_account
 
     def set_account(storage_account)
@@ -61,6 +62,10 @@ module FileSystemAdapters
       raise_not_implemented(:download_files)
     end
 
+    def support_chunked_files?
+      raise_not_implemented(:support_chunked_files?)
+    end
+
     private
       def raise_adapter_error(msg, error)
         raise Error, "#{self.class.name} - #{msg} - #{error.message}"
@@ -97,6 +102,10 @@ module FileSystemAdapters
 
       def validate_upload_file(upload_file)
         raise InvalidUploadFile unless upload_file.is_a?(UploadFile)
+      end
+
+      def check_storage_account!
+        raise NoStorageAccount if storage_account.blank?
       end
   end
 end

@@ -15,8 +15,8 @@ GIT
 
 GIT
   remote: https://github.com/personal-social-media/rmega.git
-  revision: bc1ffc624cfb30197fea1b042ff1115961ad89f5
-  ref: bc1ffc624cfb30197fea1b042ff1115961ad89f5
+  revision: 8c189b2572b5f50ba1b5f81479cf2f6fe882dc12
+  ref: 8c189b2572b5f50ba1b5f81479cf2f6fe882dc12
   specs:
     rmega (0.2.7)
       pbkdf2-ruby

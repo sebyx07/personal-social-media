@@ -1,21 +1,19 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require_relative "./storage_upload_context"
-require_relative "./storage_remove_context"
-require_relative "./storage_resolve_url_context"
-require_relative "./storage_download_file_context"
+require_relative "./contexts//storage_upload_context"
+require_relative "./contexts/storage_remove_context"
+require_relative "./contexts/storage_resolve_url_context"
+require_relative "./contexts/storage_download_file_context"
 
 RSpec.describe FileSystemAdapters::LocalFileSystemAdapter do
   include_examples "storage upload context"
   include_examples "storage remove context"
   include_examples "storage download context"
 
-  def file
-    output = "/tmp/#{SecureRandom.hex}"
-    FileUtils.cp(file_path, output)
-    File.new(output).tap do |f|
-      f.close
-    end
-  end
+  let(:account) { nil }
+  let(:file) { File.open(file_path) }
+  after { file.close }
+  let(:filename) { SecureRandom.hex }
+  let(:filenames) { 4.times.map { SecureRandom.hex } }
 end

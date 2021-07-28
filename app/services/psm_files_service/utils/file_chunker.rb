@@ -13,10 +13,11 @@ module PsmFilesService
       def call!
         File.open(input_path, "rb") do |fh_in|
           ReadFileAsStream.new(fh_in, chunk_size).read do |input|
-            tmp_file = Tempfile.new
-            output << tmp_file
-            tmp_file.write(input)
-            tmp_file.rewind
+            output << Tempfile.new.tap do |tmp_file|
+              tmp_file.binmode
+              tmp_file.write(input)
+              tmp_file.rewind
+            end
           end
         end
 

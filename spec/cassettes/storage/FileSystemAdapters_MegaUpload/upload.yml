@@ -1,0 +1,123 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://eu.api.mega.co.nz/cs?id=424820694
+    body:
+      encoding: UTF-8
+      string: '[{"a":"us0","user":"sbuza@gradient-ascent.com"}]'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type, MEGA-Chrome-Antileak
+      Access-Control-Expose-Headers:
+      - Original-Content-Length
+      Access-Control-Max-Age:
+      - '86400'
+      Original-Content-Length:
+      - '59'
+      Content-Length:
+      - '59'
+      Connection:
+      - keep-alive
+    body:
+      encoding: UTF-8
+      string: '[{"s":"pvZ4e_xdtaRlebBYb2e0feWI-xMH6ahp7Tv0niABWAc","v":2}]'
+  recorded_at: Wed, 28 Jul 2021 16:21:12 GMT
+- request:
+    method: post
+    uri: https://eu.api.mega.co.nz/cs?id=424820695
+    body:
+      encoding: UTF-8
+      string: '[{"a":"us","user":"sbuza@gradient-ascent.com","uh":"SflB2ZFETNrtdXyA8PzmHQ","sek":"WQ4fpf2x-0ZbGuWz9sgbhA"}]'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type, MEGA-Chrome-Antileak
+      Access-Control-Expose-Headers:
+      - Original-Content-Length
+      Access-Control-Max-Age:
+      - '86400'
+      Original-Content-Length:
+      - '1329'
+      Content-Length:
+      - '1060'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"csid":"CAA9PQaHmJjrbZdT7E_LrOz9fpFSpJ0UocoZjAOTxPGighIorD2wOfWuCfGXBeE1Zon6ttj5VJGr4RLBYEQ4-1K3tcRo2NZdPSyAQrlSakLRrCIPnsI2gYsCD5tS8d4RgONFhS7HeACgLhx6pLopv6EG2NKtTP2gYLb1LjYWu0ITUYi7mnuNZjYQ5SWwiyQ9ExDCWr5-MP4O1zWSsQhXAnFTyEo9x7S5B6KzX_EjBbjSFkSUsQXsQWav_3IbdbI2uepiGDholRBgirqgBNKFUWmgQZzJzn7BIbR4OIMzLh00gKmitfxMIdJsB1NfKYM8vop7_liZo-zljZ0UYmBxVxBU","privk":"4uTzI05w0iCgQcmHtzMT7SuzpwPd2JZHKT03m5isfKkKchqRyzTabq-r_sO06xRgv_Q5OCZH0hTfbf3IEOjWijgLOrQ_ADqVQrGDjCerq2FiJmCdmyp3ZYHZQ1g2zS3PaLxMcL9S_GiGHVP6GmzSFKyxtf4mrLvuS5QmQREJayGKL5BRYEK5lB0giZPeC9jKKKDwEDANskfZ66IR1aJJrGXF5c8vQzpaGJXvC_-fNd1jPAGWQXZ4SyhRacx5qo5cO9F_E3qhmGqiqkz6ZbkkOxfLCumTh26X0kX_YlmtYeeCa6qqLvV0ApmFqCXc8HucaoiGBZd7CYjxlmWbqtQ69GoCoI1aVU4WE_tZEqKSAmsGawd_DlaBF2_GGZPlXFdYSgRh--dSkSo7v_VVgERynIs3wx0FaJ00ZA-MRWGc8XhE0wUYR7KCTLHSd3v8yInR-AkUAoyhiTfTZtSIhRmxhy1Oyy0PYfy5oYHEsJfL__eWPJPdwJ3Gy5szrQwFJir67u51pcTyJt1d-5senAN7vgpQR2shcFXYX-7womJBnVbmZFNOOC64tHP0pka7X5kGz5S1LaR7Rhat9ByVKOZdFdDGof39V-RZVDRbAPiHCZ94eQqjZHsjPb57d8FlrvyCjl6651WAHZaFq6PdkQ3FN5qLwIkk1CZdSKFFPQnxybSt40BO0OC5g_F9ctPPnRbodRtxeK1yfHJtT8IqniXuBBguhVDG0ofmTAhcEQ7jB6vC4VoahLp-z4l7IXc7zvvrIwylL_kgph1fHEg6vBTpMotnCM_GlRcXEkGEGM0wL7AEyb-sUM5egGDqmGQ_O2Noo82eFSyGeG97Gt8oGiRp6aQydWMOP4e6gM3rRJAO0eo","k":"lrHhRKprM5Qk5S9sWNS_Vg","u":"XCGh6TEHJIU","ach":1,"sek":"WQ4fpf2x-0ZbGuWz9sgbhA"}]'
+  recorded_at: Wed, 28 Jul 2021 16:21:16 GMT
+- request:
+    method: post
+    uri: https://eu.api.mega.co.nz/cs?id=424820696&sid=lLs6P9WG-I4U8rg0ScrOdlhDR2g2VEVISklVR1FauNbPUEvrxR6FI8_mbQ
+    body:
+      encoding: UTF-8
+      string: '[{"a":"f","c":1}]'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Connection:
+      - keep-alive
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Headers:
+      - Content-Type, MEGA-Chrome-Antileak
+      Access-Control-Expose-Headers:
+      - Original-Content-Length
+      Access-Control-Max-Age:
+      - '86400'
+      Original-Content-Length:
+      - '1451'
+      Content-Length:
+      - '788'
+      Connection:
+      - keep-alive
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"ok0":[],"f":[{"h":"qM4XwIzL","p":"","u":"XCGh6TEHJIU","t":2,"a":"","ts":1622033650},{"h":"3cx1gAJT","p":"","u":"XCGh6TEHJIU","t":3,"a":"","ts":1622033650},{"h":"fUpVhYBA","p":"","u":"XCGh6TEHJIU","t":4,"a":"","ts":1622033650},{"h":"rYo1GYhD","p":"qM4XwIzL","u":"XCGh6TEHJIU","t":0,"a":"L9BPZUVOc3l-RubKodCKKROE9Yl0AdaK0rEFhegeMGC6vUWKSCLhWlBV_kRCl6yd-RMglau5KlpB-VzNL008JMru7oMdACceQzGGww-jBfI","k":"XCGh6TEHJIU:BmjKcYTNX4mFnVKQgJ6j4KHL6m9TPWWA-AEQ8GhXPZY","s":1496628,"fa":"744:8*8LcUnw6huFI/882:0*HN65lJvKLvA/826:1*QmbOWv5vTqY","ts":1622033653},{"h":"bJwRjIAb","p":"qM4XwIzL","u":"XCGh6TEHJIU","t":1,"a":"M3oWiD9syMatMqu6OI4BHLtXg5KTI8fbogMWoaOa5m0","k":"XCGh6TEHJIU:-NyHJCOgTcBJ1p50n4gUoA","ts":1622038807},{"h":"GFoW3B7R","p":"bJwRjIAb","u":"XCGh6TEHJIU","t":0,"a":"nn_vHzoh5Kmeyuo7l23zHYNoiE_seMAkgPH7gUEziPaoyl5dWfZxW91qsXWLQ8pjc9VI0DwYNL3pCYicmMssVg","k":"XCGh6TEHJIU:k5HPRxiIb9LP4oQ94K0dEztpboXRj6yVeHXXVQaLvUU","s":25447,"ts":1622063621},{"h":"eN5ShDyL","p":"bJwRjIAb","u":"XCGh6TEHJIU","t":0,"a":"RYFqSEpvxx6COTYUPDPGfsRHPei0zeH75NAzu8lAkadcckSt36oulwMtqkEGC9Ctpzqh3cL8UButF4ntieX2tQ","k":"XCGh6TEHJIU:o2oHI--7l9TJilSHwdAeuncRd0F3N3mhIvWzK2QxHLI","s":25447,"ts":1622063663}],"ok":[],"s":[],"ps":[],"opc":[],"ipc":[],"ph":[],"uph":[],"pup":[],"mcf":{"c":[],"cf":[],"pc":[],"pcf":[]},"mcna":[],"mcpna":[],"u":[{"u":"XCGh6TEHJIU","c":2,"m":"sbuza@gradient-ascent.com","m2":["sbuza@gradient-ascent.com"]}],"tct":0,"sn":"B8miRNEB_lc","noc":1}]'
+  recorded_at: Wed, 28 Jul 2021 16:21:18 GMT
+recorded_with: VCR 6.0.0

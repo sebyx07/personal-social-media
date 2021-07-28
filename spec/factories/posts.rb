@@ -47,7 +47,8 @@ FactoryBot.define do
           create_list(:psm_file_variant, 3, :test_image_variant, psm_file: psm_file).each do |psm_file_variant|
             create(:psm_cdn_file, cdn_storage_provider: test_cdn_adapter, psm_file_variant: psm_file_variant)
 
-            test_cdn_adapter.upload(image, psm_file_variant.external_file_name)
+            uploaded_file = FileSystemAdapters::UploadFile.new(psm_file_variant.external_file_name, image)
+            test_cdn_adapter.upload(uploaded_file)
           end
         end
 

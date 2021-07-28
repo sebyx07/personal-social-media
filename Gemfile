@@ -94,7 +94,7 @@ gem "redcarpet", "~> 3.5", ">= 3.5.1"
 gem "render_async", "~> 2.1", ">= 2.1.10"
 gem "request_store", "~> 1.5"
 gem "request_store_rails-sidekiq", "~> 0.1.0"
-gem "rmega", github: "personal-social-media/rmega", ref: "bc1ffc624cfb30197fea1b042ff1115961ad89f5"
+gem "rmega", github: "personal-social-media/rmega", ref: "8c189b2572b5f50ba1b5f81479cf2f6fe882dc12"
 gem "schmooze", "~> 0.2.0"
 gem "sidekiq", "~> 6.2", ">= 6.2.1", require: %w(sidekiq/web)
 gem "sidekiq-cron", "~> 1.2", require: %w(sidekiq/cron/web)

@@ -4,11 +4,17 @@ RSpec.shared_examples "storage remove context" do
   let(:test_file_path) { Rails.root.join("spec/support/resources/picture.jpg") }
   let(:file_path) { test_file_path }
   let(:instance) do
-    described_class.new
+    described_class.new.tap do |i|
+      i.set_account(account)
+    end
   end
 
   describe "#remove" do
-    let(:filename) { SecureRandom.hex }
+    around do |ex|
+      VCR.use_cassette("storage/#{described_class}/remove") do
+        ex.run
+      end
+    end
 
     let(:upload_file) do
       FileSystemAdapters::UploadFile.new(filename, file)
@@ -19,15 +25,19 @@ RSpec.shared_examples "storage remove context" do
       instance.remove(filename)
     end
 
-    it "removes the file" do
+    it "removes the file", vcr: { record: :once, match_requests_on: [] } do
       subject
 
-      expect(described_class.new.exists?(filename)).to be_falsey
+      expect(instance.exists?(filename)).to be_falsey
     end
   end
 
   describe "#remove_multi" do
-    let(:filenames) { 4.times.map { SecureRandom.hex } }
+    around do |ex|
+      VCR.use_cassette("storage/#{described_class}/remove_multi") do
+        ex.run
+      end
+    end
 
     let(:upload_files) do
       filenames.map do |filename|
@@ -40,10 +50,10 @@ RSpec.shared_examples "storage remove context" do
       instance.remove_multi(filenames)
     end
 
-    it "removes multiple files" do
+    it "removes multiple files", vcr: { record: :once, match_requests_on: [] } do
       subject
       filenames.each do |filename|
-        expect(described_class.new.exists?(filename)).to be_falsey
+        expect(instance.exists?(filename)).to be_falsey
       end
     end
   end

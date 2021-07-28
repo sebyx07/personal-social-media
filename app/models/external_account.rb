@@ -26,7 +26,7 @@ class ExternalAccount < ApplicationRecord
   after_commit :start_bootstrap, on: :create unless Rails.env.test?
   ADAPTERS_TABLE = {
     mega_upload: {
-      klass: "PsmPermanentFile::Adapters::MegaUpload",
+      klass: "FileSystemAdapters::MegaUpload",
       types: %i(permanent_storage)
     }
   }
