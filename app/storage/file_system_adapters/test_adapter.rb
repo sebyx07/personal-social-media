@@ -2,82 +2,71 @@
 
 module FileSystemAdapters
   class TestAdapter < BaseAdapter
-    class << self
-      def test_clean!
-        @@cache = {} if @@cache
-      end
-    end
-
     def bootstrap
       @@cache ||= {}
     end
 
-    def upload(file, name)
+    def upload(upload_file)
+      validate_upload_file(upload_file)
       bootstrap
-      @@cache[name] = {
-        file: file,
+      @@cache[upload_file.name] = {
+        file: upload_file.file,
         url: "/fake-url/" + SecureRandom.hex
       }
     end
 
-    def upload_multi(files)
-      files.each do |file|
-        upload(file)
+    def upload_multi(upload_files)
+      upload_files.each { |upload| validate_upload_file(upload) }
+
+      upload_files.each do |upload_file|
+        upload(upload_file)
       end
     end
 
-    def remove(file)
-      @@cache.delete([identify_file(file)])
+    def remove(filename)
+      @@cache.delete(filename)
     end
 
-    def remove_multi(files)
-      files.each { |f| remove(f) }
-    end
-
-    def url(file)
-      fetch_file(file).tap do |f|
-        raise_file_not_found(file) unless f
+    def remove_multi(filenames)
+      filenames.each do |filename|
+        remove(filename)
       end
     end
 
-    def urls(files)
-      files.map { |f| url(f) }
+    def exists?(filename)
+      @@cache.keys.include?(filename)
     end
 
-    def exists?(file)
-      fetch_file(file).present?
+    def resolve_url_for_file(filename)
+      @@cache[filename][:url]
     end
 
-    def multi_exists?(psm_permanent_files)
-      raise NotImplementedError, "no multi_exists? defined"
+    def resolve_urls_for_files(filenames)
+      result = {}
+      filenames.map do |filename|
+        result[filename] = resolve_url_for_file(filename)
+      end
+
+      result
     end
 
-    def resolve_urls_for_file(variant_file_name)
-      @@cache[variant_file_name][:url]
+    def download_file(filename)
+      @@cache[filename][:file]
     end
 
-    def available_free_space
-      raise NotImplementedError, "no available_free_space defined"
-    end
+    def download_files(filenames)
+      result = {}
+      filenames.each do |filename|
+        result[filename] = download_file(filename)
+      end
 
-    def max_data_transfer_available
-      raise NotImplementedError, "no max_data_transfer_available defined"
+      result
     end
 
     class << self
       def test_cleanup!
-        dir = new.send(:storage_default_dir_name)
-        FileUtils.rm_rf(dir)
+        @@cache = {}
       end if Rails.env.test?
     end
-
-    private
-      def identify_file(file)
-        File.basename(file.path)
-      end
-
-      def fetch_file(file)
-        @@cache[identify_file(file)]
-      end
   end
 end

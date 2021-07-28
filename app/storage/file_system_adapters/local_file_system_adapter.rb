@@ -9,43 +9,59 @@ module FileSystemAdapters
       FileUtils.mkdir_p(storage_default_dir_name)
     end
 
-    def upload(file)
-      bootstrap
-      file.close
-      raise_upload_error("no physical_file") if file.blank?
+    def upload(upload_file, call_bootstrap: true)
+      bootstrap if call_bootstrap
+      validate_upload_file(upload_file)
 
-      output_path = storage_default_dir_name + "/" + File.basename(file)
-      FileUtils.mv(file.path, output_path)
+      FileUtils.mv(upload_file.file.path, filename_to_path(upload_file.name))
     end
 
-    def upload_multi(files)
-      files.each do |file|
-        upload(file)
+    def upload_multi(upload_files)
+      bootstrap
+      upload_files.each { |upload| validate_upload_file(upload) }
+
+      upload_files.each do |upload_file|
+        upload(upload_file, call_bootstrap: false)
       end
     end
 
-    def remove(psm_permanent_file)
-      raise NotImplementedError, "no remove defined"
+    def remove(filename)
+      File.delete(filename_to_path(filename))
     end
 
-    def remove_multi(psm_permanent_files)
-      raise NotImplementedError, "no remove_multi defined"
+    def remove_multi(filenames)
+      paths = filenames.map { |f| filename_to_path(f) }
+      FileUtils.rm(paths)
     end
 
-    def exists?(psm_permanent_file)
-      raise NotImplementedError, "no exists? defined"
+    def exists?(filename)
+      File.exist?(filename_to_path(filename))
     end
 
-    def multi_exists?(psm_permanent_files)
-      raise NotImplementedError, "no multi_exists? defined"
+    def resolve_url_for_file(filename)
+      "/#{upload_dir_path}/#{filename}"
     end
 
-    def available_free_space
-      raise NotImplementedError, "no available_free_space defined"
+    def resolve_urls_for_files(filenames)
+      result = {}
+      filenames.map do |filename|
+        result[filename] = resolve_url_for_file(filename)
+      end
+
+      result
     end
 
-    def max_data_transfer_available
-      raise NotImplementedError, "no max_data_transfer_available defined"
+    def download_file(filename)
+      File.open(filename_to_path(filename))
+    end
+
+    def download_files(filenames)
+      result = {}
+      filenames.each do |filename|
+        result[filename] = download_file(filename)
+      end
+
+      result
     end
 
     class << self
@@ -56,17 +72,9 @@ module FileSystemAdapters
     end
 
     private
-      def raise_adapter_error(msg, error)
-        raise Error, "#{self.class.name} - #{msg} - #{error.message}"
-      end
-
-      def raise_upload_error(msg)
-        raise UploadError, "#{self.class.name} - #{}"
-      end
-
       def storage_default_dir_name
         return @storage_default_dir_name if defined? @storage_default_dir_name
-        dir = "psm-do-not-delete/uploads"
+        dir = upload_dir_path
         if Rails.env.test?
           dir = "tmp/" + dir + "/test"
         elsif Rails.env.development?
@@ -76,6 +84,14 @@ module FileSystemAdapters
         end
 
         @storage_default_dir_name = dir
+      end
+
+      def upload_dir_path
+        "psm-do-not-delete/uploads"
+      end
+
+      def filename_to_path(filename)
+        storage_default_dir_name + "/" + filename
       end
   end
 end

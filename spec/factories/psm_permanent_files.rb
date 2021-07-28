@@ -17,6 +17,7 @@
 #
 # Indexes
 #
+#  index_psm_permanent_files_on_external_file_name             (external_file_name) UNIQUE
 #  index_psm_permanent_files_on_permanent_storage_provider_id  (permanent_storage_provider_id)
 #
 # Foreign Keys

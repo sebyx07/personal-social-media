@@ -29,7 +29,7 @@ RSpec.describe SpHandleUploadedFileJob do
       described_class.new.perform(file_path, upload_file.id)
     end
 
-    xit "attaches the image to the post and updates content" do
+    it "attaches the image to the post and updates content" do
       expect do
         subject
         post.reload

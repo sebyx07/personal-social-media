@@ -13,12 +13,9 @@ RSpec.shared_examples "virtual file management" do
 
   describe "upload" do
     let(:cassette_name) { base_cassette_name + "upload" }
-    before do
-      expect(ExternalAccount::PermanentStorageAccount).to receive(:current).and_return(account)
-    end
 
     subject do
-      VirtualFile.new(original_physical_file: file).save!(record)
+      VirtualFile.new(original_physical_file: file).save!
     end
 
     it "uploads file", vcr: { record: :once, match_requests_on: [] } do

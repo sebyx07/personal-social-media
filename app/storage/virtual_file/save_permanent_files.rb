@@ -20,7 +20,7 @@ class VirtualFile
       permanent_psm_files.each do |permanent_file|
         archive = permanent_file.virtual_file&.protected_archive&.archive
         notify_progress.notify_upload_permanent_file(permanent_file, :start)
-        permanent_file.permanent_storage_provider.upload(archive)
+        permanent_file.permanent_storage_provider.upload(upload_file(archive))
         notify_progress.notify_upload_permanent_file(permanent_file, :end)
       end
       update_permanent_psm_files!
@@ -70,6 +70,10 @@ class VirtualFile
 
       def notify_progress
         @notify_progress ||= UploadsService::NotifyProgress.new
+      end
+
+      def upload_file(archive)
+        FileSystemAdapters::UploadFile.new(protected_archive.new_archive_name, archive)
       end
   end
 end

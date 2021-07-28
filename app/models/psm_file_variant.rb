@@ -19,6 +19,7 @@
 #
 # Indexes
 #
+#  index_psm_file_variants_on_external_file_name            (external_file_name) UNIQUE
 #  index_psm_file_variants_on_psm_file_id_and_variant_name  (psm_file_id,variant_name) UNIQUE
 #
 # Foreign Keys
@@ -35,6 +36,8 @@ class PsmFileVariant < ApplicationRecord
   belongs_to :psm_file
   has_many :psm_permanent_files, dependent: :destroy
   has_many :psm_cdn_files, dependent: :destroy
+  validates :external_file_name, uniqueness: true
+  validates :psm_file_id, uniqueness: { scope: :variant_name }
 
   after_initialize do |psm_file_variant|
     next if psm_file_variant.persisted?
@@ -61,7 +64,7 @@ class PsmFileVariant < ApplicationRecord
   end
 
   def new_variant_file_name
-    @new_variant_file_name ||= SecureRandom.urlsafe_base64(32) + ".#{File.extname(original_physical_file)}"
+    @new_variant_file_name ||= SecureRandom.hex(50) + File.extname(original_physical_file)
   end
 
   def original?

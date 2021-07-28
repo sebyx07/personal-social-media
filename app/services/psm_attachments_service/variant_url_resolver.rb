@@ -10,7 +10,7 @@ module PsmAttachmentsService
 
     def resolve(external_file_name)
       {
-        urls: cdn_storage_provider.resolve_urls_for_file(external_file_name),
+        urls: cdn_storage_provider.resolve_url_for_file(external_file_name),
       }
     end
   end

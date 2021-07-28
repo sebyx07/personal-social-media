@@ -5,6 +5,8 @@ module FileSystemAdapters
     class Error < StandardError; end
     class UploadError < StandardError; end
     class FileNotFound < StandardError; end
+    class NotAllowedInProduction < StandardError; end
+    class InvalidUploadFile < StandardError; end
     attr_reader :storage_account
 
     def set_account(storage_account)
@@ -12,51 +14,51 @@ module FileSystemAdapters
     end
 
     def bootstrap
-      raise NotImplementedError, "no bootstrap defined"
+      raise_not_implemented(:bootstrap)
     end
 
-    def upload(file)
-      raise NotImplementedError, "no upload defined"
+    def upload(upload_file)
+      raise_not_implemented(:upload)
     end
 
-    def upload_multi(files)
-      raise NotImplementedError, "no upload_multi defined"
+    def upload_multi(upload_files)
+      raise_not_implemented(:upload_multi)
     end
 
-    def url(identifier)
-      raise NotImplementedError, "no url defined"
+    def remove(filename)
+      raise_not_implemented(:remove)
     end
 
-    def multi_urls(identifiers)
-      raise NotImplementedError, "no multi_urls defined"
+    def remove_multi(filenames)
+      raise_not_implemented(:remove_multi)
     end
 
-    def remove(identifier)
-      raise NotImplementedError, "no remove defined"
-    end
-
-    def remove_multi(identifiers)
-      raise NotImplementedError, "no remove_multi defined"
-    end
-
-    def exists?(identifier)
-      raise NotImplementedError, "no exists? defined"
-    end
-
-    def multi_exists?(identifiers)
-      raise NotImplementedError, "no multi_exists? defined"
+    def exists?(filename)
+      raise_not_implemented(:exists?)
     end
 
     def available_free_space
-      raise NotImplementedError, "no available_free_space defined"
+      raise_not_implemented(:available_free_space)
     end
 
     def max_data_transfer_available
-      raise NotImplementedError, "no max_data_transfer_available defined"
+      raise_not_implemented(:max_data_transfer_available)
     end
 
-    def resolve_urls_for_file(_)
-      raise NotImplementedError, "no resolve_urls_for_file defined"
+    def resolve_url_for_file(filename)
+      raise_not_implemented(:resolve_urls_for_file)
+    end
+
+    def resolve_urls_for_files(filenames)
+      raise_not_implemented(:resolve_urls_for_files)
+    end
+
+    def download_file(filename)
+      raise_not_implemented(:download_file)
+    end
+
+    def download_files(filenames)
+      raise_not_implemented(:download_files)
     end
 
     private
@@ -68,12 +70,16 @@ module FileSystemAdapters
         raise UploadError, "#{self.class.name} - #{msg}"
       end
 
+      def raise_not_implemented(method)
+        raise NotImplementedError, "no #{method} implemented for #{self.class.name}"
+      end
+
       def storage_default_dir_name
         "psm-do-not-delete"
       end
 
-      def raise_file_not_found(identity)
-        raise FileNotFound, "#{self.class.name} - file not found - #{identity}"
+      def raise_file_not_found(filename)
+        raise FileNotFound, "#{self.class.name} - file not found - #{filename}"
       end
 
       def identify_file(_)
@@ -82,6 +88,15 @@ module FileSystemAdapters
 
       def fetch_file
         raise NotImplementedError, "no fetch_file defined"
+      end
+
+      def dont_allow_in_production
+        return unless Rails.env.production?
+        raise NotAllowedInProduction
+      end
+
+      def validate_upload_file(upload_file)
+        raise InvalidUploadFile unless upload_file.is_a?(UploadFile)
       end
   end
 end

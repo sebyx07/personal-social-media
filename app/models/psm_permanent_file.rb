@@ -17,6 +17,7 @@
 #
 # Indexes
 #
+#  index_psm_permanent_files_on_external_file_name             (external_file_name) UNIQUE
 #  index_psm_permanent_files_on_permanent_storage_provider_id  (permanent_storage_provider_id)
 #
 # Foreign Keys
@@ -37,6 +38,7 @@ class PsmPermanentFile < ApplicationRecord
   encrypts :archive_password
   validates :archive_password, presence: true
   validates :size_bytes, presence: true, numericality: { greater_than: 0 }, on: :update, if: -> { ready? }
+  validates :external_file_name, uniqueness: true
 
   private
     def update_permanent_storage_provider

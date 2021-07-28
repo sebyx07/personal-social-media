@@ -6,7 +6,7 @@ ActiveAdmin.register_page "Documentation" do
 
   content title: "Documentation" do
     div class: "blank_slate_container" do
-      render_markdown(Rails.root.join("documentation/index.md"))
+      render_markdown(Rails.root.join("documentation/readme.md"))
     end
   end
 

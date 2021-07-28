@@ -16,11 +16,14 @@ class VirtualFile
       end
 
       psm_cdn_files.group_by(&:cdn_storage_provider).each do |cdn_storage_provider, grouped_psm_cdn_files|
-        cdn_files = grouped_psm_cdn_files.map do |psm_cdn_file|
-          psm_cdn_file.psm_file_variant.variant_file
+        upload_files = grouped_psm_cdn_files.map do |psm_cdn_file|
+          FileSystemAdapters::UploadFile.new(
+            psm_cdn_file.psm_file_variant.external_file_name,
+            psm_cdn_file.psm_file_variant.variant_file
+          )
         end
 
-        cdn_storage_provider.upload_multi(cdn_files)
+        cdn_storage_provider.upload_multi(upload_files)
       end
 
       psm_cdn_files.each do |psm_cdn_file|

@@ -6,6 +6,8 @@
 #
 #  id                      :bigint           not null, primary key
 #  cache_url               :text
+#  parts                   :integer          default(0), not null
+#  parts_metadata          :jsonb            not null
 #  status                  :string           default("pending"), not null
 #  upload_percentage       :integer          default(0), not null
 #  created_at              :datetime         not null

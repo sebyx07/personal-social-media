@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_21_010125) do
+ActiveRecord::Schema.define(version: 2021_07_28_123940) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -216,6 +216,8 @@ ActiveRecord::Schema.define(version: 2021_07_21_010125) do
     t.integer "upload_percentage", default: 0, null: false
     t.bigint "cdn_storage_provider_id", null: false
     t.text "cache_url"
+    t.integer "parts", default: 0, null: false
+    t.jsonb "parts_metadata", default: "{}", null: false
     t.index ["cdn_storage_provider_id"], name: "index_psm_cdn_files_on_cdn_storage_provider_id"
   end
 
@@ -241,6 +243,7 @@ ActiveRecord::Schema.define(version: 2021_07_21_010125) do
     t.bigint "size_bytes", default: 0, null: false
     t.string "external_file_name", null: false
     t.jsonb "variant_metadata", default: "{}", null: false
+    t.index ["external_file_name"], name: "index_psm_file_variants_on_external_file_name", unique: true
     t.index ["psm_file_id", "variant_name"], name: "index_psm_file_variants_on_psm_file_id_and_variant_name", unique: true
   end
 
@@ -266,6 +269,7 @@ ActiveRecord::Schema.define(version: 2021_07_21_010125) do
     t.integer "upload_percentage", default: 0, null: false
     t.string "external_file_name", null: false
     t.bigint "permanent_storage_provider_id", null: false
+    t.index ["external_file_name"], name: "index_psm_permanent_files_on_external_file_name", unique: true
     t.index ["permanent_storage_provider_id"], name: "index_psm_permanent_files_on_permanent_storage_provider_id"
   end
 

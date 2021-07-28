@@ -19,6 +19,7 @@
 #
 # Indexes
 #
+#  index_psm_file_variants_on_external_file_name            (external_file_name) UNIQUE
 #  index_psm_file_variants_on_psm_file_id_and_variant_name  (psm_file_id,variant_name) UNIQUE
 #
 # Foreign Keys

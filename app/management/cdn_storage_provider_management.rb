@@ -42,11 +42,7 @@ ActiveAdmin.register CdnStorageProvider, namespace: :management do
 
   controller do
     def translated_cdn_storage_providers
-      @translated_cdn_storage_providers ||= CdnStorageProvider::PERMITTED_ADAPTERS.map do |adapter|
-        full_name = [I18n.t("storage_adapters.#{adapter}.name"), I18n.t("storage_adapters.#{adapter}.description")].join(" ")
-
-        [full_name, adapter]
-      end
+      @translated_cdn_storage_providers ||= CdnStorageProviderService::CdnAdapters.new.translated_permitted_adapters
     end
 
     delegate :persisted?, to: :@cdn_storage_provider

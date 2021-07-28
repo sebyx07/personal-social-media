@@ -55,7 +55,7 @@ module ArchiveService
     end
 
     def new_archive_name
-      @new_archive_name ||= "#{SecureRandom.hex}-#{file_name}.zip"
+      @new_archive_name ||= "#{SecureRandom.hex(50)}.zip"
     end
 
     private
