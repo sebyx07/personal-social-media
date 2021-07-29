@@ -1,0 +1,111 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://gateway.us1.storjshare.io/
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.118.0 ruby/3.0.1 x86_64-linux aws-sdk-s3/1.97.0
+      Host:
+      - gateway.us1.storjshare.io
+      X-Amz-Date:
+      - 20210729T004119Z
+      X-Amz-Content-Sha256:
+      - e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=jwyu65oy7umx6qoipidlus7jmslq/20210729/us-east-1/s3/aws4_request,
+        SignedHeaders=host;user-agent;x-amz-content-sha256;x-amz-date, Signature=e0834d921819d9d666bc25a5a919adf71039cd43328599cd577068e290867abc
+      Content-Length:
+      - '0'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '270'
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Content-Type:
+      - application/xml
+      Date:
+      - Thu, 29 Jul 2021 00:41:27 GMT
+      Server:
+      - MinIO
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 16961C2B2C11EEE9
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListAllMyBucketsResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>02d6176db174dc93cb1b899f7c6078f08654445fe8cf1b6ce98d8855f66bdbf4</ID><DisplayName></DisplayName></Owner><Buckets></Buckets></ListAllMyBucketsResult>
+  recorded_at: Thu, 29 Jul 2021 00:41:27 GMT
+- request:
+    method: put
+    uri: https://gateway.us1.storjshare.io/psm-do-not-delete
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.118.0 ruby/3.0.1 x86_64-linux aws-sdk-s3/1.97.0
+      Host:
+      - gateway.us1.storjshare.io
+      X-Amz-Date:
+      - 20210729T004127Z
+      X-Amz-Content-Sha256:
+      - e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=jwyu65oy7umx6qoipidlus7jmslq/20210729/us-east-1/s3/aws4_request,
+        SignedHeaders=host;user-agent;x-amz-content-sha256;x-amz-date, Signature=38425bb94df7b39db64fa9c7d7dbd57d97f299e1fadfe17995815c3569840d51
+      Content-Length:
+      - '0'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Accept-Ranges:
+      - bytes
+      Content-Length:
+      - '0'
+      Content-Security-Policy:
+      - block-all-mixed-content
+      Date:
+      - Thu, 29 Jul 2021 00:41:44 GMT
+      Location:
+      - "/psm-do-not-delete"
+      Server:
+      - MinIO
+      Vary:
+      - Origin
+      X-Amz-Request-Id:
+      - 16961C2F0B4CFCCE
+      X-Xss-Protection:
+      - 1; mode=block
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Thu, 29 Jul 2021 00:41:44 GMT
+recorded_with: VCR 6.0.0

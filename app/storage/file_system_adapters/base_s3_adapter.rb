@@ -76,5 +76,33 @@ module FileSystemAdapters
           bucket.name == storage_default_dir_name
         end
       end
+
+      def client
+        return @client if defined? @client
+        update_aws
+
+        @client = Aws::S3::Client.new
+      end
+
+      def update_aws
+        Aws.config.update(
+          endpoint: s3_endpoint,
+          access_key_id: storage_account.public_key,
+          secret_access_key: storage_account.secret_key,
+          force_path_style: s3_force_path_style,
+          region: s3_region
+        )
+      end
+
+      def s3_force_path_style
+        true
+      end
+
+      def s3_region
+        "us-east-1"
+      end
+
+      def s3_endpoint
+      end
   end
 end

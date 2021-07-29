@@ -30,7 +30,8 @@ class ExternalAccount < ApplicationRecord
       types: %i(permanent_storage)
     },
     storj: {
-      klass: "FileSystemAdapters::StorjAdapter"
+      klass: "FileSystemAdapters::StorjAdapter",
+      types: %i(permanent_storage cdn_storage)
     }
   }
 
