@@ -27,5 +27,13 @@ FactoryBot.define do
       email { ENV["MEGA_UPLOAD_EMAIL"] }
       password { ENV["MEGA_UPLOAD_PASSWORD"] }
     end
+
+    trait :storj do
+      name { :storj }
+      service { :storj }
+      usage { :cdn_storage }
+      secret_key { ENV["STORJ_SECRET_KEY"] }
+      public_key { ENV["STORJ_PUBLIC_KEY"] }
+    end
   end
 end

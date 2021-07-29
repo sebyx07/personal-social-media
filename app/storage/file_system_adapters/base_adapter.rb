@@ -8,6 +8,7 @@ module FileSystemAdapters
     class NotAllowedInProduction < StandardError; end
     class InvalidUploadFile < StandardError; end
     class NoStorageAccount < StandardError; end
+    class AdapterError < StandardError; end
     attr_reader :storage_account
 
     def set_account(storage_account)
@@ -106,6 +107,10 @@ module FileSystemAdapters
 
       def check_storage_account!
         raise NoStorageAccount if storage_account.blank?
+      end
+
+      def raise_adapter_error(message)
+        raise AdapterError, message
       end
   end
 end

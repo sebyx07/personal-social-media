@@ -20,14 +20,17 @@
 #
 class ExternalAccount < ApplicationRecord
   encrypts :email, :password, :public_key, :secret, :secret_key, :username
-  str_enum :service, %i(mega_upload)
+  str_enum :service, %i(mega_upload storj)
   str_enum :status, %i(initializing ready unavaialble)
-  str_enum :usage, %i(permanent_storage)
+  str_enum :usage, %i(permanent_storage cdn_storage)
   after_commit :start_bootstrap, on: :create unless Rails.env.test?
   ADAPTERS_TABLE = {
     mega_upload: {
       klass: "FileSystemAdapters::MegaUpload",
       types: %i(permanent_storage)
+    },
+    storj: {
+      klass: "FileSystemAdapters::StorjAdapter"
     }
   }
 
