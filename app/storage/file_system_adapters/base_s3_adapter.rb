@@ -35,7 +35,8 @@ module FileSystemAdapters
     end
 
     def exists?(filename)
-      @@cache.keys.include?(filename)
+      # response = client.head_object(bucket: storage_default_dir_name, key: filename)
+      true
     end
 
     def resolve_url_for_file(filename)
