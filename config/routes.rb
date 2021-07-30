@@ -96,6 +96,7 @@ Rails.application.routes.draw do
 
   constraints LoggedInConstraint do
     mount RailsServerMonitor::Engine => "/system-information"
+    mount RailsPerformance::Engine, at: "performance"
 
     if DeveloperService::IsEnabled.is_enabled?
       mount RailsAdmin::Engine => "/admin", as: "rails_admin"
