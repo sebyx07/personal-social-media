@@ -39,7 +39,9 @@ module FileSystemAdapters
     end
 
     def resolve_url_for_file(filename)
-      @@cache[filename][:url]
+      presigner.presigned_request(
+        :get_object, bucket: storage_default_dir_name, key: filename
+      ).first
     end
 
     def resolve_urls_for_files(filenames)
@@ -84,6 +86,12 @@ module FileSystemAdapters
       def resource_bucket
         return @resource_bucket if @resource_bucket.present?
         @resource_bucket = resource.bucket(storage_default_dir_name)
+      end
+
+      def presigner
+        return @presigner if defined? @presigner
+        update_aws
+        @presigner = Aws::S3::Presigner.new
       end
 
       def client

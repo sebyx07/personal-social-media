@@ -12,7 +12,7 @@ RSpec.describe FileSystemAdapters::TestAdapter do
   include_examples "storage resolve url context"
   include_examples "storage download context"
 
-  let(:account) { nil }
+  let(:instance) { described_class.new }
   let(:file) { SafeFile.open(file_path) }
   let(:filename) { SecureRandom.hex }
   let(:filenames) { 4.times.map { SecureRandom.hex } }

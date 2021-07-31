@@ -3,12 +3,13 @@
 RSpec.shared_examples "storage resolve url context" do
   let(:test_file_path) { Rails.root.join("spec/support/resources/picture.jpg") }
   let(:file_path) { test_file_path }
-  let(:instance) do
-    described_class.new
-  end
 
   describe "#resolve_url_for_file" do
-    let(:filename) { SecureRandom.hex }
+    around do |ex|
+      VCR.use_cassette("storage/#{described_class}/resolve_url") do
+        ex.run
+      end
+    end
 
     let(:upload_file) do
       FileSystemAdapters::UploadFile.new(filename, file)
@@ -19,13 +20,17 @@ RSpec.shared_examples "storage resolve url context" do
       instance.resolve_url_for_file(filename)
     end
 
-    it "resolves the url for file" do
-      expect(subject).to be_present
+    it "resolves the url for file", vcr: { record: :once, match_requests_on: [], preserve_exact_body_bytes: true } do
+      expect(subject).to be_a(String)
     end
   end
 
   describe "#resolve_urls_for_files" do
-    let(:filenames) { 4.times.map { SecureRandom.hex } }
+    around do |ex|
+      VCR.use_cassette("storage/#{described_class}/resolve_urls") do
+        ex.run
+      end
+    end
 
     let(:upload_files) do
       filenames.map do |filename|
@@ -38,9 +43,13 @@ RSpec.shared_examples "storage resolve url context" do
       instance.resolve_urls_for_files(filenames)
     end
 
-    it "resolves the urls for multiple files" do
+    it "resolves the urls for multiple files", vcr: { record: :once, match_requests_on: [], preserve_exact_body_bytes: true } do
       expect(subject).to be_present
       expect(subject).to be_a(Hash)
+
+      subject.keys.each do |url|
+        expect(url).to be_a(String)
+      end
     end
   end
 end
