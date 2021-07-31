@@ -21,22 +21,5 @@ RSpec.describe FileSystemAdapters::StorjAdapter, skip: ENV["STORJ_SECRET_KEY"].b
 
   include_examples "storage upload context"
   include_examples "storage remove context"
-
-  # context "download" do
-  #   include_examples "storage download context"
-  #
-  #   after do
-  #     next clean_download_file(subject) if subject.is_a?(File)
-  #     next subject.values.each do |file|
-  #       clean_download_file(file)
-  #     end if subject.is_a?(Hash)
-  #
-  #     raise "invalid subject"
-  #   end
-  # end
-  #
-  # def clean_download_file(file)
-  #   file.close
-  #   File.delete(file.path)
-  # end
+  include_examples "storage download context"
 end

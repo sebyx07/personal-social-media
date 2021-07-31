@@ -21,17 +21,5 @@ RSpec.describe FileSystemAdapters::WasabiAdapter, skip: ENV["WASABI_SECRET_KEY"]
 
   include_examples "storage upload context"
   include_examples "storage remove context"
-
-  context "download" do
-    include_examples "storage download context"
-
-    after do
-      raise "invalid subject" unless subject.is_a?(File) || subject.is_a?(Hash)
-    end
-  end
-
-  def clean_download_file(file)
-    file.close
-    File.delete(file.path)
-  end
+  include_examples "storage download context"
 end

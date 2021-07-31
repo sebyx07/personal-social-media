@@ -55,6 +55,8 @@ module FileSystemAdapters
       SafeFile.open(SafeTempfile.generate_new_temp_file_path, "wb") do |file|
         client.get_object({ bucket: storage_default_dir_name, key: filename }, target: file)
       end
+    rescue Aws::S3::Errors::NotFound
+      nil
     end
 
     def download_files(filenames)
