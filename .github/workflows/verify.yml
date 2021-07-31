@@ -130,6 +130,10 @@ jobs:
         run: |
           bundle exec rake assets:precompile
 
+      - name: Copy .env
+        run: |
+          cp .env.ci .env
+
       - name: Run tests
         env:
           RAILS_ENV: test

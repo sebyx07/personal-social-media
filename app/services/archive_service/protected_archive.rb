@@ -4,7 +4,7 @@ module ArchiveService
   class ProtectedArchive
     class Error < StandardError; end
     attr_reader :file, :archive, :password, :file_name
-    def initialize(file: nil, archive: nil, password:, file_name:)
+    def initialize(file: nil, archive: nil, password:, file_name: nil)
       @file = file
       @archive = archive
       @password = password
@@ -39,9 +39,9 @@ module ArchiveService
 
       command = "7z e #{archive.path} -o'#{new_file_dir_name}' -p#{password} > /dev/null"
       system(command)
-      raise Error, "file not created" unless File.exist?(new_file_path)
+      raise Error, "file not created" unless SafeFile.exist?(new_file_path)
 
-      @file ||= SafeFile.open(new_archive_path)
+      @file ||= SafeFile.open(new_file_path)
     end
 
     def clean_archive!
@@ -49,26 +49,27 @@ module ArchiveService
       FileUtils.rm_rf([archive.path])
     end
 
-    def clean_file!
-      return if file.blank?
-      FileUtils.rm_rf([file.path])
+    def clean_output_file!
+      return if new_file_path.blank?
+      FileUtils.rm_rf([new_file_path])
     end
 
     def new_archive_name
-      @new_archive_name ||= "#{SecureRandom.hex(50)}.zip"
+      new_archive_path.sub("/tmp", "")
     end
 
     private
       def new_archive_path
-        @new_archive_path ||= "/tmp/#{new_archive_name}"
+        @new_archive_path ||= SafeTempfile.generate_new_temp_file_path(extension: :zip)
       end
 
       def new_file_dir_name
-        @new_file_dir_name ||= "/tmp/#{SecureRandom.hex}-#{file_name.parameterize}"
+        @new_file_dir_name ||= SafeTempfile.generate_new_temp_file_path
       end
 
       def new_file_path
-        @new_file_path ||= "#{new_file_dir_name}/#{file_name}"
+        return @new_file_path if @new_file_path.present?
+        @new_file_path = Dir.glob("#{new_file_dir_name}/*").first
       end
 
       def check_file
@@ -76,7 +77,7 @@ module ArchiveService
       end
 
       def check_archive
-        raise Error, "no file" if file.blank?
+        raise Error, "no archive" if archive.blank?
       end
   end
 end

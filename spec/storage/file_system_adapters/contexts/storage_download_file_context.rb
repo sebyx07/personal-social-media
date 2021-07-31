@@ -25,7 +25,7 @@ RSpec.shared_examples "storage download context" do
       instance.download_file(filename)
     end
 
-    it "it returns a file", vcr: { record: :once, match_requests_on: [] } do
+    it "it returns a file", vcr: { record: :once, match_requests_on: [], preserve_exact_body_bytes: true } do
       expect(subject).to be_a(File)
     end
   end
@@ -48,7 +48,7 @@ RSpec.shared_examples "storage download context" do
       instance.download_files(filenames)
     end
 
-    it "downloads multiple files", vcr: { record: :once, match_requests_on: [] } do
+    it "downloads multiple files", vcr: { record: :once, match_requests_on: [], preserve_exact_body_bytes: true } do
       expect(subject).to be_present
       expect(subject).to be_a(Hash)
 

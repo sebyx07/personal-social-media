@@ -26,12 +26,7 @@ RSpec.describe FileSystemAdapters::MegaUpload, skip: ENV["MEGA_UPLOAD_EMAIL"].bl
     include_examples "storage download context"
 
     after do
-      next clean_download_file(subject) if subject.is_a?(File)
-      next subject.values.each do |file|
-        clean_download_file(file)
-      end if subject.is_a?(Hash)
-
-      raise "invalid subject"
+      raise "invalid subject" unless subject.is_a?(File) || subject.is_a?(Hash)
     end
   end
 

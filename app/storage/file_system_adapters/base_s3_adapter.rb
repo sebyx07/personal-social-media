@@ -11,7 +11,9 @@ module FileSystemAdapters
 
     def upload(upload_file)
       validate_upload_file(upload_file)
-      object_by_name(upload_file.name).upload_file(upload_file.file.path)
+      object_by_name(upload_file.name).upload_file(upload_file.file.path, {
+        multipart_threshold: multipart_threshold
+      })
     end
 
     def upload_multi(upload_files)
@@ -50,7 +52,9 @@ module FileSystemAdapters
     end
 
     def download_file(filename)
-      @@cache[filename][:file]
+      SafeFile.open(SafeTempfile.generate_new_temp_file_path, "wb") do |file|
+        client.get_object({ bucket: storage_default_dir_name, key: filename }, target: file)
+      end
     end
 
     def download_files(filenames)
@@ -117,6 +121,10 @@ module FileSystemAdapters
 
       def s3_endpoint
         raise NotImplementedError, "no s3_endpoint defined"
+      end
+
+      def multipart_threshold
+        15.megabytes
       end
   end
 end

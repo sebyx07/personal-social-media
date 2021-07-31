@@ -37,10 +37,8 @@ module FileSystemAdapters
 
     def download_file(filename)
       return nil unless exists?(filename)
-      download_file_name = SecureRandom.hex(50)
-      file_path = "/tmp/#{download_file_name}"
-      FileUtils.rm_rf("/tmp/*")
-      get_file(filename).download("/tmp", output_name: download_file_name)
+      file_path = SafeTempfile.generate_new_temp_file_path
+      get_file(filename).download("/tmp", output_name: file_path.sub("/tmp", ""))
 
       SafeFile.open(file_path, "rb")
     end
