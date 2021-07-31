@@ -66,6 +66,10 @@ group :production do
   gem "skylight", "~> 5.1", ">= 5.1.1", require: is_dev
 end
 
+group :development, :production do
+  gem "rails_performance", "~> 1.0", ">= 1.0.1"
+end
+
 gem "activeadmin", "~> 2.9"
 gem "activeadmin-searchable_select", "~> 1.5"
 gem "active_material", "~> 1.5", ">= 1.5.2"
@@ -88,7 +92,6 @@ gem "oj", "~> 3.12"
 gem "pghero", "~> 2.8", ">= 2.8.1", require: is_dev
 gem "pg_query", "~> 2.1", require: is_dev
 gem "rails_admin", "~> 2.2", require: is_dev
-gem "rails_performance", "~> 1.0", ">= 1.0.1"
 gem "rails-server-monitor", "~> 0.1.10", require: "rails_server_monitor"
 gem "rbnacl", "~> 7.1", ">= 7.1.1"
 gem "react-rails", "~> 2.6", ">= 2.6.1"
@@ -97,7 +100,6 @@ gem "render_async", "~> 2.1", ">= 2.1.10"
 gem "request_store", "~> 1.5"
 gem "request_store_rails-sidekiq", "~> 0.1.0"
 gem "rmega", github: "personal-social-media/rmega", ref: "007041cb4d568f430cd8e385d86da1d20a86ac42"
-gem "s3", "~> 0.3.29"
 gem "schmooze", "~> 0.2.0"
 gem "sidekiq", "~> 6.2", ">= 6.2.1", require: %w(sidekiq/web)
 gem "sidekiq-cron", "~> 1.2", require: %w(sidekiq/cron/web)

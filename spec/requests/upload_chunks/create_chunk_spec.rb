@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "POST /upload_chunks", type: :request do
   include_context "logged in"
   let(:input_file) { "Gemfile" }
-  let(:input_file_size) { File.size(input_file) }
+  let(:input_file_size) { SafeFile.size(input_file) }
   let(:chunk_size) { 1.kilobyte }
   let(:chunks) { chunker.call! }
   let(:identifier) { SecureRandom.hex }

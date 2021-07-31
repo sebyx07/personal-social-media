@@ -43,7 +43,7 @@ class VirtualFile
       end
 
       def file_name
-        @file_name ||= File.basename(virtual_file.original_physical_file.path)
+        @file_name ||= SafeFile.basename(virtual_file.original_physical_file.path)
       end
 
       def archive_password

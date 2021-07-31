@@ -13,13 +13,13 @@ module ArchiveService
 
     def size
       check_file
-      File.size(file.path)
+      SafeFile.size(file.path)
     end
 
     def archive_size
       return @archive_size if defined? @archive_size
       check_archive
-      @archive_size = File.size(archive.path)
+      @archive_size = SafeFile.size(archive.path)
     end
 
     def generate_archive
@@ -27,9 +27,9 @@ module ArchiveService
 
       command = "7za a #{new_archive_path} #{file.path} -tzip -mem=AES256 -mx9 -p#{password} > /dev/null"
       system(command)
-      raise Error, "archive not created" unless File.exist?(new_archive_path)
+      raise Error, "archive not created" unless SafeFile.exist?(new_archive_path)
 
-      @archive = File.open(new_archive_path)
+      @archive = SafeFile.open(new_archive_path)
       archive_size
       @archive
     end
@@ -41,7 +41,7 @@ module ArchiveService
       system(command)
       raise Error, "file not created" unless File.exist?(new_file_path)
 
-      @file ||= File.open(new_archive_path)
+      @file ||= SafeFile.open(new_archive_path)
     end
 
     def clean_archive!

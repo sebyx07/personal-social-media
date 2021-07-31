@@ -4,11 +4,7 @@ require "rails_helper"
 
 RSpec.describe PsmFilesService::Utils::Metadata::ExtractFromImage do
   let(:file) do
-    File.open(Rails.root.join("spec/support/resources/picture.jpg"))
-  end
-
-  after do
-    file.close
+    SafeFile.open(Rails.root.join("spec/support/resources/picture.jpg"))
   end
 
   subject do

@@ -11,7 +11,7 @@ RSpec.describe ImagesService::TransformImageFile do
     end
 
     let(:image_file) do
-      File.open(image_file_path)
+      SafeFile.open(image_file_path)
     end
 
     after do

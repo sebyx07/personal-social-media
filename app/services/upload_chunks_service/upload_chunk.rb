@@ -43,7 +43,7 @@ module UploadChunksService
 
     private
       def handle_initial_chunk
-        unless File.directory?(upload_file_system.upload_dir)
+        unless SafeFile.directory?(upload_file_system.upload_dir)
           @upload_file = UploadFile.create!(upload: upload, file_name: resumable_filename)
           return FileUtils.mkdir_p(upload_file_system.upload_dir)
         end
@@ -65,7 +65,7 @@ module UploadChunksService
       end
 
       def ensure_directory_exists?
-        unless File.directory?(upload_file_system.upload_dir)
+        unless SafeFile.directory?(upload_file_system.upload_dir)
           raise Error, "upload path is missing for chunk: #{resumable_chunk_number}"
         end
       end

@@ -3,7 +3,7 @@
 module DocumentationService
   class RenderMarkdown
     def render_markdown(file_path)
-      markdown.render(File.read(file_path)).html_safe
+      markdown.render(SafeFile.read(file_path)).html_safe
     end
 
     def markdown

@@ -11,7 +11,7 @@ module PsmFilesService
       end
 
       def call!
-        File.open(input_path, "rb") do |fh_in|
+        SafeFile.open(input_path, "rb") do |fh_in|
           ReadFileAsStream.new(fh_in, chunk_size).read do |input|
             output << Tempfile.new.tap do |tmp_file|
               tmp_file.binmode

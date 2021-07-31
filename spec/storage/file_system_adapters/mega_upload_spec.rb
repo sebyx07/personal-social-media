@@ -6,8 +6,7 @@ require_relative "./contexts/storage_remove_context"
 require_relative "./contexts/storage_download_file_context"
 
 RSpec.describe FileSystemAdapters::MegaUpload, skip: ENV["MEGA_UPLOAD_EMAIL"].blank? do
-  let(:file) { File.open(file_path) }
-  after { file.close }
+  let(:file) { SafeFile.open(file_path) }
 
   let(:account) do
     create(:external_account, :mega_upload)

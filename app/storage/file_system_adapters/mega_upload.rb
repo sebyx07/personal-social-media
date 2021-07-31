@@ -42,7 +42,7 @@ module FileSystemAdapters
       FileUtils.rm_rf("/tmp/*")
       get_file(filename).download("/tmp", output_name: download_file_name)
 
-      File.open(file_path, "rb")
+      SafeFile.open(file_path, "rb")
     end
 
     def download_files(filenames)

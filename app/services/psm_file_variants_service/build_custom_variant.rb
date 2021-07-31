@@ -11,7 +11,7 @@ module PsmFileVariantsService
 
     def call
       {
-        encrypted_file: File.open(encrypted_file.path),
+        encrypted_file: SafeFile.open(encrypted_file.path),
         metadata: metadata
       }
     end

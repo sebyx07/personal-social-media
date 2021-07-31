@@ -9,7 +9,7 @@ module EncryptionService
       end
 
       def read
-        File.read(path)
+        SafeFile.read(path)
       end
     end
   end

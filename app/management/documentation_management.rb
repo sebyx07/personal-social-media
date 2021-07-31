@@ -25,12 +25,12 @@ ActiveAdmin.register_page "Documentation" do
 
     def chapter_markdown_file
       file = Rails.root.join("documentation/#{params[:section]}/#{params[:chapter]}.md")
-      return file if File.exist?(file)
+      return file if SafeFile.exist?(file)
     end
 
     def section_markdown_file
       file = Rails.root.join("documentation/#{params[:section]}.md")
-      return file if File.exist?(file)
+      return file if SafeFile.exist?(file)
     end
 
     delegate :render_markdown, to: :markdown_helper

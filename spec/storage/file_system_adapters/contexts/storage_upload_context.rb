@@ -48,7 +48,7 @@ RSpec.shared_examples "storage upload context" do
       instance.upload_multi(upload_files)
     end
 
-    xit "uploads multiple files", vcr: { record: :once, match_requests_on: [] } do
+    it "uploads multiple files", vcr: { record: :once, match_requests_on: [], preserve_exact_body_bytes: true } do
       subject
       filenames.each do |filename|
         expect(instance.exists?(filename)).to be_truthy

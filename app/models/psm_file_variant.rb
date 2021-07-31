@@ -60,12 +60,12 @@ class PsmFileVariant < ApplicationRecord
 
   def clean_variant_file!
     return if original?
-    return unless File.exist?(variant_file.path)
-    File.delete(variant_file.path)
+    return unless SafeFile.exist?(variant_file.path)
+    SafeFile.delete(variant_file.path)
   end
 
   def new_variant_file_name
-    @new_variant_file_name ||= SecureRandom.hex(50) + File.extname(original_physical_file)
+    @new_variant_file_name ||= SecureRandom.hex(50) + SafeFile.extname(original_physical_file)
   end
 
   def original?

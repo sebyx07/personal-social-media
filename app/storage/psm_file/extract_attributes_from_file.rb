@@ -18,7 +18,7 @@ class PsmFile
 
     private
       def name
-        File.basename(physical_file.path)
+        SafeFile.basename(physical_file.path)
       end
 
       def content_type

@@ -19,7 +19,7 @@ class SpHandleUploadedFileJob
     update_subject!
   ensure
     uploaded_file.close
-    File.delete(uploaded_file.path)
+    SafeFile.delete(uploaded_file.path)
   end
 
   private
@@ -36,7 +36,7 @@ class SpHandleUploadedFileJob
     end
 
     def uploaded_file
-      File.open(@uploaded_file_path)
+      SafeFile.open(@uploaded_file_path)
     end
 
     def all_upload_files_ready?

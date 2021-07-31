@@ -11,7 +11,7 @@ module UploadChunksService
 
     def exists?
       return false unless upload_file_record.persisted?
-      File.exist?(chunk_file_path)
+      SafeFile.exist?(chunk_file_path)
     end
 
     def upload_dir
@@ -32,12 +32,12 @@ module UploadChunksService
         generate_chunk_file_path(part)
       end
 
-      File.open(path, "wb") do |output|
+      SafeFile.open(path, "wb") do |output|
         chunk_file_list.each do |f|
-          File.open(f, "rb") do |input|
+          SafeFile.open(f, "rb") do |input|
             output.write(input.read)
           end
-          File.delete(f)
+          SafeFile.delete(f)
         end
       end
       @generated_whole_file = true

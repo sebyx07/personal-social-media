@@ -11,11 +11,11 @@ module FileSystemAdapters
 
     def upload(upload_file)
       validate_upload_file(upload_file)
-      client.put_object(
-        bucket: bucket.name,
-        key: upload_file.name,
-        body: upload_file.file
-      )
+      update_aws
+      resource = Aws::S3::Resource.new
+      resource_bucket = resource.bucket(storage_default_dir_name)
+      p upload_file
+      resource_bucket.object(upload_file.name).upload_file(upload_file.file.path)
     end
 
     def upload_multi(upload_files)
@@ -35,8 +35,9 @@ module FileSystemAdapters
     end
 
     def exists?(filename)
-      # response = client.head_object(bucket: storage_default_dir_name, key: filename)
-      true
+      client.head_object(bucket: storage_default_dir_name, key: filename).etag.present?
+    rescue Aws::S3::Errors::NotFound
+      false
     end
 
     def resolve_url_for_file(filename)
@@ -78,11 +79,22 @@ module FileSystemAdapters
         end
       end
 
+      def resource_bucket
+        return @resource_bucket if @resource_bucket.present?
+        @resource_bucket = resource.bucket(storage_default_dir_name)
+      end
+
       def client
         return @client if defined? @client
         update_aws
 
         @client = Aws::S3::Client.new
+      end
+
+      def resource
+        return @resource if defined? @resource
+        update_aws
+        @resource = Aws::S3::Resource.new
       end
 
       def update_aws

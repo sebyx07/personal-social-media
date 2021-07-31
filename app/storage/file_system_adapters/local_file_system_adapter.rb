@@ -25,7 +25,7 @@ module FileSystemAdapters
     end
 
     def remove(filename)
-      File.delete(filename_to_path(filename))
+      SafeFile.delete(filename_to_path(filename))
     end
 
     def remove_multi(filenames)
@@ -34,7 +34,7 @@ module FileSystemAdapters
     end
 
     def exists?(filename)
-      File.exist?(filename_to_path(filename))
+      SafeFile.exist?(filename_to_path(filename))
     end
 
     def resolve_url_for_file(filename)
@@ -51,7 +51,7 @@ module FileSystemAdapters
     end
 
     def download_file(filename)
-      File.open(filename_to_path(filename))
+      SafeFile.open(filename_to_path(filename))
     end
 
     def download_files(filenames)

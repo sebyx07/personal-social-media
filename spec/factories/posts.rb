@@ -40,7 +40,7 @@ FactoryBot.define do
     trait :with_test_attachments do
       after(:create) do |post|
         test_cdn_adapter = CdnStorageProvider.find_by!(adapter: "FileSystemAdapters::TestAdapter")
-        image = File.open(Rails.root.join("spec/support/resources/picture.jpg"))
+        image = SafeFile.open(Rails.root.join("spec/support/resources/picture.jpg"))
         image.close
 
         psm_file = create(:psm_file, :test_image).tap do |psm_file|
