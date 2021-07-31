@@ -12,9 +12,9 @@ RSpec.describe "GET /upload_chunks" do
 
   let(:params) do
     {
-      resumableIdentifier: identifier,
-      resumableFilename: upload_file.file_name,
-      resumableChunkNumber: chunk_number
+      flowIdentifier: identifier,
+      flowFilename: upload_file.file_name,
+      flowChunkNumber: chunk_number
     }
   end
 

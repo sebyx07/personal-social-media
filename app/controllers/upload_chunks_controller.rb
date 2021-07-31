@@ -3,9 +3,9 @@
 class UploadChunksController < ApplicationController
   def show
     chunk_exists = UploadChunksService::CheckIfChunkExists.new(
-      permitted_params_show[:resumableIdentifier],
-      permitted_params_show[:resumableFilename],
-      permitted_params_show[:resumableChunkNumber]
+      permitted_params_show[:flowIdentifier],
+      permitted_params_show[:flowFilename],
+      permitted_params_show[:flowChunkNumber]
     ).exists?
 
     return head :ok if chunk_exists
@@ -26,13 +26,13 @@ class UploadChunksController < ApplicationController
 
   private
     def permitted_params_show
-      @permitted_params_show ||= params.permit(:resumableIdentifier, :resumableFilename, :resumableChunkNumber)
+      @permitted_params_show ||= params.permit(:flowIdentifier, :flowFilename, :flowChunkNumber)
     end
 
     def permitted_params_create
       @permitted_params_create ||= params.permit(
-        :resumableIdentifier, :resumableFilename, :resumableChunkNumber,
-        :file, :resumableChunkSize, :resumableTotalSize
+        :flowIdentifier, :flowFilename, :flowChunkNumber,
+        :file, :flowChunkSize, :flowTotalSize
       )
     end
 end

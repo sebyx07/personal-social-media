@@ -8,6 +8,14 @@ module ActiveAdminPageLayoutOverride
       end
     end
   end
+
+  def build_page
+    within super do
+      if active_admin_namespace.name == :management
+        render "page/upload_manager"
+      end
+    end
+  end
 end
 
 ActiveAdmin::Views::Pages::Base.send :prepend, ActiveAdminPageLayoutOverride

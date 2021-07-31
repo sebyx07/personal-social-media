@@ -1074,6 +1074,11 @@
   dependencies:
     "@essentials/raf" "^1.2.0"
 
+"@flowjs/flow.js@^2.14.1":
+  version "2.14.1"
+  resolved "https://registry.yarnpkg.com/@flowjs/flow.js/-/flow.js-2.14.1.tgz#267d9f9d0958f32267ea5815c2a7cc09b9219304"
+  integrity sha512-99DWlPnksOOS8uHfo+bhSjvs8d2MfLTB/22JBDC2ONwz/OCdP+gL/iiM4puMSTE2wH4A2/+J0eMc7pKwusXunw==
+
 "@fortawesome/fontawesome-free@^5.15.3":
   version "5.15.3"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.3.tgz#c36ffa64a2a239bf948541a97b6ae8d729e09a9a"
@@ -1138,7 +1143,6 @@
 
 "@rails/webpacker@https://github.com/rails/webpacker.git":
   version "6.0.0-beta.7"
-  uid "5dae8b51956e9cd739bdfae44f8214fa1e0f49b2"
   resolved "https://github.com/rails/webpacker.git#5dae8b51956e9cd739bdfae44f8214fa1e0f49b2"
   dependencies:
     "@babel/core" "^7.12.9"

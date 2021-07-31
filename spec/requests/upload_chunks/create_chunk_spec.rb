@@ -32,12 +32,12 @@ RSpec.describe "POST /upload_chunks", type: :request do
 
   def make_request(chunk, chunk_index)
     params = {
-      resumableIdentifier: identifier,
-      resumableFilename: input_file,
-      resumableChunkNumber: chunk_index,
+      flowIdentifier: identifier,
+      flowFilename: input_file,
+      flowChunkNumber: chunk_index,
       file: Rack::Test::UploadedFile.new(chunk, "text/plain"),
-      resumableChunkSize: chunk_size,
-      resumableTotalSize: input_file_size
+      flowChunkSize: chunk_size,
+      flowTotalSize: input_file_size
     }
 
     post "/upload_chunks", params: params, headers: { PSM_UPLOAD_ID: upload.id }

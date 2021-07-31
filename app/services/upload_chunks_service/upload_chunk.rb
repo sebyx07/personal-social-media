@@ -6,11 +6,11 @@ module UploadChunksService
     attr_reader :resumable_identifier, :resumable_filename, :resumable_chunk_number, :resumable_chunk_size, :resumable_total_size,
                 :upload_id, :params_file, :upload_file
     def initialize(params, upload_id)
-      @resumable_identifier = params[:resumableIdentifier]
-      @resumable_filename = params[:resumableFilename]
-      @resumable_chunk_number = params[:resumableChunkNumber].to_i
-      @resumable_chunk_size = params[:resumableChunkSize].to_i
-      @resumable_total_size = params[:resumableTotalSize].to_i
+      @resumable_identifier = params[:flowIdentifier]
+      @resumable_filename = params[:flowFilename]
+      @resumable_chunk_number = params[:flowChunkNumber].to_i
+      @resumable_chunk_size = params[:flowChunkSize].to_i
+      @resumable_total_size = params[:flowTotalSize].to_i
       @params_file = params[:file]
       @upload_id = upload_id
     end
