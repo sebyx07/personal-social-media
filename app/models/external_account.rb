@@ -20,7 +20,7 @@
 #
 class ExternalAccount < ApplicationRecord
   encrypts :email, :password, :public_key, :secret, :secret_key, :username
-  str_enum :service, %i(mega_upload storj)
+  str_enum :service, %i(mega_upload storj wasabi)
   str_enum :status, %i(initializing ready unavaialble)
   str_enum :usage, %i(permanent_storage cdn_storage)
   after_commit :start_bootstrap, on: :create unless Rails.env.test?
@@ -31,6 +31,10 @@ class ExternalAccount < ApplicationRecord
     },
     storj: {
       klass: "FileSystemAdapters::StorjAdapter",
+      types: %i(permanent_storage cdn_storage)
+    },
+    wasabi: {
+      klass: "FileSystemAdapters::WasabiAdapter",
       types: %i(permanent_storage cdn_storage)
     }
   }

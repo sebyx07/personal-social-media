@@ -35,5 +35,13 @@ FactoryBot.define do
       secret_key { ENV["STORJ_SECRET_KEY"] }
       public_key { ENV["STORJ_PUBLIC_KEY"] }
     end
+
+    trait :wasabi do
+      name { :wasabi }
+      service { :wasabi }
+      usage { :cdn_storage }
+      secret_key { ENV["WASABI_SECRET_KEY"] }
+      public_key { ENV["WASABI_PUBLIC_KEY"] }
+    end
   end
 end

@@ -28,5 +28,6 @@ end
 Sidekiq.configure_server do |config|
   config.server_middleware do |chain|
     chain.add RailsServerMonitor::SidekiqMiddleware
+    chain.add SafeFileSidekiqMiddleware
   end
 end

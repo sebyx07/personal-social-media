@@ -11,11 +11,7 @@ module FileSystemAdapters
 
     def upload(upload_file)
       validate_upload_file(upload_file)
-      update_aws
-      resource = Aws::S3::Resource.new
-      resource_bucket = resource.bucket(storage_default_dir_name)
-      p upload_file
-      resource_bucket.object(upload_file.name).upload_file(upload_file.file.path)
+      object_by_name(upload_file.name).upload_file(upload_file.file.path)
     end
 
     def upload_multi(upload_files)
@@ -25,7 +21,7 @@ module FileSystemAdapters
     end
 
     def remove(filename)
-      bucket.objects(filename)&.delete
+      object_by_name(filename).delete
     end
 
     def remove_multi(filenames)
@@ -107,6 +103,10 @@ module FileSystemAdapters
         )
       end
 
+      def object_by_name(filename)
+        resource_bucket.object(filename)
+      end
+
       def s3_force_path_style
         true
       end
@@ -116,6 +116,7 @@ module FileSystemAdapters
       end
 
       def s3_endpoint
+        raise NotImplementedError, "no s3_endpoint defined"
       end
   end
 end

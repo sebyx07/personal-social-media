@@ -25,7 +25,7 @@ RSpec.shared_examples "storage remove context" do
       instance.remove(filename)
     end
 
-    it "removes the file", vcr: { record: :once, match_requests_on: [] } do
+    it "removes the file", vcr: { record: :once, match_requests_on: [], preserve_exact_body_bytes: true } do
       subject
 
       expect(instance.exists?(filename)).to be_falsey
@@ -50,7 +50,7 @@ RSpec.shared_examples "storage remove context" do
       instance.remove_multi(filenames)
     end
 
-    it "removes multiple files", vcr: { record: :once, match_requests_on: [] } do
+    it "removes multiple files", vcr: { record: :once, match_requests_on: [], preserve_exact_body_bytes: true } do
       subject
       filenames.each do |filename|
         expect(instance.exists?(filename)).to be_falsey

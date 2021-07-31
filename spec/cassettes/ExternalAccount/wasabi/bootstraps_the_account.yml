@@ -1,0 +1,99 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://s3.us-east-1.wasabisys.com/
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.118.0 ruby/3.0.1 x86_64-linux aws-sdk-s3/1.97.0
+      Host:
+      - s3.us-east-1.wasabisys.com
+      X-Amz-Date:
+      - 20210731T030004Z
+      X-Amz-Content-Sha256:
+      - e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=NI165N6Y0KTP224QO8AV/20210731/us-east-1/s3/aws4_request,
+        SignedHeaders=host;user-agent;x-amz-content-sha256;x-amz-date, Signature=767965fcf7b54bd698ee163143b8e438572f461f22b6b71e5d880ecf9434221b
+      Content-Length:
+      - '0'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/xml
+      Date:
+      - Sat, 31 Jul 2021 03:00:05 GMT
+      Server:
+      - WasabiS3/7.0.176-2021-07-18-7900366 (head11)
+      X-Amz-Id-2:
+      - 31gljHSuE/qwaDcCFYQYtfGg1ACcpaYe+kJpBzxyuJRKY9icrTlbWE79CHkE/lSI9/DgGjRLbWN+
+      X-Amz-Request-Id:
+      - 8A66793C26CD53CB
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: UTF-8
+      string: |-
+        <?xml version="1.0" encoding="UTF-8"?>
+        <ListAllMyBucketsResult xmlns="http://s3.amazonaws.com/doc/2006-03-01/"><Owner><ID>F05058C15AE8ECB834FB40EC430689424006107F15F205EE14D55DC59A23C53F</ID><DisplayName>sebastian.buza1</DisplayName></Owner><Buckets></Buckets></ListAllMyBucketsResult>
+  recorded_at: Sat, 31 Jul 2021 03:00:04 GMT
+- request:
+    method: put
+    uri: https://psm-do-not-delete.s3.us-east-1.wasabisys.com/
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Content-Type:
+      - ''
+      Accept-Encoding:
+      - ''
+      User-Agent:
+      - aws-sdk-ruby3/3.118.0 ruby/3.0.1 x86_64-linux aws-sdk-s3/1.97.0
+      Host:
+      - psm-do-not-delete.s3.us-east-1.wasabisys.com
+      X-Amz-Date:
+      - 20210731T030004Z
+      X-Amz-Content-Sha256:
+      - e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+      Authorization:
+      - AWS4-HMAC-SHA256 Credential=NI165N6Y0KTP224QO8AV/20210731/us-east-1/s3/aws4_request,
+        SignedHeaders=host;user-agent;x-amz-content-sha256;x-amz-date, Signature=4938cdcf3336f0ae094839ad0a40b34ae9c5b2af0445dca5d9e2bc7f5d785b69
+      Content-Length:
+      - '0'
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 31 Jul 2021 03:00:05 GMT
+      Location:
+      - "/psm-do-not-delete"
+      Server:
+      - WasabiS3/7.0.176-2021-07-18-7900366 (head13)
+      X-Amz-Id-2:
+      - hYZsE0uO6F08F4mtW4SAYGoduXagZrw5VtRN9Q7h0UEsNHZ9aEsa1OrqATe424G23pbOVhY9Uee4
+      X-Amz-Request-Id:
+      - FDCE32EC94D8BB74
+      Content-Length:
+      - '0'
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Sat, 31 Jul 2021 03:00:05 GMT
+recorded_with: VCR 6.0.0

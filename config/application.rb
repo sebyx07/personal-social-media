@@ -20,7 +20,7 @@ require "sprockets/railtie"
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-
+require_relative "../app/middlewares/safe_file_rack_middleware"
 Dotenv::Railtie.load
 
 module Psm
@@ -51,5 +51,7 @@ module Psm
     config.assets.configure do |env|
       env.export_concurrent = false
     end
+
+    config.middleware.use SafeFileRackMiddleware
   end
 end
