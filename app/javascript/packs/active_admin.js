@@ -1,9 +1,11 @@
 import '../stylesheets/active_admin.scss';
 import 'channels';
+import $ from 'jquery';
 import Rails from '@rails/ujs';
 import Turbolinks from 'turbolinks';
 
 Rails.start();
+window.$ = window.jQuery = $;
 Turbolinks.start();
 
 const componentRequireContext = require.context('components', true);
