@@ -96,7 +96,7 @@ Rails.application.routes.draw do
 
   constraints LoggedInConstraint do
     mount RailsServerMonitor::Engine => "/system-information"
-    if defined? RailsPerformance && Rails.application.secrets.redis[:url]
+    if defined?(RailsPerformance) && Rails.application.secrets.redis[:url]
       mount RailsPerformance::Engine => "/performance"
     end
 

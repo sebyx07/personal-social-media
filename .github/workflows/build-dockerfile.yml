@@ -1,7 +1,11 @@
 name: Build dockerfile and push
 
 on:
-  push:
+  workflow_run:
+    types:
+      - completed
+    workflows:
+      - 'Verify'
     branches:
       - master
 
