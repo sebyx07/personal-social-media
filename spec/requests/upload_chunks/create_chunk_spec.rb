@@ -40,6 +40,6 @@ RSpec.describe "POST /upload_chunks", type: :request do
       flowTotalSize: input_file_size
     }
 
-    post "/upload_chunks", params: params, headers: { PSM_UPLOAD_ID: upload.id }
+    post "/upload_chunks", params: params, headers: { "PSM-UPLOAD-ID" => upload.id }
   end
 end

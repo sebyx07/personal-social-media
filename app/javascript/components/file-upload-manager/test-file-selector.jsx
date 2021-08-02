@@ -1,10 +1,9 @@
-import {clearAllUnfinishedUploads, createNewUpload} from './manager';
-import {uploadManagerState} from './records/uploader';
+import {fileUploadManager, fileUploadManagerState} from './records/file-upload-manager-record';
 import {useRef} from 'react';
 import {useState} from '@hookstate/core';
 
 export default function TestFileSelector({children}) {
-  const state = useState(uploadManagerState);
+  const state = useState(fileUploadManagerState);
   const inputRef= useRef();
   function selectFile(e) {
     e.preventDefault();
@@ -15,13 +14,12 @@ export default function TestFileSelector({children}) {
   function fileSelected(e) {
     e.preventDefault();
 
-    createNewUpload('Post', 7, e.target.files);
+    fileUploadManager.createUpload('Post', 7, e.target.files);
     e.target.value = '';
   }
 
   function _clearAllUnfinishedUploads(e) {
     e.preventDefault();
-    clearAllUnfinishedUploads();
   }
 
   return (

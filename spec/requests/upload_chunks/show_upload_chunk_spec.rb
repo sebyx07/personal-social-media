@@ -37,10 +37,10 @@ RSpec.describe "GET /upload_chunks" do
   end
 
   context "invalid" do
-    it "responds 404" do
+    it "responds 422" do
       subject
 
-      expect(response).to have_http_status(404)
+      expect(response).to have_http_status(422)
     end
   end
 end

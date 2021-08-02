@@ -1,13 +1,12 @@
 import {StrictMode} from 'react';
-import {fileManagerEventBus} from '../../lib/event-bus/file-manager-event-bus';
+import {fileUploadManagerState} from './records/file-upload-manager-record';
 import {getHookstateProperties} from '../../lib/hookstate/get-properties';
-import {uploadManagerState} from './records/uploader';
 import {useBeforeunload} from 'react-beforeunload';
 import {useState} from '@hookstate/core';
 import TestFileSelector from './test-file-selector';
 
-export default function UploadManager() {
-  const state = useState(uploadManagerState);
+export default function FileUploadManager() {
+  const state = useState(fileUploadManagerState);
   const {status: uploaderStatus} = getHookstateProperties(state, 'status');
 
   useBeforeunload((e) => {
@@ -32,12 +31,4 @@ export default function UploadManager() {
       </TestFileSelector>
     </StrictMode>
   );
-}
-
-export function createNewUpload(subjectType, subjectId, files) {
-  fileManagerEventBus.emit('new-upload', null, {files, subjectId, subjectType});
-}
-
-export function clearAllUnfinishedUploads() {
-  fileManagerEventBus.emit('clear-unfinished-uploads');
 }

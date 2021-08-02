@@ -1,8 +1,11 @@
 # frozen_string_literal: true
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+
+def load_seeds(dir)
+  Dir[Rails.root.join("db", dir, "**", "*.rb")].sort.each do |f|
+    require f
+  end
+end
+
+ApplicationRecord.transaction do
+  load_seeds "dev_seeds" if Rails.env.development?
+end

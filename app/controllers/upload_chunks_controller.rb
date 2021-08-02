@@ -9,11 +9,11 @@ class UploadChunksController < ApplicationController
     ).exists?
 
     return head :ok if chunk_exists
-    head 404
+    render json: { error: "chunk not found" }, status: 422
   end
 
   def create
-    upload_id = request.headers["PSM_UPLOAD_ID"]
+    upload_id = request.headers["PSM-UPLOAD-ID"]
     head 404 unless upload_id
     UploadChunksService::UploadChunk.new(permitted_params_create, upload_id).handle_chunk.tap do |service|
       if service.whole_file_ready?
