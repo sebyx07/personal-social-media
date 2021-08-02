@@ -75,7 +75,7 @@ gem "activeadmin-searchable_select", "~> 1.5"
 gem "active_material", "~> 1.5", ">= 1.5.2"
 gem "attributes_sanitizer", "~> 0.1.6"
 gem "aws-sdk-s3", "~> 1.97"
-gem "bitwise_attribute", github: "personal-social-media/bitwise_attribute", ref: "36371f6511a5907d1ec96385e0baca55d935cb99"
+gem "bitwise_attribute"
 gem "bugsnag", "~> 6.21", require: is_dev
 gem "bullet", "~> 6.1", ">= 6.1.4", require: is_dev
 gem "dotenv-rails", "~> 2.7", ">= 2.7.6"
