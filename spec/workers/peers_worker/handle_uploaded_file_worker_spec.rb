@@ -36,12 +36,15 @@ RSpec.describe FileWorker::HandleUploadedFileWorker do
       expect do
         subject
         post.reload
+        psm_file.reload
       end.to change { post.psm_attachments.count }.by(1)
          .and change { post.psm_file_variants.count }.by(6)
          .and change { post.psm_permanent_files.count }.by(1)
          .and change { post.psm_cdn_files.count }.by(6)
 
       expect(psm_file.metadata.dig("exif", "gps")).to be_present
+      expect(psm_file).to be_cdn_ready
+      expect(psm_file).to be_permanent_ready
 
       psm_file_variants.each do |variant|
         expect(variant.variant_metadata["height"]).to be_present

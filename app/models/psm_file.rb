@@ -25,6 +25,8 @@ class PsmFile < ApplicationRecord
   has_many :psm_file_variants, dependent: :destroy
   has_many :psm_permanent_files, through: :psm_file_variants
   has_many :psm_cdn_files, through: :psm_file_variants
+  str_enum :cdn_storage_status, %i(pending ready), prefix: :cdn
+  str_enum :permanent_storage_status, %i(pending ready), prefix: :permanent
 
   def type
     memo(:@type) do

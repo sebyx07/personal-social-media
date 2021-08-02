@@ -24,6 +24,7 @@ module FileWorker
     private
       def mark_upload_file_as_ready!
         upload_file_record.update!(status: :ready)
+        psm_file.update!(cdn_storage_status: :ready, permanent_storage_status: :ready)
       end
 
       def create_psm_file_record
