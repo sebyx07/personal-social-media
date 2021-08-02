@@ -4,7 +4,7 @@ module UploadChunksService
   class UploadChunk
     class Error < StandardError; end
     attr_reader :resumable_identifier, :resumable_filename, :resumable_chunk_number, :resumable_chunk_size, :resumable_total_size,
-                :upload_id, :params_file, :upload_file
+                :upload_id, :params_file, :upload_file, :upload_file_chunk
     def initialize(params, upload_id)
       @resumable_identifier = params[:flowIdentifier]
       @resumable_filename = params[:flowFilename]
@@ -17,12 +17,11 @@ module UploadChunksService
 
     def handle_chunk
       if resumable_chunk_number == 1
-        handle_initial_chunk
+        @upload_file = UploadFile.create!(upload: upload, file_name: resumable_filename)
       else
-        ensure_directory_exists?
         @upload_file = UploadFile.find_by!(upload: upload, file_name: resumable_filename)
       end
-      copy_chunk_to_tmp
+      create_chunk!
       self
     end
 
@@ -33,26 +32,17 @@ module UploadChunksService
     end
 
     def process_whole_file
-      upload_file_system.generate_whole_file!
       trigger_bg_process_file
     end
 
-    def whole_file_path
-      upload_file_system.path
-    end
-
     private
-      def handle_initial_chunk
-        unless SafeFile.directory?(upload_file_system.upload_dir)
-          @upload_file = UploadFile.create!(upload: upload, file_name: resumable_filename)
-          return FileUtils.mkdir_p(upload_file_system.upload_dir)
+      def create_chunk!
+        File.open(params_file.tempfile.path, "rb") do |f|
+          @upload_file_chunk = UploadFileChunk.create!(
+            upload_file: upload_file, resumable_chunk_number: resumable_chunk_number,
+            payload: f.read
+          )
         end
-
-        FileUtils.rm_rf(upload_file_system.upload_dir)
-      end
-
-      def copy_chunk_to_tmp
-        FileUtils.mv(params_file.tempfile, upload_file_system.chunk_file_path)
       end
 
       def upload
@@ -60,18 +50,8 @@ module UploadChunksService
         @upload = Upload.find(upload_id)
       end
 
-      def upload_file_system
-        @upload_file_system ||= UploadFileSystem.new(upload, resumable_filename, resumable_chunk_number)
-      end
-
-      def ensure_directory_exists?
-        unless SafeFile.directory?(upload_file_system.upload_dir)
-          raise Error, "upload path is missing for chunk: #{resumable_chunk_number}"
-        end
-      end
-
       def trigger_bg_process_file
-        SpHandleUploadedFileJob.perform_async(whole_file_path, upload_file.upload_file_record.id)
+        FileWorker::HandleUploadedFileWorker.perform_async(upload_file.id)
       end
   end
 end

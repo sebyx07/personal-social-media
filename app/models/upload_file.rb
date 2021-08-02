@@ -13,8 +13,7 @@
 #
 # Indexes
 #
-#  index_upload_files_on_file_name  (file_name)
-#  index_upload_files_on_upload_id  (upload_id)
+#  index_upload_files_on_upload_id_and_file_name  (upload_id,file_name) UNIQUE
 #
 # Foreign Keys
 #
@@ -24,4 +23,5 @@ class UploadFile < ApplicationRecord
   belongs_to :upload
   str_enum :status, %i(pending ready)
   validates :file_name, presence: true, uniqueness: { scope: :upload_id }
+  has_many :upload_file_chunks, dependent: :delete_all
 end

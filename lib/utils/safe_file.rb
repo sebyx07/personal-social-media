@@ -5,6 +5,7 @@ class SafeFile < File
 
   class << self
     def close_opened_files!
+      return if opened_files.blank?
       opened_files.each(&:close)
       self.opened_files = []
     end

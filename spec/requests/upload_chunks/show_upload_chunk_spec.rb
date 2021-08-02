@@ -9,6 +9,9 @@ RSpec.describe "GET /upload_chunks" do
   let(:upload) { create(:upload, resumable_upload_identifier: identifier) }
   let(:upload_file) { create(:upload_file, upload: upload) }
   let(:chunk_number) { 1 }
+  let(:upload_file_chunk) do
+    create(:upload_file_chunk, resumable_chunk_number: chunk_number, upload_file: upload_file)
+  end
 
   let(:params) do
     {
@@ -23,18 +26,8 @@ RSpec.describe "GET /upload_chunks" do
   end
 
   context "valid" do
-    let(:upload_dir) { "/tmp/psm-upload/#{upload.resumable_upload_identifier}" }
-    let(:real_file_path) do
-      "#{upload_dir}/#{upload_file.file_name}.part#{chunk_number}"
-    end
-
     before do
-      FileUtils.mkdir_p(upload_dir)
-      FileUtils.touch(real_file_path)
-    end
-
-    after do
-      File.delete(real_file_path)
+      upload_file_chunk
     end
 
     it "responds ok" do

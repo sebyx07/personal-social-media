@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_28_123940) do
+ActiveRecord::Schema.define(version: 2021_08_02_003917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -354,14 +354,22 @@ ActiveRecord::Schema.define(version: 2021_07_28_123940) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "upload_file_chunks", force: :cascade do |t|
+    t.bigint "upload_file_id", null: false
+    t.bigint "resumable_chunk_number", null: false
+    t.binary "payload", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["upload_file_id", "resumable_chunk_number"], name: "index_upload_file_chunks_on_upload_id_resumable", unique: true
+  end
+
   create_table "upload_files", force: :cascade do |t|
     t.bigint "upload_id", null: false
     t.string "file_name"
     t.string "status", default: "pending", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["file_name"], name: "index_upload_files_on_file_name"
-    t.index ["upload_id"], name: "index_upload_files_on_upload_id"
+    t.index ["upload_id", "file_name"], name: "index_upload_files_on_upload_id_and_file_name", unique: true
   end
 
   create_table "uploads", force: :cascade do |t|
@@ -398,5 +406,6 @@ ActiveRecord::Schema.define(version: 2021_07_28_123940) do
   add_foreign_key "reactions", "peers"
   add_foreign_key "reactions", "reaction_counters"
   add_foreign_key "remote_posts", "peers"
+  add_foreign_key "upload_file_chunks", "upload_files"
   add_foreign_key "upload_files", "uploads"
 end
