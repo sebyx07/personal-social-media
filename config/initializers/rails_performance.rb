@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-return if ENV["IS_DEPLOYING"].present?
+return if Rails.application.secrets.redis[:url].blank?
 
 RailsPerformance.setup do |config|
   config.redis = Redis::Namespace.new("#{Rails.env}-rails-performance", redis: Redis.new(RedisService::Url.build_sidekiq_config))
