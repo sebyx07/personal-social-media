@@ -3,9 +3,10 @@
 class VirtualFile
   class SaveVirtualFile
     include Memo
-    attr_reader :virtual_file
-    def initialize(virtual_file)
+    attr_reader :virtual_file, :upload_file
+    def initialize(virtual_file, upload_file)
       @virtual_file = virtual_file
+      @upload_file = upload_file
     end
 
     def call
@@ -17,6 +18,7 @@ class VirtualFile
     def psm_file
       memo(:@psm_file) do
         PsmFile.new(PsmFile::ExtractAttributesFromFile.new(virtual_file.original_physical_file).attributes).tap do |psm_file|
+          psm_file.name = upload_file.file_name
           psm_file.save!
         end
       end

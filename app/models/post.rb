@@ -6,16 +6,28 @@
 #
 #  id         :bigint           not null, primary key
 #  content    :jsonb            not null
+#  name       :string           not null
 #  post_type  :string           default("standard"), not null
 #  status     :string           default("pending"), not null
 #  views      :bigint           default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
+# Indexes
+#
+#  index_posts_on_name  (name) USING gin
+#
 class Post < ApplicationRecord
   include PsmAttachmentConcern
   include PsmRealTimeRecordConcern
-  validates :content, allow_nil: true, length: { maximum: 2000 }
+
+  include PgSearch::Model
+  pg_search_scope :search_by_name, against: :name, using: {
+    trigram: {
+      threshold: 0.05
+    }
+  }
+
   str_enum :status, %i(pending ready)
   str_enum :post_type, %i(standard)
   after_commit :propagate_to_peers, on: %i(create update), if: :propagate_to_peers?
@@ -45,6 +57,9 @@ class Post < ApplicationRecord
   store :content, accessors: %i(message)
   validates :message, allow_blank: true, length: { maximum: 2000 }, if: -> { standard? }
 
+  validates :name, presence: true
+  before_validation :generate_name, if: -> { message_changed? }
+
   class << self
     def allow_propagate_to_remote?
       Rails.env.production?
@@ -66,6 +81,10 @@ class Post < ApplicationRecord
   delegate :can_propagate_realtime?, to: :real_time_record
   def real_time_record
     @real_time_record ||= PostsService::RealTimePostRecord.new(self)
+  end
+
+  def generate_name
+    self.name = PostsService::GenerateName.new(self).call
   end
 
   private

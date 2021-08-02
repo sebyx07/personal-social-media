@@ -9,7 +9,6 @@ class PsmFile
 
     def attributes
       {
-        name: name,
         content_type: content_type,
         metadata: metadata,
         sha_256: PsmFilesService::Utils::ComputeFileSha256.new(physical_file).call
@@ -17,10 +16,6 @@ class PsmFile
     end
 
     private
-      def name
-        SafeFile.basename(physical_file.path)
-      end
-
       def content_type
         Marcel::MimeType.for(physical_file)
       end

@@ -34,7 +34,7 @@ module FileWorker
       end
 
       def create_psm_file_record
-        @virtual_file = VirtualFile.new(original_physical_file: uploaded_file).tap do |v_file|
+        @virtual_file = VirtualFile.new(original_physical_file: uploaded_file, upload_file: upload_file_record).tap do |v_file|
           v_file.save!
         end
         @psm_file = virtual_file.psm_file
@@ -74,11 +74,11 @@ module FileWorker
       end
 
       def log_start_job
-        UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file_record, log_status: :ok, message: "Started upload processing job")
+        UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file_record, log_status: :ok, message: "Start upload processing job")
       end
 
       def log_end_job(status)
-        UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file_record, log_status: status, message: "Started upload processing job")
+        UploadFileLog.create_log!(upload_file_record.file_name, log_status: status, message: "End upload processing job")
       end
   end
 end

@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_02_124344) do
+ActiveRecord::Schema.define(version: 2021_08_02_142437) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "cache_comments", force: :cascade do |t|
@@ -183,6 +184,8 @@ ActiveRecord::Schema.define(version: 2021_08_02_124344) do
     t.string "post_type", default: "standard", null: false
     t.bigint "views", default: 0, null: false
     t.jsonb "content", null: false
+    t.string "name", null: false
+    t.index ["name"], name: "index_posts_on_name", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "profiles", force: :cascade do |t|
