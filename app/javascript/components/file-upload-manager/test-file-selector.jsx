@@ -14,7 +14,7 @@ export default function TestFileSelector({children}) {
   function fileSelected(e) {
     e.preventDefault();
 
-    fileUploadManager.createUpload('Post', 7, e.target.files);
+    fileUploadManager.createUpload('Post', 1, e.target.files);
     e.target.value = '';
   }
 

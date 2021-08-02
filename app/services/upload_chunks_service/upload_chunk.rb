@@ -51,6 +51,9 @@ module UploadChunksService
       end
 
       def trigger_bg_process_file
+        p upload_file.id
+        p upload_file.id
+
         FileWorker::HandleUploadedFileWorker.perform_async(upload_file.id)
       end
   end
