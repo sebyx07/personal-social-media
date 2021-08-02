@@ -23,6 +23,7 @@
 #
 class PermanentStorageProvider < ApplicationRecord
   belongs_to :external_account, optional: true
+  has_many :upload_file_logs, dependent: :nullify
   attribute :used_space_bytes, :integer
   attribute :free_space_bytes, :integer
   validate :validate_adapter

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_02_003917) do
+ActiveRecord::Schema.define(version: 2021_08_02_124344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -363,6 +363,23 @@ ActiveRecord::Schema.define(version: 2021_08_02_003917) do
     t.index ["upload_file_id", "resumable_chunk_number"], name: "index_upload_file_chunks_on_upload_id_resumable", unique: true
   end
 
+  create_table "upload_file_logs", force: :cascade do |t|
+    t.bigint "upload_file_id"
+    t.text "message", null: false
+    t.string "log_status", null: false
+    t.bigint "permanent_storage_provider_id"
+    t.bigint "cdn_storage_provider_id"
+    t.bigint "psm_file_variant_id"
+    t.bigint "psm_permanent_file_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["cdn_storage_provider_id"], name: "index_upload_file_logs_on_cdn_storage_provider_id"
+    t.index ["permanent_storage_provider_id"], name: "index_upload_file_logs_on_permanent_storage_provider_id"
+    t.index ["psm_file_variant_id"], name: "index_upload_file_logs_on_psm_file_variant_id"
+    t.index ["psm_permanent_file_id"], name: "index_upload_file_logs_on_psm_permanent_file_id"
+    t.index ["upload_file_id"], name: "index_upload_file_logs_on_upload_file_id"
+  end
+
   create_table "upload_files", force: :cascade do |t|
     t.bigint "upload_id", null: false
     t.string "file_name"
@@ -407,5 +424,10 @@ ActiveRecord::Schema.define(version: 2021_08_02_003917) do
   add_foreign_key "reactions", "reaction_counters"
   add_foreign_key "remote_posts", "peers"
   add_foreign_key "upload_file_chunks", "upload_files"
+  add_foreign_key "upload_file_logs", "cdn_storage_providers"
+  add_foreign_key "upload_file_logs", "permanent_storage_providers"
+  add_foreign_key "upload_file_logs", "psm_file_variants"
+  add_foreign_key "upload_file_logs", "psm_permanent_files"
+  add_foreign_key "upload_file_logs", "upload_files"
   add_foreign_key "upload_files", "uploads"
 end

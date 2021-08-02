@@ -30,6 +30,7 @@ class CdnStorageProvider < ApplicationRecord
   end
 
   belongs_to :external_account, optional: true
+  has_many :upload_file_logs, dependent: :nullify
   attribute :used_space_bytes, :integer
   attribute :free_space_bytes, :integer
   validates :adapter, inclusion: { in: permitted_adapters }

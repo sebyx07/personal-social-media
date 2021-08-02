@@ -9,16 +9,22 @@ module FileWorker
     def perform(upload_file_id)
       @upload_file_record = UploadFile.find_by(id: upload_file_id)
       return if upload_file_record.blank?
+      log_start_job
 
       @subject = upload.subject
 
       create_psm_file_record
       mark_upload_file_as_ready!
 
-      return unless all_upload_files_ready?
+      return log_end_job(:ok) unless all_upload_files_ready?
 
       update_subject!
       destroy_upload!
+
+      log_end_job(:ok)
+    rescue StandardError
+      log_end_job(:error)
+      raise
     end
 
     private
@@ -65,6 +71,14 @@ module FileWorker
 
       def destroy_upload!
         upload.destroy
+      end
+
+      def log_start_job
+        UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file_record, log_status: :ok, message: "Started upload processing job")
+      end
+
+      def log_end_job(status)
+        UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file_record, log_status: status, message: "Started upload processing job")
       end
   end
 end

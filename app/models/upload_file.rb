@@ -24,4 +24,5 @@ class UploadFile < ApplicationRecord
   str_enum :status, %i(pending ready)
   validates :file_name, presence: true, uniqueness: { scope: :upload_id }
   has_many :upload_file_chunks, dependent: :delete_all
+  has_many :upload_file_logs, dependent: :nullify
 end

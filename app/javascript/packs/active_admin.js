@@ -1,4 +1,5 @@
 import '../stylesheets/active_admin.scss';
+import '@fortawesome/fontawesome-free/css/all.css';
 import 'channels';
 import $ from 'jquery';
 import Rails from '@rails/ujs';

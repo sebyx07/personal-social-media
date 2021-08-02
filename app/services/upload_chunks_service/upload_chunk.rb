@@ -33,6 +33,7 @@ module UploadChunksService
 
     def process_whole_file
       trigger_bg_process_file
+      UploadFileLog.create_log!(upload_file.file_name, upload_file: upload_file, log_status: :ok, message: "Enqueue upload processing job")
     end
 
     private

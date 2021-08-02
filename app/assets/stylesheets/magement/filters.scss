@@ -5,3 +5,11 @@
 .filter_select select{
   flex-grow: 1;
 }
+
+.filter_searchable_select{
+  width: 62rem;
+}
+
+#search_status_sidebar_section > .panel_contents{
+  padding: 1.5rem;
+}

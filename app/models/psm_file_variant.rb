@@ -37,6 +37,7 @@ class PsmFileVariant < ApplicationRecord
   belongs_to :psm_file
   has_many :psm_permanent_files, dependent: :destroy
   has_many :psm_cdn_files, dependent: :destroy
+  has_many :upload_file_logs, dependent: :nullify
   validates :external_file_name, uniqueness: true
   validates :psm_file_id, uniqueness: { scope: :variant_name }
 

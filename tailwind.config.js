@@ -9,6 +9,7 @@ module.exports = {
       './app/helpers/**/*.rb',
       './app/components/**/*.rb',
       './app/management/**/*.rb',
+      './app/decorators/**/*.rb',
       './app/components/**/*.html.erb',
       './app/**/*.html.erb',
     ],

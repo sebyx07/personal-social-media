@@ -34,6 +34,7 @@ class PsmPermanentFile < ApplicationRecord
   belongs_to :permanent_storage_provider
   before_save :update_permanent_storage_provider
   str_enum :status, %i(pending ready unavailable)
+  has_many :upload_file_logs, dependent: :nullify
 
   encrypts :archive_password
   validates :archive_password, presence: true
