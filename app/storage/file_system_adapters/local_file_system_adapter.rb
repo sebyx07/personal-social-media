@@ -38,7 +38,13 @@ module FileSystemAdapters
     end
 
     def resolve_url_for_file(filename)
-      "/#{upload_dir_path}/#{filename}"
+      env = if Rails.env.development?
+        "/dev"
+      elsif Rails.env.test?
+        "/test"
+      end
+
+      "/#{upload_dir_path}#{env}/#{filename}"
     end
 
     def resolve_urls_for_files(filenames)

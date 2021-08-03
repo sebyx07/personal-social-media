@@ -20,12 +20,13 @@ class PsmAttachmentPresenter
         variants = {}
 
         @attachment.psm_file_variants.group_by(&:variant_name).map do |variant_name, grouped_variants|
-          resolved = variants[variant_name] = []
-
           grouped_variants.each do |variant|
+            variants[variant_name] ||= PsmFileVariantPresenter.new(variant).render
+            variants[variant_name][:sources] ||= {}
+
             variant.psm_cdn_files.each do |psm_cdn_file|
-              variant_url_resolver = PsmAttachmentsService::VariantUrlResolver.new(psm_cdn_file)
-              resolved << variant_url_resolver.resolve(variant.external_file_name)
+              adapter_name = psm_cdn_file.cdn_storage_provider.adapter
+              variants[variant_name][:sources][adapter_name] = PsmAttachmentsService::VariantUrlResolver.new(psm_cdn_file).resolve(variant.external_file_name)
             end
           end
         end
