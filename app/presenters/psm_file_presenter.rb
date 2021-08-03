@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
-class PsmAttachmentPresenter
+class PsmFilePresenter
   include Memo
-  attr_reader :attachment
-  def initialize(psm_attachment)
-    @attachment = psm_attachment
+  def initialize(psm_file)
+    @psm_file = psm_file
   end
 
-  def render_inside_content
+  def render
     {
-      id: @attachment.id,
+      id: @psm_file.id,
+      content_type: @psm_file.content_type,
+      metadata: @psm_file.metadata,
+      name: @psm_file.name,
+      sha_256: @psm_file.sha_256,
       variants: variants
     }
   end
@@ -19,7 +22,7 @@ class PsmAttachmentPresenter
       memo(:@variants) do
         variants = {}
 
-        @attachment.psm_file_variants.group_by(&:variant_name).map do |variant_name, grouped_variants|
+        @psm_file.psm_file_variants.group_by(&:variant_name).map do |variant_name, grouped_variants|
           grouped_variants.each do |variant|
             variants[variant_name] ||= PsmFileVariantPresenter.new(variant).render
 

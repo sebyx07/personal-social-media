@@ -9,6 +9,7 @@ class PsmFileVariantPresenter
     {
       key: EncryptionService::EncryptedContentTransform.to_json(@psm_file_variant.key),
       iv: EncryptionService::EncryptedContentTransform.to_json(@psm_file_variant.iv),
+      sources: {}
     }
   end
 end

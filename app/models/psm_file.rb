@@ -20,7 +20,7 @@
 #
 class PsmFile < ApplicationRecord
   include Memo
-  has_many :psm_attachments
+  has_many :psm_attachments, dependent: :destroy
   has_many :posts, through: :psm_attachments, source: :subject, source_type: "Post"
   has_one :original, -> { where(variant_name: :original) }, class_name: "PsmFileVariant"
   has_many :psm_file_variants, dependent: :destroy

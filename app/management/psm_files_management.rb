@@ -10,7 +10,9 @@ ActiveAdmin.register PsmFile, namespace: :management do
   index do
     selectable_column
     column :id
-    column :original_cdn_urls
+    column :preview do |r|
+      react_component "mountable-in-management/mountable-psm-file", data: r.presented
+    end
     column :name
     column :content_type
     column :created_at
@@ -22,7 +24,7 @@ ActiveAdmin.register PsmFile, namespace: :management do
 
   controller do
     def scoped_collection
-      super.includes(original: :psm_cdn_files)
+      super.includes(psm_file_variants: [psm_cdn_files: :cdn_storage_provider])
     end
   end
 end
