@@ -17,9 +17,7 @@ ActiveAdmin.register PsmFile, namespace: :management do
     column :content_type
     column :created_at
 
-    actions do
-      link_to "Download", root_path
-    end
+    actions
   end
 
   controller do

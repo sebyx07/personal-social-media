@@ -1,5 +1,6 @@
 import {useDecryptVariant} from '../hooks/attachments/use-decrypt-variant';
 import {useState} from 'react';
+import AttachmentModalOriginal from './attachments/modal-original';
 import DecryptedVariant from './variants/decrypted-variant';
 import Modal from '../util/modal';
 import PropTypes from 'prop-types';
@@ -33,7 +34,7 @@ export default function Attachment({contentType, variants, defaultVariant, image
 
           <Modal isOpen={state.modalIsOpened} close={close}>
             <div className="flex items-center h-full flex-wrap">
-              <DecryptedVariant decryptedVariantFile={decryptedVariantFile} imageOptions={imageOptions} download={true} fileName={fileName}/>
+              <AttachmentModalOriginal imageOptions={imageOptions} fileName={fileName} variants={variants} contentType={contentType}/>
             </div>
           </Modal>
         </>
@@ -44,7 +45,7 @@ export default function Attachment({contentType, variants, defaultVariant, image
 
 Attachment.propTypes = {
   contentType: PropTypes.string.isRequired,
-  defaultVariant: PropTypes.oneOf(['auto', 'original']).isRequired,
+  defaultVariant: PropTypes.oneOf(['auto', 'original', 'small']).isRequired,
   fileName: PropTypes.string.isRequired,
   imageOptions: PropTypes.shape({
     className: PropTypes.string,

@@ -13,7 +13,7 @@ export default function MountablePsmFile({data, className}) {
     <div className={mergeStyles(className, 'relative')}>
       <Attachment
         contentType={contentType} fileName={fileName}
-        variants={variants} defaultVariant="original" imageOptions={attachmentImageOptions}
+        variants={variants} defaultVariant="small" imageOptions={attachmentImageOptions}
         modal
       />
     </div>

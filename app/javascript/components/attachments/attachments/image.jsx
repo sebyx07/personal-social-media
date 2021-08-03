@@ -1,6 +1,7 @@
 import {downloadBlob} from '../../../lib/blob/download-blob';
 import {useEffect, useState} from 'react';
 import DownloadButtonAttachment from './download-button';
+import imagePlaceholder from '../../../images/placeholders/image-placeholder.svg';
 
 export default function ImageAttachment({decryptedVariantFile, imageOptions = {}, download, fileName}) {
   const [state, setState] = useState({
@@ -23,7 +24,6 @@ export default function ImageAttachment({decryptedVariantFile, imageOptions = {}
   }, [decryptedVariantFile]);
 
   const {decryptedImageBlobUrl} = state;
-  if (!decryptedImageBlobUrl) return null;
 
   function downloadAttachment() {
     downloadBlob({
@@ -32,12 +32,14 @@ export default function ImageAttachment({decryptedVariantFile, imageOptions = {}
     });
   }
 
+  const imageUrl = decryptedImageBlobUrl || imagePlaceholder;
+
   return (
     <>
       {
-        download && <DownloadButtonAttachment onClick={downloadAttachment}/>
+        download && decryptedImageBlobUrl && <DownloadButtonAttachment onClick={downloadAttachment}/>
       }
-      <img src={decryptedImageBlobUrl} {...imageOptions} className="!h-full w-full"/>
+      <img src={imageUrl} {...imageOptions} className="!h-full w-full"/>
     </>
   );
 }

@@ -7,7 +7,9 @@ export function useDecryptVariant(variants, defaultVariant, contentType) {
   });
 
   useEffect(() => {
-    const variant = variants[defaultVariant];
+    let variant = variants[defaultVariant];
+    if (!variant) variant = variants['original'];
+
     setState({
       decryptedVariantFile: new DecryptedVariantFile(variant, contentType),
     });
