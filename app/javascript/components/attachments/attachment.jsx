@@ -22,7 +22,6 @@ export default function Attachment({contentType, variants, defaultVariant, image
     });
   }
 
-
   return (
     <>
       <DecryptedVariant decryptedVariantFile={decryptedVariantFile} imageOptions={imageOptions} fileName={fileName}/>

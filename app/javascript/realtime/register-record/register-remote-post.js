@@ -16,4 +16,3 @@ export function registerRealTimeRemotePost(post) {
 export function unRegisterRealTimeRemotePost(post, subscriptionId) {
   return realTimeManager.removeRecord('RemotePost', post, subscriptionId);
 }
-

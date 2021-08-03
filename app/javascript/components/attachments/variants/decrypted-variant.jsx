@@ -16,7 +16,6 @@ export default function DecryptedVariant({decryptedVariantFile, imageOptions, fi
   return null;
 }
 
-
 DecryptedVariant.propTypes = {
   decryptedVariantFile: PropTypes.object.isRequired,
   download: PropTypes.bool,

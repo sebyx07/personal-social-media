@@ -16,4 +16,3 @@ export function textWithEmoji(text) {
     return {emoji};
   });
 }
-

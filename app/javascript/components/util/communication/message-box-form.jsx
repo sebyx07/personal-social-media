@@ -73,7 +73,6 @@ export default function MessageBoxForm({
   );
 }
 
-
 MessageBoxForm.propTypes = {
   buttonText: PropTypes.string.isRequired,
   clearOnSubmit: PropTypes.bool,

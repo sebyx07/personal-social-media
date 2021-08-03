@@ -7,7 +7,6 @@ import Editor from '@draft-js-plugins/editor';
 import SafeEmojiString from './emojis/safe-emoji-string';
 import mergeStyles from '../../../lib/styles/merge-styles';
 
-
 const {Picker} = emojiPlugin;
 
 export default function MessageBox({editorState, onChange, placeholder, messageBoxClassName, extraOutput, extraButtons}) {

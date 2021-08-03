@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "lint": "yarn eslint --fix --ext .js --ext .jsx app/ config/ tailwind.config.js babel.config.js"
+    "lint": "yarn eslint --fix --ext .js --ext .jsx app/ config/ tailwind.config.js babel.config.js .eslintrc.js"
   },
   "browserslist": [
     "defaults"

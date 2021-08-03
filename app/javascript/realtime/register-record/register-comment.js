@@ -23,4 +23,3 @@ export function unRegisterRealTimeComment(hostOfCommentPeer, comment, subscripti
 function buildVirtualRecordId(hostOfCommentPeer, comment) {
   return `${hostOfCommentPeer.id.get()}-${comment.id.get()}`;
 }
-

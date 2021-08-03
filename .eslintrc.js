@@ -1,5 +1,4 @@
 module.exports = {
-  'parser': 'babel-eslint',
   'env': {
     'browser': true,
     'es6': true,
@@ -13,6 +12,7 @@ module.exports = {
     'Atomics': 'readonly',
     'SharedArrayBuffer': 'readonly',
   },
+  'parser': 'babel-eslint',
   'parserOptions': {
     'ecmaFeatures': {
       'jsx': true,
@@ -25,28 +25,30 @@ module.exports = {
     'react',
     'react-hooks',
     'sort-imports-es6-autofix',
-    'sort-keys-fix'
+    'sort-keys-fix',
   ],
   'rules': {
-    'require-jsdoc': 0,
-    'react/prop-types': 0,
-    'react/no-unescaped-entities': 0,
-    'max-len': 0,
+    'eol-last': 0,
     'guard-for-in': 0,
-    'react/jsx-no-target-blank': 0,
+    'max-len': 0,
+    'no-multiple-empty-lines': ['error', {'max': 1, 'maxEOF': 0}],
     'prefer-promise-reject-errors': 0,
+    'react/jsx-no-target-blank': 0,
+    'react/jsx-uses-react': 'off',
+    'react/no-unescaped-entities': 0,
+    'react/prop-types': 0,
+    'react/react-in-jsx-scope': 'off',
+    'require-jsdoc': 0,
     'sort-imports-es6-autofix/sort-imports-es6': [2, {
       'ignoreCase': false,
       'ignoreMemberSort': false,
-      'memberSyntaxSortOrder': ['none', 'all', 'multiple', 'single']
+      'memberSyntaxSortOrder': ['none', 'all', 'multiple', 'single'],
     }],
     'sort-keys-fix/sort-keys-fix': 'warn',
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off"
   },
-  settings: {
+  'settings': {
     react: {
-      version: "detect"
-    }
-  }
+      version: 'detect',
+    },
+  },
 };

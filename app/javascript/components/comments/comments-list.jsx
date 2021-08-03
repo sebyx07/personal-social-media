@@ -53,7 +53,6 @@ export default function CommentsList({latestComments, hostOfCommentPeer}) {
   );
 }
 
-
 CommentsList.propTypes = {
   hostOfCommentPeer: PropTypes.object.isRequired,
   latestComments: PropTypes.array,

@@ -109,7 +109,6 @@ function buildSubSubscriptions(subSubscriptions) {
 function removeSubSubscriptions(subSubscriptions) {
   if (isEmpty(subSubscriptions)) return;
 
-
   for (const type in subSubscriptions) {
     subSubscriptions[type].forEach((subSubscription) => {
       const {unregisterWith, subRecord, subSubscriptionId} = subSubscription;
