@@ -1,17 +1,20 @@
 import {transformKeys} from '../../lib/object/transformKeys';
 import Attachment from '../attachments/attachment';
+import mergeStyles from '../../lib/styles/merge-styles';
 const attachmentImageOptions = {
-  height: '10rem',
-  width: '10rem',
+  className: 'object-cover',
+  style: {maxWidth: 'none'},
 };
 
-export default function MountablePsmFile({data}) {
-  const {contentType, variants} = transformKeys(data);
+export default function MountablePsmFile({data, className}) {
+  const {contentType, variants, name: fileName} = transformKeys(data);
 
   return (
-    <div>
+    <div className={mergeStyles(className, 'relative')}>
       <Attachment
-        contentType={contentType} variants={variants} defaultVariant="original" imageOptions={attachmentImageOptions} modal
+        contentType={contentType} fileName={fileName}
+        variants={variants} defaultVariant="original" imageOptions={attachmentImageOptions}
+        modal
       />
     </div>
   );

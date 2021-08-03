@@ -1,10 +1,27 @@
 import {humanReadableBytes} from '../../../utils/numbers/human-readable-bytes';
+import {useEffect, useState} from 'react';
 import Modal from '../../util/modal';
 import PropTypes from 'prop-types';
 
 export default function PreviewPictureAttachment({file, url, isOpen, close}) {
+  const [state, setState] = useState({objectUrl: url});
+
+  useEffect(() => {
+    if (state.objectUrl) return;
+
+    const newObjectUrl = URL.createObjectURL(file);
+    setState((s) => {
+      return {
+        ...s,
+        objectUrl: newObjectUrl,
+      };
+    });
+
+    return () => URL.revokeObjectURL(newObjectUrl);
+  }, [file]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!isOpen) return null;
-  const objectUrl = url || URL.createObjectURL(file);
+
+  const {objectUrl} = state;
 
   return (
     <Modal isOpen={isOpen} close={close}>
@@ -15,7 +32,10 @@ export default function PreviewPictureAttachment({file, url, isOpen, close}) {
           </div>
         }
 
-        <img src={objectUrl} alt="preview image attachment" className="w-full"/>
+        {
+          objectUrl &&
+            <img src={objectUrl} alt="preview image attachment" className="w-full"/>
+        }
       </div>
     </Modal>
   );

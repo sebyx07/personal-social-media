@@ -1,59 +1,21 @@
 module.exports = function(api) {
-  var validEnv = ['development', 'test', 'production']
-  var currentEnv = api.env()
-  var isDevelopmentEnv = api.env('development')
-  var isProductionEnv = api.env('production')
-  var isTestEnv = api.env('test')
+  const validEnv = ['development', 'test', 'production'];
+  const currentEnv = api.env();
+  const isDevelopmentEnv = api.env('development');
+  const isProductionEnv = api.env('production');
+  const isTestEnv = api.env('test');
 
   if (!validEnv.includes(currentEnv)) {
     throw new Error(
-      'Please specify a valid `NODE_ENV` or ' +
+        'Please specify a valid `NODE_ENV` or ' +
         '`BABEL_ENV` environment variables. Valid values are "development", ' +
         '"test", and "production". Instead, received: ' +
         JSON.stringify(currentEnv) +
-        '.'
-    )
+        '.',
+    );
   }
 
   return {
-    presets: [
-      isTestEnv && [
-        '@babel/preset-env',
-        {
-          targets: {
-            node: 'current'
-          },
-          modules: 'commonjs'
-        },
-        [
-          '@babel/preset-react',
-          {
-            development: true,
-            useBuiltIns: true,
-            runtime: "automatic",
-          }
-        ]
-      ],
-      (isProductionEnv || isDevelopmentEnv) && [
-        '@babel/preset-env',
-        {
-          forceAllTransforms: true,
-          useBuiltIns: 'entry',
-          corejs: 3,
-          modules: false,
-          loose: false,
-          exclude: ['transform-typeof-symbol']
-        }
-      ],
-      [
-        '@babel/preset-react',
-        {
-          development: isDevelopmentEnv || isTestEnv,
-          useBuiltIns: true,
-          runtime: "automatic"
-        }
-      ]
-    ].filter(Boolean),
     plugins: [
       'babel-plugin-macros',
       '@babel/plugin-syntax-dynamic-import',
@@ -63,29 +25,67 @@ module.exports = function(api) {
       [
         '@babel/plugin-proposal-object-rest-spread',
         {
-          useBuiltIns: true
-        }
+          useBuiltIns: true,
+        },
       ],
       [
         '@babel/plugin-transform-runtime',
         {
+          corejs: false,
           helpers: false,
           regenerator: true,
-          corejs: false
-        }
+        },
       ],
       [
         '@babel/plugin-transform-regenerator',
         {
-          async: false
-        }
+          async: false,
+        },
       ],
       isProductionEnv && [
         'babel-plugin-transform-react-remove-prop-types',
         {
-          removeImport: true
-        }
-      ]
-    ].filter(Boolean)
-  }
-}
+          removeImport: true,
+        },
+      ],
+    ].filter(Boolean),
+    presets: [
+      isTestEnv && [
+        '@babel/preset-env',
+        {
+          modules: 'commonjs',
+          targets: {
+            node: 'current',
+          },
+        },
+        [
+          '@babel/preset-react',
+          {
+            development: true,
+            runtime: 'automatic',
+            useBuiltIns: true,
+          },
+        ],
+      ],
+      (isProductionEnv || isDevelopmentEnv) && [
+        '@babel/preset-env',
+        {
+          corejs: 3,
+          exclude: ['transform-typeof-symbol'],
+          forceAllTransforms: true,
+          loose: false,
+          modules: false,
+          useBuiltIns: 'entry',
+        },
+      ],
+      [
+        '@babel/preset-react',
+        {
+          development: isDevelopmentEnv || isTestEnv,
+          runtime: 'automatic',
+          useBuiltIns: true,
+        },
+      ],
+    ].filter(Boolean),
+  };
+};

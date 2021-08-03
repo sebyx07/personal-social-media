@@ -1,4 +1,4 @@
-import downloadAndDecryptFile from './decrypted-variant-file/download-and-decrypt-file';
+import {downloadAndDecryptFileCached} from './decrypted-variant-file/download-and-decrypt-file';
 
 export class DecryptedVariantFile {
   constructor(variant, contentType) {
@@ -9,27 +9,25 @@ export class DecryptedVariantFile {
   }
 
   simpleSerialFileDecrypt() {
+    this.currentUrlIndex = 0;
     const urls = [];
     let url;
     while (url = this.getNextSourceUrl()) {
       urls.push(url);
     }
 
-    return downloadAndDecryptFile(urls, this.key, this.iv);
+    return downloadAndDecryptFileCached(urls, this.key, this.iv);
   }
 
   getNextSourceUrl() {
     if (!this.currentSource) this.changeSource();
-    if (this.currentUrlIndex !== undefined) {
-      const urls = this.sources[this.currentSource];
+    const urls = this.sources[this.currentSource];
 
-      if (this.currentUrlIndex + 1 >= urls.length) return null;
-      this.currentUrlIndex += 1;
-    } else {
-      this.currentUrlIndex = 0;
-    }
+    if (this.currentUrlIndex + 1 > urls.length) return null;
+    const result = this.sources[this.currentSource][this.currentUrlIndex];
+    this.currentUrlIndex += 1;
 
-    return this.sources[this.currentSource][this.currentUrlIndex];
+    return result;
   }
 
   changeSource() {

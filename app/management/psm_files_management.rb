@@ -11,7 +11,7 @@ ActiveAdmin.register PsmFile, namespace: :management do
     selectable_column
     column :id
     column :preview do |r|
-      react_component "mountable-in-management/mountable-psm-file", data: r.presented
+      react_component "mountable-in-management/mountable-psm-file", data: r.presented, className: "w-48 h-48"
     end
     column :name
     column :content_type

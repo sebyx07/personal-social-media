@@ -1,7 +1,15 @@
 import {axios} from '../../../../utils/axios';
+import {createSimpleAsyncCache} from '../../../../lib/cache/simple-async-cache';
 import {decryptBlob} from '../../../../lib/encryption/decrypt-blob';
+const {fetchFromCache} = createSimpleAsyncCache();
 
-export default async function downloadAndDecryptFile(urls, key, iv) {
+export async function downloadAndDecryptFileCached(urls, key, iv) {
+  return fetchFromCache(urls, () => {
+    return downloadAndDecryptFile(urls, key, iv);
+  });
+}
+
+async function downloadAndDecryptFile(urls, key, iv) {
   let responses = urls.map((url) => {
     return axios.get(url, {responseType: 'blob'});
   });
