@@ -3,7 +3,9 @@
     <div data-controller="forms--password-preview">
       <%= f.label :installation_password, "* Installation password" %>
       <span class="input-icon cursor-pointer" data-action="click->forms--password-preview#toggle">👀</span>
-      <%= f.password_field :installation_password, required: true, minlength: 128, maxlength: 128, data: { "forms--password-preview-target": "input" }, class: "with-icon" %>
+      <%= f.password_field :installation_password, required: true, minlength: 128, maxlength: 128,
+                           value: @dev_installation_password,
+                           data: { "forms--password-preview-target": "input" }, class: "with-icon" %>
       <%= render_form_errors_for @profile, :installation_password %>
     </div>
     <div>

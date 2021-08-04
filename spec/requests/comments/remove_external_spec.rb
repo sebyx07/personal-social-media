@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../../shared_contexts/setup_test_storage"
 
 RSpec.describe "DELETE /comments/:id" do
   include_context "logged in"
   include_context "two people"
+  include_context "setup test storage"
+
 
   let(:comment) { create(:comment, :standard, peer: my_peer) }
   let(:cache_comment) do

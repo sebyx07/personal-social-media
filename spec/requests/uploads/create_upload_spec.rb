@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../../shared_contexts/setup_test_storage"
 
 RSpec.describe "POST /uploads" do
   include_context "logged in"
+  include_context "setup test storage"
 
   let(:params) do
     {

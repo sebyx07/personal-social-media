@@ -25,4 +25,4 @@ RUN bundle install --jobs 4
 RUN DEVELOPER=true RAILS_ENV=production SECRET_KEY_BASE=placeholder \
     bundle exec rake assets:precompile
 
-RUN rm -rf node_modules spec/*
+RUN rm -rf node_modules spec/* .git/*

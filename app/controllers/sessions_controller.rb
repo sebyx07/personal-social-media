@@ -11,6 +11,9 @@ class SessionsController < ApplicationController
   def register
     @profile ||= Profile.new
     @register_env_check = ProfilesService::RegistrationEnvCheck.new
+
+    return unless Rails.env.development?
+    @dev_installation_password = Rails.application.secrets.installation_password
   end
 
   def register_post
@@ -18,7 +21,7 @@ class SessionsController < ApplicationController
 
     @profile = Profile.new(permitted_params)
     @profile.save!
-    Current.__set_manually_profile(@profile)
+    RequestStore[:current_profile] = @profile
     set_login_session
 
     redirect_to whoami_path
@@ -30,7 +33,7 @@ class SessionsController < ApplicationController
   def login
     return unless Rails.env.development?
 
-    @dev_password = Current.profile.password_plain
+    @dev_password = Current.profile&.password_plain
   end
 
   def login_post

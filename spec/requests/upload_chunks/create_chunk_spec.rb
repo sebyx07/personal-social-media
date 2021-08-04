@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../../shared_contexts/setup_test_storage"
 
 RSpec.describe "POST /upload_chunks", type: :request do
   include_context "logged in"
+  include_context "setup test storage"
+
   let(:input_file) { "Gemfile" }
   let(:input_file_size) { SafeFile.size(input_file) }
   let(:chunk_size) { 1.kilobyte }

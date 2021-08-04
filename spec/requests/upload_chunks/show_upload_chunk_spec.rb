@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../../shared_contexts/setup_test_storage"
 
 RSpec.describe "GET /upload_chunks" do
   include_context "logged in"
+  include_context "setup test storage"
+
   let(:identifier) { SecureRandom.hex }
   let(:file_name) { "example-file.txt" }
   let(:upload) { create(:upload, resumable_upload_identifier: identifier) }

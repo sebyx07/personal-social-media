@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../../shared_contexts/setup_test_storage"
 
 RSpec.describe "POST /instant_upload_files", type: :request do
   include_context "logged in"
+  include_context "setup test storage"
+
   let(:upload) { create(:upload) }
   let(:file_name) { "Gemfile" }
   let(:sha_256) { SecureRandom.hex }
