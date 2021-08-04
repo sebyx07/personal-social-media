@@ -22,5 +22,10 @@
 #
 FactoryBot.define do
   factory :psm_attachment do
+    psm_file
+
+    before(:create) do |r|
+      r.subject ||= create(:post)
+    end
   end
 end

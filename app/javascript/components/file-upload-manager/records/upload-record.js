@@ -43,6 +43,7 @@ export class FileUploadRecord {
         'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
       },
       target: '/upload_chunks',
+      prioritizeFirstAndLastChunk: true
     });
   }
 }

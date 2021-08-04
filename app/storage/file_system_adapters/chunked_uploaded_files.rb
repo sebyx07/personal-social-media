@@ -30,9 +30,7 @@ module FileSystemAdapters
     def generate_upload_file_name(index)
       return name if index < 1
 
-      split_name = name.split(".")
-      split_name[-2] += "-p#{index + 1}"
-      split_name.join("")
+      name + "-p#{index + 1}"
     end
   end
 end

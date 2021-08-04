@@ -48,6 +48,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :instant_upload_files, only: :create
   resources :uploads, only: :create
   resources :upload_chunks, only: :create do
     collection do

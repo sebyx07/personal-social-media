@@ -14,6 +14,7 @@ class UploadChunksController < ApplicationController
 
   def create
     upload_id = request.headers["PSM-UPLOAD-ID"]
+    render json: { error: "Upload not found with id: #{upload_id}" }, status: 404
     head 404 unless upload_id
     UploadChunksService::UploadChunk.new(permitted_params_create, upload_id).handle_chunk.tap do |service|
       if service.whole_file_ready?
@@ -22,6 +23,9 @@ class UploadChunksController < ApplicationController
 
       head :ok
     end
+
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: "Upload file not found" }, status: 404
   end
 
   private
@@ -32,7 +36,7 @@ class UploadChunksController < ApplicationController
     def permitted_params_create
       @permitted_params_create ||= params.permit(
         :flowIdentifier, :flowFilename, :flowChunkNumber,
-        :file, :flowChunkSize, :flowTotalSize
+        :file, :flowChunkSize, :flowTotalSize, :flowTotalChunks
       )
     end
 end

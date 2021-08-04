@@ -23,4 +23,27 @@
 require "rails_helper"
 
 RSpec.describe PsmAttachment, type: :model do
+  describe "callbacks" do
+    describe "after destroy" do
+      let(:psm_file) { create(:psm_file) }
+
+      let(:attachments) do
+        create_list(:psm_attachment, 2, psm_file: psm_file)
+      end
+
+      before { attachments }
+
+      describe "#destroy_psm_file_if_no_attachments" do
+        it "destroys psm_file if no other attachments" do
+          expect do
+            attachments.pop.destroy
+          end.not_to change { PsmFile.count }
+
+          expect do
+            attachments.pop.destroy
+          end.to change { PsmFile.count }.by(-1)
+        end
+      end
+    end
+  end
 end

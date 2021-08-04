@@ -4,11 +4,12 @@ module UploadChunksService
   class UploadChunk
     class Error < StandardError; end
     attr_reader :resumable_identifier, :resumable_filename, :resumable_chunk_number, :resumable_chunk_size, :resumable_total_size,
-                :upload_id, :params_file, :upload_file, :upload_file_chunk
+                :upload_id, :params_file, :upload_file, :upload_file_chunk, :resumable_total_chunks
     def initialize(params, upload_id)
       @resumable_identifier = params[:flowIdentifier]
       @resumable_filename = params[:flowFilename]
       @resumable_chunk_number = params[:flowChunkNumber].to_i
+      @resumable_total_chunks = params[:flowTotalChunks].to_i
       @resumable_chunk_size = params[:flowChunkSize].to_i
       @resumable_total_size = params[:flowTotalSize].to_i
       @params_file = params[:file]
@@ -16,19 +17,13 @@ module UploadChunksService
     end
 
     def handle_chunk
-      if resumable_chunk_number == 1
-        @upload_file = UploadFile.create!(upload: upload, file_name: resumable_filename)
-      else
-        @upload_file = UploadFile.find_by!(upload: upload, file_name: resumable_filename)
-      end
+      @upload_file = UploadFile.find_by!(upload: upload, file_name: resumable_filename, status: :pending)
       create_chunk!
       self
     end
 
     def whole_file_ready?
-      current_size = resumable_chunk_number * resumable_chunk_size.to_i
-
-      current_size >= resumable_total_size
+      upload_file.upload_file_chunks.count == resumable_total_chunks
     end
 
     def process_whole_file

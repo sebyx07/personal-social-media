@@ -22,12 +22,13 @@ FactoryBot.define do
   factory :psm_file do
     cdn_storage_status { :ready }
     permanent_storage_status { :ready }
+    name { SecureRandom.hex }
+    content_type { "text" }
+    metadata { {} }
+    sha_256 { SecureRandom.hex }
 
     trait :test_image do
-      metadata { {} }
       content_type { "image" }
-      sha_256 { SecureRandom.hex }
-      name { SecureRandom.hex }
     end
   end
 end

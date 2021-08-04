@@ -10,11 +10,13 @@ RSpec.describe "POST /upload_chunks", type: :request do
   let(:chunks) { chunker.call! }
   let(:identifier) { SecureRandom.hex }
   let(:upload) { create(:upload) }
+  let(:upload_file) { create(:upload_file, upload: upload, file_name: input_file, status: :pending) }
   let(:chunker) do
     PsmFilesService::Utils::FileChunker.new(input_file, chunk_size)
   end
 
   before do
+    upload_file
     expect_any_instance_of(UploadChunksService::UploadChunk).to receive(:trigger_bg_process_file).and_return(true)
   end
 
@@ -37,7 +39,8 @@ RSpec.describe "POST /upload_chunks", type: :request do
       flowChunkNumber: chunk_index,
       file: Rack::Test::UploadedFile.new(chunk, "text/plain"),
       flowChunkSize: chunk_size,
-      flowTotalSize: input_file_size
+      flowTotalSize: input_file_size,
+      flowTotalChunks: chunks.size
     }
 
     post "/upload_chunks", params: params, headers: { "PSM-UPLOAD-ID" => upload.id }
