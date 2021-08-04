@@ -7,4 +7,4 @@ RailsServerMonitor.config do |c|
     /pghero/,
     /system-information/
   ]
-end
+end if defined? RailsServerMonitor

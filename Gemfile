@@ -2,6 +2,7 @@
 
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+is_redis_enabled = !ENV["REDIS_URL"].nil?
 
 is_dev = false
 if ENV["RAILS_ENV"] != "production"
@@ -67,7 +68,7 @@ group :production do
 end
 
 group :development, :production do
-  gem "rails_performance", "~> 1.0", ">= 1.0.1"
+  gem "rails_performance", "~> 1.0", ">= 1.0.1", require: is_redis_enabled
 end
 
 gem "activeadmin", "~> 2.9"
@@ -94,7 +95,7 @@ gem "pg_query", "~> 2.1", require: is_dev
 gem "rails_admin", "~> 2.2", require: is_dev
 
 gem "pg_search", "~> 2.3", ">= 2.3.5"
-gem "rails-server-monitor", "~> 0.2.0", require: "rails_server_monitor"
+gem "rails-server-monitor", github: "personal-social-media/rails-server-monitor", require: "rails_server_monitor"
 gem "rbnacl", "~> 7.1", ">= 7.1.1"
 gem "react-rails", "~> 2.6", ">= 2.6.1"
 gem "redcarpet", "~> 3.5", ">= 3.5.1"

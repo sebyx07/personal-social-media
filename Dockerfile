@@ -1,4 +1,6 @@
 FROM ruby:3.0.1
+ENV DEVELOPER=true
+ENV RAILS_ENV=production
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
 
@@ -17,7 +19,10 @@ WORKDIR /app
 COPY . ./
 
 RUN gem install bundler
+RUN bundle config set --local without 'development test'
 RUN bundle install --jobs 4
-RUN yarn install
-RUN DEVELOPER=true IS_DEPLOYING=true bundle exec rake assets:precompile
+
+RUN DEVELOPER=true RAILS_ENV=production SECRET_KEY_BASE=placeholder \
+    bundle exec rake assets:precompile
+
 RUN rm -rf node_modules spec/*

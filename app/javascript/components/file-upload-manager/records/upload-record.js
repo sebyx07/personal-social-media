@@ -1,5 +1,5 @@
 import {FileUploadFileRecord} from './upload-file-record';
-import {axios} from '../../../utils/axios';
+import {axios, csrfToken} from '../../../utils/axios';
 import Flow from '@flowjs/flow.js';
 
 export class FileUploadRecord {
@@ -40,10 +40,10 @@ export class FileUploadRecord {
     return new Flow({
       headers: {
         'PSM-UPLOAD-ID': this.record.id,
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+        'X-CSRF-Token': csrfToken,
       },
+      prioritizeFirstAndLastChunk: true,
       target: '/upload_chunks',
-      prioritizeFirstAndLastChunk: true
     });
   }
 }

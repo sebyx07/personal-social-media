@@ -26,7 +26,7 @@ module ProfilesService
 
       def return_profile_if_valid_password_digest(profile)
         password_digest = session[:password_digest]
-        return nil if password_digest.blank?
+        return nil if password_digest.blank? || profile.blank?
         if profile.password_digest != password_digest
           session[:password_digest] = nil
           return nil

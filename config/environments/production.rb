@@ -45,5 +45,5 @@ Rails.application.configure do
     Bullet.add_footer    = true
   end if ENV["DEVELOPER"].present?
 
-  config.middleware.use RailsServerMonitor::RackMiddleware
+  # config.middleware.use RailsServerMonitor::RackMiddleware
 end
