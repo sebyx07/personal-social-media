@@ -8,7 +8,6 @@ RSpec.describe "DELETE /comments/:id" do
   include_context "two people"
   include_context "setup test storage"
 
-
   let(:comment) { create(:comment, :standard, peer: my_peer) }
   let(:cache_comment) do
     create(:cache_comment,

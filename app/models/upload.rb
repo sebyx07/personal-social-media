@@ -26,9 +26,8 @@ class Upload < ApplicationRecord
   validate :check_if_storage_is_setup
 
   private
-
-  def check_if_storage_is_setup
-    errors.add(:cdn_storage_provider, "not setup") if CdnStorageProvider.where(enabled: true).count < 1
-    errors.add(:permanent_storage_provider, "not setup") if PermanentStorageProvider.where(enabled: true).count < 1
-  end
+    def check_if_storage_is_setup
+      errors.add(:cdn_storage_provider, "not setup") if CdnStorageProvider.where(enabled: true).count < 1
+      errors.add(:permanent_storage_provider, "not setup") if PermanentStorageProvider.where(enabled: true).count < 1
+    end
 end

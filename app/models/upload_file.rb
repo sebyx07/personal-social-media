@@ -4,12 +4,13 @@
 #
 # Table name: upload_files
 #
-#  id         :bigint           not null, primary key
-#  file_name  :string
-#  status     :string           default("pending"), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  upload_id  :bigint           not null
+#  id             :bigint           not null, primary key
+#  client_sha_256 :string(64)
+#  file_name      :string
+#  status         :string           default("pending"), not null
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  upload_id      :bigint           not null
 #
 # Indexes
 #

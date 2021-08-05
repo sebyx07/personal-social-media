@@ -7,6 +7,10 @@ export class FileUploadFileRecord {
     this.state = fileUpload.manager.state;
   }
 
+  createUploadFileRecord() {
+
+  }
+
   finish(status) {
     this.status = status;
     this.fileUpload.finishFile(this);

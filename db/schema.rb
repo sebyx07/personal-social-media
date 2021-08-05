@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_02_142437) do
+ActiveRecord::Schema.define(version: 2021_08_05_025635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -260,6 +260,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_142437) do
     t.string "cdn_storage_status", default: "pending", null: false
     t.string "sha_256", limit: 64, null: false
     t.index ["metadata"], name: "index_psm_files_on_metadata", using: :gin
+    t.index ["sha_256"], name: "index_psm_files_on_sha_256", unique: true
   end
 
   create_table "psm_permanent_files", force: :cascade do |t|
@@ -389,6 +390,7 @@ ActiveRecord::Schema.define(version: 2021_08_02_142437) do
     t.string "status", default: "pending", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "client_sha_256", limit: 64
     t.index ["upload_id", "file_name"], name: "index_upload_files_on_upload_id_and_file_name", unique: true
   end
 

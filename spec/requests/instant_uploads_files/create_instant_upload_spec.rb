@@ -9,7 +9,7 @@ RSpec.describe "POST /instant_upload_files", type: :request do
 
   let(:upload) { create(:upload) }
   let(:file_name) { "Gemfile" }
-  let(:sha_256) { SecureRandom.hex }
+  let(:sha_256) { SecureRandom.hex(32) }
 
   let(:params) do
     {

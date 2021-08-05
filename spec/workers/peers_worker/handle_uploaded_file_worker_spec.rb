@@ -15,15 +15,23 @@ RSpec.describe FileWorker::HandleUploadedFileWorker do
 
     let(:post) { create(:post, status: :pending) }
     let(:upload) { create(:upload, subject: post) }
+    let(:upload_file_sha_256) do
+      PsmFilesService::Utils::ComputeFileSha256.new(SafeFile.open(upload_file_path)).call
+    end
+
     let(:upload_file) do
-      create(:upload_file, upload: upload)
+      create(:upload_file, upload: upload, client_sha_256: upload_file_sha_256)
     end
     let(:upload_file_chunk) do
       create(:upload_file_chunk, upload_file: upload_file, resumable_chunk_number: 1, payload: upload_file_chunk_payload)
     end
 
+    let(:upload_file_path) do
+      Rails.root.join("spec/support/resources/picture-with-exif.jpg")
+    end
+
     let(:upload_file_chunk_payload) do
-      File.read(Rails.root.join("spec/support/resources/picture-with-exif.jpg"), mode: "rb")
+      File.read(upload_file_path, mode: "rb")
     end
 
     subject do

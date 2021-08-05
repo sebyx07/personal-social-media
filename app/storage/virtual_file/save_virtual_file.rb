@@ -18,6 +18,7 @@ class VirtualFile
     def psm_file
       memo(:@psm_file) do
         PsmFile.new(PsmFile::ExtractAttributesFromFile.new(virtual_file.original_physical_file).attributes).tap do |psm_file|
+          psm_file.client_sha_256 = upload_file.client_sha_256
           psm_file.name = upload_file.file_name
           psm_file.save!
         end

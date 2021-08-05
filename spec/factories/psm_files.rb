@@ -17,6 +17,7 @@
 # Indexes
 #
 #  index_psm_files_on_metadata  (metadata) USING gin
+#  index_psm_files_on_sha_256   (sha_256) UNIQUE
 #
 FactoryBot.define do
   factory :psm_file do
@@ -25,7 +26,7 @@ FactoryBot.define do
     name { SecureRandom.hex }
     content_type { "text" }
     metadata { {} }
-    sha_256 { SecureRandom.hex }
+    sha_256 { SecureRandom.hex(32) }
 
     trait :test_image do
       content_type { "image" }

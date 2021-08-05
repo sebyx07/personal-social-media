@@ -17,6 +17,7 @@
 # Indexes
 #
 #  index_psm_files_on_metadata  (metadata) USING gin
+#  index_psm_files_on_sha_256   (sha_256) UNIQUE
 #
 require "rails_helper"
 

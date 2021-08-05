@@ -1,4 +1,4 @@
-import {FileUploadFileRecord} from './upload-file-record';
+import {InstantUploadFileRecord} from './instant-upload-file-record';
 import {axios, csrfToken} from '../../../utils/axios';
 import Flow from '@flowjs/flow.js';
 
@@ -7,7 +7,7 @@ export class FileUploadRecord {
     this.subjectId = subjectId;
     this.subjectType = subjectType;
     this.manager = manager;
-    this.files = Array.from(files).map((f) => new FileUploadFileRecord(f, this));
+    this.instantUploads = Array.from(files).map((f) => new InstantUploadFileRecord(f, this));
     this.status = 'pending';
   }
 
@@ -26,7 +26,6 @@ export class FileUploadRecord {
       subjectType: this.subjectType,
     }});
 
-    console.log(record);
     this.record = record;
   }
 

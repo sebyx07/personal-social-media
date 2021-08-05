@@ -2,7 +2,7 @@
 
 module FileWorker
   class HandleUploadedFileWorker < ApplicationWorker
-    sidekiq_options retry: 1
+    sidekiq_options retry: 0
 
     attr_reader :upload_file_record, :psm_file, :virtual_file, :psm_attachment, :subject
     delegate :upload, to: :upload_file_record
@@ -39,6 +39,10 @@ module FileWorker
         end
         @psm_file = virtual_file.psm_file
         @psm_attachment = PsmAttachment.create!(psm_file: psm_file, subject: subject)
+
+      rescue ActiveRecord::RecordInvalid => e
+        log_message(:error, e.record.errors.full_messages)
+        raise
       end
 
       def uploaded_file
@@ -74,11 +78,15 @@ module FileWorker
       end
 
       def log_start_job
-        UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file_record, log_status: :ok, message: "Start upload processing job")
+        log_message(:ok, "Start upload processing job")
       end
 
       def log_end_job(status)
-        UploadFileLog.create_log!(upload_file_record.file_name, log_status: status, message: "End upload processing job")
+        log_message(status, "End upload processing job", upload_file: nil)
+      end
+
+      def log_message(status, message, upload_file: upload_file_record)
+        UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file, log_status: status, message: message)
       end
   end
 end
