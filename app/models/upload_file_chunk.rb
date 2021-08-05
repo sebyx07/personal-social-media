@@ -20,5 +20,5 @@
 #  fk_rails_...  (upload_file_id => upload_files.id)
 #
 class UploadFileChunk < ApplicationRecord
-  belongs_to :upload_file
+  belongs_to :upload_file, touch: true
 end

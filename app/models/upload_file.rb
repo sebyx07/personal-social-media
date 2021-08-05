@@ -21,9 +21,14 @@
 #  fk_rails_...  (upload_id => uploads.id)
 #
 class UploadFile < ApplicationRecord
+  scope :dangling, -> { where("updated_at < ?", 1.day.ago) }
   belongs_to :upload
   str_enum :status, %i(pending ready)
   validates :file_name, presence: true, uniqueness: { scope: :upload_id }
   has_many :upload_file_chunks, dependent: :delete_all
   has_many :upload_file_logs, dependent: :nullify
+
+  def clean_parent_upload
+    upload.destroy if UploadFile.where(upload_id: upload_id).count.zero?
+  end
 end

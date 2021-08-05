@@ -8,8 +8,8 @@ module DatabaseWorker
     end
 
     def clean_old_records
-      PgHero::SpaceStats.where("captured_at < ?", 1.month.ago).delete_all
-      PgHero::QueryStats.where("captured_at < ?", 1.month.ago).delete_all
+      PgHero::SpaceStats.where("captured_at < ?", 6.month.ago).delete_all
+      PgHero::QueryStats.where("captured_at < ?", 2.month.ago).delete_all
     end
 
     def track_new
