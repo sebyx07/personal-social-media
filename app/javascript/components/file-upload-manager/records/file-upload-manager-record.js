@@ -1,5 +1,6 @@
 import {FileUploadRecord} from './upload-record';
-import {createState} from '@hookstate/core';
+import {fileUploadManagerState} from '../file-upload-manager-state';
+import pLimit from 'p-limit';
 
 class FileUploadManagerRecord {
   constructor(state) {
@@ -7,11 +8,27 @@ class FileUploadManagerRecord {
     this.uploads = [];
   }
 
+  async testCreateUpload(subjectType, subjectId, files) {
+    fileUploadManagerState.merge({show: true});
+  }
+
   async createUpload(subjectType, subjectId, files) {
     const uploadRecord = new FileUploadRecord(subjectType, subjectId, files, this);
     this.uploads.push(uploadRecord);
     await uploadRecord.createDBRecord();
-    this.startUpload();
+
+    const throttlePromise = pLimit(2);
+
+    const instantUploadsPromises = uploadRecord.instantUploads.map((instantUpload) => {
+      console.log(instantUpload);
+      return throttlePromise(() => {
+        return instantUpload.createUploadFileRecord();
+      });
+    });
+
+    await Promise.all(instantUploadsPromises);
+
+    // this.startUpload();
   }
 
   stopFileUploadFile(uploadId, filename) {
@@ -32,11 +49,5 @@ class FileUploadManagerRecord {
     nextFile.startUpload();
   }
 }
-
-export const fileUploadManagerState = createState({
-  status: 'pending',
-  uploadFile: null,
-  uploadPercentage: 0,
-});
 
 export const fileUploadManager = new FileUploadManagerRecord(fileUploadManagerState);

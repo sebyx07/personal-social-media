@@ -10,6 +10,6 @@ class InstantUploadFilesController < ApplicationController
 
   private
     def create_params
-      params.require(:upload_file).permit(:upload_id, :file_name, :sha_256)
+      params.require(:upload_file).permit(:upload_id, :file_name, :sha256)
     end
 end

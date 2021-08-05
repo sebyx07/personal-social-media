@@ -8,6 +8,7 @@
 #  resumable_upload_identifier :string
 #  status                      :string           default("pending"), not null
 #  subject_type                :string           not null
+#  upload_files_count          :integer          default(0), not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  subject_id                  :bigint           not null
@@ -17,6 +18,7 @@
 #  index_uploads_on_subject  (subject_type,subject_id)
 #
 class Upload < ApplicationRecord
+  scope :dangling, -> { where("created_at < ?", 2.day.ago).where(upload_files_count: 0) }
   belongs_to :subject, polymorphic: true
   has_many :upload_files, dependent: :destroy
   str_enum :status, %i(pending ready)

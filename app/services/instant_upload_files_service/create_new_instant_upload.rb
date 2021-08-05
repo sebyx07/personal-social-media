@@ -23,7 +23,7 @@ module InstantUploadFilesService
     end
 
     def psm_file
-      @psm_file ||= PsmFile.find_by(sha_256: create_params[:sha_256])
+      @psm_file ||= PsmFile.find_by(sha_256: create_params[:sha256])
     end
 
     def upload
@@ -31,7 +31,17 @@ module InstantUploadFilesService
     end
 
     def upload_file
-      @upload_file ||= UploadFile.create!(status: status, upload: upload, file_name: create_params[:file_name])
+      return @upload_file if defined? @upload_file
+      @upload_file = UploadFile.find_or_initialize_by(upload: upload, client_sha_256: create_params[:sha256])
+      return @upload_file if @upload_file.persisted?
+      @upload_file.tap do |upload_file|
+        upload_file.status = status
+        upload_file.file_name = create_params[:file_name]
+        upload_file.save!
+      end
+
+    rescue ActiveRecord::RecordNotUnique
+      UploadFile.find_by!(upload: upload, client_sha_256: create_params[:sha256])
     end
 
     def handle_new_upload_file

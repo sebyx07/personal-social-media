@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+fields = %i(id client_sha_256 file_name status)
+
+{
+  upload_file: @upload_file.as_json(only: fields)
+}

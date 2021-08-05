@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_05_025635) do
+ActiveRecord::Schema.define(version: 2021_08_05_134200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -386,12 +386,12 @@ ActiveRecord::Schema.define(version: 2021_08_05_025635) do
 
   create_table "upload_files", force: :cascade do |t|
     t.bigint "upload_id", null: false
-    t.string "file_name"
+    t.string "file_name", null: false
     t.string "status", default: "pending", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "client_sha_256", limit: 64
-    t.index ["upload_id", "file_name"], name: "index_upload_files_on_upload_id_and_file_name", unique: true
+    t.string "client_sha_256", limit: 64, null: false
+    t.index ["upload_id", "client_sha_256"], name: "index_upload_files_on_upload_id_and_client_sha_256", unique: true
   end
 
   create_table "uploads", force: :cascade do |t|
@@ -401,6 +401,7 @@ ActiveRecord::Schema.define(version: 2021_08_05_025635) do
     t.string "resumable_upload_identifier"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "upload_files_count", default: 0, null: false
     t.index ["subject_type", "subject_id"], name: "index_uploads_on_subject"
   end
 

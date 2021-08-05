@@ -9,6 +9,8 @@ module CleanupWorkers
           upload_file.clean_parent_upload
         end
       end
+
+      Upload.dangling.destroy_all
     end
   end
 end

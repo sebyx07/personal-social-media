@@ -16,7 +16,7 @@ RSpec.describe "POST /instant_upload_files", type: :request do
       upload_file: {
         upload_id: upload.id,
         file_name: file_name,
-        sha_256: sha_256,
+        sha256: sha_256,
       }
     }
   end
@@ -44,6 +44,8 @@ RSpec.describe "POST /instant_upload_files", type: :request do
     it "creates a new ready upload file" do
       expect do
         subject
+
+        expect(json[:upload_file]).to be_present
       end.to change { UploadFile.ready.count }.by(1)
          .and change { upload_subject.psm_attachments.count }.by(1)
     end

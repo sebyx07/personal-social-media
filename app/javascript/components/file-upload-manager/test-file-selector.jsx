@@ -1,4 +1,5 @@
-import {fileUploadManager, fileUploadManagerState} from './records/file-upload-manager-record';
+import {fileUploadManager} from './records/file-upload-manager-record';
+import {fileUploadManagerState} from './file-upload-manager-state';
 import {useRef} from 'react';
 import {useState} from '@hookstate/core';
 
@@ -14,7 +15,7 @@ export default function TestFileSelector({children}) {
   function fileSelected(e) {
     e.preventDefault();
 
-    fileUploadManager.createUpload('Post', 1, e.target.files);
+    fileUploadManager.testCreateUpload('Post', 1, e.target.files);
     e.target.value = '';
   }
 

@@ -8,6 +8,7 @@
 #  resumable_upload_identifier :string
 #  status                      :string           default("pending"), not null
 #  subject_type                :string           not null
+#  upload_files_count          :integer          default(0), not null
 #  created_at                  :datetime         not null
 #  updated_at                  :datetime         not null
 #  subject_id                  :bigint           not null
