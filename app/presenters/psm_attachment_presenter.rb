@@ -10,6 +10,7 @@ class PsmAttachmentPresenter
   def render_inside_content
     {
       id: @attachment.id,
+      type: @attachment.psm_file.type,
       variants: variants
     }
   end
@@ -24,9 +25,13 @@ class PsmAttachmentPresenter
             variants[variant_name] ||= PsmFileVariantPresenter.new(variant).render
 
             variant.psm_cdn_files.each do |psm_cdn_file|
-              adapter_name = psm_cdn_file.cdn_storage_provider.adapter
-              variants[variant_name][:sources][adapter_name] ||= []
-              variants[variant_name][:sources][adapter_name] << PsmAttachmentsService::VariantUrlResolver.new(psm_cdn_file).resolve(variant.external_file_name)
+              cdn_provider = psm_cdn_file.cdn_storage_provider
+              variants[variant_name][:sources][cdn_provider.id] ||= {
+                adapter: cdn_provider.adapter,
+                urls: []
+              }
+
+              variants[variant_name][:sources][cdn_provider.id][:urls] << PsmAttachmentsService::VariantUrlResolver.new(psm_cdn_file).resolve(variant.external_file_name)
             end
           end
         end
