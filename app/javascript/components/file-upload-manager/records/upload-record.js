@@ -13,27 +13,35 @@ export class FileUploadRecord {
     this.status = 'pending';
   }
 
-  async run() {
-    stateManager.setSubject(this.subjectId, this.subjectType);
-    stateManager.setMessage('Creating upload');
-    await this.createDBRecord();
-    const limit = pLimit(3);
-    stateManager.setMessage('Creating upload files');
-    const runPromises = this.instantUploads.map((instantUpload) => {
-      return limit(() => {
-        return instantUpload.run();
+  run() {
+    return new Promise(async (resolve) => {
+      stateManager.setSubject(this.subjectId, this.subjectType);
+      stateManager.setMessage('Creating upload');
+      await this.createDBRecord();
+      const limit = pLimit(3);
+      stateManager.setMessage('Creating upload files');
+      const runPromises = this.instantUploads.map((instantUpload) => {
+        return limit(() => {
+          return instantUpload.run();
+        });
       });
-    });
 
-    await Promise.all(runPromises);
+      await Promise.all(runPromises);
 
-    const uploadPromises = this.instantUploads.map((instantUpload) => {
-      return limit(() => {
-        return instantUpload.startUploading();
+      const uploadPromises = this.instantUploads.map((instantUpload) => {
+        return limit(() => {
+          return instantUpload.startUploading();
+        });
       });
-    });
 
-    await Promise.all(uploadPromises);
+      await Promise.all(uploadPromises);
+
+      stateManager.setMessage('Finished');
+
+      setTimeout(() => {
+        resolve();
+      }, 10000);
+    });
   }
 
   removeFileRecord(fileRecord) {
@@ -61,7 +69,8 @@ export class FileUploadRecord {
   createFlow() {
     if (!this.record) throw 'no this.record'; // eslint-disable-line no-throw-literal
 
-    return new Flow({
+    return this._flow = new Flow({
+      chunkSize: 5 * 1024 * 1024,
       headers: {
         'PSM-UPLOAD-ID': this.record.id,
         'X-CSRF-Token': csrfToken,

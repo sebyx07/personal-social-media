@@ -29,7 +29,7 @@ export const fileUploadManagerStateManager = {
   },
 
   setMessage(message) {
-    fileUploadManagerState.message.set(message);
+    fileUploadManagerState.merge({message});
   },
 
   setSubject(subjectId, subjectType) {

@@ -9,6 +9,8 @@ module ExifService
     end
 
     def call
+      return  {} if latitude.blank? || longitude.blank?
+
       {
         lat: geo_float(*latitude),
         lng: geo_float(*longitude)

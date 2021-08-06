@@ -10,6 +10,7 @@ export default function FileUploadManager() {
   const state = useState(fileUploadManagerState);
   const {show, message} = getHookstateProperties(state, 'show', 'message');
   const {subjectId, subjectType} = getHookstateProperties(state.uploadSubject, 'subjectId', 'subjectType');
+  console.log(message);
 
   useBeforeunload((e) => {
     if (!show) return;

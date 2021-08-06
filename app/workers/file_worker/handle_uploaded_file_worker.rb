@@ -34,15 +34,17 @@ module FileWorker
       end
 
       def create_psm_file_record
-        @virtual_file = VirtualFile.new(original_physical_file: uploaded_file, upload_file: upload_file_record).tap do |v_file|
-          v_file.save!
-        end
-        @psm_file = virtual_file.psm_file
-        @psm_attachment = PsmAttachment.create!(psm_file: psm_file, subject: subject)
+        ApplicationRecord.transaction do
+          @virtual_file = VirtualFile.new(original_physical_file: uploaded_file, upload_file: upload_file_record).tap do |v_file|
+            v_file.save!
+          end
+          @psm_file = virtual_file.psm_file
+          @psm_attachment = PsmAttachment.create!(psm_file: psm_file, subject: subject)
 
-      rescue ActiveRecord::RecordInvalid => e
-        log_message(:error, e.record.errors.full_messages)
-        raise
+        rescue ActiveRecord::RecordInvalid => e
+          log_message(:error, e.record.errors.full_messages)
+          raise
+        end
       end
 
       def uploaded_file
@@ -94,7 +96,7 @@ module FileWorker
       end
 
       def log_message(status, message, upload_file: upload_file_record)
-        # UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file, log_status: status, message: message)
+        UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file, log_status: status, message: message)
       end
   end
 end

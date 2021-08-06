@@ -12,7 +12,7 @@ class FileUploadManagerRecord {
   }
 
   async createUpload(subjectType, subjectId, files) {
-    fileUploadManagerState.merge({show: true, uploadStatus: 'calculating-hash'});
+    this.handleNextUpload();
     const uploadRecord = new FileUploadRecord(subjectType, subjectId, files, this);
     this.uploads.push(uploadRecord);
     await this.startProcessingUploads();
@@ -28,15 +28,16 @@ class FileUploadManagerRecord {
     try {
       this.currentUpload = this.uploads.shift();
       await this.currentUpload.run();
+      fileUploadManagerState.batch(() => {
+        fileUploadManagerStateManager.reset();
+        this.handleNextUpload();
+      });
     } finally {
       this.__startedProcessingUplaods = false;
     }
 
     if (isEmpty(this.uploads)) {
-      fileUploadManagerState.merge({message: null, uploadStatus: 'ready'});
-      return setTimeout(() => {
-        fileUploadManagerStateManager.reset();
-      }, 20000);
+      return fileUploadManagerStateManager.reset();
     }
 
     return this.startProcessingUploads();
@@ -58,6 +59,10 @@ class FileUploadManagerRecord {
       uploadFile: nextFile,
     });
     nextFile.startUpload();
+  }
+
+  handleNextUpload() {
+    fileUploadManagerState.merge({show: true, uploadStatus: 'calculating-hash'});
   }
 }
 

@@ -53,6 +53,7 @@ export class InstantUploadFileRecord {
     const change = {status: uploadFile.status};
     if (uploadFile.status === 'ready') {
       change.progress = 100;
+      change.message = 'Done, instant uploaded';
     }
     this.uploadFileState.merge(change);
     this.status = uploadFile.status;

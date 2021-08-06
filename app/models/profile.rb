@@ -37,6 +37,7 @@ class Profile < ApplicationRecord
 
   after_create :generate_self_peer!
   after_commit :generate_settings, on: :create
+  after_commit :run_dev_seeds_again, on: :create if Rails.env.development?
 
   validates :name, presence: true, length: { maximum: 50, minimum: 4 }
   sanitize_attributes :email, with: :squish
@@ -113,4 +114,8 @@ class Profile < ApplicationRecord
     def generate_self_peer!
       generate_self_peer.tap(&:save!)
     end
+
+    def run_dev_seeds_again
+      Process.spawn("bundle exec rails db:seed")
+    end if Rails.env.development?
 end
