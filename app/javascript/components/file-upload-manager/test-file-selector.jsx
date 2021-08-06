@@ -14,7 +14,7 @@ export default function TestFileSelector({children}) {
 
     const files = Array.from(e.target.files);
     e.target.value = '';
-    return fileUploadManager.createUpload('Post', 1, files);
+    return fileUploadManager.createUpload('Post', 2, files);
   }
 
   return (

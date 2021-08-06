@@ -26,6 +26,10 @@ class VirtualFile
           psm_file.save!
         end
       end
+
+    rescue ActiveRecord::RecordInvalid
+      upload_file.destroy
+      raise
     end
 
     def psm_original_variant

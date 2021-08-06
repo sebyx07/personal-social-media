@@ -45,6 +45,9 @@ class PsmFile < ApplicationRecord
 
   def check_sha_256_from_client
     return if client_sha_256.blank?
+    unless client_sha_256 == sha_256
+      p "Browser sha #{client_sha_256}, server sha #{sha_256}"
+    end
     errors.add(:sha_256, "files don't match") unless client_sha_256 == sha_256
   end
 end

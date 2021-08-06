@@ -54,9 +54,9 @@ module FileWorker
               f.write(chunk.payload)
             end
           end
-        end
+        end.close
 
-        @uploaded_file = SafeFile.open(path)
+        @uploaded_file = SafeFile.open(path, "rb")
       end
 
       def upload_file_chunks
@@ -86,7 +86,7 @@ module FileWorker
       end
 
       def log_message(status, message, upload_file: upload_file_record)
-        UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file, log_status: status, message: message)
+        # UploadFileLog.create_log!(upload_file_record.file_name, upload_file: upload_file, log_status: status, message: message)
       end
   end
 end

@@ -36,7 +36,8 @@ class UploadChunksController < ApplicationController
     def permitted_params_create
       @permitted_params_create ||= params.permit(
         :flowIdentifier, :flowFilename, :flowChunkNumber,
-        :file, :flowChunkSize, :flowTotalSize, :flowTotalChunks
+        :file, :flowChunkSize, :flowTotalSize, :flowTotalChunks,
+        :flowCurrentChunkSize, :flowRelativePath
       )
     end
 end
