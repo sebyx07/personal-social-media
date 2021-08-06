@@ -1,6 +1,9 @@
 import {FileUploadRecord} from './upload-record';
-import {fileUploadManagerState} from '../file-upload-manager-state';
-import pLimit from 'p-limit';
+import {
+  fileUploadManagerState,
+  fileUploadManagerStateManager,
+} from '../file-upload-manager-state';
+import {isEmpty} from 'lodash';
 
 class FileUploadManagerRecord {
   constructor(state) {
@@ -8,27 +11,35 @@ class FileUploadManagerRecord {
     this.uploads = [];
   }
 
-  async testCreateUpload(subjectType, subjectId, files) {
-    fileUploadManagerState.merge({show: true});
-  }
-
   async createUpload(subjectType, subjectId, files) {
+    fileUploadManagerState.merge({show: true, uploadStatus: 'calculating-hash'});
     const uploadRecord = new FileUploadRecord(subjectType, subjectId, files, this);
     this.uploads.push(uploadRecord);
-    await uploadRecord.createDBRecord();
+    await this.startProcessingUploads();
+  }
 
-    const throttlePromise = pLimit(2);
+  cancelUpload(sha256) {
+    this.currentUpload.cancelUpload(sha256);
+  }
 
-    const instantUploadsPromises = uploadRecord.instantUploads.map((instantUpload) => {
-      console.log(instantUpload);
-      return throttlePromise(() => {
-        return instantUpload.createUploadFileRecord();
-      });
-    });
+  async startProcessingUploads() {
+    if (this.__startedProcessingUplaods) return;
+    this.__startedProcessingUplaods = true;
+    try {
+      this.currentUpload = this.uploads.shift();
+      await this.currentUpload.run();
+    } finally {
+      this.__startedProcessingUplaods = false;
+    }
 
-    await Promise.all(instantUploadsPromises);
+    if (isEmpty(this.uploads)) {
+      fileUploadManagerState.merge({message: null, uploadStatus: 'ready'});
+      return setTimeout(() => {
+        fileUploadManagerStateManager.reset();
+      }, 20000);
+    }
 
-    // this.startUpload();
+    return this.startProcessingUploads();
   }
 
   stopFileUploadFile(uploadId, filename) {

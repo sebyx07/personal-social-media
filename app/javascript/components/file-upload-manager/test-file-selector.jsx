@@ -1,10 +1,7 @@
 import {fileUploadManager} from './records/file-upload-manager-record';
-import {fileUploadManagerState} from './file-upload-manager-state';
 import {useRef} from 'react';
-import {useState} from '@hookstate/core';
 
 export default function TestFileSelector({children}) {
-  const state = useState(fileUploadManagerState);
   const inputRef= useRef();
   function selectFile(e) {
     e.preventDefault();
@@ -15,26 +12,16 @@ export default function TestFileSelector({children}) {
   function fileSelected(e) {
     e.preventDefault();
 
-    fileUploadManager.testCreateUpload('Post', 1, e.target.files);
+    const files = Array.from(e.target.files);
     e.target.value = '';
-  }
-
-  function _clearAllUnfinishedUploads(e) {
-    e.preventDefault();
+    return fileUploadManager.createUpload('Post', 1, files);
   }
 
   return (
     <div>
       <div>
-        {
-          state.status.get() === 'pending' &&
-            <button onClick={selectFile} className="bg-blue-600 p-2 mx-4 text-white">
-              Select file to test upload:
-            </button>
-        }
-
-        <button onClick={_clearAllUnfinishedUploads} className="bg-blue-600 p-2 mx-4 text-white ml-6">
-          Clear unfinished uploads
+        <button onClick={selectFile} className="bg-blue-600 p-2 mx-4 text-white">
+          Select file to test upload:
         </button>
       </div>
 

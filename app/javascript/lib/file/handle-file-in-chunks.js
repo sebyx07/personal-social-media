@@ -20,8 +20,10 @@ function _handleFileInChunks(file, cb, position, totalSize, fileReader, cbProgre
 
   fileReader.onload = async () => {
     await cb(new Uint8Array(fileReader.result));
-    if (cbProgress) {
+    if (cbProgress && nextPosition < totalSize) {
       cbProgress(percentageOf(position, totalSize));
+    } else if (cbProgress) {
+      cbProgress(100);
     }
     _handleFileInChunks(file, cb, nextPosition, totalSize, fileReader, cbProgress, finishCb);
   };

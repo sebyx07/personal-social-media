@@ -1,33 +1,33 @@
 export class FileUploadFileRecord {
-  constructor(file, fileUpload) {
-    this.file = file;
-    file.record = this;
-    this.fileUpload = fileUpload;
-    this.status = 'pending';
-    this.state = fileUpload.manager.state;
+  constructor(instantUpload) {
+    this.instantUpload = instantUpload;
   }
 
-  createUploadFileRecord() {
-
-  }
-
-  finish(status) {
-    this.status = status;
-    this.fileUpload.finishFile(this);
+  handleProgress(flowFile) {
+    const progress = parseFloat((flowFile.progress() * 100).toFixed(2));
+    const instantUpload = flowFile.file.instantUpload;
+    instantUpload.uploadFileState.merge({
+      currentSpeed: parseInt(flowFile.averageSpeed),
+      etaSeconds: flowFile.timeRemaining(),
+      message: `${progress}%`,
+      progress,
+      uploadedAlreadyBytes: flowFile.sizeUploaded(),
+    });
   }
 
   startUpload() {
-    const flow = this.fileUpload.createFlow();
+    return new Promise((resolve) => {
+      const flow = this.instantUpload.uploadRecord.createFlow();
 
-    flow.on('fileSuccess', () => {
-      this.finish('success');
+      flow.on('fileSuccess', () => {
+        this.instantUpload.finish();
+        resolve();
+      });
+
+      flow.on('fileProgress', this.handleProgress.bind(this));
+
+      flow.addFile(this.instantUpload.file);
+      flow.upload();
     });
-
-    flow.on('progress', () => {
-      console.log(...arguments); // eslint-disable-line prefer-rest-params
-    });
-
-    flow.addFile(this.file);
-    flow.upload();
   }
 }

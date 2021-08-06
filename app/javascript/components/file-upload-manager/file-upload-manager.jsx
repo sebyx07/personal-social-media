@@ -8,10 +8,11 @@ import TestFileSelector from './test-file-selector';
 
 export default function FileUploadManager() {
   const state = useState(fileUploadManagerState);
-  const {status: uploaderStatus, show} = getHookstateProperties(state, 'status', 'show');
+  const {show, message} = getHookstateProperties(state, 'show', 'message');
+  const {subjectId, subjectType} = getHookstateProperties(state.uploadSubject, 'subjectId', 'subjectType');
 
   useBeforeunload((e) => {
-    if (uploaderStatus === 'pending') return;
+    if (!show) return;
     e.preventDefault();
 
     return 'please finish the upload before leaving';
@@ -27,10 +28,22 @@ export default function FileUploadManager() {
                 <h3 className="italic font-bold text-lg text-center">
                   Upload manager
                 </h3>
+
+                {
+                  subjectId && <div>
+                    Handling upload for {subjectType}#{subjectId}
+                  </div>
+                }
+
+                {
+                  message && <div>
+                    {message}
+                  </div>
+                }
               </div>
 
               <div className="flex-1 overflow-y-auto h-48">
-                <FileUploadList/>
+                <FileUploadList state={state}/>
               </div>
             </div>
           </div>
