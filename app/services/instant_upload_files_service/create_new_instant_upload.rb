@@ -19,6 +19,7 @@ module InstantUploadFilesService
 
     def handle_instant_upload
       PsmAttachment.find_or_create_by!(psm_file: psm_file, subject: upload.subject)
+      UploadFileLog.create_log!(psm_file.name, { message: "Instant uploaded" })
       @status = :ready
     end
 

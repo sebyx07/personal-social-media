@@ -6,7 +6,6 @@ ActiveAdmin.register UploadFileLog, namespace: :management do
   actions :index, :show, :destroy
 
   filter :message
-  filter(:upload_file, as: :searchable_select, ajax: true)
 
   index do
     selectable_column

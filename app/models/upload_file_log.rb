@@ -44,7 +44,7 @@ class UploadFileLog < ApplicationRecord
 
   class << self
     def create_log!(filename, options)
-      message = "File:#{filename} => #{options[:message]}"
+      message = "File: #{filename} => #{options[:message]}"
       create!(options.merge(message: message))
     end
   end

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register UploadFile, namespace: :management do
-  searchable_select_options(scope: -> { scoped_collection }, text_attribute: :file_name)
+  searchable_select_options(scope: -> { scoped_collection }, text_attribute: :file_name, filter: ->(term, scope) do
+    scope.ransack(file_name_cont_all: term.split(" ")).result
+  end)
   menu false
 
   controller do
