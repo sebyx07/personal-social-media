@@ -60,8 +60,16 @@ module FileWorker
       end
 
       def upload_file_chunks
-        upload_file_record.upload_file_chunks.order(:resumable_chunk_number).find_in_batches(batch_size: 50) do |upload_file_chunks|
-          yield upload_file_chunks
+        last_chunk_number = 0
+
+        loop do
+          upload_file_chunks = upload_file_record.upload_file_chunks.where("resumable_chunk_number > ?", last_chunk_number).order(:resumable_chunk_number).limit(20).to_a
+          if upload_file_chunks.blank?
+            break
+          else
+            yield upload_file_chunks
+            last_chunk_number = upload_file_chunks.last.resumable_chunk_number
+          end
         end
       end
 

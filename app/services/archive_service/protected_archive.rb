@@ -55,7 +55,7 @@ module ArchiveService
     end
 
     def new_archive_name
-      new_archive_path.sub("/tmp", "")
+      new_archive_path.sub("/tmp", "").sub("/", "")
     end
 
     private
