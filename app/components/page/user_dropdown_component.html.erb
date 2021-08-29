@@ -1,44 +1,50 @@
 <div data-controller="page--dropdown">
   <button class="default outline-none" data-action="click->page--dropdown#toggleOpen">
-    <i class="far fa-user fa-2x text-white hover:text-gray-200"></i>
+    <i class="far fa-user fa-2x text-cyber-2 hover:text-cyber-2-light"></i>
   </button>
 
   <%= content_tag :div, data: { "page--dropdown-target": :dropdown },
-                  class: "hidden absolute bg-white right-0 rounded-b border border-solid border-gray-200 #{width} text-right" do %>
-    <div class="mb-1 hover:bg-gray-100 p-1">
-      <%= link_to whoami_path, class: "text-gray-500 hover:text-gray-600" do %>
-        <i class="fas fa-id-card"></i> Share profile
-      <% end %>
-    </div>
+                  class: "hidden absolute right-0 rounded-b #{width} pt-6" do %>
+    <div class="bg-cyber-1-transparent border-cyber-2 border-solid border-2 text-cyber-2">
+      <div class="text-center">
+        <div class="mb-1 p-1">
+          <%= link_to whoami_path, class: "hover:text-cyber-2-light" do %>
+            <i class="fas fa-id-card"></i> Share profile
+          <% end %>
+        </div>
 
-    <div class="my-1 hover:bg-gray-100 p-1">
-      <%= link_to peer_path(Current.peer), class: "text-gray-500 hover:text-gray-600" do %>
-        <i class="far fa-user"></i> My page
-      <% end %>
-    </div>
+        <div class="my-1 p-1">
+          <%= link_to peer_path(Current.peer), class: "hover:text-cyber-2-light" do %>
+            <i class="far fa-user"></i> My page
+          <% end %>
+        </div>
 
-    <div class="mt-1 hover:bg-gray-100 p-1 rounded-b">
-      <%= link_to sessions_logout_path, class: "text-gray-500 hover:text-gray-600", method: :delete do %>
-        <i class="fas fa-sign-out-alt"></i> Logout
-      <% end %>
-    </div>
-
-    <% if DeveloperService::IsEnabled.is_enabled? %>
-      <div class="p-1">
-        Developer mode activated
+        <div class="mt-1 p-1 rounded-b">
+          <%= link_to sessions_logout_path, method: :delete, class: "hover:text-cyber-2-light" do %>
+            <i class="fas fa-sign-out-alt"></i> Logout
+          <% end %>
+        </div>
       </div>
 
-      <div class="mt-1 hover:bg-gray-100 p-1">
-        <%= link_to rails_admin_path, class: "text-gray-500 hover:text-gray-600", target: :_blank do %>
-          Rails Admin
-        <% end %>
-      </div>
+      <% unless DeveloperService::IsEnabled.is_enabled? %>
+        <div class="text-right mt-4">
+          <div class="p-1 font-bolder underline">
+            Developer mode activated
+          </div>
 
-      <div class="mt-1 hover:bg-gray-100 p-1 rounded-b">
-        <%= link_to sidekiq_web_path, class: "text-gray-500 hover:text-gray-600", target: :_blank do %>
-          Sidekiq
-        <% end %>
-      </div>
-    <% end %>
+          <div class="mt-1 p-1">
+            <%= link_to rails_admin_path, target: :_blank, class: "hover:text-cyber-2-light" do %>
+              Rails Admin
+            <% end %>
+          </div>
+
+          <div class="mt-1 p-1 rounded-b">
+            <%= link_to sidekiq_web_path, target: :_blank, class: "hover:text-cyber-2-light" do %>
+              Sidekiq
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 </div>
