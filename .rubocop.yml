@@ -16,3 +16,6 @@ Lint/Debugger:
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: nested
+
+Lint/DuplicateMethods:
+  Enabled: false

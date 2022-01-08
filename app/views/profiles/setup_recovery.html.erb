@@ -1,7 +1,7 @@
 <div>
   <h1 class="text-gray-500 text-2xl text-center">Setup account recovery page</h1>
 
-  <div class="md:w-1/3 w-full mx-auto">
+  <div class="md:w-2/3 w-full mx-auto">
     <%= form_with(url: setup_recovery_profile_path, scope: :profile, data: { controller: "profile--recovery-steps", action: "submit->profile--recovery-steps#finish" }) do |f| %>
       <div class="text-lg bg-green-500 w-24 text-center text-white mx-auto my-3" data-profile--recovery-steps-target="stepCounter">Step 1</div>
 

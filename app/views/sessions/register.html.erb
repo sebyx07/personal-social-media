@@ -1,5 +1,5 @@
 <div class="flex py-4">
-  <%= form_with model: @profile, url: sessions_register_path, class: "mx-auto w-full md:w-1/3", id: "register-form" do |f| %>
+  <%= form_with model: @profile, url: sessions_register_path, class: "mx-auto w-full md:w-1/3 bg-white p-2 rounded", id: "register-form" do |f| %>
     <div data-controller="forms--password-preview">
       <%= f.label :installation_password, "* Installation password" %>
       <span class="input-icon cursor-pointer" data-action="click->forms--password-preview#toggle">👀</span>

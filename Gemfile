@@ -11,7 +11,7 @@ elsif ENV["DEVELOPER"]
   is_dev = true
 end
 
-ruby "3.0.1"
+ruby "3.0.3"
 gem "bcrypt", "~> 3.1.7"
 gem "bootsnap", ">= 1.4.4", require: false
 gem "pg", "~> 1.2", ">= 1.2.3"
@@ -112,4 +112,4 @@ gem "strong_migrations", "~> 0.7.7"
 gem "typhoeus", "~> 1.4"
 gem "unicode-emoji", "~> 2.8"
 gem "validates_host", "~> 1.3"
-gem "view_component", require: "view_component/engine"
+gem "view_component"

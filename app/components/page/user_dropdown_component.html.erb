@@ -26,7 +26,7 @@
         </div>
       </div>
 
-      <% unless DeveloperService::IsEnabled.is_enabled? %>
+      <% if DeveloperService::IsEnabled.is_enabled? %>
         <div class="text-right mt-4">
           <div class="p-1 font-bolder underline">
             Developer mode activated

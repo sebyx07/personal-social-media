@@ -52,9 +52,7 @@ RSpec.shared_examples "two people" do
     other_peer.update!(status: statuses)
   end
 
-  def take_over_wrap!
-    _test_session_instance.take_over_wrap! do
-      yield
-    end
+  def take_over_wrap!(&block)
+    _test_session_instance.take_over_wrap!(&block)
   end
 end
