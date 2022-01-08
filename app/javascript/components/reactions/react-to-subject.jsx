@@ -47,8 +47,8 @@ export default function ReactToSubject({baseUrl, className, cbInc, model}) {
   return (
     <div className="relative" ref={ref}>
       <button onClick={openKb} disabled={state.buttonDisabled.get()}
-        className={mergeStyles('rounded text-white rounded border border-solid border-indigo-600 w-10 h-10 flex items-center justify-center', className)}>
-        <SafeEmojiString string="👍" size={24}/>
+        className={mergeStyles('rounded text-white rounded border border-solid border-white px-1 h-10 w-10 flex items-center justify-center', className)}>
+        <SafeEmojiString string="👍" size={24} className="flex items-center justify-center"/>
       </button>
 
       <EmojiKb isOpened={state.keyboardOpened.get()} append={reactToSubject} className="absolute z-10"/>

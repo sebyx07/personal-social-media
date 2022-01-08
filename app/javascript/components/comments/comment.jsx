@@ -21,7 +21,7 @@ export default function Comment({data: comment, hostOfCommentPeer}) {
 
   return (
     <div className="py-1">
-      <div className="bg-gray-300 rounded p-2">
+      <div className="p-2 border-top border-t border-cyber-2">
         <RemotePeerAvatar peer={comment.peer} imageClassName="h-8 w-8" nameClassName="text-sm">
           <>
             <div className="text-sm">

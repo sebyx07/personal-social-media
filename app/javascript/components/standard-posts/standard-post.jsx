@@ -41,7 +41,7 @@ export default function StandardPost({data: post}) {
   }
 
   return (
-    <div className="bg-gray-200 my-2 p-2 rounded">
+    <div className="bg-black my-2 p-2 rounded border border-solid border-cyber-2 text-white">
       <div>
         <DefaultPeerAvatar peer={post.peer}>
           <div>

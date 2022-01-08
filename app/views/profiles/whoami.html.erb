@@ -25,7 +25,7 @@
       <%= content_tag "canvas", "", class: "mx-auto", data: { qr_payload: @qr_code, controller: "communication--qr-code" } %>
     </div>
   </div>
-  <div>
+  <div class="bg-white">
     <button data-action="click->communication--element-to-picture#download" class="no-print w-full mx-auto themed">
       Download
     </button>

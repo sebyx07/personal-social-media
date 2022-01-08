@@ -16,7 +16,7 @@ export default function ReactionCounter({reactionCounter, localReactionsStore}) 
 
   return (
     <div>
-      <SafeEmojiString string={string} size={emojiSize} textStyle={textStyle}/>
+      <SafeEmojiString string={string} size={emojiSize} textStyle={textStyle} className="flex justity-center items-center"/>
     </div>
   );
 }

@@ -21,7 +21,7 @@ export default function Modal({isOpen, close, children}) {
     <>
       <div className="fixed bg-black inset-0 z-30 opacity-50"/>
       <div className="fixed inset-0 flex justify-center z-50 py-12">
-        <div className="bg-gray-300 p-6 shadow-lg rounded sm:w-full md:min-w-1/3 md:max-w-3/4 overflow-y-auto" ref={ref}>
+        <div className="bg-cyber-1 p-6 shadow-lg rounded sm:w-full md:min-w-1/3 md:max-w-3/4 overflow-y-auto" ref={ref}>
           {children}
         </div>
       </div>

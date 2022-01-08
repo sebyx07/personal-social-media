@@ -1,8 +1,8 @@
 button.themed, input[type='submit']{
-  @apply bg-indigo-500 text-white font-bold px-2 py-3 shadow-inner text-center cursor-pointer rounded;
+  @apply bg-cyber-2 text-gray-700 font-bold px-2 py-3 shadow-inner text-center cursor-pointer rounded;
 
   &:hover{
-    @apply bg-indigo-600;
+    @apply bg-cyber-2-light;
   }
 
   &:disabled{

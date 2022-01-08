@@ -18,7 +18,7 @@ export default function ReactionCounterActionWrapper({reactionCounter, localReac
     reactionsWrapperEachClassName,
   } = localReactionsStore;
   const url = baseUrl + `/${modelId}`;
-  const hasReactedClassName = hasReacted ? 'bg-gray-400 rounded' : '';
+  const hasReactedClassName = hasReacted ? 'bg-white rounded-full' : '';
 
   async function increment() {
     try {
@@ -47,7 +47,7 @@ export default function ReactionCounterActionWrapper({reactionCounter, localReac
 
   return (
     <div className={reactionsWrapperEachClassName}>
-      <button className={mergeStyles(hasReactedClassName, reactionsClassName, 'p-1 flex justify-center items-center')} onClick={toggleReaction}>
+      <button className={mergeStyles(hasReactedClassName, reactionsClassName, 'h-10 w-10 flex justify-center items-center')} onClick={toggleReaction}>
         {children}
       </button>
     </div>

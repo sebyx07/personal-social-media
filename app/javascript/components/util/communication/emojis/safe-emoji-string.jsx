@@ -5,7 +5,7 @@ import {Emoji, getEmojiDataFromNative} from 'emoji-mart';
 import {textWithEmoji} from '../../../../utils/text-with-emoji';
 import data from 'emoji-mart/data/all.json';
 
-export default function SafeEmojiString({string, size, textStyle: defaultTextStyle = {}}) {
+export default function SafeEmojiString({string, size, textStyle: defaultTextStyle = {}, className}) {
   const html = textWithEmoji(string);
   const textStyle = {
     fontSize: `${parseInt(size * 0.85)}px`,
@@ -19,7 +19,7 @@ export default function SafeEmojiString({string, size, textStyle: defaultTextSty
           if (isObject(input)) {
             const emojiData = getEmojiDataFromNative(input.emoji, 'apple', data);
             return (
-              <span key={i} dangerouslySetInnerHTML={{
+              <span className={className} key={i} dangerouslySetInnerHTML={{
                 __html: Emoji({ // eslint-disable-line new-cap
                   emoji: emojiData,
                   html: true,

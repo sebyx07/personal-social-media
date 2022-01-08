@@ -38,7 +38,7 @@ export default function StandardPostReactions({post, cbInc, cbDec}) {
     countersListStyle: countersListStyle,
     modelId: modelId,
     reactionCounters: displayedReactionCounters,
-    reactionsClassName: 'hover:bg-gray-100',
+    reactionsClassName: 'hover:bg-white',
     reactionsWrapperEachClassName: 'p-1',
   };
 

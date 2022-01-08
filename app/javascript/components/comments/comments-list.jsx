@@ -1,11 +1,12 @@
 import {getHookstateProperties} from '../../lib/hookstate/get-properties';
-import {takeRight} from 'lodash';
+import {isEmpty, takeRight} from 'lodash';
 import {useState} from '@hookstate/core';
 import Comment from './comment';
 import PropTypes from 'prop-types';
 
 export default function CommentsList({latestComments, hostOfCommentPeer}) {
   const renderedLatestComments = takeRight(latestComments, 3);
+  const showViewMore = !isEmpty(renderedLatestComments);
 
   const state = useState({
     viewMore: false,
@@ -44,11 +45,13 @@ export default function CommentsList({latestComments, hostOfCommentPeer}) {
         }
       </div>
 
-      <a href="#" onClick={toggleViewMore}>
-        {
-          viewMore ? 'View less' : 'View more'
-        }
-      </a>
+      {
+        showViewMore && <a href="#" onClick={toggleViewMore}>
+          {
+            viewMore ? 'View less' : 'View more'
+          }
+        </a>
+      }
     </div>
   );
 }
