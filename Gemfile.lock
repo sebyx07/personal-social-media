@@ -552,7 +552,7 @@ GEM
     sidekiq-cron (1.2.0)
       fugit (~> 1.1)
       sidekiq (>= 4.2.1)
-    sidekiq-throttled (0.13.0)
+    sidekiq-throttled (0.15.0)
       concurrent-ruby
       redis-prescription
       sidekiq
@@ -675,7 +675,7 @@ DEPENDENCIES
   schmooze (~> 0.2.0)
   sidekiq (~> 6.2, >= 6.2.1)
   sidekiq-cron (~> 1.2)
-  sidekiq-throttled (~> 0.13.0)
+  sidekiq-throttled (~> 0.15.0)
   skylight (~> 5.1, >= 5.1.1)
   spring
   spring-commands-rspec (~> 1.0, >= 1.0.4)
