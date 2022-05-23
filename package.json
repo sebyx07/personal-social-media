@@ -38,7 +38,7 @@
     "form-serialize-improved": "^0.8.9",
     "html-to-image": "^1.7.0",
     "inkmbt": "^1.0.3",
-    "javascript-time-ago": "^2.3.7",
+    "javascript-time-ago": "^2.5.2",
     "jquery": "^3.6.0",
     "js-event-bus": "^1.1.0",
     "localforage": "^1.9.0",
